@@ -10,6 +10,9 @@ const config = {
 		serviceWorker: {
 			register: false,
 		},
+		prerender: {
+			entries: ['/theapi'],
+		},
 		files: {
 			serviceWorker: generateSW ? undefined : 'src/prompt-sw.ts',
 		}
