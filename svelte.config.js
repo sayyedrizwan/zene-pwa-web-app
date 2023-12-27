@@ -1,10 +1,12 @@
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { generateSW } from './pwa.mjs'
+import adapter from '@sveltejs/adapter-static'
 
 const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
+		adapter: adapter(),
 		serviceWorker: {
 			register: false,
 		},
