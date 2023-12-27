@@ -27,5 +27,8 @@
 		"@sveltejs/adapter-vercel": "^4.0.3",
 		"@types/node": "^20.10.5",
 		"vite-plugin-pwa": "^0.17.4"
+	},
+	"optionalDependencies": {
+		
 	}
 }
