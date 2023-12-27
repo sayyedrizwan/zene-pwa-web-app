@@ -1,6 +1,6 @@
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { generateSW } from './pwa.mjs'
-import adapter from '@sveltejs/adapter-node'
+import adapter from '@sveltejs/adapter-vercel'
 
 const config = {
 	preprocess: vitePreprocess(),

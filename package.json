@@ -24,9 +24,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-auto": "^3.0.1",
-		"@sveltejs/adapter-node": "^2.0.2",
-		"@sveltejs/adapter-static": "^3.0.1",
+		"@sveltejs/adapter-vercel": "^4.0.3",
 		"@types/node": "^20.10.5",
 		"vite-plugin-pwa": "^0.17.4"
 	}
