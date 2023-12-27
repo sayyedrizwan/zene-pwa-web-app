@@ -1,0 +1,22 @@
+{
+    "theme_color": "#f69435",
+    "background_color": "#f69435",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "Zene: A Free Muic App",
+    "short_name": "Zene",
+    "description": "Introducing Zene a free music app, the ultimate music experience that redefines the way you listen to your favorite tunes. Dive into a world of limitless music with our free app, offering ad-free access to over 1 billion songs, albums, playlists, podcasts, covers, remixes, and more.",
+    "icons": [
+        {
+            "sizes": "192x192",
+            "src": "logo192.png",
+            "type": "image/png"
+        },
+        {
+            "sizes": "512x512",
+            "src": "logo512.png",
+            "type": "image/png"
+        }
+    ]
+}
