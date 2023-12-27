@@ -16,7 +16,13 @@ export default defineConfig({
 	server: {
 		fs: {
 			allow: ['../..']
-		}
+		},
+		port: 1173,
+		strictPort: false,
+	},
+	preview: {
+		port: 1173,
+		strictPort: false,
 	},
 	plugins: [
 		sveltekit(),
