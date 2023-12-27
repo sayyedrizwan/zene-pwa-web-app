@@ -15,6 +15,5 @@ const config = {
 			serviceWorker: generateSW ? undefined : 'src/prompt-sw.ts',
 		}
 	}
-};
-
+}
 export default config;
