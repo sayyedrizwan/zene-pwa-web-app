@@ -5,6 +5,7 @@
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
 
+
 declare let self: ServiceWorkerGlobalScope
 
 self.addEventListener('message', (event) => {
