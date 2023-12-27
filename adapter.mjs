@@ -4,4 +4,4 @@ import AdpaterStatic from '@sveltejs/adapter-static'
 
 export const nodeAdapter = process.env.NODE_ADAPTER === 'true'
 
-export const adapter = AdapterNode() 
+export const adapter = nodeAdapter ? AdapterNode() : AdpaterStatic({strict: true})

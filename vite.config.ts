@@ -17,11 +17,11 @@ export default defineConfig({
 		fs: {
 			allow: ['../..']
 		},
-		port: 2173,
+		port: 1173,
 		strictPort: false,
 	},
 	preview: {
-		port: 2173,
+		port: 1173,
 		strictPort: false,
 	},
 	plugins: [
