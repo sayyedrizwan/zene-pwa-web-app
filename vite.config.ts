@@ -35,30 +35,78 @@ export default defineConfig({
 			base: '/',
 			selfDestroying: process.env.SELF_DESTROYING_SW === 'true',
 			manifest: {
-				short_name: 'SvelteKit PWA',
-				name: 'SvelteKit PWA',
+				short_name: 'Zene',
+				name: 'Zene: A Free Music App',
 				start_url: '/',
 				scope: '/',
 				display: 'standalone',
-				theme_color: "#ffffff",
-				background_color: "#ffffff",
+				theme_color: "#272727",
+				background_color: "#272727",
+				id: "/",
+				description: "Zene: Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨",
+				shortcuts: [
+					{
+						name: "Search",
+						short_name: "Search",
+						description: "Search for your favourite songs, artists or albums",
+						url: "/search",
+						icons: [{ "src": "/images/today.png", "sizes": "192x192" }]
+					}
+				],
 				icons: [
+					{
+						src: '/icon.svg',
+						sizes: 'image/svg+xml',
+						type: 'image/png',
+					},
 					{
 						src: '/logo192.png',
 						sizes: '192x192',
 						type: 'image/png',
+						purpose: 'any maskable'
 					},
 					{
 						src: '/logo512.png',
 						sizes: '512x512',
 						type: 'image/png',
+						purpose: 'any maskable'
 					},
 					{
-						src: '/logo512.png',
-						sizes: '512x512',
+						src: '/logo76.png',
+						sizes: '76x76',
 						type: 'image/png',
-						purpose: 'any maskable',
+						purpose: 'any maskable'
 					},
+					{
+						src: '/logo120.png',
+						sizes: '120x120',
+						type: 'image/png',
+						purpose: 'any maskable'
+					},
+					{
+						src: '/logo152.png',
+						sizes: '152x152',
+						type: 'image/png',
+						purpose: 'any maskable'
+					},
+					{
+						src: '/logo167.png',
+						sizes: '167x167',
+						type: 'image/png',
+						purpose: 'any maskable'
+					},
+					{
+						src: '/logo180.png',
+						sizes: '180x180',
+						type: 'image/png',
+						purpose: 'any maskable'
+					},
+					{
+						src: '/logo152.png',
+						sizes: '152x152',
+						type: 'image/png',
+						purpose: 'any maskable'
+					}
 				],
 			},
 			injectManifest: {
