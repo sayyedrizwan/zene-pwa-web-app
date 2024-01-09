@@ -1,15 +1,15 @@
-import { white as _white, stone } from 'tailwindcss/colors'
- 
-export const purge = ['./src/**/*.svelte', './src/**/*.css']
-export const darkMode = true
+import { white as _white, stone } from "tailwindcss/colors";
+
+export const purge = ["./src/**/*.svelte", "./src/**/*.css"];
+export const darkMode = true;
 export const theme = {
   colors: {
     white: _white,
     gray: stone,
-    'svelte-prime': '#ff5030',
+    "svelte-prime": "#ff5030",
   },
-}
+};
 export const variants = {
   extend: {},
-}
-export const plugins = []
+};
+export const plugins = [];
