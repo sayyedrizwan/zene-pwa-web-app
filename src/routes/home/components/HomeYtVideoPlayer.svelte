@@ -14,7 +14,13 @@ const desktopVideoList: string[] = [
 
 
 const mobileVideoList: string[] = [
-  'oPOYhIISEdc'
+  'oPOYhIISEdc',
+  'DFGiKrYqMkc',
+  'Vi_fbMRoYxU',
+  'FMfpL2Gv95k',
+  'RtDwfsBS0U4',
+  'MR6xRgpAPX4',
+  'zoCmwA9lyc4'
 ]
 
 const i = Math.floor(Math.random() * desktopVideoList.length);
