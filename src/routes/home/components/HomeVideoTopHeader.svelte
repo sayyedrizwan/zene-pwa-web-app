@@ -1,0 +1,53 @@
+<script lang="ts">
+  import { onMount, onDestroy } from "svelte";
+    import HomeYtVideoPlayer from "./HomeYtVideoPlayer.svelte";
+  let showDescText = false;
+
+  let content: string = "Zene";
+  let typedChar: string = "";
+
+  $: if (!content) typedChar = "";
+
+  let interval: NodeJS.Timeout;
+
+  onMount(() => {
+    interval = setInterval(() => {
+      if (typedChar.length < content.length) {
+        typedChar += content[typedChar.length];
+      } else {
+        showDescText = true;
+        clearInterval(interval);
+      }
+    }, 250);
+  });
+
+  onDestroy(() => clearInterval(interval));
+</script>
+
+<div class="static h-[95vh] w-full">
+  
+  <HomeYtVideoPlayer />
+
+  <div
+    class="h-[95vh] w-full z-20 absolute top-0 left-0 bg-maincolor bg-opacity-85"
+  >
+    <div class="h-screen flex items-center justify-center text-white">
+      <div>
+        <div class="flex justify-center items-center">
+          <h1 class="antro-vectra text-8xl">{typedChar}</h1>
+        </div>
+        <h2 class="{showDescText ? "fade-in" : "hidden"} p-4 text-center">
+          Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- https://youtu.be/TQYwytwhyrU -->
+<!-- https://youtu.be/mgtBQ6A3u4U -->
+<!-- https://youtu.be/tPZ7rTFsdxc -->
+<!-- https://youtu.be/MhykLzLt9p8 -->
+<!-- https://youtu.be/rBry1fjs1Xc -->
+<!-- https://youtu.be/oIanKG5VWi0 -->
+<!-- https://youtu.be/9v1n8vLzqOA -->

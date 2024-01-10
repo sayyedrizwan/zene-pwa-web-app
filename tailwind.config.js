@@ -7,6 +7,7 @@ export const theme = {
     white: _white,
     gray: stone,
     "svelte-prime": "#ff5030",
+    "maincolor": "#1A227F"
   },
 };
 export const variants = {

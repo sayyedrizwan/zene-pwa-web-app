@@ -1,6 +1,6 @@
 <script lang="ts">
   import { pwaInfo } from "virtual:pwa-info";
-  import "../tailwind.css";
+  import "./tailwind.svelte";
   import { page } from "$app/stores";
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : "";
 </script>
@@ -12,6 +12,6 @@
 {#if $page.url.pathname === "home"}
   <slot />
 {:else}
-  <h1>Nav Bar</h1>
+  <!-- <h1>Nav Bar</h1> -->
   <slot />
 {/if}
