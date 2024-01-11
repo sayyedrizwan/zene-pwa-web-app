@@ -1,6 +1,6 @@
-import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
-import { generateSW } from "./pwa.mjs";
-import adapter from "@sveltejs/adapter-vercel";
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { generateSW } from './pwa.mjs';
+import adapter from '@sveltejs/adapter-vercel';
 
 const config = {
   preprocess: vitePreprocess(),
@@ -11,10 +11,10 @@ const config = {
       register: false,
     },
     prerender: {
-      entries: ["/theapi"],
+      entries: ['/theapi'],
     },
     files: {
-      serviceWorker: generateSW ? undefined : "src/prompt-sw.ts",
+      serviceWorker: generateSW ? undefined : 'src/prompt-sw.ts',
     },
   },
 };

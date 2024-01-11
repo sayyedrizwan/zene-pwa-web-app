@@ -3,69 +3,69 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "AntroVectraBold";
-    src: url("$lib/assets/fonts/antro_vectra_bold.otf");
-    font-display: swap;
+  font-family: 'AntroVectraBold';
+  src: url('$lib/assets/fonts/antro_vectra_bold.otf');
+  font-display: swap;
 }
 
 .antro-vectra {
-    font-family: "AntroVectraBold";
+  font-family: 'AntroVectraBold';
 }
 
 .fade-in {
-    animation: fadeIn 5s;
-    -webkit-animation: fadeIn 5s;
-    -moz-animation: fadeIn 5s;
-    -o-animation: fadeIn 5s;
-    -ms-animation: fadeIn 5s;
+  animation: fadeIn 5s;
+  -webkit-animation: fadeIn 5s;
+  -moz-animation: fadeIn 5s;
+  -o-animation: fadeIn 5s;
+  -ms-animation: fadeIn 5s;
 }
 
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 @-moz-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 @-o-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 @-ms-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }

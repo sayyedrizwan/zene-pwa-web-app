@@ -2,11 +2,9 @@
   import HomeVideoTopHeader from "./components/HomeVideoTopHeader.svelte";
 </script>
 
-
 <div class="bg-gray-950">
   <HomeVideoTopHeader />
 </div>
-
 
 <div class="bg-black text-white">
   <section class="text-black body-font lg:pt-20">

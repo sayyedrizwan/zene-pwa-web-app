@@ -1,5 +1,5 @@
-import "vite-plugin-pwa/svelte";
-import "vite-plugin-pwa/info";
+import 'vite-plugin-pwa/svelte';
+import 'vite-plugin-pwa/info';
 
 declare global {
   declare const __DATE__: string;

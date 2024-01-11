@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-    import HomeYtVideoPlayer from "./HomeYtVideoPlayer.svelte";
+  import HomeYtVideoPlayer from "./HomeYtVideoPlayer.svelte";
   let showDescText = false;
 
   let content: string = "Zene";
@@ -25,18 +25,15 @@
 </script>
 
 <div class="static h-[95vh] w-full">
-  
   <HomeYtVideoPlayer />
 
-  <div
-    class="h-[95vh] w-full z-20 absolute top-0 left-0 bg-maincolor bg-opacity-85"
-  >
-    <div class="h-screen flex items-center justify-center text-white">
+  <div class="absolute left-0 top-0 z-20 h-[95vh] w-full bg-maincolor bg-opacity-85">
+    <div class="flex h-screen items-center justify-center text-white">
       <div>
-        <div class="flex justify-center items-center">
+        <div class="flex items-center justify-center">
           <h1 class="antro-vectra text-8xl">{typedChar}</h1>
         </div>
-        <h2 class="{showDescText ? "fade-in" : "hidden"} p-4 text-center">
+        <h2 class="{showDescText ? 'fade-in' : 'hidden'} p-4 text-center">
           Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨
         </h2>
       </div>

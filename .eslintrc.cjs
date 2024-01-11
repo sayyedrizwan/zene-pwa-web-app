@@ -1,40 +1,40 @@
 module.exports = {
   root: true,
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:svelte/recommended",
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:svelte/recommended',
   ],
   globals: {
-    __DATE__: "readonly",
-    __RELOAD_SW__: "readonly",
+    __DATE__: 'readonly',
+    __RELOAD_SW__: 'readonly',
   },
-  plugins: ["@typescript-eslint"],
-  ignorePatterns: ["*.cjs"],
+  plugins: ['@typescript-eslint'],
+  ignorePatterns: ['*.cjs'],
   overrides: [
     {
-      files: ["*.svelte"],
-      parser: "svelte-eslint-parser",
+      files: ['*.svelte'],
+      parser: 'svelte-eslint-parser',
       parserOptions: {
-        parser: "@typescript-eslint/parser",
+        parser: '@typescript-eslint/parser',
       },
     },
   ],
   parserOptions: {
-    sourceType: "module",
+    sourceType: 'module',
     ecmaVersion: 2020,
-    extraFileExtensions: [".svelte"],
+    extraFileExtensions: ['.svelte'],
   },
   rules: {
-    "no-shadow": ["error"],
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-non-null-assertion": "error",
-    "@typescript-eslint/no-unused-vars": [
+    'no-shadow': ['error'],
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'error',
+    '@typescript-eslint/no-unused-vars': [
       // prevent variables with a _ prefix from being marked as unused
-      "warn",
+      'warn',
       {
-        argsIgnorePattern: "^_",
+        argsIgnorePattern: '^_',
       },
     ],
   },

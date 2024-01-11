@@ -1,3 +1,3 @@
 export function GET() {
-  return new Response("The Demo API");
+  return new Response('The Demo API');
 }
