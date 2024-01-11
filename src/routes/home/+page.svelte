@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Footer from '$lib/components/Footer.svelte';
   import HomeGetAppFor from './components/HomeGetAppFor.svelte';
   import HomeInfoPage from './components/HomeInfoPage.svelte';
   import HomeVideoTopHeader from './components/HomeVideoTopHeader.svelte';
@@ -11,6 +12,9 @@
 
   <div>
     <HomeInfoPage />
+
     <HomeGetAppFor />
+
+    <Footer />
   </div>
 </div>

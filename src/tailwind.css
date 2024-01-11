@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   padding: 0;
   margin: 0;
+}
+
+.gradient-home {
+  background: rgb(26, 34, 127);
+  background: linear-gradient(90deg, rgba(26, 34, 127, 1) 0%, rgba(26, 34, 127, 1) 32%, rgba(3, 44, 138, 1) 42%, rgba(11, 124, 182, 1) 72%, rgba(0, 212, 255, 1) 100%);
 }
 
 @font-face {
@@ -17,7 +22,6 @@
   font-family: 'AntroVectraBold';
 }
 
-
 @font-face {
   font-family: 'UrbanistLight';
   src: url('$lib/assets/fonts/urbanist_light.ttf');
@@ -28,7 +32,6 @@
   font-family: 'UrbanistLight';
 }
 
-
 @font-face {
   font-family: 'UrbanistRegular';
   src: url('$lib/assets/fonts/urbanist_regular.ttf');
@@ -38,7 +41,6 @@
 .urbanist-regular {
   font-family: 'UrbanistRegular';
 }
-
 
 @font-face {
   font-family: 'UrbanistThin';
@@ -60,7 +62,6 @@
   font-family: 'UrbanistBold';
 }
 
-
 @font-face {
   font-family: 'urbanistLight';
   src: url('$lib/assets/fonts/urbanist_light.ttf');
@@ -71,6 +72,15 @@
   font-family: 'urbanistLight';
 }
 
+@font-face {
+  font-family: 'porkysRegular';
+  src: url('$lib/assets/fonts/porkys_regular.ttf');
+  font-display: swap;
+}
+
+.porkys-regular {
+  font-family: 'porkysRegular';
+}
 
 .fade-in {
   animation: fadeIn 5s;
