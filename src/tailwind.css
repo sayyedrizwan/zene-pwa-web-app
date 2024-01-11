@@ -12,6 +12,71 @@
   font-family: 'AntroVectraBold';
 }
 
+
+@font-face {
+  font-family: 'UrbanistLight';
+  src: url('$lib/assets/fonts/urbanist_light.ttf');
+  font-display: swap;
+}
+
+.urbanist-light {
+  font-family: 'UrbanistLight';
+}
+
+
+@font-face {
+  font-family: 'UrbanistRegular';
+  src: url('$lib/assets/fonts/urbanist_regular.ttf');
+  font-display: swap;
+}
+
+.urbanist-regular {
+  font-family: 'UrbanistRegular';
+}
+
+
+@font-face {
+  font-family: 'UrbanistThin';
+  src: url('$lib/assets/fonts/urbanist_thin.ttf');
+  font-display: swap;
+}
+
+.urbanist-thin {
+  font-family: 'UrbanistThin';
+}
+
+@font-face {
+  font-family: 'UrbanistThin';
+  src: url('$lib/assets/fonts/urbanist_thin.ttf');
+  font-display: swap;
+}
+
+.urbanist-thin {
+  font-family: 'UrbanistThin';
+}
+
+@font-face {
+  font-family: 'UrbanistBold';
+  src: url('$lib/assets/fonts/urbanist_bold.ttf');
+  font-display: swap;
+}
+
+.urbanist-bold {
+  font-family: 'UrbanistBold';
+}
+
+
+@font-face {
+  font-family: 'urbanistLight';
+  src: url('$lib/assets/fonts/urbanist_light.ttf');
+  font-display: swap;
+}
+
+.urbanist-light {
+  font-family: 'urbanistLight';
+}
+
+
 .fade-in {
   animation: fadeIn 5s;
   -webkit-animation: fadeIn 5s;
