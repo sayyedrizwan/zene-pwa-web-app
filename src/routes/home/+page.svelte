@@ -1,6 +1,6 @@
 <script lang="ts">
-    import ImageAndInfoSideBySide from '$lib/components/ImageAndInfoSideBySide.svelte';
-import HomeGetAppFor from './components/HomeGetAppFor.svelte';
+  import HomeGetAppFor from './components/HomeGetAppFor.svelte';
+  import HomeInfoPage from './components/HomeInfoPage.svelte';
   import HomeVideoTopHeader from './components/HomeVideoTopHeader.svelte';
   import HomeYtVideoPlayer from './components/HomeYtVideoPlayer.svelte';
 </script>
@@ -10,7 +10,7 @@ import HomeGetAppFor from './components/HomeGetAppFor.svelte';
   <HomeVideoTopHeader />
 
   <div>
-  <ImageAndInfoSideBySide />
+    <HomeInfoPage />
     <HomeGetAppFor />
   </div>
 </div>

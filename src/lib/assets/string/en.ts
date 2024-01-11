@@ -1,0 +1,2 @@
+export const ad_free_experience = "Ad free expreience";
+export const ad_free_experience_desc = "ad-free streaming app lets you immerse yourself in the pure essence of sound, uninhibited by commercial breaks."
