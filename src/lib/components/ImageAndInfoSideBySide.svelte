@@ -5,7 +5,7 @@
   export let isImgRight: boolean;
 </script>
 
-<div class="md:flex items-center w-full pt-32 {isImgRight ? "ms-10" : "me-10"}">
+<div class="md:flex items-center w-full pt-32 {isImgRight ? "ps-10" : "pe-10"} w-full">
   {#if isImgRight}
     <div class="text-white flex-grow urbanist-light text-6xl">
       <h2>{title}</h2>

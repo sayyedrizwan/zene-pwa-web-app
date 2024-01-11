@@ -8,6 +8,8 @@ export const music_for_all_tastes = "Music for All Tastes"
 export const music_for_all_tastes_desc = "Don't judge your vibe, just crank it up. Dive into a sonic tapestry woven with threads of every genre and mood."
 export const own_offline_music_records_tastes = "Your own offline music records"
 export const own_offline_music_records_tastes_desc = "Curated haven of tunes, ready to soundtrack your every mood and adventure, even when the Wi-Fi dips out"
+export const get_it_for_ios = "Get it for IOS"
+export const get_it_for_android = "Get it for Android"
 
 
 

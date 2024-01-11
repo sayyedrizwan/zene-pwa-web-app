@@ -1,0 +1,1 @@
+export const play_store_url = 'https://play.google.com/store/apps/details?id=com.rizwansayyed.zene'
