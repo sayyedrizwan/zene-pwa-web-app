@@ -4,9 +4,7 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.rizwansayyed.zene",
-      "sha256_cert_fingerprints": [
-        "E0:63:0D:BC:8B:1B:DC:A7:EC:85:9F:7F:CE:05:E9:8B:76:D6:D4:29:38:6C:22:26:F2:04:4B:02:A0:B4:EC:7B"
-      ]
+      "sha256_cert_fingerprints": ["E0:63:0D:BC:8B:1B:DC:A7:EC:85:9F:7F:CE:05:E9:8B:76:D6:D4:29:38:6C:22:26:F2:04:4B:02:A0:B4:EC:7B"]
     }
   }
 ]

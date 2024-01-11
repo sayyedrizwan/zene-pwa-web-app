@@ -12,9 +12,7 @@ const firebaseConfig = {
   measurementId: 'G-RXEJ4NHQCG',
 };
 
-let app: FirebaseApp = getApps().length
-  ? getApps()[0]
-  : initializeApp(firebaseConfig);
+let app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 let firebaseAnalytics: Analytics | undefined;
 
 if (browser) {

@@ -3,7 +3,7 @@
   import "./tailwind.svelte";
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
-  import { onBrowser } from "$lib/Utils";
+  import { onBrowser } from "$lib/components/Utils";
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : "";
   $: browser ? onBrowser() : "";

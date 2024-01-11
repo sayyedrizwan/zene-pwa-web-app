@@ -11,8 +11,7 @@ export default defineConfig({
   define: {
     __DATE__: `'${new Date().toISOString()}'`,
     __RELOAD_SW__: false,
-    'process.env.NODE_ENV':
-      process.env.NODE_ENV === 'production' ? '"production"' : '"development"',
+    'process.env.NODE_ENV': process.env.NODE_ENV === 'production' ? '"production"' : '"development"',
   },
   server: {
     fs: {
@@ -44,8 +43,7 @@ export default defineConfig({
         theme_color: '#272727',
         background_color: '#272727',
         id: '/',
-        description:
-          'Zene: Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨',
+        description: 'Zene: Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨',
         shortcuts: [
           {
             name: 'Search',
