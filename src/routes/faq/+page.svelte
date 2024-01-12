@@ -22,8 +22,8 @@
         <div class="divide-y divide-gray--200 -my-9">
           {#each faqQuestions as { question, answer }}
             <div class="py-9">
-              <p class="text-xl font-semibold text-black">Can I sign up for free? What are the different subscription plans available?</p>
-              <p class="mt-3 text-base text-gray-600">Tests 1</p>
+              <p class="text-xl font-semibold text-black">{question}</p>
+              <p class="mt-3 text-base text-gray-600">{answer}</p>
             </div>
           {/each}
         </div>
