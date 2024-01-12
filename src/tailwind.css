@@ -63,6 +63,16 @@
 }
 
 @font-face {
+  font-family: 'UrbanistSemiBold';
+  src: url('$lib/assets/fonts/urbanist_semibold.ttf');
+  font-display: swap;
+}
+
+.urbanist-semibold {
+  font-family: 'UrbanistSemiBold';
+}
+
+@font-face {
   font-family: 'urbanistLight';
   src: url('$lib/assets/fonts/urbanist_light.ttf');
   font-display: swap;
