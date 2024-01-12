@@ -1,9 +1,9 @@
 <script>
-
     import { about, are_you_ready, faq, open_zene__web_player, policy, to_dive_into_some_fresh_tunes } from "$lib/assets/string/en";
     import { instagram_account } from "$lib/utils/UtilsPaths";
 
-</script>
+    const d = new Date();
+    </script>
 <footer class="mt-20 xl:mt-32 mx-auto w-full relative text-center bg-maincolor text-white">
     <div class="px-6 py-8 md:py-14 xl:pt-20 xl:pb-12">
         <h2 class="font-bold text-3xl xl:text-4xl leading-snug">
@@ -19,7 +19,7 @@
             <nav class="flex flex-wrap justify-center mt-5">
                 <a href={instagram_account} target="_blank"><i class="fa fa-instagram text-white hover:text-peach hover-animation" style="font-size: 24px;"></i></a>
             </nav>
-            <p class="mt-7 text-base">© 2022-2023 Zene from rizwan sayyed</p>
+            <p class="mt-7 text-base">© 2022-{d.getFullYear()} Zene from rizwan sayyed</p>
         </div>
     </div>
 </footer>

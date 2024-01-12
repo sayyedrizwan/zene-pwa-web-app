@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .hover-animation {
-  @apply transition delay-150 duration-300 ease-in-out
+  @apply transition delay-150 duration-300 ease-in-out;
 }
 
 * {

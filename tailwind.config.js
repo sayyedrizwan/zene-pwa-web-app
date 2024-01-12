@@ -10,7 +10,7 @@ export const theme = {
     maincolor: '#1A227F',
     black: '#000000',
     peach: '#EEA47F',
-    lightblue: '#96a0e3'
+    lightblue: '#96a0e3',
   },
 };
 export const variants = {

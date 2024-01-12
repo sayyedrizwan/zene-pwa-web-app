@@ -1,5 +1,5 @@
-import type { FaqData } from "../entities/FaqData";
+import type { FaqData } from '../entities/FaqData';
 
 export interface FaqRepositoryInterface {
-    getAllFaqs(): FaqData[];
-  }
+  getAllFaqs(): FaqData[];
+}
