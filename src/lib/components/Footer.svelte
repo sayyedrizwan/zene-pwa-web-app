@@ -2,7 +2,7 @@
     import { about, are_you_ready, faq, open_zene__web_player, policy, to_dive_into_some_fresh_tunes } from "$lib/assets/string/en";
     import { instagram_account } from "$lib/utils/UtilsPaths";
 
-    const d = new Date();
+    $: d = new Date();
     </script>
 <footer class="mt-20 xl:mt-32 mx-auto w-full relative text-center bg-maincolor text-white">
     <div class="px-6 py-8 md:py-14 xl:pt-20 xl:pb-12">
