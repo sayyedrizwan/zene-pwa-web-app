@@ -1,6 +1,4 @@
-import { AnalyticsEvents, registerFirebaseEvents } from '../firebase/registerAnalytics';
-
-//https://docs.pwabuilder.com/#/starter/quick-start
+import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE);

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { get_it_for_android, get_it_for_ios, get_it_for_windows_desktop } from "$lib/assets/string/en";
-    import { play_store } from "../../utils/UtilsPaths";
+    import { play_store } from "$lib/utils/UtilsPaths"
 
     function openPlayStore(){
         open(play_store, '_blank')
