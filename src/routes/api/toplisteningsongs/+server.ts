@@ -1,13 +1,17 @@
-import { decryptAPIKeyAndIsValid, decryptData, encryptData, generateAPIKey } from "$lib/utils/EncryptionForAPI";
+import { decryptAPIKeyAndIsValid } from "../utils/EncryptionForAPI";
 import { json, type RequestEvent } from "@sveltejs/kit";
-import { authKeyError } from "../utils";
+import { apiError, authKeyError, lastfm_top_playing_songs } from "../utils/utils";
 
 export async function POST(events: RequestEvent) {
-  if(!decryptAPIKeyAndIsValid(events)){
+  if (!decryptAPIKeyAndIsValid(events)) {
     return json(authKeyError)
   }
-  
-  const v = generateAPIKey()
-  console.log(v)
-  return new Response(decryptAPIKeyAndIsValid(events).toString());
+
+  try {
+    const response = await fetch(lastfm_top_playing_songs);
+    const data = await response.json();
+    return json(data);
+  } catch (error) {
+    return json(apiError);
+  }
 }

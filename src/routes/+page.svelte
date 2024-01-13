@@ -2,12 +2,10 @@
   import './tailwind.svelte'
   import LogoWithBrand from '$lib/components/LogoWithBrand.svelte'
   import TopListeningSongs from '$lib/components/main-page/TopListeningSongs.svelte'
-    import { MusicData } from '../domain/local/entities/MusicData'
-
-  // const m = new MusicData(null, "", "", "", "")
-
+  export let data: any
 </script>
 
+<h1>{data.key}</h1>
 <LogoWithBrand />
 
-<TopListeningSongs />
+<TopListeningSongs authKey={data.key}/>

@@ -24,7 +24,7 @@ export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
         const difference = timestamp - parseInt(ev.trim());
         const differenceinSeconds = Math.floor(difference / 1000)
         console.log(differenceinSeconds)
-        if (differenceinSeconds > 4) {
+        if (differenceinSeconds > 10) {
             return false
         }
         return true
