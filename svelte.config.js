@@ -6,7 +6,13 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter(),
+    env: {
+      dir:'./'
+    },
+    adapter: adapter({
+      runtime: 'edge',
+      minimumCacheTTL: 300
+    }),
     serviceWorker: {
       register: false,
     },

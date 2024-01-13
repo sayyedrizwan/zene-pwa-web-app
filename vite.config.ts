@@ -9,11 +9,8 @@ export default defineConfig({
   build: {
     minify: false,
     rollupOptions: {
-      input : {
-        
-      },
       output: {
-        sourcemap: false,
+        sourcemap: true,
         entryFileNames: '[name].js',
         assetFileNames: '[name].[ext]',
       },

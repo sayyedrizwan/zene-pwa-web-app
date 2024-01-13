@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "buildpreview": "npm run build && npm run preview",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -28,7 +29,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@sveltejs/adapter-auto": "^3.1.0",
     "@sveltejs/adapter-vercel": "^4.0.3",
     "@types/node": "^20.10.5",
     "firebase": "^10.7.1",

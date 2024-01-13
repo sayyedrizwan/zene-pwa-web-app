@@ -1,3 +1,3 @@
 export const ssr = true
-export const csr = true
-export const prerender = false
+export const csr = false
+export const prerender = true
