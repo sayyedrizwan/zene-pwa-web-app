@@ -2,11 +2,22 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { defineConfig } from 'vite';
 import { generateSW } from './pwa.mjs';
+import { fileURLToPath } from 'url';
 
 export default defineConfig({
   logLevel: 'info',
   build: {
     minify: false,
+    rollupOptions: {
+      input : {
+        
+      },
+      output: {
+        sourcemap: false,
+        entryFileNames: '[name].js',
+        assetFileNames: '[name].[ext]',
+      },
+    },
   },
   define: {
     __DATE__: `'${new Date().toISOString()}'`,
