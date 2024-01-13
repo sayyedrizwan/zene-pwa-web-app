@@ -1,0 +1,1 @@
+export const lastfm_top_playing_songs_server = "https://kerve.last.fm/kerve/charts?type=track&nr=6&format=json"

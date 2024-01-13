@@ -1,7 +1,7 @@
 <script lang="ts">
   import Footer from '$lib/components/Footer.svelte';
   import LogoWithBrand from '$lib/components/LogoWithBrand.svelte';
-    import { support_mail } from '../../UtilsPaths';
+    import { support_mail } from '../../lib/utils/UtilsPaths';
 </script>
 
 <LogoWithBrand />

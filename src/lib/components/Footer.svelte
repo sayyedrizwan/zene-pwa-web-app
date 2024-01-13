@@ -1,6 +1,6 @@
 <script>
   import { about, are_you_ready, faq, open_zene__web_player, policy, to_dive_into_some_fresh_tunes } from '$lib/assets/string/en'
-  import { instagram_account } from '../../UtilsPaths'
+  import { instagram_account } from '../utils/UtilsPaths'
 
   $: d = new Date()
 </script>
