@@ -1,45 +1,32 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { browser } from '$app/environment'
-  import { LastFmImpl } from '../../../domain/apis/lastfm/implementation/LastFmImpl'
+  import { top_lisiting_songs } from '$lib/utils/UtilsPaths'
   import { type ResponseData, ResponseDataEnum } from '../../../domain/RequestEnumClass'
   import type { LastFmTopSongsResponse } from '../../../domain/apis/entities/LastFmTopSongsResponse'
 
   export let authKey: string
 
-  const lastFm = new LastFmImpl()
-
   let response: ResponseData<LastFmTopSongsResponse> = { type: ResponseDataEnum.EMPTY }
 
   async function topSongs() {
     response = { type: ResponseDataEnum.LOADING }
-    const res: LastFmTopSongsResponse | null = await lastFm.getTopPlayingSongs(authKey)
-    if (res == null) {
+
+    try {
+      const res = await fetch(top_lisiting_songs, {
+        method: 'POST',
+        headers: { AuthorizationKey: authKey },
+      })
+      const data = await res.json()
+      response = { type: ResponseDataEnum.SUCCESS, data: data }
+    } catch (error) {
       response = { type: ResponseDataEnum.ERROR }
-    } else {
-      response = { type: ResponseDataEnum.SUCCESS, data: res }
     }
   }
 
   onMount(async () => {
-    if (browser) {
-      topSongs()
-    }
+    topSongs()
   })
 </script>
-
-<form method="POST" action="?/login">
-	<label>
-		Email
-		<input name="email" type="email">
-	</label>
-	<label>
-		Password
-		<input name="password" type="password">
-	</label>
-	<button>Log in</button>
-	<button formaction="?/register">Register</button>
-</form>
 
 {#if response.type == ResponseDataEnum.LOADING}
   <h1>Loading</h1>
