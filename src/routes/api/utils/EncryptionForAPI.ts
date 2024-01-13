@@ -1,5 +1,5 @@
 import type { RequestEvent } from "@sveltejs/kit";
-import { atob } from "buffer";
+import { atob, btoa } from "buffer";
 
 const secret_key: string = 'the_key_is_the_rs_oneis';
 
@@ -23,7 +23,7 @@ export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
         }
         const difference = timestamp - parseInt(ev.trim());
         const differenceinSeconds = Math.floor(difference / 1000)
-        console.log(differenceinSeconds)
+        
         if (differenceinSeconds > 10) {
             return false
         }

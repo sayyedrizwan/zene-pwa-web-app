@@ -8,13 +8,6 @@ export default defineConfig({
   logLevel: 'info',
   build: {
     minify: false,
-    rollupOptions: {
-      output: {
-        sourcemap: true,
-        entryFileNames: '[name].js',
-        assetFileNames: '[name].[ext]',
-      },
-    },
   },
   define: {
     __DATE__: `'${new Date().toISOString()}'`,
