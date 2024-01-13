@@ -1,8 +1,8 @@
-export class FaqData {
-  name: string;
-  artists: string;
-  songId: string;
-  thumbnail: string;
+export class MusicData {
+  name: string | null;
+  artists: string | null;
+  songId: string | null;
+  thumbnail: string | null;
   type: string;
 
   constructor(name: string, artists: string, songId: string, thumbnail: string, type: string) {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import Footer from '$lib/components/Footer.svelte';
   import LogoWithBrand from '$lib/components/LogoWithBrand.svelte';
-  import { FaqListsRepository } from '../../domain/repositories/FaqLists';
+    import { FaqListsRepository } from '../../domain/local/repositories/FaqLists'
 
   const faqListsRepository = new FaqListsRepository();
   const faqQuestions = faqListsRepository.getAllFaqs();
