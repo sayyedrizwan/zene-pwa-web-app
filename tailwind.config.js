@@ -16,4 +16,3 @@ export const theme = {
 export const variants = {
   extend: {},
 };
-export const plugins = [];

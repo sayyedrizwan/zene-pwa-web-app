@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { top_lisiting_songs } from '$lib/utils/UtilsPaths'
+  import { env } from '$env/dynamic/public'
   import { type ResponseData, ResponseDataEnum } from '../../../domain/RequestEnumClass'
   import type { LastFmTopSongsResponse } from '../../../domain/apis/entities/LastFmTopSongsResponse'
 
@@ -12,7 +12,7 @@
     response = { type: ResponseDataEnum.LOADING }
 
     try {
-      const res = await fetch(top_lisiting_songs, {
+      const res = await fetch(env.PUBLIC_TOP_LISITING_SONGS, {
         method: 'POST',
         headers: { AuthorizationKey: authKey },
       })

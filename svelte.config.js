@@ -10,8 +10,7 @@ const config = {
       dir:'./'
     },
     adapter: adapter({
-      runtime: 'edge',
-      minimumCacheTTL: 300
+      runtime: 'edge'
     }),
     serviceWorker: {
       register: false,

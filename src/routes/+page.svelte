@@ -2,7 +2,6 @@
   import './tailwind.svelte'
   import LogoWithBrand from '$lib/components/LogoWithBrand.svelte'
   import TopListeningSongs from '$lib/components/main-page/TopListeningSongs.svelte'
-  import { atob } from 'buffer'
   import { browser } from '$app/environment'
   export let data: any
 
@@ -12,8 +11,7 @@
   }
 </script>
 
-<h1>{key}</h1>
-<LogoWithBrand />
+<LogoWithBrand showOnlyLogo={false}/>
 
 {#if key != null}
   <TopListeningSongs authKey={key} />

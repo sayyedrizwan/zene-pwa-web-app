@@ -4,7 +4,7 @@
     import { support_mail } from '../../lib/utils/UtilsPaths';
 </script>
 
-<LogoWithBrand />
+<LogoWithBrand showOnlyLogo={true}/>
 
 <div class="relative mx-auto max-w-[37.5rem] pt-20 text-center pb-24 text-white">
   <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Privacy policy</h1>
