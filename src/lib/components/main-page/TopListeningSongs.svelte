@@ -14,7 +14,7 @@
     try {
       const res = await fetch(env.PUBLIC_TOP_LISITING_SONGS, {
         method: 'POST',
-        headers: { AuthorizationKey: authKey },
+        headers: { AuthorizationKey: authKey, 'cache-control': 'max-age=1200' },
       })
       const data = await res.json()
       response = { type: ResponseDataEnum.SUCCESS, data: data }
@@ -28,12 +28,17 @@
   })
 </script>
 
-{#if response.type == ResponseDataEnum.LOADING}
-  <h1>Loading</h1>
-{:else if response.type == ResponseDataEnum.ERROR}
-  <h1>{response.type}</h1>
-{:else if response.type == ResponseDataEnum.SUCCESS}
-  <h1>{response.data}</h1>
-{:else}
-  <span>errror {response.type}</span>
-{/if}
+<div class="md:bg-maincolor rounded-ss-lg w-full md:h-screen md:fixed md:overflow-y-auto">
+  <h3 class="text-white urbanist-semibold text-3xl ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
+  {#if response.type == ResponseDataEnum.LOADING}
+    <div></div>
+  {:else if response.type == ResponseDataEnum.ERROR}
+    <h1>{response.type}</h1>
+  {:else if response.type == ResponseDataEnum.SUCCESS}
+    {#each response.data.results.track as item, index (item.url)}
+      <li>{item.artist} - {item.name}</li>
+    {/each}
+  {:else}
+    <span></span>
+  {/if}
+</div>

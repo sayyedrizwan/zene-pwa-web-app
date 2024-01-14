@@ -11,8 +11,61 @@
   }
 </script>
 
-<LogoWithBrand showOnlyLogo={false}/>
+<LogoWithBrand showOnlyLogo={false} />
 
 {#if key != null}
-  <TopListeningSongs authKey={key} />
+  <div class="flex flex-col-reverse md:flex-row">
+    <div class="w-full md:w-2/3">
+      <div class="w-full md:h-screen md:fixed md:overflow-y-au">
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+        <br />
+        <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+      </div>
+    </div>
+
+    <div class="w-full md:w-1/3 bg-blue-400">
+      <TopListeningSongs authKey={key} />
+    </div>
+  </div>
 {/if}
