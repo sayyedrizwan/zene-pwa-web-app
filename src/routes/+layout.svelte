@@ -7,7 +7,6 @@
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : "";
   $: browser ? onBrowser() : "";
-  
 </script>
 
 <svelte:head>
