@@ -8,7 +8,7 @@
 
 <header class="relative z-50 w-full flex-none text-sm font-semibold leading-6 text-slate-900">
   <nav>
-    <div class="mx-0 mx-2 md:mx-4 flex flex-wrap items-center justify-between px-2 md:px-5">
+    <div class="mx-2 md:mx-4 flex flex-wrap items-center justify-between px-2 md:px-5">
       <a href="/" class="relative flex items-center py-[2.125rem]">
         <div class="absolute inset-x-0 bottom-0 h-px bg-slate-900/5"></div>
         <img src="/logo120.png" alt="zene" class="w-14" />

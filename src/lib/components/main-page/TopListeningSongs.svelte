@@ -38,7 +38,7 @@
   <div class="overflow-x-auto flex scrollbar-hide">
     {#if response.type == ResponseDataEnum.LOADING}
       {#each Array(5) as _, index (index)}
-        <div class="flex-none py-6 px-1 first:pl-6 last:pr-6">
+        <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
           <div class="flex flex-col items-center justify-center gap-2">
             <div class="w-[16rem] h-[22rem] bg-gray-400 animate-pulse rounded-lg" />
           </div>
@@ -77,8 +77,6 @@
   </div>
 </div>
 
-
-
 <!-- {#if showSheet} -->
-  <SongInfoSheet />
+<SongInfoSheet />
 <!-- {/if} -->

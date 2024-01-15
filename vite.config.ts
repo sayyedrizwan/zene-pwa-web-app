@@ -42,8 +42,8 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         display: 'standalone',
-        theme_color: '#272727',
-        background_color: '#272727',
+        theme_color: 'black',
+        background_color: 'black',
         id: '/',
         description: 'Zene: Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨',
         shortcuts: [
