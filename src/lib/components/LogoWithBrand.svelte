@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { app_name } from '$lib/assets/string/en'
   import NotificationIcon from '$lib/assets/img/ic_notification.svg'
   import SeachIcon from '$lib/assets/img/ic_search.svg'
   import MusicIcon from '$lib/assets/img/ic_music.svg'
@@ -12,9 +11,9 @@
     <div class="mx-0 md:mx-4 flex flex-wrap items-center justify-between px-2 md:px-5">
       <a href="/" class="relative flex items-center py-[2.125rem]">
         <div class="absolute inset-x-0 bottom-0 h-px bg-slate-900/5"></div>
-        <img src="/logo120.png" alt={app_name} class="w-14" />
+        <img src="/logo120.png" alt="zene" class="w-14" />
         <div class="ml-auto flex items-center ms-4">
-          <p class="text-white urbanist-semibold text-xl">{app_name}</p>
+          <p class="text-white urbanist-semibold text-xl">Zene</p>
         </div>
       </a>
 

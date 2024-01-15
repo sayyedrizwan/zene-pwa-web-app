@@ -1,5 +1,3 @@
-export const app_name = 'Zene';
-export const app_name_desc = 'Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨';
 export const ad_free_experience = 'Ad free expreience';
 export const ad_free_experience_desc = 'ad-free streaming app lets you immerse yourself in the pure essence of sound, uninhibited by commercial breaks.';
 export const millions_of_artists = '10 Million+ Artists';

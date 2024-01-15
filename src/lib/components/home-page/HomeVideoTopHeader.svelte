@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { app_name, app_name_desc } from '$lib/assets/string/en';
-  import { onMount, onDestroy } from 'svelte';
-  let showDescText = false;
+  import { onMount, onDestroy } from 'svelte'
+  let showDescText = false
 
-  let content: string = app_name;
+  let content: string = "Zene";
   let typedChar: string = '';
 
   $: if (!content) typedChar = '';
@@ -31,7 +30,7 @@
         <div class="flex items-center justify-center">
           <h1 class="antro-vectra text-8xl">{typedChar}</h1>
         </div>
-        <h2 class="{showDescText ? 'fade-in' : 'hidden'} p-4 text-center">{app_name_desc}</h2>
+        <h2 class="{showDescText ? 'fade-in' : 'hidden'} p-4 text-center">Immerse in ad-free bliss with 1B+ songs. Elevate your vibe. 🎶✨</h2>
       </div>
     </div>
   </div>

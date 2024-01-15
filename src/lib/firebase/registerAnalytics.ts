@@ -1,4 +1,4 @@
-import { firebaseAnalytics } from '$lib/firebase/firebase';
+import { firebaseAnalytics } from './firebase';
 import { logEvent } from 'firebase/analytics';
 
 export enum AnalyticsEvents {

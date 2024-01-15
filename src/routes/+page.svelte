@@ -16,7 +16,7 @@
 {#if key != null}
   <div class="flex flex-col-reverse md:flex-row">
     <div class="w-full md:w-2/3">
-      <div class="w-full md:h-screen md:fixed md:overflow-y-au">
+      <div class="w-full md:h-screen md:fixed overflow-y-auto">
         <br />
         <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
         <br />

@@ -1,7 +1,6 @@
 <script lang="ts">
   import Footer from '$lib/components/Footer.svelte';
   import LogoWithBrand from '$lib/components/LogoWithBrand.svelte';
-    import { support_mail } from '../../lib/utils/UtilsPaths';
 </script>
 
 <LogoWithBrand showOnlyLogo={true}/>
@@ -182,7 +181,7 @@
   </p>
 
   <h2 class="font-extrabold mt-24 mb-5 text-2xl">Any Questions?</h2>
-  <p>If you have any questions about this Policy, please contact us by email at <a class="text-lightblue" href={`mailto:${support_mail}`}>{support_mail}</a>.</p>
+  <p>If you have any questions about this Policy, please contact us by email at <a class="text-lightblue" href={`mailto:contactcreator@protonmail.com`}>contactcreator@protonmail.com</a>.</p>
 </div>
 
 <Footer />

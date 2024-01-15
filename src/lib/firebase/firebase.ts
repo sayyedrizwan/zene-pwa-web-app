@@ -17,5 +17,7 @@ let firebaseAnalytics: Analytics | undefined;
 
 if (browser) {
   firebaseAnalytics = getAnalytics(app);
+
 }
+
 export { firebaseAnalytics };
