@@ -33,7 +33,7 @@
 </script>
 
 <div class="md:bg-maincolor rounded-ss-lg w-full md:w-1/3 md:h-full md:fixed md:overflow-y-auto">
-  <h3 class="text-white urbanist-semibold text-xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
+  <h3 class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
 
   <div class="overflow-x-auto flex scrollbar-hide">
     {#if response.type == ResponseDataEnum.LOADING}
