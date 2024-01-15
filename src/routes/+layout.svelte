@@ -17,6 +17,5 @@
 {#if $page.url.pathname === "home"}
   <slot />
 {:else}
-  <!-- <h1>Nav Bar</h1> -->
   <slot />
 {/if}
