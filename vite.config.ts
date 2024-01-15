@@ -25,6 +25,7 @@ export default defineConfig({
     port: 1173,
     strictPort: false,
   },
+  
   plugins: [
     sveltekit(),
     SvelteKitPWA({
