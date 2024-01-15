@@ -1,6 +1,6 @@
 import { decryptAPIKeyAndIsValid } from "../utils/EncryptionForAPI";
-import { json, type RequestEvent } from "@sveltejs/kit";
-import { apiError, authKeyError, formatNumberString, lastfm_top_playing_songs } from "../utils/utils";
+import { json, type RequestEvent , type Handle} from "@sveltejs/kit";
+import { apiError, authKeyError, formatNumberString, last_sync_ts_cookie, lastfm_top_playing_songs } from "../utils/utils";
 import { YtMusicAPIImpl } from "../api_impl/yt_music/YtMusicImpl";
 import type { LastFmTopSongsResponse } from "../../../domain/apis/entities/LastFmTopSongsResponse";
 import { TopSongsMusic, TopSongsMusicResults } from "../../../domain/local/entities/TopSongsMusic";
