@@ -13,7 +13,7 @@
         <div class="absolute inset-x-0 bottom-0 h-px bg-slate-900/5"></div>
         <img src="/logo120.png" alt="zene" class="w-14" />
         <div class="ml-auto flex items-center ms-4">
-          <p class="text-white urbanist-semibold text-xl">Zene</p>
+          <p class="text-white urbanist-semibold text-xl">Zene <span class="urbanist-thin">(Beta)</span></p>
         </div>
       </a>
 
