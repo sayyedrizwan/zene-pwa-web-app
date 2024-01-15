@@ -52,7 +52,7 @@ export default defineConfig({
             short_name: 'Search',
             description: 'Search for your favourite songs, artists or albums',
             url: '/search',
-            icons: [{ src: '/images/today.png', sizes: '192x192' }],
+            icons: [{ src: '/src/lib/assets/img/ic_search.svg', sizes: '24x24' }],
           },
         ],
         icons: [
