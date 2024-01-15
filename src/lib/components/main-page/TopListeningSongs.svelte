@@ -5,10 +5,9 @@
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
   import { type ResponseData, ResponseDataEnum } from '../../../domain/RequestEnumClass'
   import type { TopSongsMusicResults } from '../../../domain/local/entities/TopSongsMusic'
-  import SongInfoSheet from '../global-view/SongInfoSheet.svelte'
+  import { openSongDialog } from '$lib/utils/f'
 
   export let authKey: string
-  let showSheet: boolean = false
 
   let response: ResponseData<TopSongsMusicResults> = { type: ResponseDataEnum.EMPTY }
 
@@ -62,7 +61,7 @@
                 </div>
 
                 <div class="absolute bottom-0 left-0 flex p-3 w-full">
-                  <button id="open-sheet" aria-controls="sheet"><img src={MenuIcon} class="size-9" alt="menu" /></button>
+                  <button on:click={() => openSongDialog(item?.music)}><img src={MenuIcon} class="size-9" alt="menu" /></button>
                   <div class="w-full" />
                   <img src={item.music?.thumbnail} alt={item.music?.artists} referrerpolicy="no-referrer" class="rounded-full size-10 object-cover" />
                 </div>
@@ -76,7 +75,3 @@
     {/if}
   </div>
 </div>
-
-<!-- {#if showSheet} -->
-<SongInfoSheet />
-<!-- {/if} -->

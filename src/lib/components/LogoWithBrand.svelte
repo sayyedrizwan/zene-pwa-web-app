@@ -6,7 +6,7 @@
   export let showOnlyLogo: boolean
 </script>
 
-<header class="relative z-50 w-full flex-none text-sm font-semibold leading-6 text-slate-900">
+<header class="relative z-30 w-full flex-none text-sm font-semibold leading-6 text-slate-900">
   <nav>
     <div class="mx-2 md:mx-4 flex flex-wrap items-center justify-between px-2 md:px-5">
       <a href="/" class="relative flex items-center py-[2.125rem]">
