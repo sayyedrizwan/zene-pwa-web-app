@@ -34,7 +34,7 @@
   <div class="relative rounded-xl overflow-auto">
 
     <!-- Contents -->
-    <div class="relative w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14">
+    <!-- <div class="relative w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14">
       <div class="snap-center shrink-0 first:pl-8 last:pr-8">
         <img class="shrink-0 w-80 h-40 rounded-lg shadow-xl bg-white" src="https://images.unsplash.com/photo-1604999565976-8913ad2ddb7c?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80" />
       </div>
@@ -53,7 +53,7 @@
       <div class="snap-center shrink-0 first:pl-8 last:pr-8">
         <img class="shrink-0 w-80 h-40 rounded-lg shadow-xl bg-white" src="https://images.unsplash.com/photo-1559333086-b0a56225a93c?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80" />
       </div>
-    </div>
+    </div> -->
   </div>
 
   {#if response.type == ResponseDataEnum.LOADING}
