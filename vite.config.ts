@@ -39,7 +39,7 @@ export default defineConfig({
       manifest: {
         short_name: 'Zene',
         name: 'Zene: A Free Music App',
-        start_url: '/',
+        start_url: 'https://zenemusic.co',
         scope: '/',
         display: 'standalone',
         theme_color: 'black',
