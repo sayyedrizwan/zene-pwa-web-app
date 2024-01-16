@@ -47,22 +47,25 @@
             </li>
           </ul>
         </div>
-        <div class="fixed bottom-2 bg-gray-800 w-11/12 z-50 py-4 rounded-full grid grid-cols-4 gap-4 place-items-center">
+        <div class="fixed bottom-4 bg-gray-800 w-11/12 z-50 py-3 rounded-full grid grid-cols-4 gap-4 place-items-center">
+          <center class="ms-4">
+            <img src={HomeIcon} class="size-5" alt="home" />
+            <a href="/" class="urbanist-light text-[10px] text-white">Home</a>
+          </center>
+          
           <center>
-            <img src={HomeIcon} class="size-6" alt="home" />
-            <a href="/" class="urbanist-light text-xs text-white">home</a>
+            <img src={HomeIcon} class="size-5" alt="home" />
+            <a href="/" class="urbanist-light text-[10px] text-white">Feed</a>
           </center>
-           <center>
-            <img src={HomeIcon} class="size-6" alt="home" />
-            <a href="/" class="urbanist-light text-xs text-white">home</a>
+          
+          <center>
+            <img src={HomeIcon} class="size-5" alt="home" />
+            <a href="/" class="urbanist-light text-[10px] text-white">Search</a>
           </center>
-           <center>
-            <img src={HomeIcon} class="size-6" alt="home" />
-            <a href="/" class="urbanist-light text-xs text-white">home</a>
-          </center>
-           <center>
-            <img src={HomeIcon} class="size-6" alt="home" />
-            <a href="/" class="urbanist-light text-xs text-white">home</a>
+          
+          <center class="me-4">
+            <img src={HomeIcon} class="size-5" alt="home" />
+            <a href="/" class="urbanist-light text-[10px] text-white">My Music</a>
           </center>
         </div>
 
