@@ -47,8 +47,6 @@
             </li>
           </ul>
         </div>
-    
-    
         <div class="fixed bottom-2 bg-gray-800 w-11/12 z-50 py-4 rounded-full grid grid-cols-4 gap-4 place-items-center">
           <center>
             <img src={HomeIcon} class="size-6" alt="home" />
