@@ -1,13 +1,11 @@
 <script lang="ts">
   import Footer from '$lib/components/Footer.svelte';
-  import LogoWithBrand from '$lib/components/LogoWithBrand.svelte';
     import { FaqListsRepository } from '../../domain/local/repositories/FaqLists'
 
   const faqListsRepository = new FaqListsRepository();
   const faqQuestions = faqListsRepository.getAllFaqs();
 </script>
 
-<LogoWithBrand showOnlyLogo={true}/>
 
 <div class="relative mx-auto max-w-[37.5rem] pt-20 text-center pb-24 text-white">
   <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">FAQs / App or Web App Help</h1>
