@@ -1,4 +1,6 @@
 
+import sharp from "sharp"
+
 export const support_mail_server = "contactcreator@protonmail.com"
 
 export const authKeyError = {
@@ -28,4 +30,18 @@ export function formatNumberString(numberString: string): string {
   }
   const formatter = new Intl.NumberFormat("en-US");
   return formatter.format(parsedNumber);
+}
+
+export async function getBase64FromImageUrl(imageUrl: string): Promise<string | undefined> {
+  try {
+    const res = await fetch(imageUrl)
+    const abuffer = await res.arrayBuffer()
+
+    const buffer = Buffer.from(new Uint8Array(abuffer))
+    const buff = await sharp(buffer).toFormat("jpeg").toBuffer()
+    let base64data = buff.toString("base64")
+    return `data:image/jpeg;base64,${base64data.toString()}`
+  } catch (error) {
+    return ""
+  }
 }
