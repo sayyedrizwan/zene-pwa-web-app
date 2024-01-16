@@ -6,6 +6,7 @@
   import { type ResponseData, ResponseDataEnum } from '../../../domain/RequestEnumClass'
   import type { TopSongsMusicResults } from '../../../domain/local/entities/TopSongsMusic'
   import { openSongDialog } from '$lib/utils/f'
+  import { DataIndexDS, dbName, isAPICached, tableNameIndexedDB } from '$lib/utils/indexd'
 
   export let authKey: string
 
@@ -15,12 +16,22 @@
     response = { type: ResponseDataEnum.LOADING }
 
     try {
+      const cacheDB = new DataIndexDS<TopSongsMusicResults>(dbName, tableNameIndexedDB)
+      const cacheRecords = await cacheDB.retrieveFromIndexedDB()
+
+      if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
+        const records = (cacheRecords?.[0] as TopSongsMusicResults)
+        response = { type: ResponseDataEnum.SUCCESS, data: records }
+        return
+      }
       const res = await fetch(env.PUBLIC_TOP_LISITING_SONGS, {
         method: 'POST',
-        headers: { AuthorizationKey: authKey, 'cache-control': 'public, max-age=31536000, immutable, no-store' },
+        headers: { AuthorizationKey: authKey },
       })
       const data = await res.json()
       response = { type: ResponseDataEnum.SUCCESS, data: data }
+      localStorage.setItem(`t_l_s_t`, Date.now().toString())
+      cacheDB.deleteAllRecordsAndSave(data)
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }
     }
