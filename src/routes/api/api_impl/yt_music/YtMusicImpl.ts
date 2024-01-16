@@ -1,4 +1,5 @@
 import { MusicData, MusicType } from "../../../../domain/local/entities/MusicData"
+import { joinArtists } from "../../utils/utils"
 import { all_search_params, ytBodyWithParams, ytHeader, yt_music_search } from "./YtMusicUtil"
 import type { YtMusicSearchResponse } from "./domain/YtMusicSearchResponse"
 
@@ -15,7 +16,7 @@ export class YtMusicAPIImpl {
                     const thumbnail = musicContents?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace("w120-h120-", "w512-h512-")
                     let name: string | null
                     let songId: string | null
-                    let artistsName: string | null
+                    let artistsName: string[] = []
                     musicContents?.musicResponsiveListItemRenderer?.flexColumns?.forEach(names => {
                         var info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
                         if (info?.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_ATV") {
@@ -23,11 +24,19 @@ export class YtMusicAPIImpl {
                             songId = info.navigationEndpoint?.watchEndpoint?.videoId ?? null
                         }
                         if (info?.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
-                            if (info.text != undefined) artistsName = (info.text)
+                            if (info.text != undefined && info.text.trim() != "") artistsName.push(info.text)
                         }
                     })
                     if (search?.includes(name!) && music.songId == null) {
-                        music = new MusicData(name!, artistsName!, songId!, thumbnail!, MusicType.MUSIC)
+                        if(artistsName.length == 0){
+                            try {
+                              const a =  musicContents?.musicResponsiveListItemRenderer?.flexColumns?.[1]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
+                              artistsName.push(a ?? "")
+                            } catch (error) {
+                                error
+                            }
+                        }
+                        music = new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC)
                     }
 
                 })

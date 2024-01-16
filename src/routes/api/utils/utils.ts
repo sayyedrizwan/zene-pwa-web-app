@@ -45,3 +45,15 @@ export async function getBase64FromImageUrl(imageUrl: string): Promise<string | 
     return ""
   }
 }
+
+export function joinArtists(artists: string[]): string {
+  if (artists.length === 1) {
+    return artists[0];
+  } else if (artists.length === 2) {
+    return artists.join(' & ');
+  } else {
+    const lastItem = artists.pop();
+    const joinedString = artists.join(', ') + ' & ' + lastItem;
+    return joinedString;
+  }
+}

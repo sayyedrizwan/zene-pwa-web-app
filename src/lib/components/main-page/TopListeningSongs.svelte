@@ -18,7 +18,7 @@
     try {
       const cacheDB = new DataIndexDS<TopSongsMusicResults>(dbName, tableNameIndexedDB)
       const cacheRecords : any =  await cacheDB.retrieveFromIndexedDB()
-      console.log(cacheRecords)
+      
       if(cacheRecords.length > 0) if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
         const records = cacheRecords?.[0] as TopSongsMusicResults
         response = { type: ResponseDataEnum.SUCCESS, data: records }

@@ -47,26 +47,25 @@
             </li>
           </ul>
         </div>
-        <div class="fixed bottom-4 bg-gray-800 w-11/12 z-50 py-3 rounded-full grid grid-cols-4 gap-4 place-items-center p-3">
-          <center>
+
+        <div class="block md:hidden fixed bottom-4 bg-gray-800 w-11/12 z-50 py-3 rounded-full grid grid-cols-4 gap-4 place-items-center p-3">
+          <a href="/" class="flex justify-center flex-col items-center">
             <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[11px] text-white">Home</a>
-          </center>
+            <p class="urbanist-light text-[11px] text-white">Home</p>
+          </a>
+          <a href="/" class="flex justify-center flex-col items-center">
+            <img src={HomeIcon} class="size-5" alt="home" />
+            <p class="urbanist-light text-[11px] text-white">Feed</p>
+          </a>
+          <a href="/" class="flex justify-center flex-col items-center">
+            <img src={HomeIcon} class="size-5" alt="home" />
+            <p class="urbanist-light text-[11px] text-white">Search</p>
+          </a>
+          <a href="/" class="flex justify-center flex-col items-center">
+            <img src={HomeIcon} class="size-5" alt="home" />
+            <p class="urbanist-light text-[11px] text-white">My Music</p>
+          </a>
           
-          <center>
-            <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[11px] text-white">Feed</a>
-          </center>
-          
-          <center>
-            <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[11px] text-white">Search</a>
-          </center>
-          
-          <center>
-            <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[11px] text-white">My Music</a>
-          </center>
         </div>
 
         <!-- <div class="fixed z-50 w-full py-4 m-9 bg-gray-900 rounded-full bottom-4 left-1/2">
