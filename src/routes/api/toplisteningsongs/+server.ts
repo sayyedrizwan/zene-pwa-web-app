@@ -1,16 +1,14 @@
 import { decryptAPIKeyAndIsValid } from "../utils/EncryptionForAPI";
 import { json, type RequestEvent, type Handle } from "@sveltejs/kit";
-import { apiError, formatNumberString, getBase64FromImageUrl, lastfm_top_playing_songs } from "../utils/utils";
+import { apiError, authKeyError, formatNumberString, getBase64FromImageUrl, lastfm_top_playing_songs } from "../utils/utils";
 import { YtMusicAPIImpl } from "../api_impl/yt_music/YtMusicImpl";
 import type { LastFmTopSongsResponse } from "../../../domain/apis/entities/LastFmTopSongsResponse";
 import { TopSongsMusic, TopSongsMusicResults } from "../../../domain/local/entities/TopSongsMusic";
 
 export async function POST(events: RequestEvent) {
-  // if (!decryptAPIKeyAndIsValid(events)) {
-  //   return json(authKeyError)
-  // }
-
-  const date = Date.now()
+  if (!decryptAPIKeyAndIsValid(events)) {
+    return json(authKeyError)
+  }
 
   try {
     const list: TopSongsMusic[] = []
@@ -28,8 +26,6 @@ export async function POST(events: RequestEvent) {
       }
     }))
 
-    const timeDifferenceInMinutes: number = Math.floor((Date.now() - date) / 1000)
-    console.log(timeDifferenceInMinutes)
     return json(new TopSongsMusicResults(list))
   } catch (error) {
     return json(apiError)
