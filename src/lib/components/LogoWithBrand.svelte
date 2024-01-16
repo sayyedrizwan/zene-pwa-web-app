@@ -47,25 +47,25 @@
             </li>
           </ul>
         </div>
-        <div class="fixed bottom-4 bg-gray-800 w-11/12 z-50 py-3 rounded-full grid grid-cols-4 gap-4 place-items-center">
-          <center class="ms-4">
+        <div class="fixed bottom-4 bg-gray-800 w-11/12 z-50 py-3 rounded-full grid grid-cols-4 gap-4 place-items-center p-3">
+          <center>
             <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[10px] text-white">Home</a>
+            <a href="/" class="urbanist-light text-[11px] text-white">Home</a>
           </center>
           
           <center>
             <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[10px] text-white">Feed</a>
+            <a href="/" class="urbanist-light text-[11px] text-white">Feed</a>
           </center>
           
           <center>
             <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[10px] text-white">Search</a>
+            <a href="/" class="urbanist-light text-[11px] text-white">Search</a>
           </center>
           
-          <center class="me-4">
+          <center>
             <img src={HomeIcon} class="size-5" alt="home" />
-            <a href="/" class="urbanist-light text-[10px] text-white">My Music</a>
+            <a href="/" class="urbanist-light text-[11px] text-white">My Music</a>
           </center>
         </div>
 

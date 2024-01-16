@@ -17,13 +17,14 @@
 
     try {
       const cacheDB = new DataIndexDS<TopSongsMusicResults>(dbName, tableNameIndexedDB)
-      const cacheRecords = await cacheDB.retrieveFromIndexedDB()
-
-      if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
+      const cacheRecords : any =  await cacheDB.retrieveFromIndexedDB()
+      console.log(cacheRecords)
+      if(cacheRecords.length > 0) if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
         const records = cacheRecords?.[0] as TopSongsMusicResults
         response = { type: ResponseDataEnum.SUCCESS, data: records }
         return
       }
+
       const res = await fetch(env.PUBLIC_TOP_LISITING_SONGS, {
         method: 'POST',
         headers: { AuthorizationKey: authKey },
