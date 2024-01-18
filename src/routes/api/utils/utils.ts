@@ -21,6 +21,9 @@ export const lastfm_top_playing_songs = "https://kerve.last.fm/kerve/charts?type
 export const ip_base_url = "http://ip-api.com/json/"
 
 
+export const top_100_artists_billboard = "hhttps://www.billboard.com/charts/artist-100/"
+
+
 export const radio_browser_url = "_api._tcp.radio-browser.info"
 export const radio_browser_country = "/json/stations/bycountry/"
 

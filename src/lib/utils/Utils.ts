@@ -23,3 +23,15 @@ function isRunOnPWA(): Boolean {
   const isInStandaloneMode = () => window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone || document.referrer.includes('android-app://')
   return isInStandaloneMode()
 }
+
+
+function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
+  const result: T[][] = [];
+
+  for (let i = 0; i < array.length; i += chunkSize) {
+    const chunk = array.slice(i, i + chunkSize);
+    result.push(chunk);
+  }
+
+  return result;
+}
