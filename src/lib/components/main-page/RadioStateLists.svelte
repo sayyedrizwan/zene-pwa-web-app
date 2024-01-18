@@ -27,7 +27,7 @@
         method: 'POST',
         headers: { AuthorizationKey: authKey },
       })
-      const data = (await res.json()) as ExtraDataMusicData
+      const data = await res.json() as ExtraDataMusicData
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`r_i_l`, Date.now().toString())
       cacheDB.deleteAllRecordsAndSave(data)
