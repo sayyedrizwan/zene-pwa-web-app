@@ -5,6 +5,7 @@
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import type { MusicData } from '../domain/local/entities/MusicData'
     import RadioStateLists from '$lib/components/main-page/RadioStateLists.svelte'
+    import TopGlobalTrendingArtists from '$lib/components/main-page/TopGlobalTrendingArtists.svelte'
   export let data: any
 
   let songMenuDialog: MusicData | null = null
@@ -23,6 +24,7 @@
 {#if key != null}
   <TopListeningSongs authKey={key} />
   <RadioStateLists authKey={key} />
+  <TopGlobalTrendingArtists authKey={key} />
   
   <div class="h-60" />
 {/if}
