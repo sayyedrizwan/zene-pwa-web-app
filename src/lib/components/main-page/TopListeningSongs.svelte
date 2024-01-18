@@ -6,7 +6,7 @@
   import { type ResponseData, ResponseDataEnum } from '../../../domain/RequestEnumClass'
   import type { TopSongsMusicResults } from '../../../domain/local/entities/TopSongsMusic'
   import { openSongDialog } from '$lib/utils/f'
-  import { DataIndexDS, dbName, isAPICached, tableNameIndexedDB } from '$lib/utils/indexd'
+  import { DataIndexDS, indexDB, isAPICached, topSongTableCache } from '$lib/utils/indexd'
 
   export let authKey: string
 
@@ -16,23 +16,25 @@
     response = { type: ResponseDataEnum.LOADING }
 
     try {
-      const cacheDB = new DataIndexDS<TopSongsMusicResults>(dbName, tableNameIndexedDB)
-      const cacheRecords : any =  await cacheDB.retrieveFromIndexedDB()
-      
-      if(cacheRecords.length > 0) if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
-        const records = cacheRecords?.[0] as TopSongsMusicResults
-        response = { type: ResponseDataEnum.SUCCESS, data: records }
-        return
-      }
+      const cacheDB = new DataIndexDS<TopSongsMusicResults>(topSongTableCache, indexDB)
+      const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+
+      if (cacheRecords.length > 0)
+        if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
+          const records = cacheRecords?.[0] as TopSongsMusicResults
+          response = { type: ResponseDataEnum.SUCCESS, data: records }
+          return
+        }
 
       const res = await fetch(env.PUBLIC_TOP_LISITING_SONGS, {
         method: 'POST',
         headers: { AuthorizationKey: authKey },
       })
-      const data = await res.json()
+      const data = await res.json() as TopSongsMusicResults
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`t_l_s_t`, Date.now().toString())
       cacheDB.deleteAllRecordsAndSave(data)
+      cacheDB.saveToIndexedDB(data)
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }
     }
@@ -43,7 +45,9 @@
   })
 </script>
 
-<h3 class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
+{#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
+  <h3 class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
+{/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">
   {#if response.type == ResponseDataEnum.LOADING}

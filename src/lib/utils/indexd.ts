@@ -1,13 +1,13 @@
 
-export const dbName = 'myDatabase'
-export const tableNameIndexedDB = 'userDataIndexedDB'
-
+export const topSongTableCache = 'top_song'
+export const radioTableCache = 'radio_lists'
+export const indexDB = 'index'
 
 export function isAPICached(recordsSize: number, storageName: string): boolean {
     try {
-        if(recordsSize == 0) return false
+        if (recordsSize == 0) return false
         const differenceInMinutes: number = Math.floor((Date.now() - parseInt(localStorage.getItem(storageName)?.toString()!)) / (1000 * 60))
-        if(differenceInMinutes >= 240) return false
+        if (differenceInMinutes >= 240) return false
 
         return true
     } catch (error) {
@@ -38,14 +38,15 @@ export class DataIndexDS<T>  {
         });
     }
 
-    saveToIndexedDB(data: T) {
-        this.openDatabase()
-            .then((db) => {
-                const transaction = db.transaction([this.tableName], 'readwrite');
-                const objectStore = transaction.objectStore(this.tableName);
-                objectStore.add(data)
-            })
-            .catch((error) => {})
+    async saveToIndexedDB(data: T) {
+        try {
+            const db = await this.openDatabase();
+            const transaction = db.transaction([this.tableName], 'readwrite');
+            const objectStore = transaction.objectStore(this.tableName);
+            objectStore.add(data)
+        } catch (error) {
+            return null
+        }
     }
 
     wait(time: number) {
@@ -73,17 +74,19 @@ export class DataIndexDS<T>  {
     }
 
 
-    deleteAllRecordsAndSave(data: any) {
-        this.openDatabase()
-            .then((db) => {
-                const transaction = db.transaction([this.tableName], 'readwrite');
-                const objectStore = transaction.objectStore(this.tableName);
-                const clearRequest = objectStore.clear();
-                clearRequest.onsuccess = () => {
-                    this.saveToIndexedDB(data)
-                }
-            })
-            .catch((error) => {});
+    async deleteAllRecordsAndSave(data: any) {
+        try {
+            const db = await this.openDatabase()
+            const transaction = db.transaction([this.tableName], 'readwrite')
+            const objectStore = transaction.objectStore(this.tableName);
+            const request = objectStore.clear()
+
+            request.onsuccess = () => { }
+            await this.wait(1000)
+            return null
+        } catch (error) {
+            return null
+        }
     }
 }
 function sleep(arg0: number) {

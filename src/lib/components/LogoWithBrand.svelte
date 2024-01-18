@@ -2,6 +2,7 @@
   import NotificationIcon from '$lib/assets/img/ic_notification.svg'
   import SeachIcon from '$lib/assets/img/ic_search.svg'
   import MusicIcon from '$lib/assets/img/ic_music.svg'
+  import FeedIcon from '$lib/assets/img/ic_feed.svg'
   import HomeIcon from '$lib/assets/img/ic_home.svg'
 
   export let showOnlyLogo: boolean
@@ -30,8 +31,15 @@
 
             <li class="group hover-animation pt-5 me-4">
               <center>
+                <img src={FeedIcon} class="size-6 group-hover:size-8 fill-white hover-animation cursor-pointer" alt="feed" />
+                <h1 class="text-white text-sm urbanist-thin hover-animation block invisible group-hover:visible">&nbsp;&nbsp;&nbsp;&nbsp;feed&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+              </center>
+            </li>
+
+            <li class="group hover-animation pt-5 me-4">
+              <center>
                 <a href="/search">
-                  <img src={SeachIcon} class="size-6 group-hover:size-8 fill-white hover-animation cursor-pointer" alt="notification" />
+                  <img src={SeachIcon} class="size-6 group-hover:size-8 fill-white hover-animation cursor-pointer" alt="search" />
                   <h1 class="text-white text-sm urbanist-thin hover-animation block invisible group-hover:visible">&nbsp;&nbsp;&nbsp;search&nbsp;&nbsp;&nbsp;</h1>
                 </a>
               </center>
@@ -40,7 +48,7 @@
             <li class="group hover-animation pt-5 me-4">
               <center>
                 <a href="/mymusic">
-                  <img src={MusicIcon} class="size-6 group-hover:size-8 fill-white hover-animation cursor-pointer" alt="notification" />
+                  <img src={MusicIcon} class="size-6 group-hover:size-8 fill-white hover-animation cursor-pointer" alt="my music" />
                   <h1 class="text-white text-sm urbanist-thin hover-animation block invisible group-hover:visible">&nbsp;&nbsp;my music&nbsp;&nbsp;</h1>
                 </a>
               </center>
@@ -48,24 +56,23 @@
           </ul>
         </div>
 
-        <div class="block md:hidden fixed bottom-4 bg-gray-800 w-11/12 z-50 py-3 rounded-full grid grid-cols-4 gap-4 place-items-center p-3">
+        <div class="md:hidden fixed bottom-4 bg-gray-800 w-11/12 z-50 py-3 rounded-full grid grid-cols-4 gap-4 place-items-center p-3">
           <a href="/" class="flex justify-center flex-col items-center">
             <img src={HomeIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">Home</p>
           </a>
           <a href="/" class="flex justify-center flex-col items-center">
-            <img src={HomeIcon} class="size-5" alt="home" />
+            <img src={FeedIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">Feed</p>
           </a>
           <a href="/" class="flex justify-center flex-col items-center">
-            <img src={HomeIcon} class="size-5" alt="home" />
+            <img src={SeachIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">Search</p>
           </a>
           <a href="/" class="flex justify-center flex-col items-center">
-            <img src={HomeIcon} class="size-5" alt="home" />
+            <img src={MusicIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">My Music</p>
           </a>
-          
         </div>
 
         <!-- <div class="fixed z-50 w-full py-4 m-9 bg-gray-900 rounded-full bottom-4 left-1/2">

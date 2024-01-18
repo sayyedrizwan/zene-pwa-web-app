@@ -4,6 +4,7 @@
   import { browser } from '$app/environment'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import type { MusicData } from '../domain/local/entities/MusicData'
+    import RadioStateLists from '$lib/components/main-page/RadioStateLists.svelte'
   export let data: any
 
   let songMenuDialog: MusicData | null = null
@@ -21,6 +22,7 @@
 
 {#if key != null}
   <TopListeningSongs authKey={key} />
+  <RadioStateLists authKey={key} />
 
   <br />
   <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>

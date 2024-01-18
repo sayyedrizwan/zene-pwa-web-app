@@ -1,3 +1,21 @@
+export class ExtraDataMusicData{
+  resultOne: MusicData[] = []
+  resultTwo: MusicData[] = []
+  
+  constructor(resultOne: MusicData[], resultTwo: MusicData[]) {
+    this.resultOne = resultOne
+    this.resultTwo = resultTwo
+  }
+}
+
+export class MusicDataList{
+  results: MusicData[] = []
+  
+  constructor(results: MusicData[]) {
+    this.results = results
+  }
+}
+
 export class MusicData {
   name: string | null
   artists: string | null
@@ -6,10 +24,10 @@ export class MusicData {
   type: MusicType
 
   constructor(name: string | null, artists: string | null, songId: string | null, thumbnail: string, type: MusicType) {
-    this.name = name;
-    this.artists = artists;
-    this.songId = songId;
-    this.thumbnail = thumbnail;
+    this.name = name
+    this.artists = artists
+    this.songId = songId
+    this.thumbnail = thumbnail
     this.type = type;
   }
 }

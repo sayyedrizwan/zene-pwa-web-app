@@ -5,6 +5,7 @@ import adapter from '@sveltejs/adapter-auto';
 
 const config = {
   preprocess: vitePreprocess(),
+  
   kit: {
     env: {
       dir:'./'
