@@ -71,7 +71,7 @@
 </div>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your state</h3>
+  <h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your country</h3>
 {/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">
@@ -90,7 +90,7 @@
       {/each}
     {:else}
       <center class="w-full">
-        <h3 class="text-white urbanist-light text-sm md:text-xl mx-2 md:mx-4 mt-4">No Radio Stations found in your state</h3>
+        <h3 class="text-white urbanist-light text-sm md:text-xl mx-2 md:mx-4 mt-4">No Radio Stations found in your country</h3>
       </center>
     {/if}
   {:else}
