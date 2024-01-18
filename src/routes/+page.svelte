@@ -23,51 +23,8 @@
 {#if key != null}
   <TopListeningSongs authKey={key} />
   <RadioStateLists authKey={key} />
-
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
-  <br />
-  <div>This div should be 2/3 of the remaining screen (i.e., screen excluding the sidebar)</div>
+  
+  <div class="h-60" />
 {/if}
 
 {#if songMenuDialog != null}
