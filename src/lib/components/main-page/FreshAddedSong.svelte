@@ -5,7 +5,7 @@
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { DataIndexDS, freshAddedCache, indexDB, isAPICached } from '$lib/utils/indexd'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
-    import { openSongDialog } from '$lib/utils/f'
+  import { openSongDialog } from '$lib/utils/f'
 
   export let authKey: string
 
@@ -61,9 +61,8 @@
           <div class="relative w-3/4 h-[11rem]">
             <p class={`text-white urbanist-semibold ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item.name}</p>
             <p class={`text-white urbanist-thin text-sm ms-3`}>{item.artists}</p>
-        
+
             <button on:click={() => openSongDialog(item)}><img src={MenuIcon} class="absolute bottom-3 left-2 size-6" alt="menu" /></button>
-               
           </div>
 
           <img src={item.thumbnail} alt={item.name} class="s-1/4 p-4" referrerpolicy="no-referrer" />
