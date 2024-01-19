@@ -6,9 +6,8 @@ import { TopSongsMusic, TopSongsMusicResults } from "../../../domain/local/entit
 import type { LastFmTopSongsResponse } from "../../../domain/module/lastfm/LastFmTopSongsResponse"
 
 export async function POST(events: RequestEvent) {
-  if (!decryptAPIKeyAndIsValid(events)) {
-    return json(authKeyError)
-  }
+  if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
+  
 
   try {
     const list: TopSongsMusic[] = []
@@ -25,6 +24,8 @@ export async function POST(events: RequestEvent) {
         list.push(new TopSongsMusic(imageAsBase64!, formatNumberString(e.listeners), music))
       }
     }))
+
+    
     return json(new TopSongsMusicResults(list))
   } catch (error) {
     return json(apiError)

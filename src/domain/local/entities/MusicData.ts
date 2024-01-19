@@ -34,5 +34,5 @@ export class MusicData {
 
 
 export enum MusicType {
-  MUSIC, RADIO
+  MUSIC, RADIO, ARTISTS
 }

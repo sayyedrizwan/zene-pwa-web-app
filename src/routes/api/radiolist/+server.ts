@@ -9,9 +9,8 @@ import type { RadioListResponse } from "./domain/RadioListResponse"
 
 
 export async function POST(events: RequestEvent) {
-  if (!decryptAPIKeyAndIsValid(events)) {
-    return json(authKeyError)
-  }
+  if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
+  
 
   try {
     const cityRadio: MusicData[] = []

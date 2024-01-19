@@ -1,4 +1,5 @@
 
+import { Buffer } from "buffer"
 import sharp from "sharp"
 
 export const support_mail_server = "contactcreator@protonmail.com"

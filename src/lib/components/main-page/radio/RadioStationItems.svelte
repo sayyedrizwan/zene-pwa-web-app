@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { MusicData } from '../../../domain/local/entities/MusicData'
   import { openSongDialog } from '$lib/utils/f'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
+    import type { MusicData } from '../../../../domain/local/entities/MusicData'
 
   export let musicData: MusicData
 </script>

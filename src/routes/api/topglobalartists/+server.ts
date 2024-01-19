@@ -1,24 +1,34 @@
 import { decryptAPIKeyAndIsValid } from "../utils/EncryptionForAPI"
 import { json, type RequestEvent } from "@sveltejs/kit"
-import { apiError, authKeyError, top_100_artists_billboard } from "../utils/utils"
-
-
+import { apiError, authKeyError, getBase64FromImageUrl, top_100_artists_billboard } from "../utils/utils"
+import { JSDOM } from "jsdom"
+import { MusicData, MusicType } from "../../../domain/local/entities/MusicData"
 
 export async function POST(events: RequestEvent) {
-  console.log('1111')
-  if (!decryptAPIKeyAndIsValid(events)) {
-    return json(authKeyError)
-  }
+  if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
-  console.log('22222')
   try {
+    const lists: MusicData[] = []
     const response = await fetch(top_100_artists_billboard)
-    const r = await response.text()
+    const dom = new JSDOM(await response.text())
 
-    console.log(r)
-    return json({})
+
+    dom.window.document.querySelectorAll(".o-chart-results-list-row-container").forEach(element => {
+      var artistsImage = element.querySelector(".lrv-a-crop-1x1")?.querySelector("img")?.getAttribute('data-lazy-src')?.replace("182", "344")
+      var artistName = ""
+      element.querySelectorAll("#title-of-a-story").forEach(name => {
+        if (name.outerHTML.toString().includes("u-max-width-230@tablet-only")) artistName = name.innerHTML.trim().toString()
+      })
+      lists.push(new MusicData(artistName, artistName, "", artistsImage ?? "", MusicType.ARTISTS))
+    })
+
+    await Promise.all(lists.map(async (e, i) => {
+      const imageAsBase64 = await getBase64FromImageUrl(e.thumbnail ?? "") ?? ""
+      lists[i].thumbnail = imageAsBase64
+    }))
+
+    return json(lists)
   } catch (error) {
-    console.log(error)
     return json(apiError)
   }
 }

@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import { env } from '$env/dynamic/public'
-  import { type ResponseData, ResponseDataEnum } from '../../../domain/RequestEnumClass'
+  import { type ResponseData, ResponseDataEnum } from '../../../../domain/RequestEnumClass'
   import { DataIndexDS, indexDB, isAPICached, radioTableCache } from '$lib/utils/indexd'
-  import type { ExtraDataMusicData } from '../../../domain/local/entities/MusicData'
-  import RadioStationItems from './RadioStationItems.svelte'
+  import type { ExtraDataMusicData } from '../../../../domain/local/entities/MusicData'
+    import RadioStationItems from './RadioStationItems.svelte'
 
   export let authKey: string
 
