@@ -2,9 +2,10 @@
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import type { MusicDataList } from '../../../domain/local/entities/MusicData'
 
-  export let authKey: string
+  // export let authKey: string
 
-  let response: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
+  // let response: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
+
 </script>
 
 

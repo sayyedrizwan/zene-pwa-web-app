@@ -29,7 +29,7 @@
   <TopGlobalTrendingArtists authKey={key} />
   <TopMood />
   <FreshAddedSong authKey={key} />
-  <GlobalTopTrendingSongs authKey={key} />
+  <GlobalTopTrendingSongs />
 
   <div class="h-60" />
 {/if}
