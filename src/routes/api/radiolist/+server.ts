@@ -2,7 +2,7 @@ import dns from "dns"
 import util from "util"
 import { decryptAPIKeyAndIsValid } from "../utils/EncryptionForAPI"
 import { json, type RequestEvent } from "@sveltejs/kit"
-import { apiError, authKeyError, ip_base_url, radio_browser_country, radio_browser_url } from "../utils/utils"
+import { apiError, authKeyError, ipBaseUrl, radio_browser_country, radio_browser_url } from "../utils/utils"
 import type { IpJsonResponse } from "./domain/IpJsonResponse"
 import { ExtraDataMusicData, MusicData, MusicType } from "../../../domain/local/entities/MusicData"
 import type { RadioListResponse } from "./domain/RadioListResponse"
@@ -16,7 +16,7 @@ export async function POST(events: RequestEvent) {
     const cityRadio: MusicData[] = []
     const countryRadio: MusicData[] = []
     const radioBaseURL = await get_radiobrowser_base_url_random()
-    const responseIp = await fetch(ip_base_url)
+    const responseIp = await fetch(ipBaseUrl(events.getClientAddress()))
     const ipData = await responseIp.json() as IpJsonResponse
 
     console.log(ipData)

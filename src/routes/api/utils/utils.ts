@@ -19,7 +19,7 @@ export const lastfm_top_playing_songs = "https://kerve.last.fm/kerve/charts?type
 
 
 
-export const ip_base_url = "http://ip-api.com/json/"
+export function ipBaseUrl(ip:string) { return `http://ip-api.com/json/${ip}`}
 
 
 export const top_100_artists_billboard = "https://www.billboard.com/charts/artist-100/"
