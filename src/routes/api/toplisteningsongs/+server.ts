@@ -17,7 +17,7 @@ export async function POST(events: RequestEvent) {
 
     await Promise.all(data.results.track.map(async (e) => {
       const musicName = `${e.name} - ${e.artist}`
-      const music = await ytMusicAPI.musicSearchSingle(musicName)
+      const music = await ytMusicAPI.musicSearchSingle(musicName, true)
       const imageAsBase64 = await getBase64FromImageUrl(e.image.replace("174s/", ""))
 
       if (music.name != null && music.songId != null) {
@@ -25,7 +25,7 @@ export async function POST(events: RequestEvent) {
       }
     }))
 
-    
+
     return json(new TopSongsMusicResults(list))
   } catch (error) {
     return json(apiError)

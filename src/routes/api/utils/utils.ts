@@ -69,3 +69,35 @@ export function joinArtists(artists: string[]): string {
     return joinedString;
   }
 }
+
+export function getTextAfterKeyword(txt: string, char: string): string | null {
+  const index: number = txt.indexOf(char);
+
+  if (index !== -1) {
+    const result: string = txt.substring(index + char.length).trim();
+    return result
+  } else {
+    return txt
+  }
+}
+
+export function getTextBeforeKeyword(txt: string, char: string): string | null {
+  const index: number = txt.indexOf(char)
+
+  if (index !== -1) {
+    const result: string = txt.substring(0, index).trim()
+    return result
+  } else {
+    return txt
+  }
+}
+export function getTextBeforeLastKeyword(txt: string, char: string): string | null {
+  const lastIndex: number = txt.lastIndexOf(char)
+
+  if (lastIndex !== -1) {
+    const result: string = txt.substring(0, lastIndex).trim()
+    return result
+  } else {
+    return txt
+  }
+}

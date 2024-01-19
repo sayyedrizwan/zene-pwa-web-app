@@ -1,23 +1,6 @@
 export interface YtMusicSearchResponse {
-    responseContext?: ResponseContext
     contents?: Contents
     trackingParams?: string
-  }
-  
-  export interface ResponseContext {
-    visitorData?: string
-    serviceTrackingParams?: ServiceTrackingParam[]
-    maxAgeSeconds?: number
-  }
-  
-  export interface ServiceTrackingParam {
-    service?: string
-    params?: Param[]
-  }
-  
-  export interface Param {
-    key?: string
-    value?: string
   }
   
   export interface Contents {

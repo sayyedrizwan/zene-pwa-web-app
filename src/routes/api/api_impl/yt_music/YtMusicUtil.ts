@@ -1,3 +1,5 @@
+import type { IpJsonResponse } from "../../radiolist/domain/IpJsonResponse"
+
 export const YT_MUSIC_KEY = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
 
 export const ytHeader = {
@@ -11,10 +13,12 @@ export const ytHeader = {
 
 const userAgent = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36,gzip(gfe)"
 const clientName = "WEB_REMIX"
-const clientVersion = "1.20240103.01.00"
+const clientVersion = "1.20240115.01.01"
 
 export const yt_music_search = `https://music.youtube.com/youtubei/v1/search?key=${YT_MUSIC_KEY}&prettyPrint=false`
+export const yt_music_browse = `https://music.youtube.com/youtubei/v1/browse?key=${YT_MUSIC_KEY}0&prettyPrint=false`
 export const all_search_params = "EgWKAQIIAWoSEAMQBBAFEA4QChAQEAkQERAV"
+export const new_release_params = "FEmusic_new_releases"
 
 export function ytBodyWithParams(q: string, params:string): string {
   return  `{
@@ -27,6 +31,24 @@ export function ytBodyWithParams(q: string, params:string): string {
         },
         "query": "${q}",
         "params": "${params}"
+    }
+    `
+}
+
+
+export function ytBodyWithParamsWithIp(ip: IpJsonResponse, b: string): string {
+  return  `
+    {
+        "context": {
+            "client": {
+                "gl": "${ip.countryCode}",
+                "remoteHost": "${ip.query}",
+                "userAgent": "${userAgent}",
+                "clientName": "${clientName}",
+                "clientVersion": "${clientVersion}"
+            }
+        },
+        "browseId": "${b}"
     }
     `
 }

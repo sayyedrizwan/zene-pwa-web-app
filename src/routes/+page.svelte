@@ -7,6 +7,7 @@
   import RadioStateLists from '$lib/components/main-page/radio/RadioStateLists.svelte'
   import TopGlobalTrendingArtists from '$lib/components/main-page/TopGlobalTrendingArtists.svelte'
     import TopMood from '$lib/components/main-page/TopMood.svelte'
+    import FreshAddedSong from '$lib/components/main-page/FreshAddedSong.svelte'
   export let data: any
 
   let songMenuDialog: MusicData | null = null
@@ -26,6 +27,7 @@
   <RadioStateLists authKey={key} />
   <TopGlobalTrendingArtists authKey={key} />
   <TopMood />
+  <FreshAddedSong authKey={key} />
 
   <div class="h-60" />
 {/if}

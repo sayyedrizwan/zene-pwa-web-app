@@ -2,6 +2,7 @@
 export const topSongTableCache = 'top_song'
 export const radioTableCache = 'radio_lists'
 export const topArtistsCache = 'top_artists'
+export const freshAddedCache = 'fresh_added_artists'
 export const indexDB = 'index'
 
 export function isAPICached(recordsSize: number, storageName: string): boolean {

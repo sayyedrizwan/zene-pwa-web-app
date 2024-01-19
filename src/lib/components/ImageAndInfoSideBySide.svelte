@@ -11,9 +11,9 @@
       <h2>{title}</h2>
       <p class="text-white flex-grow urbanist-thin font-bold text-2xl">{desc}</p>
     </div>
-    <img class="md:w-2/5 p-16 rounded-[72px]" src={img} alt={title} />
+    <img class="md:w-2/5 p-16 rounded-[72px]" src={img} alt={title} referrerpolicy="no-referrer" />
   {:else}
-      <img class="md:w-2/5 p-16 rounded-[72px]" src={img} alt={title} />
+      <img class="md:w-2/5 p-16 rounded-[72px]" src={img} alt={title} referrerpolicy="no-referrer" />
       <div class="text-white flex-grow urbanist-light text-6xl">
         <h2>{title}</h2>
         <p class="text-white flex-grow urbanist-thin font-bold text-2xl">{desc}</p>

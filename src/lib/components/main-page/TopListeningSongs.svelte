@@ -65,7 +65,7 @@
       <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
         <div class="flex flex-col items-center justify-center gap-2 cursor-pointer">
           <div class={`relative w-[16rem] h-[22rem] bg-black rounded-lg`}>
-            <img src={item.artistsImg} alt={item.music?.artists} class="absolute top-0 left-0 w-full h-full object-cover rounded-lg" />
+            <img src={item.artistsImg} alt={item.music?.artists} class="absolute top-0 left-0 w-full h-full object-cover rounded-lg" referrerpolicy="no-referrer" />
             <div class="absolute top-0 left-0 w-full h-full rounded-lg bg-opacity-60 md:bg-opacity-30 bg-maincolor hover-animation" />
             <div class="absolute top-0 left-0 w-full h-full rounded-lg md:bg-opacity-10 md:bg-maincolor md:hover:bg-opacity-50 hover-animation">
               <p class="text-white urbanist-thin text-sm mt-2 ms-2">{item.music?.artists}</p>
