@@ -9,4 +9,4 @@
 
 
 
-<h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">GLobal top trending songs</h3>
+<h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Global top trending songs</h3>

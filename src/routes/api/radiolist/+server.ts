@@ -19,6 +19,8 @@ export async function POST(events: RequestEvent) {
     const responseIp = await fetch(ip_base_url)
     const ipData = await responseIp.json() as IpJsonResponse
 
+    console.log(ipData)
+
     const responseRadio = await fetch(`${radioBaseURL}${radio_browser_country}${ipData.country.toLowerCase()}`)
     const response = await responseRadio.json() as RadioListResponse
 
