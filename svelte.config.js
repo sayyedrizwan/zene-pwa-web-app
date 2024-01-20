@@ -1,14 +1,13 @@
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { generateSW } from './pwa.mjs';
-import adapter from '@sveltejs/adapter-vercel';
-// import adapter from '@sveltejs/adapter-auto';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
+import { generateSW } from './pwa.mjs'
+import adapter from '@sveltejs/adapter-auto'
 
 const config = {
   preprocess: vitePreprocess(),
-  
+
   kit: {
     env: {
-      dir:'./'
+      dir: './',
     },
     adapter: adapter(),
     serviceWorker: {
@@ -21,5 +20,5 @@ const config = {
       serviceWorker: generateSW ? undefined : 'src/prompt-sw.ts',
     },
   },
-};
-export default config;
+}
+export default config

@@ -1,5 +1,5 @@
-import { firebaseAnalytics } from './firebase';
-import { logEvent } from 'firebase/analytics';
+import { firebaseAnalytics } from './firebase'
+import { logEvent } from 'firebase/analytics'
 
 export enum AnalyticsEvents {
   OPEN_WEBSITE,
@@ -7,8 +7,8 @@ export enum AnalyticsEvents {
 }
 
 export function registerFirebaseEvents(events: AnalyticsEvents) {
-  const name = AnalyticsEvents[events].toLowerCase();
+  const name = AnalyticsEvents[events].toLowerCase()
   if (firebaseAnalytics != undefined) {
-    logEvent(firebaseAnalytics, name);
+    logEvent(firebaseAnalytics, name)
   }
 }

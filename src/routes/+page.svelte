@@ -6,9 +6,9 @@
   import type { MusicData } from '../domain/local/entities/MusicData'
   import RadioStateLists from '$lib/components/main-page/radio/RadioStateLists.svelte'
   import TopGlobalTrendingArtists from '$lib/components/main-page/TopGlobalTrendingArtists.svelte'
-    import TopMood from '$lib/components/main-page/TopMood.svelte'
-    import FreshAddedSong from '$lib/components/main-page/FreshAddedSong.svelte'
-    import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
+  import TopMood from '$lib/components/main-page/TopMood.svelte'
+  import FreshAddedSong from '$lib/components/main-page/FreshAddedSong.svelte'
+  import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
   export let data: any
 
   let songMenuDialog: MusicData | null = null
@@ -29,7 +29,7 @@
   <TopGlobalTrendingArtists authKey={key} />
   <TopMood />
   <FreshAddedSong authKey={key} />
-  <GlobalTopTrendingSongs />
+  <GlobalTopTrendingSongs authKey={key} />
 
   <div class="h-60" />
 {/if}

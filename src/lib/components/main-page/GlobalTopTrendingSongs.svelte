@@ -1,13 +1,80 @@
 <script lang="ts">
+  import { splitArrayIntoChunks } from '$lib/utils/Utils'
+  import { DataIndexDS, globalTrendingSongsArtists, indexDB, isAPICachedForADay } from '$lib/utils/indexd'
+  import axios from 'axios'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
-  import type { MusicDataList } from '../../../domain/local/entities/MusicData'
+  import type { MusicData, MusicDataList } from '../../../domain/local/entities/MusicData'
+  import { env } from '$env/dynamic/public'
+  import { onMount } from 'svelte'
+  import { openSongDialog } from '$lib/utils/f'
+  import MenuIcon from '$lib/assets/img/ic_menu.svg'
 
-  // export let authKey: string
+  export let authKey: string
 
-  // let response: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
+  let response: ResponseData<MusicData[][]> = { type: ResponseDataEnum.EMPTY }
 
+  async function topGlobalSongs() {
+    response = { type: ResponseDataEnum.LOADING }
+
+    try {
+      const cacheDB = new DataIndexDS<MusicDataList>(globalTrendingSongsArtists, indexDB)
+      const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+      if (cacheRecords.length > 0)
+        if (isAPICachedForADay(cacheRecords[0].length, `t_s_l`)) {
+          const records = cacheRecords[0] as MusicDataList
+          response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.results, 3) }
+          return
+        }
+
+      const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {
+        timeout: 120000,
+        headers: { AuthorizationKey: authKey },
+      })
+      const data = (await res.data) as MusicDataList
+      response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data.results, 3) }
+      localStorage.setItem(`t_s_l`, Date.now().toString())
+      cacheDB.deleteAllRecordsAndSave(data)
+      cacheDB.saveToIndexedDB(data)
+    } catch (error) {
+      console.log(error)
+      response = { type: ResponseDataEnum.ERROR }
+    }
+  }
+
+  onMount(async () => {
+    topGlobalSongs()
+  })
 </script>
 
+{#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Global top trending songs</h3>
+{/if}
 
-
-<h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Global top trending songs</h3>
+<div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
+  {#if response.type == ResponseDataEnum.LOADING}
+    {#each Array(15) as _, index (index)}
+      <div class="p-2">
+        <div class="relative w-80 h-[8rem] rounded-lg bg-gray-400 animate-pulse" />
+      </div>
+    {/each}
+  {:else if response.type == ResponseDataEnum.SUCCESS}
+    {#each response.data as item}
+      <div>
+        {#each item as songs}
+          <div class="p-2">
+            <div class="w-80 h-[8rem] rounded-xl bg-lightblack flex justify-center items-center">
+              <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
+              <div class="w-full m-3">
+                <p class="text-white urbanist-semibold text-base">{songs.name}</p>
+                <p class="text-white urbanist-thin text-base">{songs.artists}</p>
+              </div>
+              <div class="p-2">
+              <button on:click={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" />
+              </div>
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/each}
+  {/if}
+</div>

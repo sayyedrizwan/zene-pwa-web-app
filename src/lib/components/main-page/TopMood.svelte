@@ -15,7 +15,7 @@
   ]
 </script>
 
-<h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Mood</h3>
+<h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Mood</h3>
 
 <div class="flex flex-wrap mt-2">
   {#each moodsList as mood}

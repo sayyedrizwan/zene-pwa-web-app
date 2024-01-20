@@ -1,5 +1,4 @@
-import type { MusicData } from "./MusicData";
-
+import type { MusicData } from './MusicData'
 
 export class TopSongsMusicResults {
   music: TopSongsMusic[]
@@ -9,10 +8,9 @@ export class TopSongsMusicResults {
   }
 }
 
-
 export class TopSongsMusic {
-  artistsImg: string | null;
-  listeners: string | null;
+  artistsImg: string | null
+  listeners: string | null
   music: MusicData | null
 
   constructor(artistsImg: string, listeners: string, music: MusicData) {

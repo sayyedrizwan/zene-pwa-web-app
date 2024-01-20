@@ -1,4 +1,4 @@
-import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
+import { AnalyticsEvents, registerFirebaseEvents } from '$lib/firebase/registerAnalytics'
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)
@@ -7,16 +7,16 @@ export function onBrowser() {
     registerFirebaseEvents(AnalyticsEvents.OPEN_WEB_AS_APP)
   }
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
       lastSyncTimeCheck()
     }
   })
 }
 function lastSyncTimeCheck() {
-  const ts = document.cookie.match('(^|;)\\s*' + "last_sync_ts" + '\\s*=\\s*([^;]+)')?.pop() || ''
+  const ts = document.cookie.match('(^|;)\\s*' + 'last_sync_ts' + '\\s*=\\s*([^;]+)')?.pop() || ''
   const timeDifferenceInMinutes: number = Math.floor((Date.now() - parseInt(ts)) / (1000 * 60))
-  if(timeDifferenceInMinutes > 10) window.location.reload()
+  if (timeDifferenceInMinutes > 10) window.location.reload()
 }
 
 function isRunOnPWA(): Boolean {
@@ -24,14 +24,13 @@ function isRunOnPWA(): Boolean {
   return isInStandaloneMode()
 }
 
-
 export function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
-  const result: T[][] = [];
+  const result: T[][] = []
 
   for (let i = 0; i < array.length; i += chunkSize) {
-    const chunk = array.slice(i, i + chunkSize);
-    result.push(chunk);
+    const chunk = array.slice(i, i + chunkSize)
+    result.push(chunk)
   }
 
-  return result;
+  return result
 }

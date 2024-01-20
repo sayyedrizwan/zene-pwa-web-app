@@ -1,16 +1,16 @@
-export class ExtraDataMusicData{
+export class ExtraDataMusicData {
   resultOne: MusicData[] = []
   resultTwo: MusicData[] = []
-  
+
   constructor(resultOne: MusicData[], resultTwo: MusicData[]) {
     this.resultOne = resultOne
     this.resultTwo = resultTwo
   }
 }
 
-export class MusicDataList{
+export class MusicDataList {
   results: MusicData[] = []
-  
+
   constructor(results: MusicData[]) {
     this.results = results
   }
@@ -28,11 +28,12 @@ export class MusicData {
     this.artists = artists
     this.songId = songId
     this.thumbnail = thumbnail
-    this.type = type;
+    this.type = type
   }
 }
 
-
 export enum MusicType {
-  MUSIC, RADIO, ARTISTS
+  MUSIC,
+  RADIO,
+  ARTISTS,
 }

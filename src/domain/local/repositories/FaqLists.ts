@@ -1,5 +1,5 @@
-import { FaqData } from '../entities/FaqData';
-import type { FaqRepositoryInterface } from './FaqListInterface';
+import { FaqData } from '../entities/FaqData'
+import type { FaqRepositoryInterface } from './FaqListInterface'
 
 export class FaqListsRepository implements FaqRepositoryInterface {
   getAllFaqs(): FaqData[] {
@@ -34,6 +34,6 @@ export class FaqListsRepository implements FaqRepositoryInterface {
       new FaqData('Does the app offer exclusive content or early access to new releases?', 'coming soon...'),
       new FaqData('What are the future plans for the app and its features?', 'coming soon...'),
       new FaqData('How can I provide feedback and suggestions for improvement?', 'coming soon...'),
-    ];
+    ]
   }
 }
