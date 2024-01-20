@@ -1,8 +1,7 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import { SvelteKitPWA } from '@vite-pwa/sveltekit';
-import { defineConfig } from 'vite';
-import { generateSW } from './pwa.mjs';
-import { fileURLToPath } from 'url';
+import { sveltekit } from '@sveltejs/kit/vite'
+import { SvelteKitPWA } from '@vite-pwa/sveltekit'
+import { defineConfig } from 'vite'
+import { generateSW } from './pwa.mjs'
 
 export default defineConfig({
   logLevel: 'info',
