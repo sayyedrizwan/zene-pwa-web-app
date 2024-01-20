@@ -6,6 +6,7 @@
   import { DataIndexDS, freshAddedCache, indexDB, isAPICached } from '$lib/utils/indexd'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
   import { openSongDialog } from '$lib/utils/f'
+  import axios from 'axios'
 
   export let authKey: string
 
@@ -24,11 +25,11 @@
           return
         }
 
-      const res = await fetch(env.PUBLIC_NEW_RELEASE, {
-        method: 'POST',
-        headers: { AuthorizationKey: authKey },
+      const res = await axios.post(env.PUBLIC_NEW_RELEASE, {
+        timeout: 120000,
+        headers: { AuthorizationKey: authKey }
       })
-      const data = (await res.json()) as MusicDataList
+      const data = (await res.data) as MusicDataList
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`f_a_s_l`, Date.now().toString())
       cacheDB.deleteAllRecordsAndSave(data)
@@ -44,7 +45,7 @@
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Fresh Added Songs</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Fresh Added Songs</h3>
 {/if}
 
 <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">

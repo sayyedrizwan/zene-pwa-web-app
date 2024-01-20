@@ -5,6 +5,7 @@
   import { DataIndexDS, indexDB, isAPICached, radioTableCache } from '$lib/utils/indexd'
   import type { ExtraDataMusicData } from '../../../../domain/local/entities/MusicData'
     import RadioStationItems from './RadioStationItems.svelte'
+    import axios from 'axios'
 
   export let authKey: string
 
@@ -23,11 +24,11 @@
           return
         }
 
-      const res = await fetch(env.PUBLIC_RADIO_LIST, {
-        method: 'POST',
-        headers: { AuthorizationKey: authKey },
+      const res = await axios.post(env.PUBLIC_RADIO_LIST, {
+        timeout: 120000,
+        headers: { AuthorizationKey: authKey,  },
       })
-      const data = await res.json() as ExtraDataMusicData
+      const data = await res.data as ExtraDataMusicData
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`r_i_l`, Date.now().toString())
       cacheDB.deleteAllRecordsAndSave(data)
@@ -43,7 +44,7 @@
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your city</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your city</h3>
 {/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">
@@ -71,7 +72,7 @@
 </div>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your country</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your country</h3>
 {/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">
@@ -84,7 +85,7 @@
       </div>
     {/each}
   {:else if response.type == ResponseDataEnum.SUCCESS}
-    {#if response.data.resultOne.length > 0}
+    {#if response.data.resultTwo.length > 0}
       {#each response.data.resultTwo as item}
         <RadioStationItems musicData={item} />
       {/each}

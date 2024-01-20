@@ -2,27 +2,26 @@ import dns from "dns"
 import util from "util"
 import { decryptAPIKeyAndIsValid } from "../utils/EncryptionForAPI"
 import { json, type RequestEvent } from "@sveltejs/kit"
-import { apiError, authKeyError, ipBaseUrl, radio_browser_country, radio_browser_url } from "../utils/utils"
+import { apiError, authKeyError, getIpAddress, ipBaseUrl, radio_browser_country, radio_browser_url } from "../utils/utils"
 import type { IpJsonResponse } from "./domain/IpJsonResponse"
 import { ExtraDataMusicData, MusicData, MusicType } from "../../../domain/local/entities/MusicData"
 import type { RadioListResponse } from "./domain/RadioListResponse"
+import axios from 'axios'
 
 
 export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
-  
 
   try {
     const cityRadio: MusicData[] = []
     const countryRadio: MusicData[] = []
     const radioBaseURL = await get_radiobrowser_base_url_random()
-    const responseIp = await fetch(ipBaseUrl(events.getClientAddress()))
-    const ipData = await responseIp.json() as IpJsonResponse
+    const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
+    const ipData = await responseIp.data as IpJsonResponse
+  
+    const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_country}${String(ipData.country).toLowerCase()}`, {timeout: 120000 })
+    const response = await responseRadio.data as RadioListResponse
 
-    console.log(ipData)
-
-    const responseRadio = await fetch(`${radioBaseURL}${radio_browser_country}${ipData.country.toLowerCase()}`)
-    const response = await responseRadio.json() as RadioListResponse
 
     response.forEach(r => {
       if (r.name != undefined)
@@ -32,9 +31,9 @@ export async function POST(events: RequestEvent) {
           countryRadio.push(new MusicData(r.name, r.language ?? "", r.serveruuid, r.favicon ?? "", MusicType.RADIO))
         }
     })
-
     return json(new ExtraDataMusicData(cityRadio, countryRadio))
   } catch (error) {
+    console.log(error)
     return json(apiError)
   }
 }

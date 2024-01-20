@@ -4,16 +4,16 @@ import { apiError, authKeyError, formatNumberString, getBase64FromImageUrl, last
 import { YtMusicAPIImpl } from "../api_impl/yt_music/YtMusicImpl"
 import { TopSongsMusic, TopSongsMusicResults } from "../../../domain/local/entities/TopSongsMusic"
 import type { LastFmTopSongsResponse } from "../../../domain/module/lastfm/LastFmTopSongsResponse"
+import axios from "axios"
 
 export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
   
-
   try {
     const list: TopSongsMusic[] = []
     const ytMusicAPI = new YtMusicAPIImpl()
-    const response = await fetch(lastfm_top_playing_songs)
-    const data = await response.json() as LastFmTopSongsResponse
+    const response = await axios.get(lastfm_top_playing_songs)
+    const data = await response.data as LastFmTopSongsResponse
 
     await Promise.all(data.results.track.map(async (e) => {
       const musicName = `${e.name} - ${e.artist}`
@@ -25,9 +25,10 @@ export async function POST(events: RequestEvent) {
       }
     }))
 
-
+    console.log(list)
     return json(new TopSongsMusicResults(list))
   } catch (error) {
+    console.log(error)
     return json(apiError)
   }
 }

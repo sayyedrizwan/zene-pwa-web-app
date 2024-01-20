@@ -1,7 +1,6 @@
+import { env } from "$env/dynamic/private";
 import type { RequestEvent } from "@sveltejs/kit";
 import { atob, btoa } from "buffer";
-
-const secret_key: string = 'the_key_is_the_rs_oneis';
 
 export function generateAPIKey(): string {
     const timestamp = new Date().getTime()
@@ -34,37 +33,37 @@ export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
 }
 
 function generateTemp5DigitWord(): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    const charactersLength = characters.length;
-    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    const charactersLength = characters.length
+    let result = ''
 
     for (let i = 0; i < 5; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
     }
 
-    return result;
+    return result
 }
 
 
 export function encryptData(value: string) {
-    let encryptedText = '';
+    let encryptedText = ''
     for (let i = 0; i < value.length; i++) {
-        const charCode = value.charCodeAt(i);
-        const keyChar = secret_key.charCodeAt(i % secret_key.length);
-        const encryptedCharCode = charCode ^ keyChar;
-        encryptedText += String.fromCharCode(encryptedCharCode);
+        const charCode = value.charCodeAt(i)
+        const keyChar = env.SECRET_TOKEN_KEY.charCodeAt(i % env.SECRET_TOKEN_KEY.length)
+        const encryptedCharCode = charCode ^ keyChar
+        encryptedText += String.fromCharCode(encryptedCharCode)
     }
-    return btoa(encryptedText).replace("==", "");
+    return btoa(encryptedText).replace("==", "")
 }
 
 export function decryptData(value: string) {
-    value = atob(value);
-    let decryptedText = '';
+    value = atob(value)
+    let decryptedText = ''
     for (let i = 0; i < value.length; i++) {
-        const charCode = value.charCodeAt(i);
-        const keyChar = secret_key.charCodeAt(i % secret_key.length);
-        const decryptedCharCode = charCode ^ keyChar;
-        decryptedText += String.fromCharCode(decryptedCharCode);
+        const charCode = value.charCodeAt(i)
+        const keyChar = env.SECRET_TOKEN_KEY.charCodeAt(i % env.SECRET_TOKEN_KEY.length)
+        const decryptedCharCode = charCode ^ keyChar
+        decryptedText += String.fromCharCode(decryptedCharCode)
     }
     return decryptedText;
 }

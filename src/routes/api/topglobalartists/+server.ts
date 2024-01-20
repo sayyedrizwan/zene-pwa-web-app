@@ -3,14 +3,15 @@ import { json, type RequestEvent } from "@sveltejs/kit"
 import { apiError, authKeyError, getBase64FromImageUrl, top_100_artists_billboard } from "../utils/utils"
 import { JSDOM } from "jsdom"
 import { MusicData, MusicType } from "../../../domain/local/entities/MusicData"
+import axios from "axios"
 
 export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   try {
     const lists: MusicData[] = []
-    const response = await fetch(top_100_artists_billboard)
-    const dom = new JSDOM(await response.text())
+    const response = await axios.get(top_100_artists_billboard)
+    const dom = new JSDOM(await response.data)
 
 
     dom.window.document.querySelectorAll(".o-chart-results-list-row-container").forEach(element => {

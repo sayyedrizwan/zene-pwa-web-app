@@ -5,6 +5,7 @@
   import { env } from '$env/dynamic/public'
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
   import { DataIndexDS, indexDB, isAPICached, topArtistsCache } from '$lib/utils/indexd'
+    import axios from 'axios'
 
   export let authKey: string
 
@@ -23,11 +24,11 @@
           return
         }
 
-      const res = await fetch(env.PUBLIC_TOP_ARTISTS_LIST, {
-        method: 'POST',
-        headers: { AuthorizationKey: authKey },
+      const res = await axios.post(env.PUBLIC_TOP_ARTISTS_LIST, {
+        timeout: 120000,
+        headers: { AuthorizationKey: authKey }
       })
-      const data = (await res.json()) as MusicData[]
+      const data = (await res.data) as MusicData[]
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data, 2) }
       localStorage.setItem(`t_a_l`, Date.now().toString())
       cacheDB.deleteAllRecordsAndSave(data)
@@ -43,7 +44,7 @@
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-sm md:text-xl ms-2 md:ms-4 mt-16">Global top trending artists</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Global top trending artists</h3>
 {/if}
 
 <div class="flex overflow-x-auto w-full scrollbar-hide">

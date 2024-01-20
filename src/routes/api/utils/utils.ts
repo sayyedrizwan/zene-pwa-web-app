@@ -1,4 +1,5 @@
 
+import type { RequestEvent } from "@sveltejs/kit"
 import { Buffer } from "buffer"
 import sharp from "sharp"
 
@@ -19,7 +20,7 @@ export const lastfm_top_playing_songs = "https://kerve.last.fm/kerve/charts?type
 
 
 
-export function ipBaseUrl(ip:string) { return `http://ip-api.com/json/${ip}`}
+export function ipBaseUrl(ip: string) { return `http://ip-api.com/json/${ip}` }
 
 
 export const top_100_artists_billboard = "https://www.billboard.com/charts/artist-100/"
@@ -100,4 +101,11 @@ export function getTextBeforeLastKeyword(txt: string, char: string): string | nu
   } else {
     return txt
   }
+}
+
+export function getIpAddress(events: RequestEvent): string {
+  if (events.url.hostname == "localhost" && events.getClientAddress() == "::1")
+    return "183.87.181.104"
+
+  return events.getClientAddress()
 }

@@ -7,6 +7,8 @@
   import type { TopSongsMusicResults } from '../../../domain/local/entities/TopSongsMusic'
   import { openSongDialog } from '$lib/utils/f'
   import { DataIndexDS, indexDB, isAPICached, topSongTableCache } from '$lib/utils/indexd'
+    import axios from 'axios'
+
 
   export let authKey: string
 
@@ -26,11 +28,11 @@
           return
         }
 
-      const res = await fetch(env.PUBLIC_TOP_LISITING_SONGS, {
-        method: 'POST',
+      const res = await axios.post(env.PUBLIC_TOP_LISITING_SONGS, {
+        timeout: 60000,
         headers: { AuthorizationKey: authKey },
       })
-      const data = await res.json() as TopSongsMusicResults
+      const data = (await res.data) as TopSongsMusicResults
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`t_l_s_t`, Date.now().toString())
       cacheDB.deleteAllRecordsAndSave(data)
