@@ -62,6 +62,7 @@ export class YtMusicAPIImpl {
         const r = await fetch(yt_music_browse, { method: 'POST', headers: ytHeader, body: ytBodyWithParamsWithIp(ip, new_release_params) })
         const response = await r.json() as YtMusicBrowseGrids
 
+        console.log(response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items?.length)
        
         var releasedId = ""
         response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items?.forEach(e => {
