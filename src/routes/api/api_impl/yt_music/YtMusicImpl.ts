@@ -73,6 +73,9 @@ export class YtMusicAPIImpl {
             }
         })
 
+
+        console.log(releasedId)
+
         const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytHeader, body: ytBodyWithParamsWithIp(ip, releasedId) })
         const musics = await musicr.json() as YtMusicBrowsePlaylists
 

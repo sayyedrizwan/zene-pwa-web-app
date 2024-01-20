@@ -24,11 +24,8 @@ export async function POST(events: RequestEvent) {
         list.push(new TopSongsMusic(imageAsBase64!, formatNumberString(e.listeners), music))
       }
     }))
-
-    console.log(list)
     return json(new TopSongsMusicResults(list))
   } catch (error) {
-    console.log(error)
     return json(apiError)
   }
 }

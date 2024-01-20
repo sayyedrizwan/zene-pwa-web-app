@@ -33,7 +33,6 @@ export async function POST(events: RequestEvent) {
     })
     return json(new ExtraDataMusicData(cityRadio, countryRadio))
   } catch (error) {
-    console.log(error)
     return json(apiError)
   }
 }
