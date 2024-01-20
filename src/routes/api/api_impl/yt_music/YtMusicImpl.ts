@@ -63,6 +63,7 @@ export class YtMusicAPIImpl {
         const response = await r.json() as YtMusicBrowseGrids
 
         console.log(response)
+        console.log(response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items)
 
         var releasedId = ""
         response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items?.forEach(e => {
