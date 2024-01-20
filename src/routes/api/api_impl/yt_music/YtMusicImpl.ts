@@ -62,11 +62,11 @@ export class YtMusicAPIImpl {
         const r = await fetch(yt_music_browse, { method: 'POST', headers: ytHeader, body: ytBodyWithParamsWithIp(ip, new_release_params) })
         const response = await r.json() as YtMusicBrowseGrids
 
-        console.log(response)
-        console.log(response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items)
-
+       
         var releasedId = ""
         response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items?.forEach(e => {
+            console.log(e?.musicTwoRowItemRenderer?.title?.runs)
+
             try {
                 if (e?.musicTwoRowItemRenderer?.title?.runs?.[0].text?.toLowerCase() === "released") {
                     releasedId = e?.musicTwoRowItemRenderer?.title?.runs?.[0]?.navigationEndpoint?.browseEndpoint?.browseId ?? ""
@@ -75,6 +75,9 @@ export class YtMusicAPIImpl {
                 error
             }
         })
+
+        console.log(releasedId)
+
 
         const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytHeader, body: ytBodyWithParamsWithIp(ip, releasedId) })
         const musics = await musicr.json() as YtMusicBrowsePlaylists
