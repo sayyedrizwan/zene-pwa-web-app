@@ -64,19 +64,19 @@ export class YtMusicAPIImpl {
 
         console.log(JSON.stringify(response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0]))
        
-        var releasedId = ""
-        response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items?.forEach(e => {
-            console.log(e?.musicTwoRowItemRenderer?.title?.runs)
+        var releasedId = "VLRDCLAK5uy_ksEjgm3H_7zOJ_RHzRjN1wY-_FFcs7aAU"
+        // response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items?.forEach(e => {
+        //     console.log(e?.musicTwoRowItemRenderer?.title?.runs)
 
-            try {
-                if (e?.musicTwoRowItemRenderer?.title?.runs?.[0].text?.toLowerCase() === "released") {
-                    releasedId = e?.musicTwoRowItemRenderer?.title?.runs?.[0]?.navigationEndpoint?.browseEndpoint?.browseId ?? ""
-                }
-            } catch (error) {
-                console.log(error)
-                error
-            }
-        })
+        //     try {
+        //         if (e?.musicTwoRowItemRenderer?.title?.runs?.[0].text?.toLowerCase() === "released") {
+        //             releasedId = e?.musicTwoRowItemRenderer?.title?.runs?.[0]?.navigationEndpoint?.browseEndpoint?.browseId ?? ""
+        //         }
+        //     } catch (error) {
+        //         console.log(error)
+        //         error
+        //     }
+        // })
 
         console.log(releasedId)
 
