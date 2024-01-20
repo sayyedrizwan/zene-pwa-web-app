@@ -72,6 +72,7 @@ export class YtMusicAPIImpl {
                     releasedId = e?.musicTwoRowItemRenderer?.title?.runs?.[0]?.navigationEndpoint?.browseEndpoint?.browseId ?? ""
                 }
             } catch (error) {
+                console.log(error)
                 error
             }
         })
