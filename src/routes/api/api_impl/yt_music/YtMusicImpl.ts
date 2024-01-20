@@ -59,7 +59,7 @@ export class YtMusicAPIImpl {
     async newReleaseSearch(ip: IpJsonResponse): Promise<MusicDataList> {
         const lists: string[] = []
         const listsNew: MusicData[] = []
-        var releasedId = "RDCLAK5uy_k5n4srrEB1wgvIjPNTXS9G1ufE9WQxhnA"
+        var releasedId = "RDCLAK5uy_ksEjgm3H_7zOJ_RHzRjN1wY-_FFcs7aAU"
 
         // const r = await fetch(yt_music_browse, { method: 'POST', headers: ytHeader, body: ytBodyWithParamsWithIp(ip, new_release_params) })
         // const response = await r.json() as YtMusicBrowseGrids
