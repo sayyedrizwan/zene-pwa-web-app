@@ -13,18 +13,20 @@ export const load = async ({ fetch, cookies }) => {
 
   const responseip = await fetch(readIpViaAWS)
   const ip = (await responseip.text()).trim()
-  let ipDetails : IpDetails | undefined
+  var ipDetails: IpDetails | undefined = undefined
 
-  if(ip !== cookies.get(users_ip_address) || !isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ""))){
+  if (isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ""))) 
+    ipDetails = JSON.parse(decryptData(cookies.get(users_ip_details) ?? "")) as IpDetails
+  
+
+  if (ip !== cookies.get(users_ip_address) || !isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ""))) {
     const responseIp = await axios.get(ipBaseUrl(ip))
     const ipData = (await responseIp.data) as IpJsonResponse
     ipDetails = new IpDetails(ipData.country, ipData.city)
     const details = encryptData(JSON.stringify(ipDetails))
     cookies.set(users_ip_details, details, { path: '/', httpOnly: true, secure: true })
-  } else {
-    ipDetails = JSON.parse(decryptData(cookies.get(users_ip_details) ?? "")) as IpDetails
   }
-  
+
   cookies.set(users_ip_address, ip.toString(), { path: '/', httpOnly: true, secure: true })
-  return { data: btoa(data.key), ip: ipDetails }
+  return { data: btoa(data.key), ip: JSON.stringify(ipDetails) }
 }

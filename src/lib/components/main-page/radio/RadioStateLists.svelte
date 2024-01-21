@@ -6,12 +6,11 @@
   import type { ExtraDataMusicData } from '../../../../domain/local/entities/MusicData'
   import RadioStationItems from './RadioStationItems.svelte'
   import axios from 'axios'
-    import type { IpDetails } from '../../../../domain/local/entities/IpDetails'
+  import type { IpDetails } from '../../../../domain/local/entities/IpDetails'
 
   export let authKey: string
-  export let ipDetails: IpDetails
+  export let ipDetails: IpDetails | null
 
-  
   let response: ResponseData<ExtraDataMusicData> = { type: ResponseDataEnum.EMPTY }
 
   async function radioList() {
@@ -47,7 +46,7 @@
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails.city}</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.city ?? "your city"}</h3>
 {/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">
@@ -75,7 +74,7 @@
 </div>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails.country}</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.country ?? "your country"}</h3>
 {/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">
