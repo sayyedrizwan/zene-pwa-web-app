@@ -3,7 +3,7 @@
   import { onMount } from 'svelte'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import type { IpDetails } from '../../../domain/local/entities/IpDetails'
-  import { MusicData, type ExtraDataMusicData } from '../../../domain/local/entities/MusicData'
+  import { MusicData, ExtraDataMusicData, MusicDataList } from '../../../domain/local/entities/MusicData'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import { openSongDialog, playSongZene } from '$lib/utils/f'
@@ -13,56 +13,57 @@
   export let authKey: string
   export let ipDetails: IpDetails | null
 
-  const mData = MusicData
+  let responseSongs: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
+  let responseArtists: ResponseData<MusicData[][]> = { type: ResponseDataEnum.EMPTY }
 
-  let response: ResponseData<ExtraDataMusicData> = { type: ResponseDataEnum.EMPTY }
-
-  async function topSongs() {
-    response = { type: ResponseDataEnum.LOADING }
+  async function topSongsAndArtists() {
+    responseSongs = { type: ResponseDataEnum.LOADING }
+    responseArtists = { type: ResponseDataEnum.LOADING }
 
     try {
       const cacheDB = new DataIndexDS<ExtraDataMusicData>(trendingSongsInCountryCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
-      if (cacheRecords.length > 0)
-        if (isAPICachedForADay((cacheRecords?.[0] as any)?.resultOne.length, `t_c_s_l`)) {
-          const records = cacheRecords?.[0] as ExtraDataMusicData
-          response = { type: ResponseDataEnum.SUCCESS, data: records }
-          return
-        }
+      // if (cacheRecords.length > 0)
+      //   if (isAPICachedForADay((cacheRecords?.[0] as any)?.resultOne.length, `t_c_s_l`)) {
+      //     const records = cacheRecords?.[0] as ExtraDataMusicData
+      //     response = { type: ResponseDataEnum.SUCCESS, data: records }
+      //     return
+      //   }
 
       const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY,{}, { timeout: 60000, headers: { AuthorizationKey: authKey }})
       const data = (await res.data) as ExtraDataMusicData
 
-      response = { type: ResponseDataEnum.SUCCESS, data: data }
+      responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(data.resultOne) }
+      responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data.resultTwo, 2) }
       localStorage.setItem(`t_c_s_l`, Date.now().toString())
       cacheDB.deleteAllRecordsAndSave(data)
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
-      console.log(error)
-      response = { type: ResponseDataEnum.ERROR }
+      responseSongs = { type: ResponseDataEnum.ERROR }
+      responseArtists = { type: ResponseDataEnum.ERROR }
     }
   }
 
   onMount(async () => {
-    topSongs()
+    topSongsAndArtists()
   })
 </script>
 
-{#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
+{#if responseSongs.type == ResponseDataEnum.LOADING || responseSongs.type == ResponseDataEnum.SUCCESS}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Songs in {ipDetails?.country ?? 'your country'}</h3>
 {/if}
 
 <div class="mt-2">
   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 font-mono text-white text-sm text-center font-bold leading-6 bg-stripes-fuchsia rounded-lg">
-    {#if response.type == ResponseDataEnum.LOADING}
+    {#if responseSongs.type == ResponseDataEnum.LOADING}
       {#each Array(15) as _, index (index)}
         <div class="p-2">
           <div class="relative w-full h-[8rem] rounded-lg bg-gray-400 animate-pulse" />
         </div>
       {/each}
-    {:else if response.type == ResponseDataEnum.SUCCESS}
-      {#each response.data.resultOne as songs}
+    {:else if responseSongs.type == ResponseDataEnum.SUCCESS}
+      {#each responseSongs.data.results as songs}
         <button class="p-2" on:click={() => playSongZene(songs)}>
           <div class="w-full h-[8rem] rounded-xl bg-maincolor bg-opacity-60 flex justify-center items-center">
             <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
@@ -80,12 +81,12 @@
   </div>
 </div>
 
-{#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
+{#if responseArtists.type == ResponseDataEnum.LOADING || responseArtists.type == ResponseDataEnum.SUCCESS}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Artists in {ipDetails?.country ?? 'your country'}</h3>
 {/if}
 
 <div class="flex overflow-x-auto w-full scrollbar-hide">
-  {#if response.type == ResponseDataEnum.LOADING}
+  {#if responseArtists.type == ResponseDataEnum.LOADING}
     {#each Array(15) as _, index (index)}
       <div>
         <div class="p-3">
@@ -97,10 +98,9 @@
         </div>
       </div>
     {/each}
-  {:else if response.type == ResponseDataEnum.SUCCESS}
-    {#each splitArrayIntoChunks<MusicData>(response.data.resultTwo, 2) as topItem}
+  {:else if responseArtists.type == ResponseDataEnum.SUCCESS}
+    {#each responseArtists.data as topItem}
       <div>
-        {JSON.stringify(topItem)}
         {#each topItem as item}
           <div class="p-3">
             <a href="/">

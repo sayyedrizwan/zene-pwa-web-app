@@ -15,7 +15,7 @@ export async function POST(events: RequestEvent) {
     const ytImpl = new YtMusicAPIImpl()
     const spotifyImpl = new SpotifyImpl()
     const lists: MusicData[] = []
-    const artistsLists: MusicData[] = []
+    const artistsLists: Set<MusicData> = new Set<MusicData>()
 
     const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
     const ipData = (await responseIp.data) as IpJsonResponse
@@ -32,10 +32,11 @@ export async function POST(events: RequestEvent) {
       lists.map(async (m) => {
         const name = getTextBeforeKeyword(getTextBeforeKeyword(m.artists ?? "", ",")!, "&")
         const music = await ytImpl.artistsSearchSingle(name ?? "")
-        if (music.songId != null) artistsLists.push(music)
+        if (music.songId != null) artistsLists.add(music)
       })
     )
-    return json(new ExtraDataMusicData(lists, artistsLists))
+
+    return json(new ExtraDataMusicData(lists, Array.from(artistsLists)))
   } catch (error) {
     return json(apiError)
   }
