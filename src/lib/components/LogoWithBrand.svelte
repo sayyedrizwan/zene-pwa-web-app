@@ -65,7 +65,7 @@
             <img src={FeedIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">Feed</p>
           </a>
-          <a href="/" class="flex justify-center flex-col items-center">
+          <a href="/search" class="flex justify-center flex-col items-center">
             <img src={SeachIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">Search</p>
           </a>

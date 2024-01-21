@@ -9,27 +9,48 @@ export function generateAPIKey(): string {
 }
 
 export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
-    return true
-    // try {
-    //     const headers = events.request.headers;
-    //     const authKey = headers.get('AuthorizationKey');
+    try {
+        const headers = events.request.headers
+        const authKey = headers.get('AuthorizationKey')
 
-    //     const timestamp = new Date().getTime()
-    //     const decryptValue = decryptData(authKey?.toString()!)
-    //     const v = decryptValue.match(RegExp(`${`->`}(.*?)${`<-`}`))
-    //     const ev = v ? v[1] : undefined;
-    //     if (ev == undefined) {
-    //         return false
-    //     }
-    //     const difference = timestamp - parseInt(ev.trim());
-    //     const differenceinSeconds = Math.floor(difference / 1000)
-    //     if (differenceinSeconds > 10) {
-    //         return false
-    //     }
-    //     return true
-    // } catch (error) {
-    //     return false
-    // }
+        const timestamp = new Date().getTime()
+        const decryptValue = decryptData(authKey?.toString()!)
+        const v = decryptValue.match(RegExp(`${`->`}(.*?)${`<-`}`))
+        const ev = v ? v[1] : undefined;
+        if (ev == undefined) {
+            return false
+        }
+        const difference = timestamp - parseInt(ev.trim())
+        const differenceinSeconds = Math.floor(difference / 1000)
+        if (differenceinSeconds > 20) return false
+        
+        return true
+    } catch (error) {
+        return false
+    }
+}
+
+
+export function decryptAPIKeyAndIsValidLong(events: RequestEvent): boolean {
+    try {
+        const headers = events.request.headers
+        const authKey = headers.get('AuthorizationKey')
+
+        const timestamp = new Date().getTime()
+        const decryptValue = decryptData(authKey?.toString()!)
+        const v = decryptValue.match(RegExp(`${`->`}(.*?)${`<-`}`))
+        const ev = v ? v[1] : undefined;
+        if (ev == undefined) {
+            return false
+        }
+        const difference = timestamp - parseInt(ev.trim())
+        const differenceinSeconds = Math.floor(difference / 1000)
+        if (differenceinSeconds > 600) return false
+        
+        return true
+    } catch (error) {
+        return false
+    }
 }
 
 function generateTemp5DigitWord(): string {

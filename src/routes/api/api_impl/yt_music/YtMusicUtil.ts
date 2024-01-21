@@ -17,6 +17,7 @@ const clientVersion = '1.20240115.01.01'
 
 export const yt_music_search = `https://music.youtube.com/youtubei/v1/search?key=${YT_MUSIC_KEY}&prettyPrint=false`
 export const yt_music_browse = `https://music.youtube.com/youtubei/v1/browse?key=${YT_MUSIC_KEY}0&prettyPrint=false`
+export const yt_music_search_suggestion = `https://music.youtube.com/youtubei/v1/music/get_search_suggestions?key==${YT_MUSIC_KEY}&prettyPrint=false`
 export const all_search_params = 'EgWKAQIIAWoSEAMQBBAFEA4QChAQEAkQERAV'
 export const all_search_artists_params = 'EgWKAQIgAWoSEAMQCRAEEA4QChAFEBAQERAV'
 export const new_release_params = 'FEmusic_new_releases'
@@ -32,6 +33,20 @@ export function ytBodyWithParams(q: string, params: string): string {
         },
         "query": "${q}",
         "params": "${params}"
+    }
+    `
+}
+
+export function ytBodyWithInput(q: string): string {
+  return `{
+        "input": "${q}",
+        "context": {
+            "client": {
+                "userAgent": "${userAgent}",
+                "clientName": "${clientName}",
+                "clientVersion": "${clientVersion}"
+            }
+        }
     }
     `
 }

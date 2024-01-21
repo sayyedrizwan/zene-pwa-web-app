@@ -1,9 +1,10 @@
 import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/entities/MusicData'
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 import { getTextAfterKeyword, getTextBeforeKeyword, getTextBeforeLastKeyword, joinArtists } from '../../utils/utils'
-import { all_search_artists_params, all_search_params, new_release_params, ytBodyWithParams, ytBodyWithParamsWithIp, ytHeader, yt_music_browse, yt_music_search } from './YtMusicUtil'
+import { all_search_artists_params, all_search_params, new_release_params, ytBodyWithInput, ytBodyWithParams, ytBodyWithParamsWithIp, ytHeader, yt_music_browse, yt_music_search, yt_music_search_suggestion } from './YtMusicUtil'
 import type { YtMusicBrowseGrids } from './domain/YtMusicBrowseGrids'
 import type { YtMusicBrowsePlaylists } from './domain/YtMusicBrowsePlaylists'
+import type { YtMusicSearchKeywordsSuggestion } from './domain/YtMusicSearchKeywordsSuggestion'
 import type { YtMusicSearchResponse } from './domain/YtMusicSearchResponse'
 
 export class YtMusicAPIImpl {
@@ -24,7 +25,7 @@ export class YtMusicAPIImpl {
               if (String(names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "")?.toLocaleLowerCase()?.trim() == search.toLocaleLowerCase().trim()) {
                 const name = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? null
                 const thumbnail = artists?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-                if (name != null && music.songId == null)  music = new MusicData(name, name, "", thumbnail ?? "", MusicType.ARTISTS)
+                if (name != null && music.songId == null) music = new MusicData(name, name, "", thumbnail ?? "", MusicType.ARTISTS)
               }
             }
           })
@@ -34,6 +35,22 @@ export class YtMusicAPIImpl {
     })
 
     return music
+  }
+
+
+  async searchKeywordsSuggestions(search: string): Promise<string[]> {
+    const lists: string[] = []
+
+    const r = await fetch(yt_music_search_suggestion, { method: 'POST', headers: ytHeader, body: ytBodyWithInput(search) })
+    const response = (await r.json()) as YtMusicSearchKeywordsSuggestion
+
+    response.contents?.forEach(c => {
+      c?.searchSuggestionsSectionRenderer?.contents?.forEach(items => {
+        const value = items?.searchSuggestionRenderer?.navigationEndpoint?.searchEndpoint?.query
+        if (value != undefined) lists.push(value)
+      })
+    })
+    return lists
   }
 
 
