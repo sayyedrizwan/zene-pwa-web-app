@@ -9,14 +9,17 @@
   import TopMood from '$lib/components/main-page/TopMood.svelte'
   import FreshAddedSong from '$lib/components/main-page/FreshAddedSong.svelte'
   import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
+  import TopSongsInUserCountry from '$lib/components/main-page/TopSongsInUserCountry.svelte'
+
   export let data: any
+
 
   let songMenuDialog: MusicData | null = null
 
   let key: string | null = null
+  
   if (browser) {
     key = window.atob(data.data)
-
     document.addEventListener('songdialog', (event: Event) => {
       songMenuDialog = (event as CustomEvent).detail.value
     })
@@ -25,11 +28,12 @@
 
 {#if key != null}
   <TopListeningSongs authKey={key} />
-  <RadioStateLists authKey={key} />
+  <RadioStateLists authKey={key} ipDetails={data.ip}/>
   <TopGlobalTrendingArtists authKey={key} />
   <TopMood />
   <FreshAddedSong authKey={key} />
   <GlobalTopTrendingSongs authKey={key} />
+  <TopSongsInUserCountry authKey={key} ipDetails={data.ip}/>
 
   <div class="h-60" />
 {/if}

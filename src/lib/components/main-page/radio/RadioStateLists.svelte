@@ -6,9 +6,12 @@
   import type { ExtraDataMusicData } from '../../../../domain/local/entities/MusicData'
   import RadioStationItems from './RadioStationItems.svelte'
   import axios from 'axios'
+    import type { IpDetails } from '../../../../domain/local/entities/IpDetails'
 
   export let authKey: string
+  export let ipDetails: IpDetails
 
+  
   let response: ResponseData<ExtraDataMusicData> = { type: ResponseDataEnum.EMPTY }
 
   async function radioList() {
@@ -17,12 +20,12 @@
     try {
       const cacheDB = new DataIndexDS<ExtraDataMusicData>(radioTableCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
-      // if (cacheRecords.length > 0)
-      //   if (isAPICached(cacheRecords[0].length, `r_i_l`)) {
-      //     const records = cacheRecords[0] as ExtraDataMusicData
-      //     response = { type: ResponseDataEnum.SUCCESS, data: records }
-      //     return
-      //   }
+      if (cacheRecords.length > 0)
+        if (isAPICached(cacheRecords[0].length, `r_i_l`)) {
+          const records = cacheRecords[0] as ExtraDataMusicData
+          response = { type: ResponseDataEnum.SUCCESS, data: records }
+          return
+        }
 
       const res = await axios.post(env.PUBLIC_RADIO_LIST, {
         timeout: 120000,
@@ -44,7 +47,7 @@
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your city</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails.city}</h3>
 {/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">
@@ -72,7 +75,7 @@
 </div>
 
 {#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
-  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in your country</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails.country}</h3>
 {/if}
 
 <div class="overflow-x-auto flex scrollbar-hide">

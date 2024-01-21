@@ -28,6 +28,7 @@ export const radio_browser_country = '/json/stations/bycountry/'
 // cookie
 export const last_sync_ts_cookie = 'last_sync_ts'
 export const users_ip_address = 'i'
+export const users_ip_details = 'i_d'
 
 export function formatNumberString(numberString: string): string {
   const parsedNumber = Number(numberString)
@@ -98,4 +99,14 @@ export function getTextBeforeLastKeyword(txt: string, char: string): string | nu
 
 export function getIpAddress(events: RequestEvent): string {
   return events.request.headers.get(users_ip_address) ?? ''
+}
+
+
+export function isStringValidJSONObject<T>(str: string): boolean {
+  try {
+    JSON.parse(str) as T
+    return true
+  } catch (error) {
+    return false
+  }
 }
