@@ -11,8 +11,6 @@
   import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
   import TopSongsInUserCountry from '$lib/components/main-page/TopSongsArtistsInUserCountry.svelte'
   import type { IpDetails } from '../domain/local/entities/IpDetails'
-  import { APManager } from './api/utils/s'
-    import { playSongZene } from '$lib/utils/f'
 
   export let data: any
 
