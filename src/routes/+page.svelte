@@ -9,7 +9,7 @@
   import TopMood from '$lib/components/main-page/TopMood.svelte'
   import FreshAddedSong from '$lib/components/main-page/FreshAddedSong.svelte'
   import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
-  import TopSongsInUserCountry from '$lib/components/main-page/TopSongsInUserCountry.svelte'
+  import TopSongsInUserCountry from '$lib/components/main-page/TopSongsArtistsInUserCountry.svelte'
   import type { IpDetails } from '../domain/local/entities/IpDetails'
   import { APManager } from './api/utils/s'
     import { playSongZene } from '$lib/utils/f'

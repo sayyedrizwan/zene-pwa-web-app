@@ -4,6 +4,7 @@ export const topArtistsCache = 'top_artists'
 export const freshAddedCache = 'fresh_added_artists'
 export const globalTrendingSongsArtists = 'global_trending_songs'
 export const trendingSongsInCountryCache = 'trending_songs_in_country'
+export const trendingArtistsInCountryCache = 'trending_artists_in_country'
 export const indexDB = 'index'
 
 export function isAPICached(recordsSize: number, storageName: string): boolean {

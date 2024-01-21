@@ -1,12 +1,42 @@
 import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/entities/MusicData'
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 import { getTextAfterKeyword, getTextBeforeKeyword, getTextBeforeLastKeyword, joinArtists } from '../../utils/utils'
-import { all_search_params, new_release_params, ytBodyWithParams, ytBodyWithParamsWithIp, ytHeader, yt_music_browse, yt_music_search } from './YtMusicUtil'
+import { all_search_artists_params, all_search_params, new_release_params, ytBodyWithParams, ytBodyWithParamsWithIp, ytHeader, yt_music_browse, yt_music_search } from './YtMusicUtil'
 import type { YtMusicBrowseGrids } from './domain/YtMusicBrowseGrids'
 import type { YtMusicBrowsePlaylists } from './domain/YtMusicBrowsePlaylists'
 import type { YtMusicSearchResponse } from './domain/YtMusicSearchResponse'
 
 export class YtMusicAPIImpl {
+
+
+  async artistsSearchSingle(search: string): Promise<MusicData> {
+    var music: MusicData = new MusicData(null, null, null, '', MusicType.ARTISTS)
+
+    const r = await fetch(yt_music_search, { method: 'POST', headers: ytHeader, body: ytBodyWithParams(search, all_search_artists_params) })
+    const response = (await r.json()) as YtMusicSearchResponse
+
+    response.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
+      tab.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
+        contents.musicShelfRenderer?.contents?.forEach(artists => {
+
+          artists?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
+            if (names.musicResponsiveListItemFlexColumnRenderer?.displayPriority == "MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH") {
+              if (String(names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "")?.toLocaleLowerCase()?.trim() == search.toLocaleLowerCase().trim()) {
+                const name = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? null
+                const thumbnail = artists?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
+                if (name != null && music.songId == null)  music = new MusicData(name, name, "", thumbnail ?? "", MusicType.ARTISTS)
+              }
+            }
+          })
+
+        })
+      })
+    })
+
+    return music
+  }
+
+
   async musicSearchSingle(search: string, doCheck: boolean): Promise<MusicData> {
     var music: MusicData = new MusicData(null, null, null, '', MusicType.MUSIC)
 
