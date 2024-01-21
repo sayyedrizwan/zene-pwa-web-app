@@ -24,7 +24,7 @@
           return
         }
 
-      const res = await axios.post(env.PUBLIC_TOP_ARTISTS_LIST, {
+      const res = await axios.post(env.PUBLIC_TOP_ARTISTS_LIST, {}, {
         timeout: 120000,
         headers: { AuthorizationKey: authKey }
       })

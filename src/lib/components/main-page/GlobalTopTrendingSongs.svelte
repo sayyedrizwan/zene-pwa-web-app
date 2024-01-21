@@ -6,7 +6,7 @@
   import type { MusicData, MusicDataList } from '../../../domain/local/entities/MusicData'
   import { env } from '$env/dynamic/public'
   import { onMount } from 'svelte'
-  import { openSongDialog } from '$lib/utils/f'
+  import { openSongDialog, playSongZene } from '$lib/utils/f'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
 
   export let authKey: string
@@ -26,7 +26,7 @@
           return
         }
 
-      const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {
+      const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, {
         timeout: 120000,
         headers: { AuthorizationKey: authKey },
       })
@@ -61,18 +61,18 @@
     {#each response.data as item}
       <div>
         {#each item as songs}
-          <div class="p-2">
+          <button class="p-2" on:click={()=> playSongZene(songs)}>
             <div class="w-80 h-[8rem] rounded-xl bg-lightblack flex justify-center items-center">
               <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
               <div class="w-full m-3">
-                <p class="text-white urbanist-semibold text-base">{songs.name}</p>
-                <p class="text-white urbanist-thin text-base">{songs.artists}</p>
+                <p class="text-white urbanist-semibold text-base text-start">{songs.name}</p>
+                <p class="text-white urbanist-thin text-base text-start">{songs.artists}</p>
               </div>
               <div class="p-2">
               <button on:click={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" />
               </div>
             </div>
-          </div>
+          </button>
         {/each}
       </div>
     {/each}

@@ -5,7 +5,7 @@
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { DataIndexDS, freshAddedCache, indexDB, isAPICached } from '$lib/utils/indexd'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
-  import { openSongDialog } from '$lib/utils/f'
+  import { openSongDialog, playSongZene } from '$lib/utils/f'
   import axios from 'axios'
 
   export let authKey: string
@@ -25,7 +25,7 @@
           return
         }
 
-      const res = await axios.post(env.PUBLIC_NEW_RELEASE, {
+      const res = await axios.post(env.PUBLIC_NEW_RELEASE, {}, {
         timeout: 120000,
         headers: { AuthorizationKey: authKey }
       })
@@ -57,18 +57,18 @@
     {/each}
   {:else if response.type == ResponseDataEnum.SUCCESS}
     {#each response.data.results as item}
-      <div class="p-2">
+      <button class="p-2" on:click={()=> playSongZene(item)}>
         <div class="w-80 h-[11rem] rounded-lg bg-lightblack flex">
           <div class="relative w-3/4 h-[11rem]">
-            <p class={`text-white urbanist-semibold ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item.name}</p>
-            <p class={`text-white urbanist-thin text-sm ms-3`}>{item.artists}</p>
+            <p class={`text-white urbanist-semibold text-start ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item.name}</p>
+            <p class="text-white urbanist-thin text-sm ms-3 text-start">{item.artists}</p>
 
             <button on:click={() => openSongDialog(item)}><img src={MenuIcon} class="absolute bottom-3 left-2 size-6" alt="menu" /></button>
           </div>
 
           <img src={item.thumbnail} alt={item.name} class="s-1/4 p-4" referrerpolicy="no-referrer" />
         </div>
-      </div>
+      </button>
     {/each}
   {/if}
 </div>

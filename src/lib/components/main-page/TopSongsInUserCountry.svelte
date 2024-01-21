@@ -6,7 +6,7 @@
   import type { MusicDataList } from '../../../domain/local/entities/MusicData'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
-  import { openSongDialog } from '$lib/utils/f'
+  import { openSongDialog, playSongZene } from '$lib/utils/f'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
 
   export let authKey: string
@@ -29,7 +29,7 @@
           return
         }
 }
-      const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY, {
+      const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY, {}, {
         timeout: 60000,
         headers: { AuthorizationKey: authKey },
       })
@@ -63,8 +63,8 @@
       {/each}
     {:else if response.type == ResponseDataEnum.SUCCESS}
       {#each response.data.results as songs}
-        <div class="p-2">
-          <div class="w-full h-[8rem] rounded-xl bg-lightblack flex justify-center items-center">
+        <button class="p-2" on:click={()=> playSongZene(songs)}>
+          <div class="w-full h-[8rem] rounded-xl bg-maincolor bg-opacity-60 flex justify-center items-center">
             <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
             <div class="w-full m-3">
               <p class="text-white urbanist-semibold text-base text-start">{songs.name}</p>
@@ -74,7 +74,7 @@
               <button on:click={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" /> </button>
             </div>
           </div>
-        </div>
+        </button>
       {/each}
     {/if}
   </div>
