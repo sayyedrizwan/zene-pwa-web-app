@@ -16,9 +16,7 @@ export const apiError = {
 export const lastfm_top_playing_songs = 'https://kerve.last.fm/kerve/charts?type=track&nr=6&format=json'
 
 export const readIpViaAWS = 'https://checkip.amazonaws.com/'
-export function ipBaseUrl(ip: string) {
-  return `http://ip-api.com/json/${ip}`
-}
+export function ipBaseUrl(ip: string) {  return `http://ip-api.com/json/${ip}` }
 
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
