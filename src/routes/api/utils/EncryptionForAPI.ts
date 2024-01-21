@@ -45,18 +45,14 @@ function generateTemp5DigitWord(): string {
 }
 
 export function encryptData(value: string): string {
-    try {
-        let encryptedText = ''
-        for (let i = 0; i < value.length; i++) {
-            const charCode = value.charCodeAt(i)
-            const keyChar = env.SECRET_TOKEN_KEY.charCodeAt(i % env.SECRET_TOKEN_KEY.length)
-            const encryptedCharCode = charCode ^ keyChar
-            encryptedText += String.fromCharCode(encryptedCharCode)
-        }
-        return btoa(encryptedText).replace('==', '')   
-    } catch (error) {
-        return value
+    let encryptedText = ''
+    for (let i = 0; i < value.length; i++) {
+        const charCode = value.charCodeAt(i)
+        const keyChar = env.SECRET_TOKEN_KEY.charCodeAt(i % env.SECRET_TOKEN_KEY.length)
+        const encryptedCharCode = charCode ^ keyChar
+        encryptedText += String.fromCharCode(encryptedCharCode)
     }
+    return btoa(encryptedText).replace('==', '')
 }
 
 export function decryptData(value: string): string {
