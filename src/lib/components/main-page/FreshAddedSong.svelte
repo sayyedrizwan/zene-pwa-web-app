@@ -25,10 +25,14 @@
           return
         }
 
-      const res = await axios.post(env.PUBLIC_NEW_RELEASE, {}, {
-        timeout: 120000,
-        headers: { AuthorizationKey: authKey }
-      })
+      const res = await axios.post(
+        env.PUBLIC_NEW_RELEASE,
+        {},
+        {
+          timeout: 120000,
+          headers: { AuthorizationKey: authKey },
+        },
+      )
       const data = (await res.data) as MusicDataList
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`f_a_s_l`, Date.now().toString())
@@ -44,20 +48,20 @@
   })
 </script>
 
-{#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
+{#if response.type == ResponseDataEnum.LOADING}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Fresh Added Songs</h3>
-{/if}
-
-<div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
-  {#if response.type == ResponseDataEnum.LOADING}
+  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
     {#each Array(15) as _, index (index)}
       <div class="p-2">
         <div class="relative w-80 h-[11rem] rounded-lg bg-gray-400 animate-pulse" />
       </div>
     {/each}
-  {:else if response.type == ResponseDataEnum.SUCCESS}
+  </div>
+{:else if response.type == ResponseDataEnum.SUCCESS}
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Fresh Added Songs</h3>
+  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
     {#each response.data.results as item}
-      <button class="p-2" on:click={()=> playSongZene(item)}>
+      <button class="p-2" on:click={() => playSongZene(item)}>
         <div class="w-80 h-[11rem] rounded-lg bg-lightblack flex">
           <div class="relative w-3/4 h-[11rem]">
             <p class={`text-white urbanist-semibold text-start ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item.name}</p>
@@ -70,5 +74,5 @@
         </div>
       </button>
     {/each}
-  {/if}
-</div>
+  </div>
+{/if}

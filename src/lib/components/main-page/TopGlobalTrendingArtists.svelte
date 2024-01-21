@@ -5,7 +5,7 @@
   import { env } from '$env/dynamic/public'
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
   import { DataIndexDS, indexDB, isAPICached, topArtistsCache } from '$lib/utils/indexd'
-    import axios from 'axios'
+  import axios from 'axios'
 
   export let authKey: string
 
@@ -24,10 +24,14 @@
           return
         }
 
-      const res = await axios.post(env.PUBLIC_TOP_ARTISTS_LIST, {}, {
-        timeout: 120000,
-        headers: { AuthorizationKey: authKey }
-      })
+      const res = await axios.post(
+        env.PUBLIC_TOP_ARTISTS_LIST,
+        {},
+        {
+          timeout: 120000,
+          headers: { AuthorizationKey: authKey },
+        },
+      )
       const data = (await res.data) as MusicData[]
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data, 2) }
       localStorage.setItem(`t_a_l`, Date.now().toString())
@@ -43,12 +47,9 @@
   })
 </script>
 
-{#if response.type == ResponseDataEnum.LOADING || response.type == ResponseDataEnum.SUCCESS}
+{#if response.type == ResponseDataEnum.LOADING}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Global top trending artists</h3>
-{/if}
-
-<div class="flex overflow-x-auto w-full scrollbar-hide">
-  {#if response.type == ResponseDataEnum.LOADING}
+  <div class="flex overflow-x-auto w-full scrollbar-hide">
     {#each Array(15) as _, index (index)}
       <div>
         <div class="p-3">
@@ -60,21 +61,27 @@
         </div>
       </div>
     {/each}
-  {:else if response.type == ResponseDataEnum.SUCCESS}
-    {#each response.data as topItem}
-      <div>
-        {#each topItem as item}
-          <div class="p-3">
-            <a href="/">
-              <div class="relative size-[11rem] md:size-[15rem] bg-black rounded-lg">
-                <img class="absolute top-0 left-0 size-[11rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
-                <div class="absolute top-0 left-0 size-[11rem] md:size-[15rem] bg-gradient-to-bl from-transparent to-maincolor"></div>
-                <p class="absolute bottom-2 left-2 text-white urbanist-semibold text-base ms-1.5">{item.name}</p>
-              </div>
-            </a>
-          </div>
-        {/each}
-      </div>
-    {/each}
+  </div>
+{:else if response.type == ResponseDataEnum.SUCCESS}
+  {#if response.data.length > 0}
+    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Global top trending artists</h3>
+
+    <div class="flex overflow-x-auto w-full scrollbar-hide">
+      {#each response.data as topItem}
+        <div>
+          {#each topItem as item}
+            <div class="p-3">
+              <a href="/">
+                <div class="relative size-[11rem] md:size-[15rem] bg-black rounded-lg">
+                  <img class="absolute top-0 left-0 size-[11rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
+                  <div class="absolute top-0 left-0 size-[11rem] md:size-[15rem] bg-gradient-to-bl from-transparent to-maincolor"></div>
+                  <p class="absolute bottom-2 left-2 text-white urbanist-semibold text-base ms-1.5">{item.name}</p>
+                </div>
+              </a>
+            </div>
+          {/each}
+        </div>
+      {/each}
+    </div>
   {/if}
-</div>
+{/if}
