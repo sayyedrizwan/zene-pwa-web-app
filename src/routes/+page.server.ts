@@ -14,7 +14,7 @@ export const load = async ({ fetch, cookies }) => {
 
   const responseip = await fetch(readIpViaAWS)
   const ip = (await responseip.text()).trim()
-  const responseIptemp = await axios.get(ipBaseUrl(ip))
+  const responseIptemp = await axios.get("http://ip-api.com/json/")
   const ipDatatemp = (await responseIptemp.data) as IpJsonResponse
   
   console.log(ip)
