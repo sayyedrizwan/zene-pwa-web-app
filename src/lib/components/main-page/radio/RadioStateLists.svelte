@@ -45,7 +45,7 @@
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING}
-  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.city ?? 'your city'}</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.city ?? 'your city'}</h3>
 
   <div class="overflow-x-auto flex scrollbar-hide">
     {#each Array(15) as _, index (index)}
@@ -58,7 +58,7 @@
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
   {#if response.data.resultOne.length > 0}
-    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.city ?? 'your city'}</h3>
+    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.city ?? 'your city'}</h3>
     <div class="overflow-x-auto flex scrollbar-hide">
       {#each response.data.resultOne as item}
         <RadioStationItems musicData={item} />
@@ -75,7 +75,7 @@
 {/if}
 
 {#if response.type == ResponseDataEnum.LOADING}
-  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.country ?? 'your country'}</h3>
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.country ?? 'your country'}</h3>
   <div class="overflow-x-auto flex scrollbar-hide">
     {#each Array(15) as _, index (index)}
       <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
@@ -87,14 +87,14 @@
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
   {#if response.data.resultTwo.length > 0}
-    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.country ?? 'your country'}</h3>
+    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.country ?? 'your country'}</h3>
     <div class="overflow-x-auto flex scrollbar-hide">
       {#each response.data.resultTwo as item}
         <RadioStationItems musicData={item} />
       {/each}
     </div>
   {:else}
-    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.country ?? 'your country'}</h3>
+    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.country ?? 'your country'}</h3>
 
     <center class="w-full">
       <h3 class="text-white urbanist-light text-sm md:text-xl mx-2 md:mx-4 mt-4">No Radio Stations found in your country</h3>

@@ -2,6 +2,7 @@
   import { browser } from '$app/environment'
   import { env } from '$env/dynamic/public'
   import axios from 'axios'
+  import { ResponseDataEnum, type ResponseData } from '../../domain/RequestEnumClass'
 
   export let data: any
   let key: string | null = null
