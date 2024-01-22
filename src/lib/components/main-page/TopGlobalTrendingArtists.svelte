@@ -53,11 +53,11 @@
     {#each Array(15) as _, index (index)}
       <div>
         <div class="p-3">
-          <div class="relative w-[11rem] h-[11rem] rounded-lg bg-gray-400 animate-pulse" />
+          <div class="relative w-[13rem] h-[13rem] rounded-lg bg-gray-400 animate-pulse" />
         </div>
 
         <div class="p-3">
-          <div class="relative w-[11rem] h-[11rem] rounded-lg bg-gray-400 animate-pulse" />
+          <div class="relative w-[13rem] h-[13rem] rounded-lg bg-gray-400 animate-pulse" />
         </div>
       </div>
     {/each}
@@ -72,9 +72,9 @@
           {#each topItem as item}
             <div class="p-3">
               <a href={`/a/${item.name}`}>
-                <div class="relative size-[11rem] md:size-[15rem] bg-black rounded-lg">
-                  <img class="absolute top-0 left-0 size-[11rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
-                  <div class="absolute top-0 left-0 size-[11rem] md:size-[15rem] bg-gradient-to-bl from-transparent to-maincolor"></div>
+                <div class="relative size-[13rem] md:size-[15rem] bg-black rounded-lg">
+                  <img class="absolute top-0 left-0 size-[13rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
+                  <div class="absolute top-0 left-0 size-[13rem] md:size-[15rem] bg-gradient-to-bl from-transparent to-maincolor"></div>
                   <p class="absolute bottom-2 left-2 text-white urbanist-semibold text-base ms-1.5">{item.name}</p>
                 </div>
               </a>

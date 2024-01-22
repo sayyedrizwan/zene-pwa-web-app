@@ -18,7 +18,6 @@ export async function POST(events: RequestEvent) {
 
     const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
     const ipData = (await responseIp.data) as IpJsonResponse
-    console.log(ipData)
     const songs = await spotifyImpl.countrySongsSearch(ipData.country)
 
     await Promise.all(

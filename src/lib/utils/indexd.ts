@@ -23,8 +23,8 @@ export function isAPICachedForADay(recordsSize: number, storageName: string): bo
   try {
     if (recordsSize == 0) return false
     const differenceInMinutes: number = Math.floor((Date.now() - parseInt(localStorage.getItem(storageName)?.toString()!)) / (1000 * 60))
-    if (differenceInMinutes >= 900) return false
-
+    if (differenceInMinutes >= 200) return false
+    
     return true
   } catch (error) {
     return false

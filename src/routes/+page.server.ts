@@ -7,12 +7,18 @@ import type { IpJsonResponse } from './api/radiolist/domain/IpJsonResponse.js'
 import { IpDetails } from '../domain/local/entities/IpDetails.js'
 
 export const load = async ({ fetch, cookies }) => {
+  
   const response = await fetch(env.AUTH_TOKEN_ZENES, { method: 'POST' })
   const data = await response.json()
   cookies.set(last_sync_ts_cookie, Date.now().toString(), { path: '/', httpOnly: false, secure: true })
 
   const responseip = await fetch(readIpViaAWS)
   const ip = (await responseip.text()).trim()
+  const responseIptemp = await axios.get(ipBaseUrl(ip))
+  const ipDatatemp = (await responseIptemp.data) as IpJsonResponse
+  
+  console.log(ip)
+  console.log(ipDatatemp)
   var ipDetails: IpDetails | undefined = undefined
 
   if (isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ''))) ipDetails = JSON.parse(decryptData(cookies.get(users_ip_details) ?? '')) as IpDetails
