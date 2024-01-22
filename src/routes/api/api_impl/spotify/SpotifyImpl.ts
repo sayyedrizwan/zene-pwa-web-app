@@ -7,7 +7,6 @@ import type { MusicData } from '../../../../domain/local/entities/MusicData'
 import type { SpotifyPlaylistsResponse } from './domain/SpotifyPlaylistsResponse'
 
 export class SpotifyImpl {
-
   private async getTokens(): Promise<string> {
     const body = new URLSearchParams()
     body.append('grant_type', 'client_credentials')
@@ -44,7 +43,7 @@ export class SpotifyImpl {
       const response = await axios.get(spotifyPlaylistsSearch(country), { headers: { Authorization: token } })
       const songs = response.data as SpotifyPlaylistsResponse
 
-      const playlistsId = songs.playlists?.items?.[0].id ?? ""
+      const playlistsId = songs.playlists?.items?.[0].id ?? ''
 
       const responsePlaylists = await axios.get(spotifyPlaylistSearch(playlistsId), { headers: { Authorization: token } })
       const playlistsSongs = responsePlaylists.data as SpotifyPlaylistsSongsResponse

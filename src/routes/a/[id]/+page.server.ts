@@ -1,3 +1,3 @@
 export const load = ({ params }) => {
-  return {data: params.id}
+  return { data: params.id }
 }

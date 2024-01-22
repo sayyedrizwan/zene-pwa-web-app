@@ -11,7 +11,6 @@ export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   try {
-
     const ytImpl = new YtMusicAPIImpl()
     const spotifyImpl = new SpotifyImpl()
     const lists: MusicData[] = []
@@ -25,21 +24,20 @@ export async function POST(events: RequestEvent) {
       songs.map(async (m) => {
         const music = await ytImpl.musicSearchSingle(m, true)
         if (music.songId != null) lists.push(music)
-      })
+      }),
     )
-    
+
     await Promise.all(
       lists.map(async (m) => {
-        const name = getTextBeforeKeyword(getTextBeforeKeyword(m.artists ?? "", ",")!, "&")
-        const music = await ytImpl.artistsSearchSingle(name ?? "")
+        const name = getTextBeforeKeyword(getTextBeforeKeyword(m.artists ?? '', ',')!, '&')
+        const music = await ytImpl.artistsSearchSingle(name ?? '')
         if (music.songId != null) artistsLists.push(music)
-      })
+      }),
     )
 
-
-    let rm : MusicData[] =  []
-    artistsLists.forEach(a => {
-      if(!rm.some(e => e.name === a.name)) rm.push(a)
+    let rm: MusicData[] = []
+    artistsLists.forEach((a) => {
+      if (!rm.some((e) => e.name === a.name)) rm.push(a)
     })
 
     return json(new ExtraDataMusicData(lists, rm))

@@ -5,7 +5,6 @@ import { MusicData } from '../../../domain/local/entities/MusicData'
 import { YtMusicAPIImpl } from '../api_impl/yt_music/YtMusicImpl'
 
 export async function POST(events: RequestEvent) {
-
   if (!decryptAPIKeyAndIsValidLong(events)) return json(authKeyError)
 
   const body = await events.request.json()
