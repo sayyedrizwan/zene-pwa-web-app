@@ -5,7 +5,7 @@
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { env } from '$env/dynamic/public'
   import SEARCH from '$lib/assets/img/ic_search.svg'
-  import ARROW_UP_RIGHT from '$lib/assets/img/ic-arrow-up-right.svg'
+  import ARROW_UP_RIGHT from '$lib/assets/img/ic_arrow_up_right.svg'
 
   export let key: string
   export let searchParam: string
