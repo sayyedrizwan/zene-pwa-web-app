@@ -5,6 +5,7 @@
     import { onMount } from 'svelte'
     import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
     import axios from 'axios'
+    import type { SearchMusicData } from '../../../domain/local/entities/MusicData'
 
   export let key: string
   export let searchParam: string
@@ -19,7 +20,7 @@
   onMount(async ()=> {
     try {
       const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, headers: { AuthorizationKey: key }, data: { q: searchParam.trim() } })
-      const response = (await res.data) as string[]
+      const response = (await res.data) as SearchMusicData
       console.log(response)
     //   searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }
     } catch (error) {
@@ -30,7 +31,7 @@
 
 <div>
   <div class="flex md:mt-20">
-    <button on:click={refreshPage}><img src={ArrowLeft} alt="search back arrow" class="w-8 ms-3 md:ms-9" /></button>
+    <button on:click={refreshPage}><img src={ArrowLeft} alt="search back arrow" class="w-6 md:w-8 ms-3 md:ms-9" /></button>
     <h2 class="urbanist-semibold text-white w-full text-center text-base md:text-5xl">{capitalizeFirstLetterOfEveryWords(searchParam)}</h2>
   </div>
 </div>

@@ -66,7 +66,7 @@
     </div>
   {:else}
     <center class="w-full">
-      <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Radio Stations in {ipDetails?.city ?? 'your city'}</h3>
+      <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.city ?? 'your city'}</h3>
       <h3 class="text-white urbanist-light text-sm md:text-xl mx-2 md:mx-4 mt-4">No Radio Stations found in your city</h3>
     </center>
   {/if}

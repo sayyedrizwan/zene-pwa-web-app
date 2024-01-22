@@ -27,9 +27,6 @@ export async function POST(events: RequestEvent) {
           radio.push(new MusicData(r.name, r.language ?? '', r.serveruuid, r.favicon ?? '', MusicType.RADIO))
     })
 
-
-    console.log(songList)
-
     return json(new SearchMusicData(radio, artistsList, albumList, songList))
   } catch (error) {
     return json(apiError)
