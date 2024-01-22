@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Footer from '$lib/components/Footer.svelte'
+  import Footer from '$lib/components/global-view/Footer.svelte'
 </script>
 
 <div class="relative mx-auto max-w-[37.5rem] pt-20 text-center pb-24 text-white">

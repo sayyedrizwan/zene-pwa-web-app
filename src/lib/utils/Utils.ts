@@ -34,3 +34,8 @@ export function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
 
   return result
 }
+
+
+export function capitalizeFirstLetterOfEveryWords(str: string): string {
+  return str.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase());
+}

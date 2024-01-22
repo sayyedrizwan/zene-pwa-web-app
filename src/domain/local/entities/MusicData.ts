@@ -16,6 +16,20 @@ export class MusicDataList {
   }
 }
 
+
+export class SearchMusicData {
+  radio: MusicData[] = []
+  artists: MusicData[] = []
+  album: MusicData[] = []
+  songs: MusicData[] = []
+
+  constructor(radio: MusicData[], artists: MusicData[], album: MusicData[], songs: MusicData[]) {
+    this.radio = radio
+    this.artists = artists
+    this.songs = songs
+  }
+}
+
 export class MusicData {
   name: string | null
   artists: string | null
@@ -36,4 +50,5 @@ export enum MusicType {
   MUSIC,
   RADIO,
   ARTISTS,
+  ALBUM
 }

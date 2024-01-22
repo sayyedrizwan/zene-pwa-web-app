@@ -2,25 +2,25 @@
   import { onMount, onDestroy } from 'svelte'
   let showDescText = false
 
-  let content: string = "Zene";
-  let typedChar: string = '';
+  let content: string = "Zene"
+  let typedChar: string = ''
 
-  $: if (!content) typedChar = '';
+  $: if (!content) typedChar = ''
 
-  let interval: NodeJS.Timeout;
+  let interval: NodeJS.Timeout
 
   onMount(() => {
     interval = setInterval(() => {
       if (typedChar.length < content.length) {
-        typedChar += content[typedChar.length];
+        typedChar += content[typedChar.length]
       } else {
-        showDescText = true;
-        clearInterval(interval);
+        showDescText = true
+        clearInterval(interval)
       }
-    }, 250);
-  });
+    }, 250)
+  })
 
-  onDestroy(() => clearInterval(interval));
+  onDestroy(() => clearInterval(interval))
 </script>
 
 <div class="static h-[95vh] w-full">

@@ -63,6 +63,7 @@ export interface MusicResponsiveListItemRenderer {
   overlay?: Overlay
   flexColumns?: FlexColumn[]
   menu?: Menu
+  navigationEndpoint?: NavigationEndpoint2
   playlistItemData?: PlaylistItemData
   flexColumnDisplayStyle?: string
   itemHeight?: string

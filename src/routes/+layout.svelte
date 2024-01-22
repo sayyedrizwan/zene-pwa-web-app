@@ -4,7 +4,7 @@
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
   import { onBrowser } from '$lib/utils/Utils'
-  import LogoWithBrand from '$lib/components/LogoWithBrand.svelte'
+  import LogoWithBrand from '$lib/components/global-view/LogoWithBrand.svelte'
   import { onMount } from 'svelte'
   import axios from 'axios'
   import type { MusicData } from '../domain/local/entities/MusicData'

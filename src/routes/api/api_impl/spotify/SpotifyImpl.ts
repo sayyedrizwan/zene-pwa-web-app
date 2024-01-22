@@ -3,7 +3,6 @@ import axios from 'axios'
 import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, spotifyPlaylistSearch, spotifyPlaylistsSearch } from './SpotifyUtil'
 import type { SpotifyTokenResponse } from './domain/SpotifyTokenResponse'
 import type { SpotifyPlaylistsSongsResponse } from './domain/SpotifyPlaylistsSongsResponse'
-import type { MusicData } from '../../../../domain/local/entities/MusicData'
 import type { SpotifyPlaylistsResponse } from './domain/SpotifyPlaylistsResponse'
 
 export class SpotifyImpl {

@@ -33,7 +33,6 @@
       cacheDB.deleteAllRecordsAndSave(data)
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
-      console.log(error)
       response = { type: ResponseDataEnum.ERROR }
     }
   }
