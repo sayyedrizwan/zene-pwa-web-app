@@ -19,8 +19,8 @@ export const load = async ({ fetch, cookies, getClientAddress }) => {
   
   console.log(ip)
   console.log(ipDatatemp)
-  console.log(getClientAddress)
-  
+  console.log(getClientAddress())
+
   var ipDetails: IpDetails | undefined = undefined
 
   if (isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ''))) ipDetails = JSON.parse(decryptData(cookies.get(users_ip_details) ?? '')) as IpDetails
