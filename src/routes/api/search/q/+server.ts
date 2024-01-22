@@ -20,8 +20,7 @@ export async function POST(events: RequestEvent) {
     const artistsList = await ytMusicImpl.artistsSearch(q)
     const albumList = await ytMusicImpl.albumSearch(q)
     const songList = await ytMusicImpl.songsSearch(q)
-
-
+    
     radioList.forEach((r) => {
       if (r.name != undefined)
           radio.push(new MusicData(r.name, r.language ?? '', r.serveruuid, r.favicon ?? '', MusicType.RADIO))

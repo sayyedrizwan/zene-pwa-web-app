@@ -26,11 +26,11 @@
     document.addEventListener('songdialog', (event: Event) => {
       songMenuDialog = (event as CustomEvent).detail.value
     })
+
   }
 </script>
 
 {#if key != null}
-  
   <TopListeningSongs authKey={key} />
   <RadioStateLists authKey={key} ipDetails={ip} />
   <TopGlobalTrendingArtists authKey={key} />

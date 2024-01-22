@@ -25,6 +25,7 @@ export class SearchMusicData {
 
   constructor(radio: MusicData[], artists: MusicData[], album: MusicData[], songs: MusicData[]) {
     this.radio = radio
+    this.album = album
     this.artists = artists
     this.songs = songs
   }

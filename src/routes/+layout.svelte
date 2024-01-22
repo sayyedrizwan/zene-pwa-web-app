@@ -10,6 +10,7 @@
   import type { MusicData } from '../domain/local/entities/MusicData'
   import { APManager } from './api/utils/s'
   import { env } from '$env/dynamic/public'
+    import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -43,3 +44,5 @@
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
 {/if}
+
+<NoInternetDialog />
