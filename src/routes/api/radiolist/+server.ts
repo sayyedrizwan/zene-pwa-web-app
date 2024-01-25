@@ -10,11 +10,10 @@ export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   const radio = new RadioBrowserImpl()
-
   try {
     const cityRadio: MusicData[] = []
     const countryRadio: MusicData[] = []
-    
+
     console.log(events.request.headers.get(users_ip_address) ?? '')
     
     const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
