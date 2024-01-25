@@ -13,8 +13,6 @@ export async function POST(events: RequestEvent) {
   try {
     const cityRadio: MusicData[] = []
     const countryRadio: MusicData[] = []
-
-    console.log(events.cookies.get('i'))
     
     const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
     const ipData = (await responseIp.data) as IpJsonResponse

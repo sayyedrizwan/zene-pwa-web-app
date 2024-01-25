@@ -98,7 +98,7 @@ export function getTextBeforeLastKeyword(txt: string, char: string): string | nu
 }
 
 export function getIpAddress(events: RequestEvent): string {
-  return events.request.headers.get(users_ip_address) ?? ''
+  return events.cookies.get(users_ip_address) ?? ""
 }
 
 export function isStringValidJSONObject<T>(str: string): boolean {
