@@ -33,7 +33,7 @@
       const data = (await res.data) as TopSongsMusicResults
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`t_l_s_t`, Date.now().toString())
-      cacheDB.deleteAllRecordsAndSave(data)
+      cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }

@@ -1,10 +1,13 @@
-import type { MusicData } from '../../../domain/local/entities/MusicData'
+import { DataIndexDS, indexDB, musicPlayerInfoCache } from '$lib/utils/indexd'
+import { MusicType, type MusicData } from '../../../domain/local/entities/MusicData'
+import { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
 
 interface AudioPlayer {
   init(): void
   play(url: string, music: MusicData): void
   pause(): void
   stop(): void
+  isPlaying(): boolean| undefined 
 }
 
 export function getDuration(event: any) {
@@ -12,7 +15,9 @@ export function getDuration(event: any) {
   event.target.removeEventListener('timeupdate', getDuration)
   console.log(event.target.duration)
 }
+
 export class APManager implements AudioPlayer {
+
   private audioElement: HTMLAudioElement | undefined
 
   init(): void {
@@ -33,6 +38,7 @@ export class APManager implements AudioPlayer {
       console.log('Audio has started playing')
     })
     this.audioElement.addEventListener('loadedmetadata', () => {
+      console.log('running')
       if (this.audioElement?.duration === Infinity || isNaN(Number(this.audioElement?.duration))) {
         this.audioElement!.currentTime = 1e101
         this.audioElement?.addEventListener('timeupdate', getDuration)
@@ -41,6 +47,11 @@ export class APManager implements AudioPlayer {
   }
 
   play(url: string, music: MusicData): void {
+    const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
+    cacheDB.deleteAllRecords()
+    let m = new MusicPlayerData([], music, 0, 0, MusicType.MUSIC)
+    cacheDB.saveToIndexedDB(m)
+
     this.audioElement!.preload = 'auto'
     this.audioElement?.addEventListener(
       'canplaythrough',
@@ -66,6 +77,10 @@ export class APManager implements AudioPlayer {
 
   pause(): void {
     this.audioElement?.pause()
+  }
+
+  isPlaying(): boolean {
+   return !this.audioElement?.paused
   }
 
   stop(): void {

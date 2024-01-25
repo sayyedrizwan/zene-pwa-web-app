@@ -10,13 +10,16 @@
   import type { MusicData } from '../domain/local/entities/MusicData'
   import { APManager } from './api/utils/s'
   import { env } from '$env/dynamic/public'
-    import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
+  import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
+  import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
 
+  let audioPlayer : APManager | null= null
+
   onMount(async () => {
-    const audioPlayer = new APManager()
+    audioPlayer = new APManager()
     audioPlayer.init()
 
     document.addEventListener('playsongid', async (event: Event) => {
@@ -25,7 +28,7 @@
       try {
         const headers = { timeout: 30000, headers: { id: song.songId } }
         const res = await axios.post(env.PUBLIC_DOWNLOAD_URL, {}, headers)
-        audioPlayer.play(window.atob(res.data), song)
+        audioPlayer?.play(window.atob(res.data), song)
       } catch (error) {
         alert('Error playing the song try again later..')
       }
@@ -43,6 +46,7 @@
 {:else}
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
+  <MusicPlaySmallView audioPlayer={audioPlayer}/>
 {/if}
 
 <NoInternetDialog />

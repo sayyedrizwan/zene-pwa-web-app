@@ -5,6 +5,7 @@ export const freshAddedCache = 'fresh_added_artists'
 export const globalTrendingSongsArtists = 'global_trending_songs'
 export const trendingSongsInCountryCache = 'trending_songs_in_country'
 export const trendingArtistsInCountryCache = 'trending_artists_in_country'
+export const musicPlayerInfoCache = 'music_player_info'
 export const indexDB = 'index'
 
 export function isAPICached(recordsSize: number, storageName: string): boolean {
@@ -89,7 +90,7 @@ export class DataIndexDS<T> {
     }
   }
 
-  async deleteAllRecordsAndSave(data: any) {
+  async deleteAllRecords() {
     try {
       const db = await this.openDatabase()
       const transaction = db.transaction([this.tableName], 'readwrite')

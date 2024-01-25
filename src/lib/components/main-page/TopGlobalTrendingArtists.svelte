@@ -35,7 +35,7 @@
       const data = (await res.data) as MusicData[]
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data, 2) }
       localStorage.setItem(`t_a_l`, Date.now().toString())
-      cacheDB.deleteAllRecordsAndSave(data)
+      cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }

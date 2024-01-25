@@ -38,7 +38,7 @@
       responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(data.resultOne) }
       responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data.resultTwo, 2) }
       localStorage.setItem(`t_c_s_l`, Date.now().toString())
-      cacheDB.deleteAllRecordsAndSave(data)
+      cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
       responseSongs = { type: ResponseDataEnum.ERROR }
