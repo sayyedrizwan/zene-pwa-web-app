@@ -19,8 +19,6 @@
     try {
       const cacheDB = new DataIndexDS<ExtraDataMusicData>(radioTableCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
-
-      console.log(cacheRecords)
       
       // if (cacheRecords.length > 0)
       //   if (isAPICached(cacheRecords[0].length, `r_i_l`)) {
