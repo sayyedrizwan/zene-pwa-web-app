@@ -15,6 +15,7 @@ export function isAPICached(recordsSize: number, storageName: string): boolean {
 
     return true
   } catch (error) {
+    console.log(error)
     return false
   }
 }
