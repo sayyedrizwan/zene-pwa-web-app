@@ -22,12 +22,12 @@
 
       console.log(cacheRecords)
       
-      if (cacheRecords.length > 0)
-        if (isAPICached(cacheRecords[0].length, `r_i_l`)) {
-          const records = cacheRecords[0] as ExtraDataMusicData
-          response = { type: ResponseDataEnum.SUCCESS, data: records }
-          return
-        }
+      // if (cacheRecords.length > 0)
+      //   if (isAPICached(cacheRecords[0].length, `r_i_l`)) {
+      //     const records = cacheRecords[0] as ExtraDataMusicData
+      //     response = { type: ResponseDataEnum.SUCCESS, data: records }
+      //     return
+      //   }
 
       const res = await axios.post(
         env.PUBLIC_RADIO_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } }
