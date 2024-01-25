@@ -17,8 +17,6 @@ export async function POST(events: RequestEvent) {
     const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
     const ipData = (await responseIp.data) as IpJsonResponse
 
-    console.log(ipData)
-
     const response = await radio.countryRadios(ipData.country)
 
     response.forEach((r) => {
