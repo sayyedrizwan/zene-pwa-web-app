@@ -14,7 +14,7 @@ export async function POST(events: RequestEvent) {
     const cityRadio: MusicData[] = []
     const countryRadio: MusicData[] = []
 
-    console.log(events.request.headers.get(users_ip_address) ?? '')
+    console.log(events.request.headers.get(users_ip_address) ?? 'no ip found')
     
     const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
     const ipData = (await responseIp.data) as IpJsonResponse
