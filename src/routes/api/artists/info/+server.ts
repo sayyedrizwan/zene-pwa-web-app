@@ -13,7 +13,7 @@ export async function POST(events: RequestEvent) {
   if (name == undefined) {
     return json(apiError)
   }
-  
+
   if (name === "") {
     return json(apiError)
   }
@@ -27,11 +27,11 @@ export async function POST(events: RequestEvent) {
     const link = pageInfo.window.document.querySelectorAll('.js-link-block-cover-link.link-block-cover-link')[0]?.getAttribute("href")
     const wikiInfoResponse = await axios.get(searchLastFMWiki(link!))
     const wikiInfo = new JSDOM(await wikiInfoResponse.data)
-    
+
 
     var info = ""
     wikiInfo.window.document.querySelector(".wiki-content")?.querySelectorAll("p").forEach((element, i) => {
-      if(i <= 3) info += String(element.innerHTML)
+      if (i <= 3)  info += String(element.textContent)
     })
 
 
