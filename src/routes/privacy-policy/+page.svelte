@@ -2,6 +2,17 @@
   import Footer from '$lib/components/global-view/Footer.svelte'
 </script>
 
+<svelte:head>
+  <title>Privacy Policy | Zene: A Free Muic App</title>
+  <meta name="description" content="Discover the top music streaming platforms to find your favorite artists, albums, and playlists." />
+  <meta name="og:description" content="Discover the top music streaming platforms to find your favorite artists, albums, and playlists." />
+  <meta property="og:title" content="Privacy Policy | Zene: A Free Muic App" />
+  <meta property="og:image" content="https://zenemusic.co/logo820.png" />
+  <meta property="og:image:alt" content="Zene Logo" />
+  <link rel="canonical" href="https://zenemusic.co/privacy-policy" />
+</svelte:head>
+
+
 <div class="relative mx-auto max-w-[37.5rem] pt-20 text-center pb-24 text-white">
   <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Privacy policy</h1>
   <p class="mt-4 text-base leading-7 text-slate-600">Last updated on January 12, 2024</p>
