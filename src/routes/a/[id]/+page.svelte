@@ -20,6 +20,7 @@
 <svelte:head>
   <title>{artistsInfo.name} on Zene</title>
   <meta name="description" content={artistsInfo.description.length > 140 ? `${artistsInfo.description.substring(0, 139)}....` : artistsInfo.description} />
+  <meta name="og:description" content={artistsInfo.description.length > 140 ? `${artistsInfo.description.substring(0, 139)}....` : artistsInfo.description} />
   <meta property="og:title" content="{artistsInfo.name} on Zene" />
   <meta property="og:image" content={artistsInfo.image} />
 </svelte:head>
