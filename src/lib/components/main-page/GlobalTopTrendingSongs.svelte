@@ -19,12 +19,12 @@
     try {
       const cacheDB = new DataIndexDS<MusicDataList>(globalTrendingSongsArtists, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
-      if (cacheRecords.length > 0)
-        if (isAPICachedForADay(cacheRecords[0].length, `t_s_l`)) {
-          const records = cacheRecords[0] as MusicDataList
-          response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.results, 3) }
-          return
-        }
+      // if (cacheRecords.length > 0)
+      //   if (isAPICachedForADay(cacheRecords[0].length, `t_s_l`)) {
+      //     const records = cacheRecords[0] as MusicDataList
+      //     response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.results, 3) }
+      //     return
+      //   }
 
       const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicDataList

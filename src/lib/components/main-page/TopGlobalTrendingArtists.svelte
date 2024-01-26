@@ -17,20 +17,16 @@
     try {
       const cacheDB = new DataIndexDS<MusicData[]>(topArtistsCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
-      if (cacheRecords.length > 0)
-        if (isAPICached(cacheRecords[0].length, `t_a_l`)) {
-          const records = cacheRecords[0] as MusicData[]
-          response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records, 2) }
-          return
-        }
+      
+      // if (cacheRecords.length > 0)
+      //   if (isAPICached(cacheRecords[0].length, `t_a_l`)) {
+      //     const records = cacheRecords[0] as MusicData[]
+      //     response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records, 2) }
+      //     return
+      //   }
 
       const res = await axios.post(
-        env.PUBLIC_TOP_ARTISTS_LIST,
-        {},
-        {
-          timeout: 120000,
-          headers: { AuthorizationKey: authKey },
-        },
+        env.PUBLIC_TOP_ARTISTS_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } },
       )
       const data = (await res.data) as MusicData[]
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data, 2) }

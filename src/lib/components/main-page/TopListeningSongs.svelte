@@ -20,14 +20,12 @@
       const cacheDB = new DataIndexDS<TopSongsMusicResults>(topSongTableCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
-      if (cacheRecords.length > 0)
-        if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
-          const records = cacheRecords?.[0] as TopSongsMusicResults
-          if (records != undefined) if (records.music.length > 0) {
-            response = { type: ResponseDataEnum.SUCCESS, data: records }
-            return
-          }
-        }
+      // if (cacheRecords.length > 0)
+      //   if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
+      //     const records = cacheRecords?.[0] as TopSongsMusicResults
+      //     response = { type: ResponseDataEnum.SUCCESS, data: records }
+      //     return
+      //   }
 
       const res = await axios.post(env.PUBLIC_TOP_LISITING_SONGS, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as TopSongsMusicResults
@@ -36,7 +34,6 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
-      alert(error)
       response = { type: ResponseDataEnum.ERROR }
     }
   }
