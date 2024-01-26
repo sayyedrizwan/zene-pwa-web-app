@@ -24,6 +24,8 @@
   <meta property="og:image" content={artistsInfo.image} />
 </svelte:head>
 
+
+
 <div class="bg-gray-950 w-full">
   <!-- <h3 class="text-white">{key}</h3> -->
   <h3 class="text-white">{artistsInfo.name}</h3>
