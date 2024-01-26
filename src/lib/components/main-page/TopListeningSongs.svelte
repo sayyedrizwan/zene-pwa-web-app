@@ -36,6 +36,7 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
+      alert(error)
       response = { type: ResponseDataEnum.ERROR }
     }
   }
