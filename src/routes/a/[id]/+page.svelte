@@ -17,5 +17,5 @@
   <!-- <h3 class="text-white">{key}</h3> -->
   <!-- <h3 class="text-white">{data.name}</h3> -->
 
-  <iframe class="w-full h-[80vh]" src="https://www.youtube.com/embed/e-ORhEE9VVg?si=ypqcBuD0AsPEdd4N" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  <iframe class="w-full h-[80vh]" src="https://www.youtube.com/embed/Jp212EoQFuc?playlist=Jp212EoQFuc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
