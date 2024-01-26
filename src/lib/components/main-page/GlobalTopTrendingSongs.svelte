@@ -58,7 +58,7 @@
       {#each response.data as item}
         <div>
           {#each item as songs}
-            <button class="p-2" on:click|self={() => playSongZene(songs)}>
+            <button class="p-2" on:click|stopPropagation={() => playSongZene(songs)}>
               <div class="w-80 h-[8rem] rounded-xl bg-lightblack flex justify-center items-center">
                 <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
                 <div class="w-full m-3">
@@ -66,7 +66,7 @@
                   <p class="text-white urbanist-thin text-base text-start">{songs.artists}</p>
                 </div>
                 <div class="p-2">
-                  <button on:click={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" /> </button>
+                  <button on:click|stopPropagation={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" /> </button>
                 </div>
               </div>
             </button>

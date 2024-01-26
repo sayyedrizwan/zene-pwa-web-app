@@ -15,13 +15,13 @@
         <img src="https://cdn-icons-png.flaticon.com/512/731/731985.png" alt="android" class="h-28 pt-5" />
       </center>
     </div>
-    <button on:click={openPlayStore} class="p-4 text-slate-400 bg-white text-gray-950 text-lg pt-14 pb-14 tracking-widest urbanist-light hover:bg-gray-400 cursor-pointer flex justify-center items-center">
+    <button on:click|stopPropagation={openPlayStore} class="p-4 text-slate-400 bg-white text-gray-950 text-lg pt-14 pb-14 tracking-widest urbanist-light hover:bg-gray-400 cursor-pointer flex justify-center items-center">
       <center>
         <h2 class="text-center">{get_it_for_windows_desktop}</h2>
         <img src="https://cdn-icons-png.flaticon.com/512/888/888882.png" alt="windows" class="h-28 pt-5" />
       </center>
     </button>
-    <button on:click={openPlayStore} class="p-4 text-slate-400 bg-white text-gray-950 text-lg pt-14 pb-14 tracking-widest urbanist-light hover:bg-gray-400 cursor-pointer flex justify-center items-center">
+    <button on:click|stopPropagation={openPlayStore} class="p-4 text-slate-400 bg-white text-gray-950 text-lg pt-14 pb-14 tracking-widest urbanist-light hover:bg-gray-400 cursor-pointer flex justify-center items-center">
         <center>
           <h2 class="text-center">{get_it_for_android}</h2>
           <img src="https://cdn-icons-png.flaticon.com/512/888/888839.png" alt="ios" class="h-28 pt-5" />

@@ -56,13 +56,13 @@
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Fresh Added Songs</h3>
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
       {#each response.data.results as item}
-        <button class="p-2" on:click|self={() => playSongZene(item)}>
+        <button class="p-2" on:click|stopPropagation={() => playSongZene(item)}>
           <div class="w-80 h-[11rem] rounded-lg bg-lightblack flex">
             <div class="relative w-3/4 h-[11rem]">
               <p class={`text-white urbanist-semibold text-start ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item.name}</p>
               <p class="text-white urbanist-thin text-sm ms-3 text-start">{item.artists}</p>
 
-              <button on:click={() => openSongDialog(item)}><img src={MenuIcon} class="absolute bottom-3 left-2 size-6" alt="menu" /></button>
+              <button on:click|stopPropagation={() => openSongDialog(item)}><img src={MenuIcon} class="absolute bottom-3 left-2 size-6" alt="menu" /></button>
             </div>
 
             <img src={item.thumbnail} alt={item.name} class="s-1/4 p-4" referrerpolicy="no-referrer" />

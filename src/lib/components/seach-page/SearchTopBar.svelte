@@ -98,7 +98,7 @@
         placeholder="Search songs, artists, radio...."
         required
       />
-      <button type="button" class="absolute inset-y-0 end-0 flex items-center pe-3" on:click={startSpeech}>
+      <button type="button" class="absolute inset-y-0 end-0 flex items-center pe-3" on:click|stopPropagation={startSpeech}>
         <img src={MIC} alt="mic" class="size-5" />
       </button>
     </div>
@@ -131,7 +131,7 @@
 {:else if searchSuggestion.type == ResponseDataEnum.SUCCESS}
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
     {#each searchSuggestion.data as item}
-      <button on:click={() => (searchParam = item.trim())} class="p-3 text-gray-300 flex cursor-pointer md:border-2 border-maincolor rounded-xl md:hover:bg-maincolor hover-animation">
+      <button on:click|stopPropagation={() => (searchParam = item.trim())} class="p-3 text-gray-300 flex cursor-pointer md:border-2 border-maincolor rounded-xl md:hover:bg-maincolor hover-animation">
         <img src={SEARCH} alt="search" class="size-5 me-2 translate-y-1" />
         <p class="urbanist-semibold text-base md:text-lg ms-1 w-full text-start">{item}</p>
 
