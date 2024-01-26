@@ -20,12 +20,12 @@
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
       
-      if (cacheRecords.length > 0)
-        if (isAPICached(cacheRecords[0].length, `f_a_s_l`)) {
-          const records = cacheRecords[0] as MusicDataList
-          response = { type: ResponseDataEnum.SUCCESS, data: records }
-          return
-        }
+      // if (cacheRecords.length > 0)
+      //   if (isAPICached(cacheRecords[0].length, `f_a_s_l`)) {
+      //     const records = cacheRecords[0] as MusicDataList
+      //     response = { type: ResponseDataEnum.SUCCESS, data: records }
+      //     return
+      //   }
 
       const res = await axios.post(
         env.PUBLIC_NEW_RELEASE, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } },
