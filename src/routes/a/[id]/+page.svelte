@@ -16,6 +16,7 @@
   }
 </script>
 
+
 <svelte:head>
   <title>{artistsInfo.name} on Zene</title>
   <meta name="description" content={artistsInfo.description.length > 140 ? `${artistsInfo.description.substring(0, 139)}....` : artistsInfo.description} />
