@@ -1,5 +1,6 @@
 import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/entities/MusicData'
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
+import { encryptAppSharedData } from '../../utils/EncryptionForAPI'
 import { getTextAfterKeyword, getTextBeforeKeyword, getTextBeforeLastKeyword, joinArtists } from '../../utils/utils'
 import { all_search_albums_params, all_search_artists_params, all_search_params, new_release_params, ytBodyWithInput, ytBodyWithParams, ytBodyWithParamsWithIp, ytHeader, yt_music_browse, yt_music_search, yt_music_search_suggestion } from './YtMusicUtil'
 import type { YtMusicBrowseGrids } from './domain/YtMusicBrowseGrids'
@@ -27,7 +28,7 @@ export class YtMusicAPIImpl {
               ) {
                 const name = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? null
                 const thumbnail = artists?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-                if (name != null && music.songId == null) music = new MusicData(name, name, '', thumbnail ?? '', MusicType.ARTISTS)
+                if (name != null && music.songId == null) music = new MusicData(name, name, encryptAppSharedData(name), thumbnail ?? '', MusicType.ARTISTS)
               }
             }
           })
@@ -52,7 +53,7 @@ export class YtMusicAPIImpl {
             if (names.musicResponsiveListItemFlexColumnRenderer?.displayPriority == 'MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH') {
               const name = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? null
               const thumbnail = artists?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-              if (name != null) if (name.trim().toLocaleLowerCase() != "artist") music.push(new MusicData(name, name, '', thumbnail ?? '', MusicType.ARTISTS))
+              if (name != null) if (name.trim().toLocaleLowerCase() != "artist") music.push(new MusicData(name, name, encryptAppSharedData(name), thumbnail ?? '', MusicType.ARTISTS))
             }
           })
         })

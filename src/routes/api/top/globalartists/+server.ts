@@ -1,8 +1,8 @@
-import { decryptAPIKeyAndIsValid } from '../utils/EncryptionForAPI'
+import { decryptAPIKeyAndIsValid, encryptAppSharedData } from '../../utils/EncryptionForAPI'
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { apiError, authKeyError, getBase64FromImageUrl, top_100_artists_billboard } from '../utils/utils'
+import { apiError, authKeyError, getBase64FromImageUrl, top_100_artists_billboard } from '../../utils/utils'
 import { JSDOM } from 'jsdom'
-import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
+import { MusicData, MusicType } from '../../../../domain/local/entities/MusicData'
 import axios from 'axios'
 
 export async function POST(events: RequestEvent) {
@@ -19,7 +19,7 @@ export async function POST(events: RequestEvent) {
       element.querySelectorAll('#title-of-a-story').forEach((name) => {
         if (name.outerHTML.toString().includes('u-max-width-230@tablet-only')) artistName = name.innerHTML.trim().toString()
       })
-      lists.push(new MusicData(artistName, artistName, '', artistsImage ?? '', MusicType.ARTISTS))
+      lists.push(new MusicData(artistName, artistName, encryptAppSharedData(artistName), artistsImage ?? '', MusicType.ARTISTS))
     })
 
     await Promise.all(

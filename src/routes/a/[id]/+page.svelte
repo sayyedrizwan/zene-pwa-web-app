@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Footer from '$lib/components/global-view/Footer.svelte'
-
   export let data: any
 </script>
 

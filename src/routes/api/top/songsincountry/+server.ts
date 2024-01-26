@@ -1,11 +1,11 @@
-import { decryptAPIKeyAndIsValid } from '../utils/EncryptionForAPI'
+import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { apiError, authKeyError, getIpAddress, getTextBeforeKeyword, ipBaseUrl } from '../utils/utils'
-import type { IpJsonResponse } from '../radiolist/domain/IpJsonResponse'
-import { YtMusicAPIImpl } from '../api_impl/yt_music/YtMusicImpl'
+import { apiError, authKeyError, getIpAddress, getTextBeforeKeyword, ipBaseUrl } from '../../utils/utils'
+import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
+import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 import axios from 'axios'
-import { SpotifyImpl } from '../api_impl/spotify/SpotifyImpl'
-import { MusicDataList, MusicData, ExtraDataMusicData } from '../../../domain/local/entities/MusicData'
+import { SpotifyImpl } from '../../api_impl/spotify/SpotifyImpl'
+import { MusicDataList, MusicData, ExtraDataMusicData } from '../../../../domain/local/entities/MusicData'
 
 export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)

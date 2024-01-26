@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/private'
 import type { RequestEvent } from '@sveltejs/kit'
 import { atob, btoa } from 'buffer'
+import * as crypto from 'crypto'
 
 export function generateAPIKey(): string {
   const timestamp = new Date().getTime()
@@ -88,5 +89,30 @@ export function decryptData(value: string): string {
     return decryptedText
   } catch (error) {
     return ''
+  }
+}
+
+const key = Buffer.from(env.ALGORITHM_ENCR_SECRET_KEY.padEnd(16, '\0'), 'binary')
+
+export function decryptAppSharedData(v: string): string {
+  try {
+    const decipher = crypto.createDecipheriv(env.ALGORITHM_ENCR_KEY, key, Buffer.alloc(16))
+    let decryptedText = decipher.update(v, 'base64', 'utf8')
+    decryptedText += decipher.final('utf8')
+    return decryptedText
+  } catch (e) {
+    return ""
+  }
+}
+
+
+export function encryptAppSharedData(plainText: string) {
+  try {
+    const cipher = crypto.createCipheriv(env.ALGORITHM_ENCR_KEY, key, Buffer.alloc(16))
+    let cipherText = cipher.update(plainText, 'utf8', 'base64')
+    cipherText += cipher.final('base64')
+    return cipherText.replace(/=+$/, '')
+  } catch (e) {
+    return ""
   }
 }

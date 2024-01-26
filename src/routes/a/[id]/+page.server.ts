@@ -1,3 +1,6 @@
+import { decryptAppSharedData} from '../../api/utils/EncryptionForAPI.js'
+
 export const load = ({ params }) => {
-  return { data: params.id }
+  const decryptId = decryptAppSharedData(params.id)
+  return { data: decryptId }
 }
