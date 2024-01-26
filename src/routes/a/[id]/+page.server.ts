@@ -15,5 +15,5 @@ export const load = async ({ params, fetch, cookies, getClientAddress }) => {
   const artistsInfo = await fetch(env.PUBLIC_SEARCH_ARTISTS_INFO, { method: 'post', headers: { AuthorizationKey: data.keyData, name: params.id } })
   const artistsResponse = (await artistsInfo.json()) as ArtistsInfoData
 
-  return { data: btoa(data.keyData), ip: JSON.stringify(data.ip), info: artistsResponse }
+  return { data: btoa(data.keyData), ip: JSON.stringify(data.ip), info: artistsResponse, url: params.id }
 }
