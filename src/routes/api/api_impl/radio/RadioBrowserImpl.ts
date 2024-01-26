@@ -14,7 +14,7 @@ export class RadioBrowserImpl {
         })
 
         const url = host.then((hosts: string | any[]) => {
-            var item = hosts[Math.floor(Math.random() * hosts.length)]
+            let item = hosts[Math.floor(Math.random() * hosts.length)]
             return item
         })
 

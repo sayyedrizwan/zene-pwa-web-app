@@ -51,5 +51,6 @@ export enum MusicType {
   MUSIC,
   RADIO,
   ARTISTS,
-  ALBUM
+  ALBUM,
+  VIDEO
 }

@@ -113,7 +113,7 @@ export function encryptAppSharedData(plainText: string) {
     let cipherText = cipher.update(plainText, 'utf8', 'base64')
     cipherText += cipher.final('base64')
     const e = cipherText.replace(/=+$/, '')
-    return e.replace("/", "__")
+    return e.replaceAll("/", "__")
   } catch (e) {
     return ""
   }

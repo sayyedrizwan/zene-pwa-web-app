@@ -14,8 +14,8 @@ export async function POST(events: RequestEvent) {
     const dom = new JSDOM(await response.data)
 
     dom.window.document.querySelectorAll('.o-chart-results-list-row-container').forEach((element) => {
-      var artistsImage = element.querySelector('.lrv-a-crop-1x1')?.querySelector('img')?.getAttribute('data-lazy-src')?.replace('182', '344')
-      var artistName = ''
+      const artistsImage = element.querySelector('.lrv-a-crop-1x1')?.querySelector('img')?.getAttribute('data-lazy-src')?.replace('182', '344')
+      let artistName = ''
       element.querySelectorAll('#title-of-a-story').forEach((name) => {
         if (name.outerHTML.toString().includes('u-max-width-230@tablet-only')) artistName = name.innerHTML.trim().toString()
       })

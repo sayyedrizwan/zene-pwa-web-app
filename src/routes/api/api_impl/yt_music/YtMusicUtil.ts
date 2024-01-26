@@ -2,7 +2,7 @@ import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 
 export const YT_MUSIC_KEY = 'AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30'
 
-export const ytHeader = {
+export const ytMusicHeader = {
   authority: 'music.youtube.com',
   'cache-control': 'no-cache',
   'content-type': 'application/json',
@@ -23,7 +23,7 @@ export const all_search_artists_params = 'EgWKAQIgAWoSEAMQCRAEEA4QChAFEBAQERAV'
 export const all_search_albums_params = 'EgWKAQIYAWoSEAMQCRAEEA4QChAFEBAQERAV'
 export const new_release_params = 'FEmusic_new_releases'
 
-export function ytBodyWithParams(q: string, params: string): string {
+export function ytMusicBodyWithParams(q: string, params: string): string {
   return `{
         "context": {
             "client": {
@@ -38,7 +38,7 @@ export function ytBodyWithParams(q: string, params: string): string {
     `
 }
 
-export function ytBodyWithInput(q: string): string {
+export function ytMusicBodyWithInput(q: string): string {
   return `{
         "input": "${q}",
         "context": {
@@ -52,7 +52,7 @@ export function ytBodyWithInput(q: string): string {
     `
 }
 
-export function ytBodyWithParamsWithIp(ip: IpJsonResponse, b: string): string {
+export function ytMusicBodyWithParamsWithIp(ip: IpJsonResponse, b: string): string {
   return `
     {
         "context": {

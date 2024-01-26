@@ -2,7 +2,7 @@ import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/en
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 import { encryptAppSharedData } from '../../utils/EncryptionForAPI'
 import { getTextAfterKeyword, getTextBeforeKeyword, getTextBeforeLastKeyword, joinArtists } from '../../utils/utils'
-import { all_search_albums_params, all_search_artists_params, all_search_params, new_release_params, ytBodyWithInput, ytBodyWithParams, ytBodyWithParamsWithIp, ytHeader, yt_music_browse, yt_music_search, yt_music_search_suggestion } from './YtMusicUtil'
+import { all_search_albums_params, all_search_artists_params, all_search_params, new_release_params, ytMusicBodyWithInput, ytMusicBodyWithParams, ytMusicBodyWithParamsWithIp, ytMusicHeader, yt_music_browse, yt_music_search, yt_music_search_suggestion } from './YtMusicUtil'
 import type { YtMusicBrowseGrids } from './domain/YtMusicBrowseGrids'
 import type { YtMusicBrowsePlaylists } from './domain/YtMusicBrowsePlaylists'
 import type { YtMusicSearchKeywordsSuggestion } from './domain/YtMusicSearchKeywordsSuggestion'
@@ -10,40 +10,10 @@ import type { YtMusicSearchResponse } from './domain/YtMusicSearchResponse'
 
 export class YtMusicAPIImpl {
 
-  async artistsSearchSingle(search: string): Promise<MusicData> {
-    var music: MusicData = new MusicData(null, null, null, '', MusicType.ARTISTS)
-
-    const r = await fetch(yt_music_search, { method: 'POST', headers: ytHeader, body: ytBodyWithParams(search, all_search_artists_params) })
-    const response = (await r.json()) as YtMusicSearchResponse
-
-    response.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tab) => {
-      tab.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
-        contents.musicShelfRenderer?.contents?.forEach((artists) => {
-          artists?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
-            if (names.musicResponsiveListItemFlexColumnRenderer?.displayPriority == 'MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH') {
-              if (
-                String(names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? '')
-                  ?.toLocaleLowerCase()
-                  ?.trim() == search.toLocaleLowerCase().trim()
-              ) {
-                const name = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? null
-                const thumbnail = artists?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-                if (name != null && music.songId == null) music = new MusicData(name, name, encryptAppSharedData(name), thumbnail ?? '', MusicType.ARTISTS)
-              }
-            }
-          })
-        })
-      })
-    })
-
-    return music
-  }
-
-
   async artistsSearch(search: string): Promise<MusicData[]> {
-    var music: MusicData[] = []
+    const music: MusicData[] = []
 
-    const r = await fetch(yt_music_search, { method: 'POST', headers: ytHeader, body: ytBodyWithParams(search, all_search_artists_params) })
+    const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_artists_params) })
     const response = (await r.json()) as YtMusicSearchResponse
 
     response.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tab) => {
@@ -66,7 +36,7 @@ export class YtMusicAPIImpl {
   async searchKeywordsSuggestions(search: string): Promise<string[]> {
     const lists: string[] = []
 
-    const r = await fetch(yt_music_search_suggestion, { method: 'POST', headers: ytHeader, body: ytBodyWithInput(search) })
+    const r = await fetch(yt_music_search_suggestion, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithInput(search) })
     const response = (await r.json()) as YtMusicSearchKeywordsSuggestion
 
     response.contents?.forEach((c) => {
@@ -79,9 +49,9 @@ export class YtMusicAPIImpl {
   }
 
   async musicSearchSingle(search: string, doCheck: boolean): Promise<MusicData> {
-    var music: MusicData = new MusicData(null, null, null, '', MusicType.MUSIC)
+    let music: MusicData = new MusicData(null, null, null, '', MusicType.MUSIC)
 
-    const r = await fetch(yt_music_search, { method: 'POST', headers: ytHeader, body: ytBodyWithParams(search, all_search_params) })
+    const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_params) })
     const response = (await r.json()) as YtMusicSearchResponse
     response?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tabs) => {
       tabs?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
@@ -91,7 +61,7 @@ export class YtMusicAPIImpl {
           let songId: string | null
           let artistsName: string[] = []
           musicContents?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
-            var info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
+            const info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
             if (info?.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == 'MUSIC_VIDEO_TYPE_ATV') {
               name = info.text ?? null
               songId = info.navigationEndpoint?.watchEndpoint?.videoId ?? null
@@ -123,9 +93,9 @@ export class YtMusicAPIImpl {
   async newReleaseSearch(ip: IpJsonResponse): Promise<MusicDataList> {
     const lists: string[] = []
     const listsNew: MusicData[] = []
-    var releasedId = 'RDCLAK5uy_k5n4srrEB1wgvIjPNTXS9G1ufE9WQxhnA'
+    let releasedId = 'RDCLAK5uy_k5n4srrEB1wgvIjPNTXS9G1ufE9WQxhnA'
 
-    const r = await fetch(yt_music_browse, { method: 'POST', headers: ytHeader, body: ytBodyWithParamsWithIp(ip, new_release_params) })
+    const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(ip, new_release_params) })
     const response = (await r.json()) as YtMusicBrowseGrids
 
     response?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0].tabRenderer?.content?.sectionListRenderer?.contents?.[0].gridRenderer?.items?.forEach((e) => {
@@ -138,14 +108,14 @@ export class YtMusicAPIImpl {
       }
     })
 
-    const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytHeader, body: ytBodyWithParamsWithIp(ip, releasedId) })
+    const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(ip, releasedId) })
     const musics = (await musicr.json()) as YtMusicBrowsePlaylists
 
     musics?.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach((element) => {
       element?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((music) => {
         music?.musicPlaylistShelfRenderer?.contents?.forEach((items) => {
           const name = items.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPlayData?.accessibilityData?.label
-          var data = getTextAfterKeyword(name?.toLowerCase() ?? '', 'play')
+          let data = getTextAfterKeyword(name?.toLowerCase() ?? '', 'play')
           if (data?.includes('|')) data = getTextBeforeKeyword(data, '|')
           else {
             const temp = getTextBeforeKeyword(data ?? '', 'minute')
@@ -168,7 +138,7 @@ export class YtMusicAPIImpl {
   async albumSearch(search: string): Promise<MusicData[]> {
     const lists: MusicData[] = []
 
-    const r = await fetch(yt_music_search, { method: 'POST', headers: ytHeader, body: ytBodyWithParams(search, all_search_albums_params) })
+    const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_albums_params) })
     const response = (await r.json()) as YtMusicSearchResponse
 
     response.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tabs => {
@@ -189,7 +159,7 @@ export class YtMusicAPIImpl {
   async songsSearch(search: string): Promise<MusicData[]> {
     const list: MusicData[] = []
 
-    const r = await fetch(yt_music_search, { method: 'POST', headers: ytHeader, body: ytBodyWithParams(search, all_search_params) })
+    const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_params) })
     const response = (await r.json()) as YtMusicSearchResponse
     response?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tabs) => {
       tabs?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
@@ -199,7 +169,7 @@ export class YtMusicAPIImpl {
           let songId: string | null
           let artistsName: string[] = []
           musicContents?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
-            var info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
+            const info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
             if (info?.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == 'MUSIC_VIDEO_TYPE_ATV') {
               name = info.text ?? null
               songId = info.navigationEndpoint?.watchEndpoint?.videoId ?? null

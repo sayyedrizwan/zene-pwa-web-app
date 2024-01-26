@@ -29,7 +29,7 @@ export async function POST(events: RequestEvent) {
     const wikiInfo = new JSDOM(await wikiInfoResponse.data)
 
 
-    var info = ""
+    let info = ""
     wikiInfo.window.document.querySelector(".wiki-content")?.querySelectorAll("p").forEach((element, i) => {
       if (i <= 3)  info += String(element.textContent)
     })

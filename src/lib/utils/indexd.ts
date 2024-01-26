@@ -79,7 +79,7 @@ export class DataIndexDS<T> {
       const objectStore = transaction.objectStore(this.tableName)
 
       const request = objectStore.getAll()
-      var data: any = null
+      let data: any = null
       request.onsuccess = () => {
         data = request.result
       }
