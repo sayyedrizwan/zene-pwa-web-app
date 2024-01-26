@@ -31,7 +31,7 @@
         env.PUBLIC_NEW_RELEASE, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } },
       )
       const data = (await res.data) as MusicDataList
-      alert(data)
+      alert(JSON.stringify(data))
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`f_a_s_l`, Date.now().toString())
       cacheDB.deleteAllRecords()
