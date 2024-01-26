@@ -23,13 +23,13 @@
       if (cacheRecords.length > 0)
         if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
           const records = cacheRecords?.[0] as TopSongsMusicResults
-          response = { type: ResponseDataEnum.SUCCESS, data: records }
-          return
+          if (records.music.length > 0) {
+            response = { type: ResponseDataEnum.SUCCESS, data: records }
+            return
+          }
         }
 
-      const res = await axios.post(
-        env.PUBLIC_TOP_LISITING_SONGS, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } }
-      )
+      const res = await axios.post(env.PUBLIC_TOP_LISITING_SONGS, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as TopSongsMusicResults
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`t_l_s_t`, Date.now().toString())
