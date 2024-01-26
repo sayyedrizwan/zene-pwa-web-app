@@ -24,13 +24,13 @@
       const cacheDB = new DataIndexDS<ExtraDataMusicData>(trendingSongsInCountryCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
-      // if (cacheRecords.length > 0)
-      //   if (isAPICachedForADay((cacheRecords?.[0] as any)?.resultOne.length, `t_c_s_l`)) {
-      //     const records = cacheRecords?.[0] as ExtraDataMusicData
-      //     responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(records.resultOne) }
-      //     responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.resultTwo, 2) }
-      //     return
-      //   }
+      if (cacheRecords.length > 0)
+        if (isAPICachedForADay((cacheRecords?.[0] as any)?.resultOne.length, `t_c_s_l`)) {
+          const records = cacheRecords?.[0] as ExtraDataMusicData
+          responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(records.resultOne) }
+          responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.resultTwo, 2) }
+          return
+        }
 
       const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
