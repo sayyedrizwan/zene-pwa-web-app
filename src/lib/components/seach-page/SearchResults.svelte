@@ -23,7 +23,7 @@
     try {
       const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, headers: { AuthorizationKey: key }, data: { q: searchParam.trim() } })
       const response = (await res.data) as SearchMusicData
-      console.log(response)
+
       searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }
     } catch (error) {
       searchSuggestion = { type: ResponseDataEnum.ERROR }

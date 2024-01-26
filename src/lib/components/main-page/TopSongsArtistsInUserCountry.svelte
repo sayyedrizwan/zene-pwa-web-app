@@ -66,7 +66,7 @@
       <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Songs in {ipDetails?.country ?? 'your country'}</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 font-mono text-white text-sm text-center font-bold leading-6 bg-stripes-fuchsia rounded-lg">
         {#each responseSongs.data.results as songs}
-          <button class="p-2" on:click={() => playSongZene(songs)}>
+          <button class="p-2" on:click|self={() => playSongZene(songs)}>
             <div class="w-full h-[8rem] rounded-xl bg-maincolor bg-opacity-60 flex justify-center items-center">
               <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
               <div class="w-full m-3">
@@ -83,6 +83,10 @@
     {/if}
   {/if}
 </div>
+
+
+
+
 {#if responseArtists.type == ResponseDataEnum.LOADING}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Artists in {ipDetails?.country ?? 'your country'}</h3>
 

@@ -16,7 +16,7 @@
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
 
-  let audioPlayer : APManager | null= null
+  let audioPlayer : APManager
 
   onMount(async () => {
     audioPlayer = new APManager()

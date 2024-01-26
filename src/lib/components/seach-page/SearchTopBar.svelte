@@ -9,6 +9,8 @@
 
   export let key: string
   export let searchParam: string
+  let voiceSearchTranscript = ''
+  let isListening = false
 
   let searchSuggestion: ResponseData<string[]> = { type: ResponseDataEnum.EMPTY }
   let timeout: NodeJS.Timeout | null
@@ -40,17 +42,43 @@
     timeout = setTimeout(searchSuggestions, 1000)
   }
 
-  function startSpeech() {
-    if (('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) === false) {
-      alert('speech not supported. please upgrade your browser.')
-      return
-    }
-    console.log('dd')
-    const recognization = (window as any).SpeechRecognition || window.webkitSpeechRecognition
+  async function startSpeech() {
+    let recognition: SpeechRecognition | null = null
 
-    recognization.onstart = () => {
-      console.log('listening')
+    if ('webkitSpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      recognition = new SpeechRecognition()
+      recognition.continuous = false
+      recognition.interimResults = true
+
+      recognition.onstart = function () {
+        isListening = true
+        voiceSearchTranscript = ''
+      }
+
+      recognition.onresult = (event) => {
+        voiceSearchTranscript = event.results[0][0].transcript
+      }
+
+      recognition.onend = () => {
+        isListening = false
+        forceStopListening(recognition!)
+        recognition?.stop()
+        recognition = null
+        searchParam = voiceSearchTranscript.trim()
+      }
+
+      recognition.start()
+    } else alert('Speech recognition not supported in this browser')
+  }
+
+  function forceStopListening(recognition: SpeechRecognition) {
+    if (navigator.vendor.indexOf('Apple') > -1) {
+      try {
+        recognition.start()
+      } catch (err) {}
     }
+    recognition.stop()
   }
 </script>
 
@@ -78,6 +106,20 @@
       <img src={SEARCH} alt="mic" class="size-4 me-2" />Search
     </button>
   </form>
+
+  {#if isListening === true}
+    <div class="w-full md:w-3/6 bg-gray-700 mt-9 rounded-md">
+      <h3 class="urbanist-bold text-white pt-12">Listening......</h3>
+
+      <img src={MIC} alt="mic" class="size-15 mt-6 bg-white p-3 rounded-full animate-ping" />
+
+      {#if voiceSearchTranscript === ""}
+      <p class="urbanist-light text-white pb-12 pt-6">please speak</p>
+      {:else}
+      <p class="urbanist-light text-white pb-12 pt-6">{voiceSearchTranscript}</p>
+      {/if}
+    </div>
+  {/if}
 </center>
 
 {#if searchSuggestion.type == ResponseDataEnum.LOADING}
@@ -90,7 +132,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
     {#each searchSuggestion.data as item}
       <button on:click={() => (searchParam = item.trim())} class="p-3 text-gray-300 flex cursor-pointer md:border-2 border-maincolor rounded-xl md:hover:bg-maincolor hover-animation">
-        <img src={SEARCH} alt="mic" class="size-5 me-2 translate-y-1" />
+        <img src={SEARCH} alt="search" class="size-5 me-2 translate-y-1" />
         <p class="urbanist-semibold text-base md:text-lg ms-1 w-full text-start">{item}</p>
 
         <img src={ARROW_UP_RIGHT} alt="mic" class="size-5 me-2 translate-y-1" />

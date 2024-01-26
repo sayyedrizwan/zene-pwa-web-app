@@ -6,7 +6,7 @@
   import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
   import { APManager } from '../../../routes/api/utils/s'
 
-  export let audioPlayer: APManager | undefined
+  export let audioPlayer: APManager
 
   let thumbnail: string | null = null
   let isSongPlaying: boolean = false

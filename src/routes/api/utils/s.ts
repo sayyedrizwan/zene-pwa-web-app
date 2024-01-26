@@ -13,7 +13,6 @@ interface AudioPlayer {
 export function getDuration(event: any) {
   event.target.currentTime = 0
   event.target.removeEventListener('timeupdate', getDuration)
-  console.log(event.target.duration)
 }
 
 export class APManager implements AudioPlayer {
