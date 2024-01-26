@@ -23,7 +23,7 @@
       if (cacheRecords.length > 0)
         if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
           const records = cacheRecords?.[0] as TopSongsMusicResults
-          if (records.music.length > 0) {
+          if (records.music != undefined) if (records.music.length > 0) {
             response = { type: ResponseDataEnum.SUCCESS, data: records }
             return
           }
