@@ -12,11 +12,14 @@
   import { env } from '$env/dynamic/public'
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
+    import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
 
-  let audioPlayer : APManager
+  let audioPlayer: APManager
+
+  let songMenuDialog: MusicData | null = null
 
   onMount(async () => {
     audioPlayer = new APManager()
@@ -33,6 +36,10 @@
         alert('Error playing the song try again later..')
       }
     })
+
+    document.addEventListener('songdialog', (event: Event) => {
+      songMenuDialog = (event as CustomEvent).detail.value
+    })
   })
 </script>
 
@@ -40,13 +47,18 @@
   {@html webManifest}
 </svelte:head>
 
+
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
-  <MusicPlaySmallView audioPlayer={audioPlayer}/>
+  <MusicPlaySmallView {audioPlayer} />
+
+  {#if songMenuDialog != null}
+    <SongInfoSheet />
+  {/if}
 {/if}
 
 <NoInternetDialog />

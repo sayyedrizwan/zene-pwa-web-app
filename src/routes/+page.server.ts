@@ -1,30 +1,7 @@
-import { env } from '$env/dynamic/private'
 import { btoa } from 'buffer'
-import { ipBaseUrl, isStringValidJSONObject, last_sync_ts_cookie, users_ip_address, users_ip_details } from './api/utils/utils.js'
-import { decryptData, encryptData } from './api/utils/EncryptionForAPI.js'
-import axios from 'axios'
-import type { IpJsonResponse } from './api/radiolist/domain/IpJsonResponse.js'
-import { IpDetails } from '../domain/local/entities/IpDetails.js'
+import { serverLoadFunction } from './api/utils/serverpage.js'
 
 export const load = async ({ fetch, cookies, getClientAddress }) => {
-
-  const response = await fetch(env.AUTH_TOKEN_ZENES, { method: 'POST' })
-  const data = await response.json()
-  cookies.set(last_sync_ts_cookie, Date.now().toString(), { path: '/', httpOnly: false, secure: true })
-
-  const ip = getClientAddress() == "::1" ? "183.87.181.11" : getClientAddress()
-  var ipDetails: IpDetails | undefined = undefined
-
-  if (isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ''))) ipDetails = JSON.parse(decryptData(cookies.get(users_ip_details) ?? '')) as IpDetails
-
-  if (ip !== cookies.get(users_ip_address) || !isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ''))) {
-    const responseIp = await axios.get(ipBaseUrl(ip))
-    const ipData = (await responseIp.data) as IpJsonResponse
-    ipDetails = new IpDetails(ipData.country, ipData.city)
-    const details = encryptData(JSON.stringify(ipDetails))
-    cookies.set(users_ip_details, details, { path: '/', httpOnly: true, secure: true })
-  }
-
-  cookies.set(users_ip_address, ip.toString(), { path: '/', httpOnly: true, secure: true })
-  return { data: btoa(data.key), ip: JSON.stringify(ipDetails) }
+  const data = serverLoadFunction(fetch, cookies, getClientAddress())
+  return { data: btoa((await data).keyData), ip: JSON.stringify((await data).ip) }
 }
