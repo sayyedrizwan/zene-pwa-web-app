@@ -1,7 +1,6 @@
 <script lang="ts">
   import { pwaInfo } from 'virtual:pwa-info'
   import './tailwind.svelte'
-  import { dev } from '$app/environment'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
   import { onBrowser } from '$lib/utils/Utils'
@@ -14,7 +13,6 @@
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
-    import SongDownloadFile from '$lib/components/global-view/SongDownloadFile.svelte'
     
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
@@ -51,7 +49,6 @@
   {@html webManifest}
 </svelte:head>
 
-<SongDownloadFile />
 
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />
