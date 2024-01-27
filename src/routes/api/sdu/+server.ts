@@ -1,9 +1,5 @@
-import { json, type RequestEvent } from '@sveltejs/kit'
-import axios from 'axios'
-import type { YtDownloadUrl } from './domain/YtDownloadUrl'
-import type { YTDownloadPath } from './domain/YTDownloadPath'
+import { type RequestEvent } from '@sveltejs/kit'
 import { btoa } from 'buffer'
-import fs from 'fs'
 import ytdl from 'ytdl-core'
 
 export async function POST(events: RequestEvent) {
@@ -18,8 +14,7 @@ export async function POST(events: RequestEvent) {
         url = element.url
       }
     })
-    console.log(id)
-    console.log(url)
+
     return new Response(btoa(url))
   } catch (error) {
     return new Response('')

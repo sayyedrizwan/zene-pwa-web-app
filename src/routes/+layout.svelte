@@ -12,7 +12,8 @@
   import { env } from '$env/dynamic/public'
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
-    import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
+  import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
+
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -27,7 +28,7 @@
 
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
-
+    
       try {
         const headers = { timeout: 30000, headers: { id: song.songId } }
         const res = await axios.post(env.PUBLIC_DOWNLOAD_URL, {}, headers)
@@ -46,7 +47,6 @@
 <svelte:head>
   {@html webManifest}
 </svelte:head>
-
 
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />

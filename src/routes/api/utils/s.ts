@@ -37,7 +37,6 @@ export class APManager implements AudioPlayer {
       console.log('Audio has started playing')
     })
     this.audioElement.addEventListener('loadedmetadata', () => {
-      console.log('running')
       if (this.audioElement?.duration === Infinity || isNaN(Number(this.audioElement?.duration))) {
         this.audioElement!.currentTime = 1e101
         this.audioElement?.addEventListener('timeupdate', getDuration)
