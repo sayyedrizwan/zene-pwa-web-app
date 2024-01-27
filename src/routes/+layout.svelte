@@ -28,29 +28,11 @@
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
       try {
-
-        const response = await fetch(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`); // Replace with your API endpoint
-        const audioBlob = await response.blob();
-
+        const response = await fetch(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`)
+        const audioBlob = await response.blob()
         audioPlayer?.play(audioBlob, song)
-
-        // const config = { responseType: 'blob' }
-        // axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`).then((response) => {
-         
-        //   const audioBlob = new Blob([response.data], { type: 'audio/mp3' })
-        //   const audioFile = new File([audioBlob], 'dtatata.mp3')
-        //   console.log(audioFile)
-        //  audioPlayer?.play(audioFile, song)
-        // })
-
-        console.log(song.songId)
-
-        // const res = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`)
-        // console.log(res.data)
-        // audioPlayer?.play(res.data as string, song)
       } catch (error) {
-        console.log(error)
-        // alert('Error playing the song try again later..')
+        alert('Error playing the song try again later..')
       }
     })
 

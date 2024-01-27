@@ -7,7 +7,7 @@ interface AudioPlayer {
   play(url: Blob, music: MusicData): void
   pause(): void
   stop(): void
-  isPlaying(): boolean| undefined 
+  isPlaying(): boolean | undefined
 }
 
 export function getDuration(event: any) {
@@ -45,23 +45,20 @@ export class APManager implements AudioPlayer {
   }
 
   play(url: Blob, music: MusicData): void {
+    stop()
     const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
     cacheDB.deleteAllRecords()
     let m = new MusicPlayerData([], music, 0, 0, MusicType.MUSIC)
     cacheDB.saveToIndexedDB(m)
 
     this.audioElement!.preload = 'auto'
-    this.audioElement?.addEventListener(
-      'canplaythrough',
-      () => {
-        if (this.audioElement?.paused) {
-          const event = new Event('click')
-          this.audioElement.dispatchEvent(event)
-          this.audioElement.play()
-        }
-      },
-      false,
-    )
+    this.audioElement?.addEventListener('canplaythrough', () => {
+      if (this.audioElement?.paused) {
+        const event = new Event('click')
+        this.audioElement.dispatchEvent(event)
+        this.audioElement.play()
+      }
+    }, false)
 
     navigator.mediaSession.metadata = new MediaMetadata({
       title: music.name ?? 'Zene',
@@ -78,11 +75,12 @@ export class APManager implements AudioPlayer {
   }
 
   isPlaying(): boolean {
-   return !this.audioElement?.paused
+    return !this.audioElement?.paused
   }
 
   stop(): void {
     try {
+      if (this.audioElement?.src != undefined) URL.revokeObjectURL(this.audioElement?.src)
       this.audioElement?.pause()
       this.audioElement!.currentTime = 0
     } catch (error) {
