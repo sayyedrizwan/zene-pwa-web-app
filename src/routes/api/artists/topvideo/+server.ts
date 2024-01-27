@@ -4,8 +4,9 @@ import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { YtAPIImpl } from '../../api_impl/yt/YtVideoSearch'
 import ytdl from 'ytdl-core'
 
-export async function POST(events: RequestEvent) {
-  const headers = events.request.headers
+
+export const GET = (async (req: RequestEvent) => {
+  const headers = req.request.headers
   const name = headers.get('name')
 
 
@@ -17,22 +18,16 @@ export async function POST(events: RequestEvent) {
     return json(apiError)
   }
 
-  if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
+  if (!decryptAPIKeyAndIsValid(req)) return json(authKeyError)
 
   const ytImpl = new YtAPIImpl()
 
   try {
     const vId = await ytImpl.searchArtistsVideo(`${name} official music video`)
-    let info = await ytdl.getInfo(vId[0].songId!)
 
-    let videoUrl = ''
-
-    info.formats.forEach((e) => {
-      if(e.qualityLabel === "1080p" && e.container === "mp4" && videoUrl === "") videoUrl = e.url
-    })
-
-    return new Response(btoa(videoUrl))
+    let audioStream = ytdl(`https://www.youtube.com/watch?v=${vId[0].songId!}`, { filter: format => format.container === 'mp4' && format.qualityLabel === "720p"  && format.itag === 398 });
+    return new Response(audioStream as any , { headers: { "content-disposition": "attachment" , "content-type": "video/mp4" } })
   } catch (error) {
-    return new Response("")
+    return json({})
   }
-}
+})

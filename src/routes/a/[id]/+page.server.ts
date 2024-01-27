@@ -9,7 +9,6 @@ export const load = async ({ params, fetch, cookies, getClientAddress }) => {
 
   if (artistName === "") return { data: "", name: "" }
 
-
   const data = await serverLoadFunction(fetch, cookies, getClientAddress())
 
   const artistsInfo = await fetch(env.PUBLIC_SEARCH_ARTISTS_INFO, { method: 'post', headers: { AuthorizationKey: data.keyData, name: params.id } })
