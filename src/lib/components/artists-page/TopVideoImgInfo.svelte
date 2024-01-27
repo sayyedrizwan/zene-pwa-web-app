@@ -36,9 +36,9 @@
     }
   }
 
+
   async function artistsVideo() {
     response = { type: ResponseDataEnum.LOADING }
-
     try {
       const res = await fetch(env.PUBLIC_SEARCH_ARTISTS_TOP_VIDEO, { headers: { AuthorizationKey: key, name: artistsInfo.name } })
       const audioBlob = await res.blob()
