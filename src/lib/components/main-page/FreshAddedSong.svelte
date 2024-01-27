@@ -55,7 +55,7 @@
   {#if (response.data.results ?? []).length > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Fresh Added Songs</h3>
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
-      {#each response.data.results as item}
+      {#each response.data.results ?? [] as item}
         <button class="p-2" on:click|stopPropagation={() => playSongZene(item)}>
           <div class="w-80 h-[11rem] rounded-lg bg-lightblack flex">
             <div class="relative w-3/4 h-[11rem]">

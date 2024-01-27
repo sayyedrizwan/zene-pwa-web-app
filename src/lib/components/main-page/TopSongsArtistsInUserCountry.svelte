@@ -27,16 +27,15 @@
       if (cacheRecords.length > 0)
         if (isAPICachedForADay((cacheRecords?.[0] as any)?.resultOne.length, `t_c_s_l`)) {
           const records = cacheRecords?.[0] as ExtraDataMusicData
-          responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(records.resultOne) }
-          responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.resultTwo, 2) }
+          responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(records.resultOne ?? []) }
+          responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.resultTwo ?? [], 2) }
           return
         }
-
       const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
 
-      responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(data.resultOne) }
-      responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data.resultTwo, 2) }
+      responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(data.resultOne ?? []) }
+      responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data.resultTwo ?? [], 2) }
       localStorage.setItem(`t_c_s_l`, Date.now().toString())
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
@@ -62,10 +61,10 @@
       {/each}
     </div>
   {:else if responseSongs.type == ResponseDataEnum.SUCCESS}
-    {#if responseSongs.data.results.length > 0}
+    {#if responseSongs.data.results?.length ?? 0 > 0}
       <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Songs in {ipDetails?.country ?? 'your country'}</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 font-mono text-white text-sm text-center font-bold leading-6 bg-stripes-fuchsia rounded-lg">
-        {#each responseSongs.data.results as songs}
+        {#each responseSongs.data?.results ?? [] as songs}
           <button class="p-2" on:click|stopPropagation={() => playSongZene(songs)}>
             <div class="w-full h-[8rem] rounded-xl bg-maincolor bg-opacity-60 flex justify-center items-center">
               <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
@@ -83,9 +82,6 @@
     {/if}
   {/if}
 </div>
-
-
-
 
 {#if responseArtists.type == ResponseDataEnum.LOADING}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Artists in {ipDetails?.country ?? 'your country'}</h3>

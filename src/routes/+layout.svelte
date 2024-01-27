@@ -1,6 +1,7 @@
 <script lang="ts">
   import { pwaInfo } from 'virtual:pwa-info'
   import './tailwind.svelte'
+  import { dev } from '$app/environment'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
   import { onBrowser } from '$lib/utils/Utils'
@@ -13,8 +14,8 @@
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
-
-  export let data: any
+    import SongDownloadFile from '$lib/components/global-view/SongDownloadFile.svelte'
+    
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -29,14 +30,12 @@
 
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
-    
       try {
-        const res = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? "")}`)
-        const url = window.atob(res.data)
-        console.log(url)
-        // audioPlayer?.play(res.data as string, song)
+        console.log(song.songId)
 
-        // audioPlayer?.play(window.atob(res.data), song)
+        const res = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? "")}`)
+        console.log(res.data)
+        audioPlayer?.play(res.data as string, song)
       } catch (error) {
         alert('Error playing the song try again later..')
       }
@@ -51,6 +50,8 @@
 <svelte:head>
   {@html webManifest}
 </svelte:head>
+
+<SongDownloadFile />
 
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />

@@ -1,6 +1,6 @@
 export class ExtraDataMusicData {
-  resultOne: MusicData[] = []
-  resultTwo: MusicData[] = []
+  resultOne?: MusicData[] = []
+  resultTwo?: MusicData[] = []
 
   constructor(resultOne: MusicData[], resultTwo: MusicData[]) {
     this.resultOne = resultOne
@@ -9,7 +9,7 @@ export class ExtraDataMusicData {
 }
 
 export class MusicDataList {
-  results: MusicData[] = []
+  results?: MusicData[] = []
 
   constructor(results: MusicData[]) {
     this.results = results

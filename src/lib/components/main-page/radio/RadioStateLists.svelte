@@ -19,7 +19,7 @@
     try {
       const cacheDB = new DataIndexDS<ExtraDataMusicData>(radioTableCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
-      
+
       if (cacheRecords.length > 0)
         if (isAPICached(cacheRecords[0].length, `r_i_l`)) {
           const records = cacheRecords[0] as ExtraDataMusicData
@@ -27,9 +27,7 @@
           return
         }
 
-      const res = await axios.post(
-        env.PUBLIC_RADIO_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } }
-      )
+      const res = await axios.post(env.PUBLIC_RADIO_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`r_i_l`, Date.now().toString())
@@ -58,10 +56,10 @@
     {/each}
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
-  {#if response.data.resultOne.length > 0}
+  {#if response.data.resultOne?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.city ?? 'your city'}</h3>
     <div class="overflow-x-auto flex scrollbar-hide">
-      {#each response.data.resultOne as item}
+      {#each response.data.resultOne ?? [] as item}
         <RadioStationItems musicData={item} />
       {/each}
     </div>
@@ -87,10 +85,10 @@
     {/each}
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
-  {#if response.data.resultTwo.length > 0}
+  {#if response.data.resultTwo?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Radio Stations in {ipDetails?.country ?? 'your country'}</h3>
     <div class="overflow-x-auto flex scrollbar-hide">
-      {#each response.data.resultTwo as item}
+      {#each response.data.resultTwo ?? [] as item}
         <RadioStationItems musicData={item} />
       {/each}
     </div>

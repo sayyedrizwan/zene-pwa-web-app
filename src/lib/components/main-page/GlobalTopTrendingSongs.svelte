@@ -11,7 +11,7 @@
 
   export let authKey: string
 
-  let response: ResponseData<MusicData[][]> = { type: ResponseDataEnum.EMPTY }
+  let response: ResponseData<MusicData[][] | null> = { type: ResponseDataEnum.EMPTY }
 
   async function topGlobalSongs() {
     response = { type: ResponseDataEnum.LOADING }
@@ -19,16 +19,17 @@
     try {
       const cacheDB = new DataIndexDS<MusicDataList>(globalTrendingSongsArtists, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+
       if (cacheRecords.length > 0)
         if (isAPICachedForADay(cacheRecords[0].length, `t_s_l`)) {
           const records = cacheRecords[0] as MusicDataList
-          response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.results, 3) }
+          response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records?.results ?? [], 3) }
           return
         }
 
       const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicDataList
-      response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data.results, 3) }
+      response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data?.results ?? [], 3) }
       localStorage.setItem(`t_s_l`, Date.now().toString())
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
@@ -52,10 +53,10 @@
     {/each}
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
-  {#if response.data.length > 0}
+  {#if response.data?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Global top trending songs</h3>
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
-      {#each response.data as item}
+      {#each response?.data ?? [] as item}
         <div>
           {#each item as songs}
             <button class="p-2" on:click|stopPropagation={() => playSongZene(songs)}>

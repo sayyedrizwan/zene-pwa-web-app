@@ -9,7 +9,7 @@
 
   export let authKey: string
 
-  let response: ResponseData<MusicData[][]> = { type: ResponseDataEnum.EMPTY }
+  let response: ResponseData<MusicData[][] | null> = { type: ResponseDataEnum.EMPTY }
 
   async function topArtists() {
     response = { type: ResponseDataEnum.LOADING }
@@ -17,7 +17,7 @@
     try {
       const cacheDB = new DataIndexDS<MusicData[]>(topArtistsCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
-      
+
       if (cacheRecords.length > 0)
         if (isAPICached(cacheRecords[0].length, `t_a_l`)) {
           const records = cacheRecords[0] as MusicData[]
@@ -25,9 +25,7 @@
           return
         }
 
-      const res = await axios.post(
-        env.PUBLIC_TOP_ARTISTS_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } },
-      )
+      const res = await axios.post(env.PUBLIC_TOP_ARTISTS_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicData[]
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data, 2) }
       localStorage.setItem(`t_a_l`, Date.now().toString())
@@ -59,11 +57,11 @@
     {/each}
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
-  {#if response.data.length > 0}
+  {#if response.data?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Global top trending artists</h3>
 
     <div class="flex overflow-x-auto w-full scrollbar-hide">
-      {#each response.data as topItem}
+      {#each response?.data ?? [] as topItem}
         <div>
           {#each topItem as item}
             <div class="p-3">
