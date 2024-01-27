@@ -18,6 +18,8 @@ export async function POST(events: RequestEvent) {
         url = element.url
       }
     })
+    console.log(id)
+    console.log(url)
     return new Response(btoa(url))
   } catch (error) {
     return new Response('')
