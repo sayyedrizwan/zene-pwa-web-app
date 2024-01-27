@@ -14,6 +14,7 @@
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
 
+  export let data: any
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -30,9 +31,14 @@
       const song = (event as CustomEvent).detail.value as MusicData
     
       try {
-        const headers = { timeout: 30000, headers: { id: song.songId } }
-        const res = await axios.post(env.PUBLIC_DOWNLOAD_URL, {}, headers)
-        audioPlayer?.play(window.atob(res.data), song)
+        const headers = { timeout: 30000, headers: { id: song.songId, i: data.data } }
+        const res = await axios.get(env.PUBLIC_DOWNLOAD_URL)
+        // const res = await axios.post(env.PUBLIC_DOWNLOAD_URL, {}, headers)
+        // const url = window.atob(res.data)
+        console.log(res.data)
+        // audioPlayer?.play(res.data as string, song)
+
+        // audioPlayer?.play(window.atob(res.data), song)
       } catch (error) {
         alert('Error playing the song try again later..')
       }
