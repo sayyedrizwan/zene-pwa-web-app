@@ -4,7 +4,7 @@ import { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
 
 interface AudioPlayer {
   init(): void
-  play(url: string, music: MusicData): void
+  play(url: Blob, music: MusicData): void
   pause(): void
   stop(): void
   isPlaying(): boolean| undefined 
@@ -44,7 +44,7 @@ export class APManager implements AudioPlayer {
     })
   }
 
-  play(url: string, music: MusicData): void {
+  play(url: Blob, music: MusicData): void {
     const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
     cacheDB.deleteAllRecords()
     let m = new MusicPlayerData([], music, 0, 0, MusicType.MUSIC)
@@ -69,7 +69,7 @@ export class APManager implements AudioPlayer {
       artwork: [{ src: music.thumbnail ?? 'https://zenemusic.co/logo512.png', sizes: '512x512' }],
     })
 
-    this.audioElement!.src = url
+    this.audioElement!.src = URL.createObjectURL(url)
     this.audioElement!.load()
   }
 

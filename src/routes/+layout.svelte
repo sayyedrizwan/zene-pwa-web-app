@@ -13,7 +13,6 @@
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
-    
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -29,13 +28,29 @@
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
       try {
+
+        const response = await fetch(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`); // Replace with your API endpoint
+        const audioBlob = await response.blob();
+
+        audioPlayer?.play(audioBlob, song)
+
+        // const config = { responseType: 'blob' }
+        // axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`).then((response) => {
+         
+        //   const audioBlob = new Blob([response.data], { type: 'audio/mp3' })
+        //   const audioFile = new File([audioBlob], 'dtatata.mp3')
+        //   console.log(audioFile)
+        //  audioPlayer?.play(audioFile, song)
+        // })
+
         console.log(song.songId)
 
-        const res = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? "")}`)
-        console.log(res.data)
-        audioPlayer?.play(res.data as string, song)
+        // const res = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`)
+        // console.log(res.data)
+        // audioPlayer?.play(res.data as string, song)
       } catch (error) {
-        alert('Error playing the song try again later..')
+        console.log(error)
+        // alert('Error playing the song try again later..')
       }
     })
 
@@ -48,7 +63,6 @@
 <svelte:head>
   {@html webManifest}
 </svelte:head>
-
 
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />
