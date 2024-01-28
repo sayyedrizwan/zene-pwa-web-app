@@ -20,7 +20,7 @@
         <div class="px-5 py-2"><a href="/faq">{faq}</a></div>
       </nav>
       <nav class="flex flex-wrap justify-center mt-5">
-        <a href="https://www.instagram.com/zene__music/" target="_blank"><i class="fa fa-instagram text-white hover:text-peach hover-animation" style="font-size: 24px;"></i></a>
+        <a href="https://www.instagram.com/zene__music/" target="_blank"><i class="fa fa-instagram text-white hover:text-peach hover-animation" style="font-size: 24px"></i></a>
       </nav>
       <p class="mt-7 text-base">© 2022-{d.getFullYear()} Zene from rizwan sayyed</p>
     </div>

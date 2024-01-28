@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { get_it_for_android, get_it_for_ios, get_it_for_windows_desktop } from "$lib/assets/string/en";
+    import { get_it_for_android, get_it_for_ios, get_it_for_windows_desktop } from "$lib/assets/string/en"
     const play_store = "https://play.google.com/store/apps/details?id=com.rizwansayyed.zene"
 
     function openPlayStore(){

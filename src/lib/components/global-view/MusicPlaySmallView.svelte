@@ -34,7 +34,7 @@
 </script>
 
 
-<audio controls={false} autoplay={true} id="a" class="hidden size-0 z-[-100]">
+<audio controls id="a" playsinline>
   <source id="s" src="" type="audio/mpeg">
 </audio>
 

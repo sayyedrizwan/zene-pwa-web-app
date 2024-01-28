@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let title: string;
-  export let desc: string;
-  export let img: string;
-  export let isImgRight: boolean;
+  export let title: string
+  export let desc: string
+  export let img: string
+  export let isImgRight: boolean
 </script>
 
 <div class="md:flex items-center w-full pt-32 {isImgRight ? "ps-10" : "pe-10"} w-full">

@@ -5,6 +5,7 @@ import { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
 interface AudioPlayer {
   init(): void
   play(url: Blob, music: MusicData): Promise<void>
+  updatemetadata(music: MusicData): void
   pause(): void
   stop(): void
   isPlaying(): boolean | undefined
@@ -16,7 +17,6 @@ export function getDuration(event: any) {
 }
 
 export class APManager implements AudioPlayer {
-
   private audioElement: HTMLAudioElement | undefined
   private sourceElement: HTMLSourceElement | undefined
 
@@ -57,7 +57,7 @@ export class APManager implements AudioPlayer {
     cacheDB.deleteAllRecords()
     let m = new MusicPlayerData([], music, 0, 0, MusicType.MUSIC)
     cacheDB.saveToIndexedDB(m)
-
+    
     this.audioElement!.preload = 'auto'
     this.audioElement?.addEventListener('canplaythrough', () => {
       if (this.audioElement?.paused) {
@@ -67,19 +67,50 @@ export class APManager implements AudioPlayer {
       }
     }, false)
 
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: music.name ?? 'Zene',
-      artist: music.artists ?? 'zene: free music player',
-      artwork: [{ src: music.thumbnail ?? 'https://zenemusic.co/logo512.png', sizes: '512x512' }],
-    })
-
     this.audioElement!.autoplay = true
-
     const convert = await convertBlobToWav(url)
     this.sourceElement!.src = URL.createObjectURL(convert)
     this.sourceElement!.type = 'audio/wav'
     this.audioElement!.load()
+
+    this.updatemetadata(music!)
+    
     this.audioElement!.play()
+  }
+
+  updatemetadata(music: MusicData): void {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new window.MediaMetadata({
+        title: `${music.name ?? 'Zene'}`,
+        artist: `${music.artists ?? 'zene: free music player'}`,
+        album: 'zene',
+        artwork: [{ src: 'https://zenemusic.co/logo120.png' }]
+      })
+
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        this.audioElement!.currentTime = details.seekTime ?? 0
+    })
+
+      navigator.mediaSession.setActionHandler('play', null)
+      navigator.mediaSession.setActionHandler('pause', null)
+      navigator.mediaSession.setActionHandler('seekbackward', null)
+      navigator.mediaSession.setActionHandler('seekforward', null)
+      navigator.mediaSession.setActionHandler('previoustrack', null)
+      navigator.mediaSession.setActionHandler('nexttrack', null)
+
+      // const existingMetadata = navigator.mediaSession.metadata
+      // if (existingMetadata?.title == undefined) {
+      //   navigator.mediaSession.metadata = new MediaMetadata({
+      //     title: music.name ?? 'Zene',
+      //     artist: music.artists ?? 'zene: free music player',
+      //     artwork: [{ src: music.thumbnail ?? 'https://zenemusic.co/logo512.png', sizes: '512x512' }],
+      //   })
+      // } else {
+      //   navigator.mediaSession.metadata!.title = music.name ?? 'Zene'
+      //   navigator.mediaSession.metadata!.artist =  music.artists ?? 'zene: free music player'
+      //   navigator.mediaSession.metadata!.artwork = [{ src: music.thumbnail ?? 'https://zenemusic.co/logo512.png', sizes: '512x512' }]
+      // }
+    }
   }
 
   pause(): void {
