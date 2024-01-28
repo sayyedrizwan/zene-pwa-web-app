@@ -33,8 +33,14 @@
   })
 </script>
 
+
+<audio controls={false} autoplay={true} id="a" class="hidden size-0 z-[-100]">
+  <source id="s" src="" type="audio/mpeg">
+</audio>
+
+
 {#if thumbnail != null}
-  <button class="z-[100] fixed bottom-24 md:bottom-2 right-2 cursor-pointer">
+  <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer">
     <img src={thumbnail} alt="music thumbnail" class="size-14 md:size-28" />
 
     {#if isSongPlaying === true}

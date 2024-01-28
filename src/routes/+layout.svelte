@@ -30,9 +30,9 @@
       try {
         const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`, { responseType: 'blob' })
         var fileURL = new Blob([response.data])
-        audioPlayer?.play(fileURL, song)
+        await audioPlayer?.play(fileURL, song)
       } catch (error) {
-        alert('Error playing the song try again later..')
+        alert('Error loading song. Please try again later.')
       }
     })
 
@@ -51,7 +51,7 @@
   <slot />
 {:else}
   <LogoWithBrand showOnlyLogo={false} />
-  <slot />
+   <slot />
   <MusicPlaySmallView {audioPlayer} />
 
   {#if songMenuDialog != null}
