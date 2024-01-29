@@ -28,9 +28,8 @@
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
       try {
-        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`, { responseType: 'blob' })
-        var fileURL = new Blob([response.data])
-        audioPlayer?.play(fileURL, song)
+        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`)
+        audioPlayer.play(window.atob(response.data), song)
       } catch (error) {
         alert('Error loading song. Please try again later.')
       }
@@ -45,6 +44,7 @@
 <svelte:head>
   {@html webManifest}
 </svelte:head>
+
 
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />

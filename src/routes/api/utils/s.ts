@@ -1,11 +1,9 @@
-import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
+import { MusicData } from '../../../domain/local/entities/MusicData'
 
-
-// listen notes
 
 interface AudioPlayer {
   init(): void
-  play(url: Blob, music: MusicData): Promise<void>
+  play(url: string, music: MusicData): Promise<void>
   updatemetadata(music: MusicData): void
   pause(): void
   stop(): void
@@ -19,6 +17,8 @@ export function getDuration(event: any) {
 
 export class APManager implements AudioPlayer {
   private audioElement: HTMLAudioElement | undefined
+  private sourceElementOGG: HTMLSourceElement | undefined
+  private sourceElementMPEG: HTMLSourceElement | undefined
   private music: MusicData | undefined
 
   init(): void {
@@ -26,11 +26,23 @@ export class APManager implements AudioPlayer {
       this.stop()
     }
 
-    this.audioElement = new Audio()
+    const audioe = document.createElement('audio') as HTMLAudioElement
 
-    this.audioElement.onerror = (event) => {
-      console.log(event)
-    }
+    const oggsource = document.createElement('source')  as HTMLSourceElement
+    oggsource.type = 'audio/ogg'
+    audioe.appendChild(oggsource)
+
+    const mpegsource = document.createElement('source') as HTMLSourceElement
+    mpegsource.type = 'audio/mpeg'
+    audioe.appendChild(mpegsource)
+
+    this.audioElement = audioe
+    this.sourceElementOGG = oggsource
+    this.sourceElementMPEG = mpegsource
+
+    // this.audioElement.onerror = () => {
+    //   console.log('error')
+    // }
 
     this.audioElement.addEventListener('ended', () => {
       console.log('Audio has ended')
@@ -49,7 +61,7 @@ export class APManager implements AudioPlayer {
     this.audioElement.addEventListener('loadedmetadata', () => {
       this.audioElement!.title = ""
       this.updatemetadata(this.music!)
-      document.title = this.music?.name ?? ""
+
       if (this.audioElement?.duration === Infinity || isNaN(Number(this.audioElement?.duration))) {
         this.audioElement!.currentTime = 1e101
         this.audioElement?.addEventListener('timeupdate', getDuration)
@@ -57,7 +69,7 @@ export class APManager implements AudioPlayer {
     })
   }
 
-  async play(url: Blob, music: MusicData): Promise<void> {
+  async play(url: string, music: MusicData): Promise<void> {
     stop()
     this.music = music
 
@@ -71,29 +83,31 @@ export class APManager implements AudioPlayer {
     }, false)
 
     this.audioElement!.autoplay = true
-    const convert = await convertBlobToWav(url)
-    this.audioElement!.src = URL.createObjectURL(convert)
+    this.sourceElementMPEG!.src = url
+    this.sourceElementOGG!.src = url
     this.audioElement!.load()
   }
 
 
   updatemetadata(music: MusicData): void {
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new window.MediaMetadata({
-        title: `${music.name ?? 'Zene'}`,
-        artist: `${music.artists ?? 'zene: free music player'}`,
-        album: 'Zene',
-        artwork: [{ src: music.thumbnail ?? "", sizes: '512x512', type: 'image/png'}]
-      })
+    const ms = window.navigator.mediaSession
+    if (!ms) return
 
+    ms.metadata = new window.MediaMetadata({
+      title: `${music.name ?? 'Zene'}`,
+      artist: `${music.artists ?? 'zene: free music player'}`,
+      album: 'Zene',
+      artwork: [{ src: music.thumbnail ?? "", sizes: '512x512', type: 'image/png' }]
+    })
 
-      navigator.mediaSession.setActionHandler('play', function () { });
-      navigator.mediaSession.setActionHandler('pause', function () { });
-      navigator.mediaSession.setActionHandler('seekbackward', function () { });
-      navigator.mediaSession.setActionHandler('seekforward', function () { });
-      navigator.mediaSession.setActionHandler('previoustrack', function () { });
-      navigator.mediaSession.setActionHandler('nexttrack', function () { });
-    }
+    const setActionHandler = ms.setActionHandler.bind(ms)
+
+    setActionHandler('play', function () { })
+    setActionHandler('pause', function () { })
+    setActionHandler('seekbackward', function () { })
+    setActionHandler('seekforward', function () { })
+    setActionHandler('previoustrack', function () { })
+    setActionHandler('nexttrack', function () { })
   }
 
 
@@ -116,11 +130,8 @@ export class APManager implements AudioPlayer {
   }
 }
 
-function sleep(ms: number) {
-  return new Promise(res => setTimeout(res, ms));
-}
 
-async function convertBlobToWav(blob: Blob): Promise<Blob> {
+export async function convertBlobToWav(blob: Blob): Promise<Blob> {
   const arrayBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
     const fileReader = new FileReader()
     fileReader.onload = () => resolve(fileReader.result as ArrayBuffer)
@@ -135,7 +146,7 @@ async function convertBlobToWav(blob: Blob): Promise<Blob> {
   return new Blob([wavBuffer], { type: 'audio/wav' })
 }
 
-function audioBufferToWav(buffer: AudioBuffer): ArrayBuffer {
+export function audioBufferToWav(buffer: AudioBuffer): ArrayBuffer {
   const numChannels = buffer.numberOfChannels
   const sampleRate = buffer.sampleRate
   const numFrames = buffer.length

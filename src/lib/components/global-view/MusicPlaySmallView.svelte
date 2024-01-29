@@ -8,6 +8,8 @@
 
   export let audioPlayer: APManager
 
+  let showAudio: boolean = false
+
   let thumbnail: string | null = null
   let isSongPlaying: boolean = false
   let interval: NodeJS.Timeout | null = null
@@ -25,6 +27,7 @@
   }
 
   onMount(async () => {
+    showAudio = true
     interval = setInterval(checkFunction, 500)
   })
 
@@ -32,8 +35,6 @@
     if (interval != null) clearInterval(interval)
   })
 </script>
-
-
 
 {#if thumbnail != null}
   <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer">

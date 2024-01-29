@@ -22,7 +22,7 @@ export async function serverLoadFunction(fetch: any, cookies: any, getClientAddr
     const data = await response.json()
     cookies.set(last_sync_ts_cookie, Date.now().toString(), { path: '/', httpOnly: false, secure: true })
 
-    const ip = getClientAddress == "::1" ? "183.87.181.11" : getClientAddress
+    const ip = getClientAddress.includes("::") ? "183.87.181.11" : getClientAddress
     let ipDetails: IpDetails | undefined = undefined
 
     if (isStringValidJSONObject<IpDetails>(decryptData(cookies.get(users_ip_details) ?? ''))) ipDetails = JSON.parse(decryptData(cookies.get(users_ip_details) ?? '')) as IpDetails
