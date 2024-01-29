@@ -14,7 +14,6 @@
 
   async function releaseSongs() {
     response = { type: ResponseDataEnum.LOADING }
-
     try {
       const cacheDB = new DataIndexDS<MusicDataList>(freshAddedCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()

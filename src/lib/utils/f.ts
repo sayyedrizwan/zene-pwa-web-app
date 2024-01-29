@@ -1,4 +1,6 @@
-import type { MusicData } from '../../domain/local/entities/MusicData'
+import { MusicType, type MusicData } from '../../domain/local/entities/MusicData'
+import { MusicPlayerData } from '../../domain/local/entities/MusicPlayerData'
+import { DataIndexDS, indexDB, musicPlayerInfoCache } from './indexd'
 
 export function openSongDialog(musicInfo: MusicData | null) {
   const customEvent = new CustomEvent('songdialog', {
@@ -9,6 +11,12 @@ export function openSongDialog(musicInfo: MusicData | null) {
 
 export function playSongZene(song: MusicData | null) {
   if (song == null) return
+  const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
+  cacheDB.deleteAllRecords()
+  let m = new MusicPlayerData([], song, 0, 0, MusicType.MUSIC)
+  cacheDB.saveToIndexedDB(m)
+
+
   const customEvent = new CustomEvent('playsongid', {
     detail: { value: song },
   })

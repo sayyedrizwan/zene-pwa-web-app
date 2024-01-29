@@ -6,6 +6,26 @@ import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from
 import { NavigationRoute, registerRoute } from 'workbox-routing'
 
 declare let self: ServiceWorkerGlobalScope
+const CACHE_NAME = 'zene-cache-v1'
+const urlsToCache = ['/']
+
+
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+      caches.open(CACHE_NAME).then(function(cache) {
+          return cache.addAll(urlsToCache);
+      })
+  );
+})
+
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+      caches.match(event.request).then(function(response) {
+          return response || fetch(event.request);
+      })
+  );
+})
+
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()

@@ -34,10 +34,6 @@
 </script>
 
 
-<audio controls id="a" playsinline>
-  <source id="s" src="" type="audio/mpeg">
-</audio>
-
 
 {#if thumbnail != null}
   <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer">
