@@ -23,7 +23,7 @@
 
 {#if key != null}
   {#if searchParam.length > 3}
-    <SearchResults {key} {searchParam} />
+    <SearchResults {key} bind:searchParam />
   {:else}
     <SearchTopBar {key} bind:searchParam />
   {/if}
