@@ -60,7 +60,9 @@
 </script>
 
 <div class="relative h-[80vh]">
-  {#if response.type == ResponseDataEnum.SUCCESS}
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/e-ORhEE9VVg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="runeed"> 
+  </iframe>
+  <!-- {#if response.type == ResponseDataEnum.SUCCESS}
     {#if response?.data != null}
       <video id="artistsVid" class="absolute top-0 left-0 w-full object-cover h-[60vh] md:h-[80vh] bg-white" style="line-height: 0" controls={false} autoplay={true} muted={true} loop={true} controlsList="nodownload">
         <source src={URL.createObjectURL(response?.data ?? '')} />
@@ -70,5 +72,5 @@
     {/if}
   {:else}
     <img class="absolute top-0 left-0 w-full object-cover h-[60vh] md:h-[80vh]" src={artistsInfo.image} alt={artistsInfo.name} />
-  {/if}
+  {/if} -->
 </div>
