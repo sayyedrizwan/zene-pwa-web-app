@@ -8,7 +8,7 @@
   import { onMount } from 'svelte'
   import axios from 'axios'
   import type { MusicData } from '../domain/local/entities/MusicData'
-  import { APManager } from './api/utils/s'
+  import { APManager } from '../lib/utils/s'
   import { env } from '$env/dynamic/public'
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'

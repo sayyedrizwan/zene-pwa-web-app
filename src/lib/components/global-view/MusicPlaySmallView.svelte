@@ -4,12 +4,13 @@
   import PAUSE_ICON from '$lib/assets/img/ic_pause.svg'
   import { onDestroy, onMount } from 'svelte'
   import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
-  import { APManager } from '../../../routes/api/utils/s'
+  import { APManager } from '../../utils/s'
 
   export let audioPlayer: APManager
 
   let thumbnail: string | null = null
   let isSongPlaying: boolean = false
+  let isBuffering: boolean = false
   let interval: NodeJS.Timeout | null = null
 
   async function checkFunction() {
@@ -22,6 +23,7 @@
     }
 
     isSongPlaying = audioPlayer?.isPlaying() ?? false
+    isBuffering = audioPlayer?.isBuffering() ?? false
   }
 
   onMount(async () => {
@@ -36,8 +38,16 @@
 {#if thumbnail != null}
   <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer">
     <img src={thumbnail} alt="music thumbnail" class="size-14 md:size-28" />
+   
+    {#if isBuffering === true}
+    <button type="button" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <svg class="animate-spin size-7 text-maincolor" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </button>
 
-    {#if isSongPlaying === true}
+    {:else if isSongPlaying === true}
       <img src={PAUSE_ICON} alt="play" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 size-5 md:size-7" />
     {:else}
       <img src={PLAY_ICON} alt="play" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 size-5 md:size-7" />
