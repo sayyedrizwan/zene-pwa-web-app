@@ -18,7 +18,7 @@
   function onSubmit() {
     const searchValue = document.getElementById('voice-search') as HTMLInputElement
 
-    if (searchValue.value.trim().length <= 3) return
+    if (searchValue.value.trim().length <= 2) return
     searchParam = searchValue.value.trim()
   }
 
@@ -56,7 +56,7 @@
         voiceSearchTranscript = ''
       }
 
-      recognition.onresult = (event) => {
+      recognition.onresult = (event: any) => {
         voiceSearchTranscript = event.results[0][0].transcript
       }
 

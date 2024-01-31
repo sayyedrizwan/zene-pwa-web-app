@@ -32,10 +32,10 @@ export class SearchMusicData {
 }
 
 export class MusicData {
-  name: string | null
-  artists: string | null
-  songId: string | null
-  thumbnail: string | null
+  name?: string | null
+  artists?: string | null
+  songId?: string | null
+  thumbnail?: string | null
   type: MusicType
 
   constructor(name: string | null, artists: string | null, songId: string | null, thumbnail: string, type: MusicType) {

@@ -20,16 +20,18 @@
     responseSongs = { type: ResponseDataEnum.LOADING }
     responseArtists = { type: ResponseDataEnum.LOADING }
 
-    try {
-      const cacheDB = new DataIndexDS<ExtraDataMusicData>(trendingSongsInCountryCache, indexDB)
+    const cacheDB = new DataIndexDS<ExtraDataMusicData>(trendingSongsInCountryCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
+    try {
       if (cacheRecords.length > 0)
         if (isAPICachedForADay((cacheRecords?.[0] as any)?.resultOne.length, `t_c_s_l`)) {
           const records = cacheRecords?.[0] as ExtraDataMusicData
-          responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(records.resultOne ?? []) }
-          responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.resultTwo ?? [], 2) }
-          return
+          if ((records?.resultOne?.length ?? 0 > 0) && (records?.resultTwo?.length ?? 0 > 0)) {
+            responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(records.resultOne ?? []) }
+            responseArtists = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records.resultTwo ?? [], 2) }
+            return
+          }
         }
       const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
@@ -40,6 +42,7 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
+      cacheDB.deleteAllRecords()
       responseSongs = { type: ResponseDataEnum.ERROR }
       responseArtists = { type: ResponseDataEnum.ERROR }
     }
@@ -67,10 +70,10 @@
         {#each responseSongs.data?.results ?? [] as songs}
           <button class="p-2" on:click|stopPropagation={() => playSongZene(songs)}>
             <div class="w-full h-[8rem] rounded-xl bg-maincolor bg-opacity-60 flex justify-center items-center">
-              <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
+              <img src={songs?.thumbnail} alt={songs?.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
               <div class="w-full m-3">
-                <p class="text-white urbanist-semibold text-base text-start">{songs.name}</p>
-                <p class="text-white urbanist-thin text-base text-start">{songs.artists}</p>
+                <p class="text-white urbanist-semibold text-base text-start">{songs?.name}</p>
+                <p class="text-white urbanist-thin text-base text-start">{songs?.artists}</p>
               </div>
               <div class="p-2">
                 <button on:click|stopPropagation={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" /> </button>

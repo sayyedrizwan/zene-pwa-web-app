@@ -2,6 +2,7 @@
   import { DataIndexDS, indexDB, musicPlayerInfoCache } from '$lib/utils/indexd'
   import PLAY_ICON from '$lib/assets/img/ic_play.svg'
   import PAUSE_ICON from '$lib/assets/img/ic_pause.svg'
+  import NON_IMG from '$lib/assets/img/non_song_img.jpg'
   import { onDestroy, onMount } from 'svelte'
   import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
   import { APManager } from '../../utils/s'
@@ -19,11 +20,16 @@
 
     if (records.length > 0) {
       const music = records[0] as MusicPlayerData
-      thumbnail = music.m.thumbnail
+      thumbnail = music.m.thumbnail ?? ""
     }
 
     isSongPlaying = audioPlayer?.isPlaying() ?? false
     isBuffering = audioPlayer?.isBuffering() ?? false
+  }
+
+  function errorImage(){
+  const img = document.getElementById('s-img') as HTMLImageElement
+  img.src = NON_IMG
   }
 
   onMount(async () => {
@@ -37,7 +43,7 @@
 
 {#if thumbnail != null}
   <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer">
-    <img src={thumbnail} alt="music thumbnail" class="size-14 md:size-28" />
+    <img src={thumbnail} alt="music thumbnail" id="s-img" class="size-14 md:size-28" on:error={errorImage}/>
    
     {#if isBuffering === true}
     <button type="button" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

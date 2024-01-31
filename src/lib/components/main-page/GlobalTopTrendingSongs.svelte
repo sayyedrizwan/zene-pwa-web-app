@@ -16,15 +16,17 @@
   async function topGlobalSongs() {
     response = { type: ResponseDataEnum.LOADING }
 
-    try {
-      const cacheDB = new DataIndexDS<MusicDataList>(globalTrendingSongsArtists, indexDB)
+    const cacheDB = new DataIndexDS<MusicDataList>(globalTrendingSongsArtists, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
+    try {
       if (cacheRecords.length > 0)
         if (isAPICachedForADay(cacheRecords[0].length, `t_s_l`)) {
           const records = cacheRecords[0] as MusicDataList
-          response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records?.results ?? [], 3) }
-          return
+          if (records.results?.length ?? 0 > 0) {
+            response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records?.results ?? [], 3) }
+            return
+          }
         }
 
       const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
@@ -34,6 +36,7 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
+      cacheDB.deleteAllRecords()
       response = { type: ResponseDataEnum.ERROR }
     }
   }
@@ -61,10 +64,10 @@
           {#each item as songs}
             <button class="p-2" on:click|stopPropagation={() => playSongZene(songs)}>
               <div class="w-80 h-[8rem] rounded-xl bg-lightblack flex justify-center items-center">
-                <img src={songs.thumbnail} alt={songs.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
+                <img src={songs?.thumbnail} alt={songs?.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
                 <div class="w-full m-3">
-                  <p class="text-white urbanist-semibold text-base text-start">{songs.name}</p>
-                  <p class="text-white urbanist-thin text-base text-start">{songs.artists}</p>
+                  <p class="text-white urbanist-semibold text-base text-start">{songs?.name}</p>
+                  <p class="text-white urbanist-thin text-base text-start">{songs?.artists}</p>
                 </div>
                 <div class="p-2">
                   <button on:click|stopPropagation={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" /> </button>

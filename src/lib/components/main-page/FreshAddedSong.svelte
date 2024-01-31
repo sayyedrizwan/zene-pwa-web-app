@@ -14,15 +14,18 @@
 
   async function releaseSongs() {
     response = { type: ResponseDataEnum.LOADING }
-    try {
-      const cacheDB = new DataIndexDS<MusicDataList>(freshAddedCache, indexDB)
+
+    const cacheDB = new DataIndexDS<MusicDataList>(freshAddedCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
+    try {
       if (cacheRecords.length > 0)
         if (isAPICached(cacheRecords[0].length, `f_a_s_l`)) {
           const records = cacheRecords[0] as MusicDataList
-          response = { type: ResponseDataEnum.SUCCESS, data: records }
-          return
+          if (records.results?.length ?? 0 > 0) {
+            response = { type: ResponseDataEnum.SUCCESS, data: records }
+            return
+          }
         }
 
       const res = await axios.post(env.PUBLIC_NEW_RELEASE, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
@@ -32,6 +35,7 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
+      cacheDB.deleteAllRecords()
       response = { type: ResponseDataEnum.ERROR }
     }
   }
@@ -58,13 +62,13 @@
         <button class="p-2" on:click|stopPropagation={() => playSongZene(item)}>
           <div class="w-80 h-[11rem] rounded-lg bg-lightblack flex">
             <div class="relative w-3/4 h-[11rem]">
-              <p class={`text-white urbanist-semibold text-start ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item.name}</p>
-              <p class="text-white urbanist-thin text-sm ms-3 text-start">{item.artists}</p>
+              <p class={`text-white urbanist-semibold text-start ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item?.name}</p>
+              <p class="text-white urbanist-thin text-sm ms-3 text-start">{item?.artists}</p>
 
               <button on:click|stopPropagation={() => openSongDialog(item)}><img src={MenuIcon} class="absolute bottom-3 left-2 size-6" alt="menu" /></button>
             </div>
 
-            <img src={item.thumbnail} alt={item.name} class="s-1/4 p-4" referrerpolicy="no-referrer" />
+            <img src={item?.thumbnail} alt={item?.name} class="s-1/4 p-4" referrerpolicy="no-referrer" />
           </div>
         </button>
       {/each}

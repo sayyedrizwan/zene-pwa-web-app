@@ -1,4 +1,5 @@
-import { MusicData } from '../../domain/local/entities/MusicData'
+import Hls from 'hls.js'
+import { MusicData, MusicType } from '../../domain/local/entities/MusicData'
 
 
 interface AudioPlayer {
@@ -20,6 +21,7 @@ export class APManager implements AudioPlayer {
   private audioElement: HTMLAudioElement | undefined
   private sourceElementOGG: HTMLSourceElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
+  private videoElement: HTMLVideoElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
 
@@ -28,6 +30,7 @@ export class APManager implements AudioPlayer {
       this.stop()
     }
 
+    const videoe = document.createElement('video') as HTMLVideoElement
     const audioe = document.createElement('audio') as HTMLAudioElement
 
     const oggsource = document.createElement('source') as HTMLSourceElement
@@ -38,29 +41,24 @@ export class APManager implements AudioPlayer {
     mpegsource.type = 'audio/mpeg'
     audioe.appendChild(mpegsource)
 
+
+    this.videoElement = videoe
     this.audioElement = audioe
     this.sourceElementOGG = oggsource
     this.sourceElementMPEG = mpegsource
 
-    // this.audioElement.onerror = () => {
-    //   console.log('error')
-    // }
+    this.audioElement.onplay = () => this.buffering = false
+    this.videoElement.onplay = () => this.buffering = false
 
-    this.audioElement.addEventListener('ended', () => {
-      console.log('Audio has ended')
-    })
+    this.audioElement.oncanplaythrough = () => {
+      this.audioElement!.play()
+      if (this.audioElement?.paused) {
+        const event = new Event('click')
+        this.audioElement.dispatchEvent(event)
+        this.audioElement.play()
+      }
+    }
 
-    this.audioElement.addEventListener('pause', () => {
-      console.log('Audio has been paused')
-    })
-
-    this.audioElement.addEventListener('play', () => {
-      console.log('Audio has started playing')
-      this.buffering = false
-    })
-
-    this.audioElement.oncanplaythrough = () => this.audioElement!.play()
-    
     this.audioElement.addEventListener('loadedmetadata', () => {
       this.audioElement!.title = ""
       this.updatemetadata(this.music!)
@@ -70,21 +68,44 @@ export class APManager implements AudioPlayer {
         this.audioElement?.addEventListener('timeupdate', getDuration)
       }
     })
+
+    this.videoElement.oncanplaythrough = () => {
+      this.videoElement!.play()
+      if (this.videoElement?.paused) {
+        const event = new Event('click')
+        this.videoElement.dispatchEvent(event)
+        this.videoElement.play()
+      }
+    }
+
+    this.videoElement.addEventListener('loadedmetadata', () => {
+      this.updatemetadata(this.music!)
+    })
   }
 
   async play(url: string, music: MusicData): Promise<void> {
     stop()
+
     this.music = music
+    this.audioElement!.preload = 'auto'
+    this.videoElement!.preload = 'auto'
     this.buffering = true
 
-    this.audioElement!.preload = 'auto'
-    this.audioElement?.addEventListener('canplaythrough', () => {
-      if (this.audioElement?.paused) {
-        const event = new Event('click')
-        this.audioElement.dispatchEvent(event)
-        this.audioElement.play()
-      }
-    }, false)
+    if (music.type == MusicType.RADIO) {
+      if (url.includes(".m3u8") === true){
+        if (Hls.isSupported()) {
+          var hls = new Hls()
+          hls.loadSource(url)
+          hls.loadSource(url)
+          hls.attachMedia(this.videoElement!);
+        } else if (this.videoElement!.canPlayType('application/vnd.apple.mpegurl')) {
+          this.videoElement!.src = url
+        }
+      } else
+          this.videoElement!.src = url
+
+      return
+    }
 
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url
@@ -98,10 +119,10 @@ export class APManager implements AudioPlayer {
     if (!ms) return
 
     ms.metadata = new window.MediaMetadata({
-      title: `${music.name ?? 'Zene'}`,
-      artist: `${music.artists ?? 'zene: free music player'}`,
+      title: `${music?.name ?? 'Zene'}`,
+      artist: `${music?.artists ?? 'zene: free music player'}`,
       album: 'Zene',
-      artwork: [{ src: music.thumbnail ?? "", sizes: '512x512', type: 'image/png' }]
+      artwork: [{ src: music?.thumbnail ?? "", sizes: '512x512', type: 'image/png' }]
     })
 
     const setActionHandler = ms.setActionHandler.bind(ms)
@@ -125,18 +146,30 @@ export class APManager implements AudioPlayer {
   }
 
   isPlaying(): boolean {
+    if (this.music?.type == MusicType.RADIO) {
+      return !this.videoElement?.paused
+    }
     return !this.audioElement?.paused
   }
 
   isBuffering(): boolean | undefined {
-    if(this.buffering == true) return true
+    if (this.buffering == true) return true
 
+    if (this.music?.type == MusicType.RADIO) {
+      return this.audioElement!.networkState == 2
+    }
     return this.audioElement!.networkState == 2
   }
 
   stop(): void {
     try {
-      if (this.audioElement?.src != undefined) URL.revokeObjectURL(this.audioElement?.src)
+      this.videoElement?.pause()
+      this.videoElement!.currentTime = 0
+    } catch (error) {
+      error
+    }
+
+    try {
       this.audioElement?.pause()
       this.audioElement!.currentTime = 0
     } catch (error) {

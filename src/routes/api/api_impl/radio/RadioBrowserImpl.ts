@@ -1,6 +1,6 @@
 import dns from 'dns'
 import util from 'util'
-import { radio_browser_country, radio_browser_name, radio_browser_url } from '../../utils/utils'
+import { radio_browser_country, radio_browser_name, radio_browser_search_by_uuid, radio_browser_url } from '../../utils/utils'
 import axios from 'axios'
 import type { RadioListResponse } from './domain/RadioListResponse'
 
@@ -33,6 +33,13 @@ export class RadioBrowserImpl {
         const radioBaseURL = await this.getLiveURL()
         const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_name}${q.replaceAll(" ", "+")}`, { timeout: 120000 })
 
+        return (await responseRadio.data) as RadioListResponse
+    }
+
+
+    async radioPlayURL(uuid: string) {
+        const radioBaseURL = await this.getLiveURL()
+        const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_search_by_uuid}${uuid}`, { timeout: 120000 })
 
         return (await responseRadio.data) as RadioListResponse
     }

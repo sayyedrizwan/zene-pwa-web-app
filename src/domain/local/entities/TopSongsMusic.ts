@@ -1,7 +1,7 @@
 import type { MusicData } from './MusicData'
 
 export class TopSongsMusicResults {
-  music: TopSongsMusic[]
+  music?: TopSongsMusic[]
 
   constructor(music: TopSongsMusic[]) {
     this.music = music

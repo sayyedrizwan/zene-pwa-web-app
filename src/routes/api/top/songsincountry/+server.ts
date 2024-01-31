@@ -29,7 +29,7 @@ export async function POST(events: RequestEvent) {
 
     await Promise.all(
       lists.map(async (m) => {
-        const name = getTextBeforeKeyword(getTextBeforeKeyword(m.artists ?? '', ',')!, '&')
+        const name = getTextBeforeKeyword(getTextBeforeKeyword(m?.artists ?? '', ',')!, '&')
         const music = await ytImpl.artistsSearch(name ?? '')
         if (music[0].songId != null) artistsLists.push(music[0])
       }),

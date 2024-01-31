@@ -12,20 +12,21 @@
   export let authKey: string
 
   let response: ResponseData<TopSongsMusicResults> = { type: ResponseDataEnum.EMPTY }
-    
 
   async function topSongs() {
     response = { type: ResponseDataEnum.LOADING }
+    const cacheDB = new DataIndexDS<TopSongsMusicResults>(topSongTableCache, indexDB)
+    const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
-      const cacheDB = new DataIndexDS<TopSongsMusicResults>(topSongTableCache, indexDB)
-      const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
-
       if (cacheRecords.length > 0)
         if (isAPICached((cacheRecords?.[0] as any)?.music.length, `t_l_s_t`)) {
           const records = cacheRecords?.[0] as TopSongsMusicResults
-          response = { type: ResponseDataEnum.SUCCESS, data: records }
-          return
+        
+          if (records?.music?.length ?? 0 > 0) {
+            response = { type: ResponseDataEnum.SUCCESS, data: records }
+            return
+          }
         }
 
       const res = await axios.post(env.PUBLIC_TOP_LISITING_SONGS, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
@@ -35,6 +36,7 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
+      cacheDB.deleteAllRecords()
       response = { type: ResponseDataEnum.ERROR }
     }
   }
@@ -56,14 +58,14 @@
     {/each}
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
-  {#if response.data.music.length > 0}
+  {#if response?.data?.music?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
     <div class="overflow-x-auto flex scrollbar-hide">
-      {#each response.data.music as item (item?.music?.songId)}
+      {#each response?.data?.music ?? [] as item (item?.music?.songId)}
         <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
           <div class="flex flex-col items-center justify-center gap-2 cursor-pointer">
             <button class="relative w-[16rem] h-[22rem] bg-black rounded-lg" on:click|stopPropagation={() => playSongZene(item.music)}>
-              <img src={item.artistsImg} alt={item.music?.artists} class="absolute top-0 left-0 w-full h-full object-cover rounded-lg" referrerpolicy="no-referrer" />
+              <img src={item?.artistsImg} alt={item.music?.artists} class="absolute top-0 left-0 w-full h-full object-cover rounded-lg" referrerpolicy="no-referrer" />
               <div class="absolute top-0 left-0 w-full h-full rounded-lg bg-opacity-60 md:bg-opacity-30 bg-maincolor hover-animation" />
               <div class="absolute top-0 left-0 w-full h-full rounded-lg md:bg-opacity-10 md:bg-maincolor md:hover:bg-opacity-50 hover-animation">
                 <p class="text-white urbanist-thin text-sm mt-2 ms-2 text-start">{item.music?.artists}</p>

@@ -16,15 +16,17 @@
   async function radioList() {
     response = { type: ResponseDataEnum.LOADING }
 
-    try {
-      const cacheDB = new DataIndexDS<ExtraDataMusicData>(radioTableCache, indexDB)
+    const cacheDB = new DataIndexDS<ExtraDataMusicData>(radioTableCache, indexDB)
       const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
+    try {
       if (cacheRecords.length > 0)
         if (isAPICached(cacheRecords[0].length, `r_i_l`)) {
           const records = cacheRecords[0] as ExtraDataMusicData
-          response = { type: ResponseDataEnum.SUCCESS, data: records }
-          return
+          if ((records?.resultOne?.length ?? 0 > 0) && (records?.resultTwo?.length ?? 0 > 0)) {
+            response = { type: ResponseDataEnum.SUCCESS, data: records }
+            return
+          }
         }
 
       const res = await axios.post(env.PUBLIC_RADIO_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
@@ -34,6 +36,7 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
     } catch (error) {
+      cacheDB.deleteAllRecords()
       response = { type: ResponseDataEnum.ERROR }
     }
   }

@@ -24,6 +24,7 @@ export const top_100_artists_billboard = 'https://www.billboard.com/charts/artis
 export const radio_browser_url = '_api._tcp.radio-browser.info'
 export const radio_browser_country = '/json/stations/bycountry/'
 export const radio_browser_name = '/json/stations/search?name='
+export const radio_browser_search_by_uuid = '/json/stations/byuuid?uuids='
 
 // cookie
 export const last_sync_ts_cookie = 'last_sync_ts'

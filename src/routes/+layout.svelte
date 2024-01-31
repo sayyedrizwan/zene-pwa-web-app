@@ -45,11 +45,11 @@
   {@html webManifest}
 </svelte:head>
 
-
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
+
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />
