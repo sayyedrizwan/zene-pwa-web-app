@@ -97,21 +97,23 @@
         <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Albums</h3>
         <h3 class="text-white urbanist-light text-sm md:text-xl mx-2 md:mx-4 mt-4">No Album Found.</h3>
       {/if}
+      
     </div>
 
     <div>
       {#if searchSuggestion.data.songs.length > 0}
         <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-[96%]">
           {#each searchSuggestion.data.songs as musicData}
-            <button class="flex-none py-4 px-1 mx-3 justify-center items-center" on:click|stopPropagation={() => playSongZene(musicData)}>
+            <button class="flex-none w-full py-4 px-1 mx-3 justify-center items-center" on:click|stopPropagation={() => playSongZene(musicData)}>
               <div class="relative">
                 <img src={musicData.thumbnail} alt={musicData.name} class="w-full rounded-lg object-cover" />
                 <div class="absolute top-0 left-0 w-full h-[89%] md:h-[95%] rounded-lg bg-gradient-to-bl from-maincolor to-transparent"></div>
                 <button on:click|stopPropagation={() => openSongDialog(musicData)}><img src={MenuIcon} class="absolute top-1 right-1 size-6" alt="menu" /> </button>
               </div>
-              <p class="text-white urbanist-semibold text-base mt-2 text-center w-full whitespace-nowrap">{musicData.name}</p>
-              <p class="text-white urbanist-thin mt-1 text-center w-full whitespace-nowrap">{musicData.artists}</p>
+              <p class="text-white urbanist-semibold text-base text-center w-full truncate">{musicData.name}</p>
+              <p class="text-white urbanist-thin mt-1 text-center w-full truncate">{musicData.artists}</p>
             </button>
           {/each}
         </div>

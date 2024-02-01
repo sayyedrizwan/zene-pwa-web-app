@@ -18,9 +18,9 @@
 </script>
 
 <svelte:head>
-  <title>{artistsInfo.name ?? "Artists"} on Zene: A free music app</title>
-  <meta name="description" content={artistsInfo.description.length > 140 ? `${artistsInfo.description.substring(0, 139)}....` : artistsInfo.description} />
-  <meta name="og:description" content={artistsInfo.description.length > 140 ? `${artistsInfo.description.substring(0, 139)}....` : artistsInfo.description} />
+  <title>{artistsInfo?.name ?? "Artists"} on Zene: A free music app</title>
+  <meta name="description" content={artistsInfo?.description?.length ?? 0 > 140 ? `${artistsInfo?.description?.substring(0, 139)}....` : artistsInfo?.description} />
+  <meta name="og:description" content={artistsInfo?.description?.length ?? 0 > 140 ? `${artistsInfo?.description?.substring(0, 139)}....` : artistsInfo?.description} />
   <meta property="og:title" content="{artistsInfo.name} on Zene" />
   <meta property="og:image" content={artistsInfo.image} />
   <meta property="og:image:alt" content={`${artistsInfo.name} on Zene`} />

@@ -2,7 +2,6 @@ import { json, type RequestEvent } from '@sveltejs/kit'
 import { apiError, authKeyError } from '../../utils/utils'
 import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { YtAPIImpl } from '../../api_impl/yt/YtVideoSearch'
-import { yt_downloader_define, yt_downloader_header } from '../../sdu/ytdownloaderutils'
 
 export const GET = (async (req: RequestEvent) => {
   const headers = req.request.headers

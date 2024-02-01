@@ -31,6 +31,11 @@ export const last_sync_ts_cookie = 'last_sync_ts'
 export const users_ip_address = 'i'
 export const users_ip_details = 'i_d'
 
+
+export function waitServer(time: number) {
+  return new Promise((resolve) => { setTimeout(resolve, time) })
+}
+
 export function formatNumberString(numberString: string): string {
   const parsedNumber = Number(numberString)
   if (Number.isNaN(parsedNumber)) {
