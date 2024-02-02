@@ -8,20 +8,22 @@
   import PinIcon from '$lib/assets/img/ic_pin.svg'
   import AirdropIcon from '$lib/assets/img/ic_airdrop.svg'
   import ShareIcon from '$lib/assets/img/ic_share.svg'
-    import { shareATxt } from '$lib/utils/f'
+  import { playSongZene, shareATxt } from '$lib/utils/f'
+    import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 
   export let key: string
   export let artistsInfo: ArtistsInfoData
 
   let showFullDesc: Boolean = false
   let videoTime: NodeJS.Timeout | null = null
+  let radioId: string | null = null
   let response: ResponseData<string | null> = { type: ResponseDataEnum.EMPTY }
 
   async function artistsVideo() {
     response = { type: ResponseDataEnum.LOADING }
     try {
       const res = await axios.get(env.PUBLIC_SEARCH_ARTISTS_TOP_VIDEO, { headers: { AuthorizationKey: key, name: artistsInfo.name } })
-      const videoId = await res.data
+      const videoId = await res.data as string
       if (String(videoId).trim() === '') response = { type: ResponseDataEnum.SUCCESS, data: null }
       else response = { type: ResponseDataEnum.SUCCESS, data: videoId }
     } catch (error) {
@@ -29,19 +31,39 @@
     }
   }
 
+  async function artistsRadio() {
+    try {
+      const res = await axios.post(env.PUBLIC_SEARCH_ARTISTS_RADIO, {}, { headers: { AuthorizationKey: key, name: artistsInfo.name } })
+      const path = await res.data as string
+      if (String(path).trim() === '') radioId = null
+      else radioId = path
+    } catch (error) {
+      radioId = null
+    }
+  }
+
   onMount(async () => {
     artistsVideo()
+    artistsRadio()
   })
 
   onDestroy(() => {
     if (videoTime != undefined) clearInterval(videoTime)
   })
 
-  function shareArtists(){
-    const title = `${artistsInfo?.name ?? "Artists"} on Zene`
+  function shareArtists() {
+    const title = `${artistsInfo?.name ?? 'Artists'} on Zene`
     shareATxt(title, window.location.href)
   }
-
+  
+  function startPlayingRadio() {
+    if(radioId === null) {
+      alert('No Radio Found')
+      return
+    }
+    const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? "", window.atob(radioId), artistsInfo.image ?? "", MusicType.MUSIC)
+    playSongZene(m)
+  }
 </script>
 
 <div class="relative">
@@ -82,10 +104,10 @@
     <img src={PinIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Pin</p>
   </div>
-  <div class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer">
+  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer" on:click={startPlayingRadio}>
     <img src={AirdropIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Radio</p>
-  </div>
+  </button>
   <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto" on:click={shareArtists}>
     <img src={ShareIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Share</p>
