@@ -14,35 +14,8 @@
   export let artistsInfo: ArtistsInfoData
 
   let showFullDesc: Boolean = false
-
   let videoTime: NodeJS.Timeout | null = null
-
   let response: ResponseData<string | null> = { type: ResponseDataEnum.EMPTY }
-
-  function keepCheckingVideo() {
-    const video = document.getElementById('artistsVid') as HTMLVideoElement
-    if (video == null) return
-
-    if (video.controls == true) window.location.reload()
-
-    const currentTime = video.currentTime
-    const duration = video.duration
-
-    if (duration > 0) {
-      const quarterDuration = duration * 0.25
-
-      if (currentTime < quarterDuration) {
-        const targetTime = duration * 0.3
-        video.currentTime = targetTime
-      }
-
-      const remainingSeconds = video.duration - video.currentTime
-      if (remainingSeconds - 10 <= 0) {
-        const targetTime = duration * 0.3
-        video.currentTime = targetTime
-      }
-    }
-  }
 
   async function artistsVideo() {
     response = { type: ResponseDataEnum.LOADING }
@@ -51,8 +24,6 @@
       const videoId = await res.data
       if (String(videoId).trim() === '') response = { type: ResponseDataEnum.SUCCESS, data: null }
       else response = { type: ResponseDataEnum.SUCCESS, data: videoId }
-
-      // videoTime = setInterval(keepCheckingVideo, 1000)
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }
     }
@@ -67,7 +38,7 @@
   })
 
   function shareArtists(){
-    const title = `${artistsInfo?.name ?? "Artists"} on Zene: A free music app`
+    const title = `${artistsInfo?.name ?? "Artists"} on Zene`
     shareATxt(title, window.location.href)
   }
 
