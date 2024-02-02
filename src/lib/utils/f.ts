@@ -22,3 +22,16 @@ export function playSongZene(song: MusicData | null) {
   })
   document.dispatchEvent(customEvent)
 }
+
+export async function shareATxt(v: string) {
+  const sharedDataSample = {
+    title: "Some text title",
+    text: "More text",
+    url: "https://zenemusic.co/a/2E5WGeTq3tSkraBl0ogH2Q",
+  };
+  try {
+    await navigator.share(sharedDataSample)
+  } catch (e) {
+    console.error(`Error: ${e}`)
+  }
+}

@@ -4,9 +4,16 @@
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { env } from '$env/dynamic/public'
   import axios from 'axios'
+  import ArrowLeft from '$lib/assets/img/ic_arrow_down.svg'
+  import PinIcon from '$lib/assets/img/ic_pin.svg'
+  import AirdropIcon from '$lib/assets/img/ic_airdrop.svg'
+  import ShareIcon from '$lib/assets/img/ic_share.svg'
+    import { shareATxt } from '$lib/utils/f'
 
   export let key: string
   export let artistsInfo: ArtistsInfoData
+
+  let showFullDesc: Boolean = false
 
   let videoTime: NodeJS.Timeout | null = null
 
@@ -74,12 +81,36 @@
           referrerPolicy="origin"
         >
         </iframe>
-        <div class="absolute top-0 left-0 w-screen h-[100vh] bg-gray-600 bg-opacity-5 cursor-pointer"></div>
       </div>
+      <div class="absolute top-0 left-0 w-screen h-[100vh] bg-gray-950 bg-opacity-50 cursor-pointer"></div>
     {:else}
-      <img class="absolute top-0 left-0 w-full object-cover h-[60vh] md:h-[80vh]" src={artistsInfo.image} alt={artistsInfo.name} />
+      <img class="object-cover w-screen h-[80vh]" src={artistsInfo.image} alt={artistsInfo.name} />
+      <div class="absolute top-0 left-0 w-screen h-[80vh] bg-gray-950 bg-opacity-50 cursor-pointer"></div>
     {/if}
   {:else}
-    <img class="absolute top-0 left-0 w-full object-cover h-[60vh] md:h-[80vh]" src={artistsInfo.image} alt={artistsInfo.name} />
+    <img class="object-cover w-screen h-[80vh]" src={artistsInfo.image} alt={artistsInfo.name} />
+    <div class="absolute top-0 left-0 w-screen h-[80vh] bg-gray-950 bg-opacity-50 cursor-pointer"></div>
   {/if}
+  <h3 class="text-white urbanist-semibold text-4xl md:text-6xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{artistsInfo.name}</h3>
+</div>
+
+<p class={`text-white urbanist-semibold mt-28 mx-3 ${showFullDesc === true ? 'line-clamp-none' : 'line-clamp-4'} hover-animation`}>{artistsInfo.description}</p>
+
+<center>
+  <button on:click={() => (showFullDesc = !showFullDesc)}><img src={ArrowLeft} alt="arrow" class={`size-8 mt-2 ${showFullDesc === true ? 'rotate-180' : 'rotate-0'}`} /></button>
+</center>
+
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 leading-6 rounded-lg p-3 mt-7">
+  <div class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer">
+    <img src={PinIcon} alt="pin" class="size-5" />
+    <p class="text-white urbanist-semibold text-base ms-1">Pin</p>
+  </div>
+  <div class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer">
+    <img src={AirdropIcon} alt="pin" class="size-5" />
+    <p class="text-white urbanist-semibold text-base ms-1">Radio</p>
+  </div>
+  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto" on:click={()=> shareATxt("")}>
+    <img src={ShareIcon} alt="pin" class="size-5" />
+    <p class="text-white urbanist-semibold text-base ms-1">Share</p>
+  </button>
 </div>
