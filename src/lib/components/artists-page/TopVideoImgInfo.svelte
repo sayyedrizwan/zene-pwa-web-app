@@ -65,6 +65,12 @@
   onDestroy(() => {
     if (videoTime != undefined) clearInterval(videoTime)
   })
+
+  function shareArtists(){
+    const title = `${artistsInfo?.name ?? "Artists"} on Zene: A free music app`
+    shareATxt(title, window.location.href)
+  }
+
 </script>
 
 <div class="relative">
@@ -109,7 +115,7 @@
     <img src={AirdropIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Radio</p>
   </div>
-  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto" on:click={()=> shareATxt("")}>
+  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto" on:click={shareArtists}>
     <img src={ShareIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Share</p>
   </button>

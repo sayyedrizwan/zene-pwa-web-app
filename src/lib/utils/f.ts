@@ -23,15 +23,16 @@ export function playSongZene(song: MusicData | null) {
   document.dispatchEvent(customEvent)
 }
 
-export async function shareATxt(v: string) {
+export async function shareATxt(title: string, url: string) {
   const sharedDataSample = {
-    title: "Some text title",
-    text: "More text",
-    url: "https://zenemusic.co/a/2E5WGeTq3tSkraBl0ogH2Q",
-  };
+    title: title,
+    text: title,
+    url: url,
+  }
   try {
     await navigator.share(sharedDataSample)
   } catch (e) {
-    console.error(`Error: ${e}`)
+    await navigator.clipboard.writeText(url)
+    alert('Share link copied successfully..')
   }
 }
