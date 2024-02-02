@@ -2,7 +2,6 @@ import { json, type RequestEvent } from '@sveltejs/kit'
 import { apiError, authKeyError, getRandomItem } from '../../utils/utils'
 import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { YtAPIImpl } from '../../api_impl/yt/YtVideoSearch'
-import { YTDownloaderImpl } from '../../api_impl/yt_downloader/YtDownloaderImpl'
 
 export async function POST(events: RequestEvent) {
   const headers = events.request.headers
