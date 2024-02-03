@@ -4,6 +4,8 @@
   import type { IpDetails } from '../../../domain/local/entities/IpDetails'
   import TopVideoImgInfo from '$lib/components/artists-page/TopVideoImgInfo.svelte'
     import ArtistsImagesView from '$lib/components/artists-page/ArtistsImagesView.svelte'
+    import ArtistsTopSongs from '$lib/components/artists-page/ArtistsTopSongs.svelte'
+    import AlbumsAndTopSongs from '$lib/components/artists-page/AlbumsAndTopSongs.svelte'
 
   export let data: any
 
@@ -32,7 +34,9 @@
   <div class="bg-gray-950 w-full">
     <TopVideoImgInfo {key} {artistsInfo} />
     <ArtistsImagesView {key} {artistsInfo} />
-
+    <ArtistsTopSongs {key} {artistsInfo} />
+    <ArtistsTopSongs {key} {artistsInfo} />
+    <AlbumsAndTopSongs {key} {artistsInfo} />
     
   </div>
 

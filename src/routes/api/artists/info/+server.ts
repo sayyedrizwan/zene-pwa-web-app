@@ -3,7 +3,7 @@ import { decryptAPIKeyAndIsValid, decryptAppSharedData } from '../../utils/Encry
 import { apiError, authKeyError } from '../../utils/utils'
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
-import { SEARCH_LAST_FM, searchLastFMWiki } from '../Utils'
+import { searchLastFM, searchLastFMWiki } from '../Utils'
 import { ArtistsInfoData } from '../../../../domain/local/entities/ArtistsInfoData'
 
 export async function POST(events: RequestEvent) {
@@ -21,7 +21,7 @@ export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   try {
-    const searchInfo = await axios.get(SEARCH_LAST_FM, {params: {q : name.trim().replace(" ", "+").toLowerCase()}})
+    const searchInfo = await axios.get(searchLastFM(name))
     const pageInfo = new JSDOM(await searchInfo.data)
     const artistsImage = pageInfo.window.document.querySelectorAll('.grid-items-cover-image.js-link-block.link-block')[0]?.querySelector('img')?.getAttribute('src')?.replace("300x300", "512x512")
     const link = pageInfo.window.document.querySelectorAll('.js-link-block-cover-link.link-block-cover-link')[0]?.getAttribute("href")

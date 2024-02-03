@@ -23,7 +23,7 @@
     response = { type: ResponseDataEnum.LOADING }
     try {
       const res = await axios.get(env.PUBLIC_SEARCH_ARTISTS_TOP_VIDEO, { headers: { AuthorizationKey: key, name: artistsInfo.name } })
-      const videoId = await res.data as string
+      const videoId = (await res.data) as string
       if (String(videoId).trim() === '') response = { type: ResponseDataEnum.SUCCESS, data: null }
       else response = { type: ResponseDataEnum.SUCCESS, data: videoId }
     } catch (error) {
@@ -34,7 +34,7 @@
   async function artistsRadio() {
     try {
       const res = await axios.post(env.PUBLIC_SEARCH_ARTISTS_RADIO, {}, { headers: { AuthorizationKey: key, name: artistsInfo.name } })
-      const path = await res.data as string
+      const path = (await res.data) as string
       if (String(path).trim() === '') radioId = null
       else radioId = path
     } catch (error) {
@@ -55,13 +55,13 @@
     const title = `${artistsInfo?.name ?? 'Artists'} on Zene`
     shareATxt(title, window.location.href)
   }
-  
+
   function startPlayingRadio() {
-    if(radioId === null) {
+    if (radioId === null) {
       alert('No Radio Found')
       return
     }
-    const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? "", window.atob(radioId), artistsInfo.image ?? "", MusicType.MUSIC)
+    const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? '', window.atob(radioId), artistsInfo.image ?? '', MusicType.MUSIC)
     playSongZene(m)
   }
 </script>
@@ -95,9 +95,11 @@
 
 <p class={`text-white urbanist-semibold mt-28 mx-3 ${showFullDesc === true ? 'line-clamp-none' : 'line-clamp-4'} hover-animation`}>{artistsInfo.description}</p>
 
-<center>
-  <button on:click={() => (showFullDesc = !showFullDesc)}><img src={ArrowLeft} alt="arrow" class={`size-8 mt-2 ${showFullDesc === true ? 'rotate-180' : 'rotate-0'}`} /></button>
-</center>
+{#if artistsInfo.description?.length ?? 0 > 4}
+  <center>
+    <button on:click={() => (showFullDesc = !showFullDesc)}><img src={ArrowLeft} alt="arrow" class={`size-8 mt-2 ${showFullDesc === true ? 'rotate-180' : 'rotate-0'}`} /></button>
+  </center>
+{/if}
 
 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 leading-6 rounded-lg p-3 mt-7">
   <div class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer">
