@@ -3,6 +3,7 @@
   import type { ArtistsInfoData } from '../../../domain/local/entities/ArtistsInfoData'
   import type { IpDetails } from '../../../domain/local/entities/IpDetails'
   import TopVideoImgInfo from '$lib/components/artists-page/TopVideoImgInfo.svelte'
+    import ArtistsImagesView from '$lib/components/artists-page/ArtistsImagesView.svelte'
 
   export let data: any
 
@@ -30,6 +31,7 @@
 {#if key != null}
   <div class="bg-gray-950 w-full">
     <TopVideoImgInfo {key} {artistsInfo} />
+    <ArtistsImagesView {key} {artistsInfo} />
 
     
   </div>

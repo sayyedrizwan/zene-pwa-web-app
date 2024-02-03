@@ -1,6 +1,6 @@
 import { env } from '$env/dynamic/private'
 import axios from 'axios'
-import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, spotifyPlaylistSearch, spotifyPlaylistsSearch } from './SpotifyUtil'
+import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_PLAYLISTS_SEARCH, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, spotifyPlaylistSearch } from './SpotifyUtil'
 import type { SpotifyTokenResponse } from './domain/SpotifyTokenResponse'
 import type { SpotifyPlaylistsSongsResponse } from './domain/SpotifyPlaylistsSongsResponse'
 import type { SpotifyPlaylistsResponse } from './domain/SpotifyPlaylistsResponse'
@@ -39,7 +39,7 @@ export class SpotifyImpl {
 
     try {
       const token = await this.getTokens()
-      const response = await axios.get(spotifyPlaylistsSearch(country), { headers: { Authorization: token } })
+      const response = await axios.get(SPOTIFY_PLAYLISTS_SEARCH, { headers: { Authorization: token }, params: { q: `top+50+${country}`, type: "playlist" } })
       const songs = response.data as SpotifyPlaylistsResponse
 
       const playlistsId = songs.playlists?.items?.[0].id ?? ''

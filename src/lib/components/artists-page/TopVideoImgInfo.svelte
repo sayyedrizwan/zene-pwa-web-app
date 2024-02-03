@@ -9,7 +9,7 @@
   import AirdropIcon from '$lib/assets/img/ic_airdrop.svg'
   import ShareIcon from '$lib/assets/img/ic_share.svg'
   import { playSongZene, shareATxt } from '$lib/utils/f'
-    import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
+  import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 
   export let key: string
   export let artistsInfo: ArtistsInfoData
