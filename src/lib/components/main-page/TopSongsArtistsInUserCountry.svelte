@@ -7,7 +7,9 @@
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
-    import GridFullCardItem from '../global-view/items/GridFullCardItem.svelte'
+  import GridFullCardItem from '../global-view/items/GridFullCardItem.svelte'
+    import DualArtistsItems from '../global-view/items/DualArtistsItems.svelte'
+    import { list } from 'firebase/storage'
 
   export let authKey: string
   export let ipDetails: IpDetails | null
@@ -20,7 +22,7 @@
     responseArtists = { type: ResponseDataEnum.LOADING }
 
     const cacheDB = new DataIndexDS<ExtraDataMusicData>(trendingSongsInCountryCache, indexDB)
-      const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+    const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
       if (cacheRecords.length > 0)
@@ -89,23 +91,6 @@
 {:else if responseArtists.type == ResponseDataEnum.SUCCESS}
   {#if responseArtists.data.length > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Artists in {ipDetails?.country ?? 'your country'}</h3>
-
-    <div class="flex overflow-x-auto w-full scrollbar-hide">
-      {#each responseArtists.data as topItem}
-        <div>
-          {#each topItem as item}
-            <div class="p-3">
-              <a href={`/a/${item.songId}`}>
-                <div class="relative size-[13rem] md:size-[15rem] bg-black rounded-lg">
-                  <img class="absolute top-0 left-0 size-[13rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
-                  <div class="absolute top-0 left-0 size-[13rem] md:size-[15rem] bg-gradient-to-bl from-transparent to-maincolor"></div>
-                  <p class="absolute bottom-2 left-2 text-white urbanist-semibold text-base ms-1.5">{item.name}</p>
-                </div>
-              </a>
-            </div>
-          {/each}
-        </div>
-      {/each}
-    </div>
+    <DualArtistsItems list={responseArtists.data} />
   {/if}
 {/if}

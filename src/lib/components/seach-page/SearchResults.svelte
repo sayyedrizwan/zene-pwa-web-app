@@ -8,6 +8,7 @@
   import type { SearchMusicData } from '../../../domain/local/entities/MusicData'
   import RadioStationItems from '../main-page/radio/RadioStationItems.svelte'
     import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
+    import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
 
   export let key: string
   export let searchParam: string
@@ -84,14 +85,7 @@
     <div>
       {#if searchSuggestion.data.album.length > 0}
         <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Albums</h3>
-        <div class="overflow-x-auto flex scrollbar-hide">
-          {#each searchSuggestion.data.album as musicData}
-            <a class="flex-none py-6 px-1 first:pl-2 last:pr-3 mx-3 justify-center items-center" href={`/a/${musicData.songId}`}>
-              <img src={musicData.thumbnail} alt={musicData.name} class="size-44 rounded-lg" />
-              <p class="text-white urbanist-semibold text-base mt-2 text-center w-44">{musicData.name}</p>
-            </a>
-          {/each}
-        </div>
+        <CardAlbumsItems albums={searchSuggestion.data.album} />
       {:else}
         <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Albums</h3>
         <h3 class="text-white urbanist-light text-sm md:text-xl mx-2 md:mx-4 mt-4">No Album Found.</h3>

@@ -11,14 +11,8 @@ export async function POST(events: RequestEvent) {
   const headers = events.request.headers
   const name = headers.get('name') ?? ""
   
-  if (name == undefined) {
-    return json(apiError)
-  }
-
-  if (name === "") {
-    return json(apiError)
-  }
-
+  if (name == undefined) return json(apiError)
+  if (name === "") return json(apiError)
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   const ytImpl = new YtMusicAPIImpl()

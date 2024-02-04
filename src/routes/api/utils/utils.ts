@@ -19,6 +19,9 @@ export function ipBaseUrl(ip: string) {
   return `http://ip-api.com/json/${ip}`
 }
 
+export const google_news_api = "https://news.google.com/rss/search"
+
+
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
 export const radio_browser_url = '_api._tcp.radio-browser.info'

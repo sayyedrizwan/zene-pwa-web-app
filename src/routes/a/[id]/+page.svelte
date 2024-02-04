@@ -6,6 +6,7 @@
     import ArtistsImagesView from '$lib/components/artists-page/ArtistsImagesView.svelte'
     import ArtistsTopSongs from '$lib/components/artists-page/ArtistsTopSongs.svelte'
     import AlbumsAndTopSongs from '$lib/components/artists-page/AlbumsAndTopSongs.svelte'
+    import ArtistsTopNews from '$lib/components/artists-page/ArtistsTopNews.svelte'
 
   export let data: any
 
@@ -34,7 +35,7 @@
   <div class="bg-gray-950 w-full">
     <TopVideoImgInfo {key} {artistsInfo} />
     <ArtistsImagesView {key} {artistsInfo} />
-    <ArtistsTopSongs {key} {artistsInfo} />
+    <ArtistsTopNews {key} {artistsInfo} />
     <ArtistsTopSongs {key} {artistsInfo} />
     <AlbumsAndTopSongs {key} {artistsInfo} />
     

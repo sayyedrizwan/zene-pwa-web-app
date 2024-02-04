@@ -10,15 +10,10 @@ export async function POST(events: RequestEvent) {
   const headers = events.request.headers
   const name = decryptAppSharedData(headers.get('name') ?? "")
 
-  if (name == undefined) {
-    return json(apiError)
-  }
-
-  if (name === "") {
-    return json(apiError)
-  }
-
+  if (name == undefined) return json(apiError)
+  if (name === "") return json(apiError)
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
+
 
   try {
     const searchInfo = await axios.get(searchLastFM(name))
