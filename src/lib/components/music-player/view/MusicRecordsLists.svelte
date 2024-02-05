@@ -11,7 +11,7 @@
 
     <h2 class="text-white urbanist-bold text-base md:text-xl mt-5">{musicData?.m.name}</h2>
 
-    <div class="flex w-full">
+    <div class="flex flex-wrap justify-center items-center w-full">
       {@html artistsSplitToHTMLString(musicData?.m?.artists ?? "")}
     </div>
   </center>

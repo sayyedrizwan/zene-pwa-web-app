@@ -10,6 +10,7 @@ interface AudioPlayer {
   stop(): void
   isPlaying(): boolean | undefined
   isBuffering(): boolean | undefined
+  songDuration(): number
 }
 
 export function getDuration(event: any) {
@@ -153,12 +154,18 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
+    this.audioElement!.duration
     if (this.buffering == true) return true
 
     if (this.music?.type == MusicType.RADIO) {
       return this.audioElement!.networkState == 2
     }
     return this.audioElement!.networkState == 2
+  }
+
+  songDuration(): number {
+   if(isNaN(this.audioElement!.duration)) return 0
+   return this.audioElement!.duration
   }
 
   stop(): void {

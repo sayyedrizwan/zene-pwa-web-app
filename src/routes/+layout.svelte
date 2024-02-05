@@ -38,6 +38,7 @@
         const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`, { timeout: 120000 })
         audioPlayer.play(window.atob(response.data), song)
       } catch (error) {
+        console.log(error)
         alert('Error loading song. Please try again later.')
       }
     })
@@ -66,7 +67,7 @@
   {/if}
   
   {#if songPlayer === true}
-    <ZeneMusicPlayer bind:songPlayer={songPlayer}/>
+    <ZeneMusicPlayer bind:songPlayer={songPlayer} audioPlayer={audioPlayer}/>
   {/if}
 {/if}
 
