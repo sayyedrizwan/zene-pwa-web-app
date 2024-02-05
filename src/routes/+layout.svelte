@@ -13,6 +13,7 @@
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
+    import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -21,9 +22,15 @@
 
   let songMenuDialog: MusicData | null = null
 
+  let songPlayer: Boolean = false
+
   onMount(async () => {
     audioPlayer = new APManager()
     audioPlayer.init()
+
+    document.addEventListener('songplayer', async (event: Event) => {
+      songPlayer = (event as CustomEvent).detail.value as Boolean
+    })
 
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
@@ -56,6 +63,10 @@
 
   {#if songMenuDialog != null}
     <SongInfoSheet />
+  {/if}
+  
+  {#if songPlayer === true}
+    <ZeneMusicPlayer />
   {/if}
 {/if}
 

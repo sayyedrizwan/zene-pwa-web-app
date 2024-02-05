@@ -85,6 +85,15 @@ export function getTextAfterKeyword(txt: string, char: string): string | null {
   }
 }
 
+export function getTextAfterLastKeyword(txt: string, char: string): string | null {
+  try {
+    const lastDashIndex = txt.lastIndexOf(char)
+    return txt.substring(lastDashIndex + 1).trim()
+  } catch (error) {
+    return null
+  }
+}
+
 export function getTextBeforeKeyword(txt: string, char: string): string | null {
   const index: number = txt.indexOf(char)
 

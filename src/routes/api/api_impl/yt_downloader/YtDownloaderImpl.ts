@@ -9,8 +9,12 @@ export class YTDownloaderImpl {
     try {
       const response = await fetch(ytDownloaderDownload(videoId), { method: 'POST', headers: yt_downloader_header, body: `platform=youtube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}&title=HISS&id=${videoId}&ext=mp3&note=128k&format=` })
       const r = await response.json() as YTDownloaderResponse
-      if (r.status == "success") return r.downloadUrlX
-
+      if ((r?.status ?? "") === "success") return r?.downloadUrlX
+    } catch (error) {
+      error
+    }
+    
+    try {
       const responseOther = await fetch(ytDownloaderY2mateDownload(videoId), { method: 'GET', headers: yt2_mate_downloader_header })
       const rOther = await responseOther.json() as YT2MateInfoResponse
 
@@ -46,6 +50,7 @@ export class YTDownloaderImpl {
 
       return downloadURL
     } catch (error) {
+      console.log(error)
       return ""
     }
   }

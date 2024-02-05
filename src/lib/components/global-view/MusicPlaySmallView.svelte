@@ -6,6 +6,7 @@
   import { onDestroy, onMount } from 'svelte'
   import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
   import { APManager } from '../../utils/s'
+    import { showMusicPlayer } from '$lib/utils/f'
 
   export let audioPlayer: APManager
 
@@ -42,7 +43,7 @@
 </script>
 
 {#if thumbnail != null}
-  <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer">
+  <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer" on:click={() => showMusicPlayer(true)}>
     <img src={thumbnail} alt="music thumbnail" id="s-img" class="size-14 md:size-28" on:error={errorImage}/>
    
     {#if isBuffering === true}

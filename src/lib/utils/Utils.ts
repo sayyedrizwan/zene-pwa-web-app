@@ -40,3 +40,33 @@ export function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
 export function capitalizeFirstLetterOfEveryWords(str: string): string {
   return str.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase());
 }
+
+export function formatRelativeTime(dateString: string): string {
+  const date = new Date(dateString)
+  const now = new Date()
+  const differenceInMilliseconds = now.getTime() - date.getTime()
+
+  const seconds = Math.floor(differenceInMilliseconds / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+  const months = Math.floor(days / 30)
+
+  if (seconds < 60) return `${seconds} seconds ago`
+  else if (minutes < 60) return `${minutes} minutes ago`
+  else if (hours < 24) return `${hours} hours ago`
+  else if (days < 30) return `${days} days ago`
+  else if (months < 12) return `${months} months ago`
+  else return date.toLocaleDateString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+}
+
+
+
+export function getFavIcon(url: String): string {
+  return `https://icon.horse/icon/${url.replaceAll("https://", "")}`
+}

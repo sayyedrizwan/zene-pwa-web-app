@@ -25,7 +25,7 @@ export const GET = (async (req: RequestEvent) => {
 
     if (url === "") return new Response("")
 
-    return new Response(btoa(url))
+    return new Response(btoa(url ?? ""))
   } catch (error) {
     return new Response("")
   }

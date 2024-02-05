@@ -6,7 +6,7 @@
   export let results: MusicDataList
 </script>
 
-<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 font-mono text-white text-sm text-center font-bold leading-6 bg-stripes-fuchsia rounded-lg">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-white text-sm text-center font-bold leading-6 bg-stripes-fuchsia rounded-lg">
   {#each results.results ?? [] as songs}
     <button class="p-2" on:click|stopPropagation={() => playSongZene(songs)}>
       <div class="w-full h-[8rem] rounded-xl bg-maincolor bg-opacity-60 flex justify-center items-center">

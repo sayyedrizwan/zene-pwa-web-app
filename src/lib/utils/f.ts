@@ -18,7 +18,17 @@ export function playSongZene(song: MusicData | null) {
 
 
   const customEvent = new CustomEvent('playsongid', {
-    detail: { value: song },
+    detail: { value: song }
+  })
+  document.dispatchEvent(customEvent)
+
+  // showMusicPlayer(true)
+}
+
+
+export function showMusicPlayer(v: Boolean) {
+  const customEvent = new CustomEvent('songplayer', {
+    detail: { value: v },
   })
   document.dispatchEvent(customEvent)
 }

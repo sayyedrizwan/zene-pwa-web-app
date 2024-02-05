@@ -1,5 +1,4 @@
 export interface YTDownloaderResponse {
-    status: string
-    downloadUrlX: string
-  }
-  
+  status?: string
+  downloadUrlX?: string
+}
