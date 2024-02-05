@@ -60,6 +60,7 @@ export class YtMusicAPIImpl {
           let name: string | null
           let songId: string | null
           let artistsName: string[] = []
+
           musicContents?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
             const info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
             if (info?.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == 'MUSIC_VIDEO_TYPE_ATV') {

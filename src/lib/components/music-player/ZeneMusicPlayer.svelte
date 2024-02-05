@@ -4,6 +4,7 @@
   import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
   import { DataIndexDS, indexDB, musicPlayerInfoCache } from '$lib/utils/indexd'
     import MusicRecordsLists from './view/MusicRecordsLists.svelte'
+    import PlayinSongsDurationAction from './view/PlayinSongsDurationAction.svelte'
 
   export let songPlayer: Boolean
 
@@ -47,6 +48,7 @@
     <div class="absolute top-0 left-0 h-full w-full bg-maincolor">
         <div class="mt-20"/>
         <MusicRecordsLists bind:musicData />        
+        <PlayinSongsDurationAction />        
     </div>
 
     <button on:click={closePlayer}>

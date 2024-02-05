@@ -46,3 +46,18 @@ export async function shareATxt(title: string, url: string) {
     alert('Share link copied successfully..')
   }
 }
+
+
+export function artistsSplitToHTMLString(artists:string) : string {
+  const lists = artists.split(/\,|\&|\s+and\s+/).filter((a) => a.trim() != "")
+  var html = ""
+
+  lists.forEach((n, i) => {
+    html += ` 
+      <p class="text-white urbanist-thin text-sm md:text-base mt-1">${(lists.length - 1) == i ? `&nbsp;&&nbsp;` : `` }</p>
+      <a href=${n} class="text-white urbanist-thin text-sm md:text-base mt-1">${n}</a>
+      <p class="text-white urbanist-thin text-sm md:text-base mt-1">${(lists.length - 2) > i ? `,&nbsp;&nbsp;` : `` }</p>
+    `
+  })
+  return html
+}
