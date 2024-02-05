@@ -66,7 +66,7 @@
   {/if}
   
   {#if songPlayer === true}
-    <ZeneMusicPlayer />
+    <ZeneMusicPlayer bind:songPlayer={songPlayer}/>
   {/if}
 {/if}
 

@@ -22,7 +22,7 @@ export function playSongZene(song: MusicData | null) {
   })
   document.dispatchEvent(customEvent)
 
-  // showMusicPlayer(true)
+  showMusicPlayer(true)
 }
 
 
