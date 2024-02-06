@@ -1,5 +1,5 @@
 import Hls from 'hls.js'
-import { MusicData, MusicType } from '../../domain/local/entities/MusicData'
+import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 
 
 interface AudioPlayer {
@@ -11,6 +11,7 @@ interface AudioPlayer {
   isPlaying(): boolean | undefined
   isBuffering(): boolean | undefined
   songDuration(): number
+  changeSongDuration(v: number): void
 }
 
 export function getDuration(event: any) {
@@ -166,6 +167,15 @@ export class APManager implements AudioPlayer {
   songDuration(): number {
    if(isNaN(this.audioElement!.duration)) return 0
    return this.audioElement!.duration
+  }
+
+  songCurrentDuration(): number {
+   if(isNaN(this.audioElement!.currentTime)) return 0
+   return this.audioElement!.currentTime
+  }
+
+  changeSongDuration(v: number) : void {
+    this.audioElement!.currentTime = v
   }
 
   stop(): void {

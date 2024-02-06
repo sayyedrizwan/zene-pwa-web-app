@@ -5,12 +5,13 @@
   import { DataIndexDS, indexDB, musicPlayerInfoCache } from '$lib/utils/indexd'
   import MusicRecordsLists from './view/MusicRecordsLists.svelte'
   import PlayinSongsDurationAction from './view/PlayingSongsDurationAction.svelte'
-  import type { APManager } from '$lib/utils/s'
+  import type { APManager } from '$lib/utils/p/s'
 
   export let songPlayer: Boolean
-  export let currentDuration: Boolean
-  export let totalDuration: Boolean
   export let audioPlayer: APManager
+
+  let currentDuration: number
+  let totalDuration: number
 
   let musicData: MusicPlayerData | null = null
   let interval: NodeJS.Timeout | null = null
@@ -37,7 +38,8 @@
     if (records.length > 0) musicData = records[0] as MusicPlayerData
     else musicData = null
 
-    console.log(audioPlayer.songDuration())
+    currentDuration = audioPlayer.songCurrentDuration()
+    totalDuration = audioPlayer.songDuration()
   }
 
   onMount(async () => {
@@ -54,7 +56,7 @@
     <div class="absolute top-0 left-0 h-full w-full bg-maincolor overflow-auto">
       <div class="mt-20" />
       <MusicRecordsLists bind:musicData />
-      <PlayinSongsDurationAction bind:currentDuration bind:totalDuration />
+      <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer />
     </div>
 
     <div class="relative bg-maincolor w-full">

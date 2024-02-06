@@ -5,7 +5,7 @@
   import NON_IMG from '$lib/assets/img/non_song_img.jpg'
   import { onDestroy, onMount } from 'svelte'
   import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
-  import { APManager } from '../../utils/s'
+  import { APManager } from '../../utils/p/s'
     import { showMusicPlayer } from '$lib/utils/f'
 
   export let audioPlayer: APManager

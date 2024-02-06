@@ -8,7 +8,7 @@
   import { onMount } from 'svelte'
   import axios from 'axios'
   import type { MusicData } from '../domain/local/entities/MusicData'
-  import { APManager } from '../lib/utils/s'
+  import { APManager } from '../lib/utils/p/s'
   import { env } from '$env/dynamic/public'
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
@@ -67,7 +67,7 @@
   {/if}
   
   {#if songPlayer === true}
-    <ZeneMusicPlayer bind:songPlayer={songPlayer} audioPlayer={audioPlayer}/>
+    <ZeneMusicPlayer bind:songPlayer bind:audioPlayer />
   {/if}
 {/if}
 
