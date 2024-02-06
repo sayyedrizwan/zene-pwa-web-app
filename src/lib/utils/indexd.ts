@@ -66,12 +66,6 @@ export class DataIndexDS<T> {
     }
   }
 
-  wait(time: number) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, time)
-    })
-  }
-
   async retrieveFromIndexedDB(): Promise<any> {
     try {
       const db = await this.openDatabase()
@@ -83,7 +77,7 @@ export class DataIndexDS<T> {
       request.onsuccess = () => {
         data = request.result
       }
-      await this.wait(500)
+      await wait(500)
       return data
     } catch (error) {
       return null
@@ -98,13 +92,17 @@ export class DataIndexDS<T> {
       const request = objectStore.clear()
 
       request.onsuccess = () => {}
-      await this.wait(1000)
+      await wait(1000)
       return null
     } catch (error) {
       return null
     }
   }
 }
-function sleep(arg0: number) {
-  throw new Error('Function not implemented.')
+
+
+export function wait(time: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
 }

@@ -54,6 +54,8 @@ export class APManager implements AudioPlayer {
 
     this.audioElement.oncanplaythrough = () => {
       this.audioElement!.play()
+      // if(this.music != undefined) insertPlayerHistory(this.music)
+
       if (this.audioElement?.paused) {
         const event = new Event('click')
         this.audioElement.dispatchEvent(event)
