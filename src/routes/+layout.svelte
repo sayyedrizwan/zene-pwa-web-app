@@ -14,7 +14,7 @@
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
-    import { getAllPlayHistory } from '$lib/utils/p/shistory'
+    import { getAllPlayHistory, topTenSongsListener } from '$lib/utils/p/shistory'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -48,7 +48,7 @@
       songMenuDialog = (event as CustomEvent).detail.value
     })
 
-    await getAllPlayHistory(2, 10)
+    await topTenSongsListener()
   })
 </script>
 

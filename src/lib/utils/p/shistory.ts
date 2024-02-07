@@ -10,7 +10,8 @@ function openMusicHistoryDatabase() {
 
         request.onupgradeneeded = (event) => {
             const db = (event.target as any).result
-            db.createObjectStore(musicHistory, { keyPath: 's', autoIncrement: false })
+            const r = db.createObjectStore(musicHistory, { keyPath: 's', autoIncrement: false })
+            r.createIndex('p', 'p', { unique: false });
         }
 
         request.onsuccess = () => resolve(request.result)
@@ -36,7 +37,7 @@ export async function insertMusicHistory(m: MusicData, window: Window & typeof g
         const tx = db.transaction([musicHistory], 'readwrite')
         const record = tx.objectStore(musicHistory)
 
-        if (m.songId != undefined) record.put(new MusicHistoryData(eSongId, songDetails, new Date().getTime(), 0))
+        if (m.songId != undefined) record.put(new MusicHistoryData(eSongId, songDetails, new Date().getTime(), 1))
 
         tx.oncomplete = () => { }
     } catch (error) {
@@ -67,7 +68,7 @@ export async function getAllPlayHistory(offset: number, limit: number) {
                 cursor.advance(offset)
             }
 
-            counter++;
+            counter++
             console.log(cursor.value)
             results.push(cursor.value)
 
@@ -81,6 +82,29 @@ export async function getAllPlayHistory(offset: number, limit: number) {
         }
     } catch (error) {
         results = []
+    }
+}
+
+export async function topTenSongsListener() {
+    let results: MusicHistoryData[] = []
+
+    const db = await openMusicHistoryDatabase()
+    const tx = db.transaction([musicHistory], 'readonly').objectStore(musicHistory)
+    const index = tx.index('p').openCursor(null, 'prev')
+
+    let count = 0
+
+    try {
+        index.onsuccess = (event: Event) => {
+            const cursor = (event.target as any).result
+            if (cursor && count < 10) {
+                console.log(cursor.value)
+                count++
+                cursor.continue()
+            }
+        }
+    } catch (error) {
+        count = 0
     }
 }
 
