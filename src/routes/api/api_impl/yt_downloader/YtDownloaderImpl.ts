@@ -50,7 +50,6 @@ export class YTDownloaderImpl {
 
       return downloadURL
     } catch (error) {
-      console.log(error)
       return ""
     }
   }

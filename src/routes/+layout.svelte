@@ -22,7 +22,7 @@
 
   let songMenuDialog: MusicData | null = null
 
-  let songPlayer: Boolean = true
+  let songPlayer: Boolean = false
 
   onMount(async () => {
     audioPlayer = new APManager()
