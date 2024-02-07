@@ -11,21 +11,19 @@ export function generateAPIKey(): string {
 }
 
 export function isFromZeneOrigin(events: RequestEvent) : Boolean{
-  if(dev) return true
-  if(events.request.headers.get('Origin') == "https://www.zenemusic.co") return true
-
-  return false
+  try{
+    if(dev) return true
+    if(events.request.headers.get('Origin') == "https://www.zenemusic.co") return true
+    if(events.cookies.get("i")?.split('.')?.length ?? 0 >= 3) return true
+  
+    return false
+  }catch(e){
+    return false
+  }
 }
 
 export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
-  // console.log(events.request.headers)
-  console.log("----------------------------------------")
-  console.log(events.cookies.get("i"))
-  // console.log(events.request.headers.get('authority'))
-  // console.log(events.request.headers.get('sec-fetch-mode'))
-  // console.log(events.request.headers.get('sec-fetch-site'))
-  console.log("----------------------------------------")
-  isFromZeneOrigin(events)
+  if(isFromZeneOrigin(events) === false) return false
 
   try {
     const headers = events.request.headers

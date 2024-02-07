@@ -6,12 +6,15 @@ import { RadioBrowserImpl } from '../api_impl/radio/RadioBrowserImpl'
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from '../api_impl/yt_downloader/domain/YT2MateInfoResponse'
 import { waitServer } from '../utils/utils'
 import { YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'
+import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
 
 
 export const GET = (async (req: RequestEvent) => {
   const video_url = new URL(req.url).searchParams.get('id') ?? ""
   const videoId = atob(video_url)
 
+  if(isFromZeneOrigin(req) === false) new Response("")
+  
   try {
     if(videoId.length > 20 && videoId.split("-").length > 3){
       const radio = new RadioBrowserImpl()
