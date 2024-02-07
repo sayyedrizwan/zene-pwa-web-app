@@ -16,8 +16,13 @@ export function isFromZeneOrigin(events: RequestEvent){
 }
 
 export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
-  console.log(events)
+  // console.log(events.request.headers)
+  console.log(events.request.headers.get('Origin'))
+  console.log(events.request.headers.get('authority'))
+  console.log(events.request.headers.get('sec-fetch-mode'))
+  console.log(events.request.headers.get('sec-fetch-site'))
   isFromZeneOrigin(events)
+
   try {
     const headers = events.request.headers
     const authKey = headers.get('AuthorizationKey')

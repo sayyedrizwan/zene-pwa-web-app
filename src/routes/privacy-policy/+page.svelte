@@ -61,7 +61,7 @@
     <br />
     Your Account with Us To access or use the Services, you must create an account with us. When you create this account, you must provide accurate and up-to-date information. It is important that you maintain and promptly update your details and any other information you provide
     to us, to keep such information current and complete. It is important that you keep your account password confidential and that you do not disclose it to any third party. If you know or suspect that any third party knows your password or has accessed your account, you must promptly
-    notify us at contacts@Zene.app. You agree that you are solely responsible (to us and to other users of our Services) for any and all activity that occurs under your account.
+    notify us at knocknock@zenemusic.co. You agree that you are solely responsible (to us and to other users of our Services) for any and all activity that occurs under your account.
     <br />
     We reserve the right to disable your user account at any time if in our reasonable opinion you have failed to comply with any of the provisions of these Terms. Alternatively, you may access the Services by logging onto the Website and/or App through your accounts on third party
     services, such as Google or Facebook. If you do so, we will have access to information you have stored on such third party account such as your email address, profile picture and other information if you grant us permission. All issues that may arise from your use of such third
@@ -140,7 +140,7 @@
     claim qualifies, your claim remains in such court and your claim remains on an individual, non-representative and non-class basis. An arbitrator shall not be bound by rulings in prior arbitrations involving different users, but is bound by rulings in prior arbitrations
     involving the same user to the extent required by applicable law. Payment for any and all reasonable JAMS filing, administrative and arbitrator fees will be in accordance with the JAMS Rules. If the value of your claim does not exceed $10,000, Zene will pay for the reasonable
     filing, administrative and arbitrator fees associated with the arbitration, unless the arbitrator finds that either the substance of your claim or the relief sought was frivolous or brought for an improper purpose. You have the right to opt-out and not be bound by the
-    arbitration provisions set forth in these Terms by sending written notice of your decision to opt-out to contacts@Zene.app. The notice must be sent to Zene within thirty (30) days of your registering to use the Services or agreeing to these Terms. Otherwise you shall be bound
+    arbitration provisions set forth in these Terms by sending written notice of your decision to opt-out to knocknock@zenemusic.co. The notice must be sent to Zene within thirty (30) days of your registering to use the Services or agreeing to these Terms. Otherwise you shall be bound
     to arbitrate disputes in accordance with these Terms. If you opt-out of these arbitration provisions, Zene also will not be bound by them.
   </p>
 
@@ -189,7 +189,7 @@
   </p>
 
   <h2 class="font-extrabold mt-24 mb-5 text-2xl">Any Questions?</h2>
-  <p>If you have any questions about this Policy, please contact us by email at <a class="text-lightblue" href={`mailto:contactcreator@protonmail.com`}>contactcreator@protonmail.com</a>.</p>
+  <p>If you have any questions about this Policy, please contact us by email at <a class="text-lightblue" href={`mailto:knocknock@zenemusic.co`}>knocknock@zenemusic.co</a>.</p>
 </div>
 
 <Footer />
