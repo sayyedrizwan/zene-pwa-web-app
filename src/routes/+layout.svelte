@@ -13,7 +13,7 @@
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
-    import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
+  import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -57,7 +57,6 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
-
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />
@@ -65,7 +64,7 @@
   {#if songMenuDialog != null}
     <SongInfoSheet />
   {/if}
-  
+
   {#if songPlayer === true}
     <ZeneMusicPlayer bind:songPlayer bind:audioPlayer />
   {/if}

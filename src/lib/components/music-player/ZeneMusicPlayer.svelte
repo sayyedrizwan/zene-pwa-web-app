@@ -6,6 +6,8 @@
   import MusicRecordsLists from './view/MusicRecordsLists.svelte'
   import PlayinSongsDurationAction from './view/PlayingSongsDurationAction.svelte'
   import type { APManager } from '$lib/utils/p/s'
+  import axios from 'axios'
+  import { env } from '$env/dynamic/public'
 
   export let songPlayer: Boolean
   export let audioPlayer: APManager
@@ -14,6 +16,7 @@
   let currentDuration: number
   let totalDuration: number
   let isBuffering: boolean = false
+  let isReloadCalled: boolean = false
 
   let musicData: MusicPlayerData | null = null
   let interval: NodeJS.Timeout | null = null
@@ -33,6 +36,14 @@
     }, 1000)
   }
 
+  async function loadMusicUrl() {
+    if (isReloadCalled) return
+    isReloadCalled = true
+
+    const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(musicData?.m?.songId ?? '')}`, { timeout: 120000 })
+    audioPlayer.playMusic(window.atob(response.data), musicData?.m!)
+  }
+
   async function checkFunction() {
     const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
     const records: any = await cacheDB.retrieveFromIndexedDB()
@@ -44,6 +55,8 @@
     totalDuration = audioPlayer.songDuration()
     isPlaying = audioPlayer.isPlaying()
     isBuffering = audioPlayer?.isBuffering() ?? false
+
+    if (currentDuration == 0) loadMusicUrl()
   }
 
   onMount(async () => {

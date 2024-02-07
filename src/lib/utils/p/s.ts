@@ -147,7 +147,7 @@ export class APManager implements AudioPlayer {
     setActionHandler('seekforward', () => {
       this.seekForward(5)
     })
-    
+
     setActionHandler('previoustrack', function () { })
     setActionHandler('nexttrack', function () { })
   }
