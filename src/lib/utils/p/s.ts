@@ -1,5 +1,6 @@
 import Hls from 'hls.js'
 import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
+import { insertMusicHistory } from './shistory'
 
 
 interface AudioPlayer {
@@ -57,13 +58,14 @@ export class APManager implements AudioPlayer {
 
     this.audioElement.oncanplaythrough = () => {
       this.audioElement!.play()
-      // if(this.music != undefined) insertPlayerHistory(this.music)
+      if(this.music != undefined) insertMusicHistory(this.music, window)
 
       if (this.audioElement?.paused) {
         const event = new Event('click')
         this.audioElement.dispatchEvent(event)
         this.audioElement.play()
       }
+      this.buffering = false
     }
 
     this.audioElement.addEventListener('loadedmetadata', () => {
@@ -102,7 +104,6 @@ export class APManager implements AudioPlayer {
       if (url.includes(".m3u8") === true){
         if (Hls.isSupported()) {
           var hls = new Hls()
-          hls.loadSource(url)
           hls.loadSource(url)
           hls.attachMedia(this.videoElement!);
         } else if (this.videoElement!.canPlayType('application/vnd.apple.mpegurl')) {
@@ -178,7 +179,6 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
-    this.audioElement!.duration
     if (this.buffering == true) return true
 
     if (this.music?.type == MusicType.RADIO) {
