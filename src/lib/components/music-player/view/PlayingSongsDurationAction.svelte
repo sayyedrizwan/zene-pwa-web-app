@@ -1,13 +1,33 @@
 <script lang="ts">
-    import { durationToTime } from "$lib/utils/f"
-    import type { APManager } from "$lib/utils/p/s"
+  import { durationToTime } from '$lib/utils/f'
+  import type { APManager } from '$lib/utils/p/s'
+  import PLAY_ICON from '$lib/assets/img/ic_play.svg'
+  import PAUSE_ICON from '$lib/assets/img/ic_pause.svg'
+  import NEXT_ICON from '$lib/assets/img/ic_next.svg'
+  import PREVIOUS_ICON from '$lib/assets/img/ic_previous.svg'
 
   export let audioPlayer: APManager
   export let currentDuration: number
   export let totalDuration: number
+  export let isPlaying: Boolean
+  export let isBuffering: Boolean
 
   function inputHandler(e: Event) {
     audioPlayer.changeSongDuration((e.target as any)?.value)
+  }
+
+  function playPause() {
+    if (isPlaying === true) audioPlayer.pause()
+    else audioPlayer.play()
+  }
+
+
+  function seekBack() {
+    audioPlayer.seekBackward(5)
+  }
+
+  function seekForward() {
+    audioPlayer.seekForward(5)
   }
 </script>
 
@@ -16,10 +36,28 @@
     <div class="w-full mx-2 md:mx-8 flex">
       <p class="text-white urbanist-regular text-base md:text-lg">{durationToTime(currentDuration)}</p>
       <div class="w-full mx-3 cursor-pointer md:m-0.5 md:mx-3">
-          <input type="range" min={`${0}`} max={`${totalDuration}`} value={`${currentDuration}`} on:input={inputHandler} />
+        <input type="range" min={`${0}`} max={`${totalDuration}`} value={`${currentDuration}`} on:input={inputHandler} />
       </div>
 
       <p class="text-white urbanist-regular text-base md:text-lg">{durationToTime(totalDuration)}</p>
+    </div>
+  </div>
+
+  <div class="flex justify-center mt-6 w-full px-2 md:px-8 items-center">
+    <div class="w-9/12 md:w-2/4 flex justify-between">
+      <button on:click={seekBack}><img src={PREVIOUS_ICON} alt="PREVIOUS" class="size-7" /> </button>
+      
+      {#if isBuffering === true}
+      <svg class="animate-spin size-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      {:else}
+        <button on:click={playPause}><img src={isPlaying ? PAUSE_ICON : PLAY_ICON} alt="state" class="size-10" /> </button>
+      {/if}
+      
+      <button on:click={seekForward}><img src={NEXT_ICON} alt="PREVIOUS" class="size-7" /></button>
+    
     </div>
   </div>
 </div>

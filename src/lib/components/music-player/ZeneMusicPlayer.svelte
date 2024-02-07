@@ -10,8 +10,10 @@
   export let songPlayer: Boolean
   export let audioPlayer: APManager
 
+  let isPlaying: Boolean
   let currentDuration: number
   let totalDuration: number
+  let isBuffering: boolean = false
 
   let musicData: MusicPlayerData | null = null
   let interval: NodeJS.Timeout | null = null
@@ -40,6 +42,8 @@
 
     currentDuration = audioPlayer.songCurrentDuration()
     totalDuration = audioPlayer.songDuration()
+    isPlaying = audioPlayer.isPlaying()
+    isBuffering = audioPlayer?.isBuffering() ?? false
   }
 
   onMount(async () => {
@@ -56,7 +60,7 @@
     <div class="absolute top-0 left-0 h-full w-full bg-maincolor overflow-auto">
       <div class="mt-20" />
       <MusicRecordsLists bind:musicData />
-      <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer />
+      <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
     </div>
 
     <div class="relative bg-maincolor w-full">

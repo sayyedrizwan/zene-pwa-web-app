@@ -4,10 +4,13 @@ import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 
 interface AudioPlayer {
   init(): void
-  play(url: string, music: MusicData): Promise<void>
+  playMusic(url: string, music: MusicData): Promise<void>
   updatemetadata(music: MusicData): void
   pause(): void
+  play(): void
   stop(): void
+  seekForward(v: number): void
+  seekBackward(v: number): void
   isPlaying(): boolean | undefined
   isBuffering(): boolean | undefined
   songDuration(): number
@@ -87,7 +90,7 @@ export class APManager implements AudioPlayer {
     })
   }
 
-  async play(url: string, music: MusicData): Promise<void> {
+  async playMusic(url: string, music: MusicData): Promise<void> {
     stop()
 
     this.music = music
@@ -138,8 +141,13 @@ export class APManager implements AudioPlayer {
     setActionHandler('pause', () => {
       this.audioElement!.pause()
     })
-    setActionHandler('seekbackward', function () { })
-    setActionHandler('seekforward', function () { })
+    setActionHandler('seekbackward', () => {
+      this.seekBackward(5)
+    })
+    setActionHandler('seekforward', () => {
+      this.seekForward(5)
+    })
+    
     setActionHandler('previoustrack', function () { })
     setActionHandler('nexttrack', function () { })
   }
@@ -147,6 +155,19 @@ export class APManager implements AudioPlayer {
 
   pause(): void {
     this.audioElement?.pause()
+  }
+
+
+  play(): void {
+    this.audioElement?.play()
+  }
+
+  seekForward(v: number): void {
+    this.audioElement!.currentTime = this.audioElement!.currentTime + v
+  }
+
+  seekBackward(v: number): void {
+    this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
   isPlaying(): boolean {

@@ -2,6 +2,7 @@ import { env } from '$env/dynamic/private'
 import type { RequestEvent } from '@sveltejs/kit'
 import { atob, btoa } from 'buffer'
 import * as crypto from 'crypto'
+import { dev } from '$app/environment'
 
 export function generateAPIKey(): string {
   const timestamp = new Date().getTime()
@@ -9,7 +10,14 @@ export function generateAPIKey(): string {
   return encryptData(s)
 }
 
+export function isFromZeneOrigin(events: RequestEvent){
+  console.log(dev)
+  if(dev) return true
+}
+
 export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
+  console.log(events)
+  isFromZeneOrigin(events)
   try {
     const headers = events.request.headers
     const authKey = headers.get('AuthorizationKey')
