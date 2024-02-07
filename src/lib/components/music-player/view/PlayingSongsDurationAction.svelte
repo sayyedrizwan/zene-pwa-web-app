@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { durationToTime } from "$lib/utils/f"
     import type { APManager } from "$lib/utils/p/s"
 
   export let audioPlayer: APManager
@@ -13,12 +14,12 @@
 <div>
   <div class="flex mt-6">
     <div class="w-full mx-2 md:mx-8 flex">
-      <p class="text-white urbanist-regular text-base md:text-lg">0:00</p>
+      <p class="text-white urbanist-regular text-base md:text-lg">{durationToTime(currentDuration)}</p>
       <div class="w-full mx-3 cursor-pointer md:m-0.5 md:mx-3">
           <input type="range" min={`${0}`} max={`${totalDuration}`} value={`${currentDuration}`} on:input={inputHandler} />
       </div>
 
-      <p class="text-white urbanist-regular text-base md:text-lg">3:34</p>
+      <p class="text-white urbanist-regular text-base md:text-lg">{durationToTime(totalDuration)}</p>
     </div>
   </div>
 </div>

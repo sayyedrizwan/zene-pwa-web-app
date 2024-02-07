@@ -48,16 +48,27 @@ export async function shareATxt(title: string, url: string) {
 }
 
 
-export function artistsSplitToHTMLString(artists:string) : string {
+export function artistsSplitToHTMLString(artists: string): string {
   const lists = artists.split(/\,|\&|\s+and\s+/).filter((a) => a.trim() != "")
   var html = ""
 
   lists.forEach((n, i) => {
     html += ` 
-      <p class="text-white urbanist-thin text-sm md:text-base mt-1">${((lists.length - 1) == i && lists.length > 1) ? `&nbsp;&&nbsp;` : `` }</p>
+      <p class="text-white urbanist-thin text-sm md:text-base mt-1">${((lists.length - 1) == i && lists.length > 1) ? `&nbsp;&&nbsp;` : ``}</p>
       <a href=${n} class="text-white urbanist-thin text-sm md:text-base mt-1">${n}</a>
-      <p class="text-white urbanist-thin text-sm md:text-base mt-1">${(lists.length - 2) > i ? `,&nbsp;&nbsp;` : `` }</p>
+      <p class="text-white urbanist-thin text-sm md:text-base mt-1">${(lists.length - 2) > i ? `,&nbsp;&nbsp;` : ``}</p>
     `
   })
   return html
+}
+
+export function durationToTime(d: number) {
+  const hours = Math.floor(d / 3600);
+  const minutes = Math.floor((d % 3600) / 60);
+  const seconds = Math.floor(d % 60);
+
+  const hoursString = hours < 10 ? `0${hours}` : `${hours}`;
+  const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`
+  const secondsString = seconds < 10 ? `0${seconds}` : `${seconds}`
+  return `${hoursString == "00" ? `` : `${hoursString}:`}${minutesString}:${secondsString}`
 }
