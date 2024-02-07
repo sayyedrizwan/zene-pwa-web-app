@@ -47,7 +47,7 @@
     document.addEventListener('songdialog', (event: Event) => {
       songMenuDialog = (event as CustomEvent).detail.value
     })
-
+    
     await topTenSongsListener()
   })
 </script>

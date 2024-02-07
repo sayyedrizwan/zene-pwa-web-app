@@ -9,15 +9,16 @@
   import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
   import TopSongsInUserCountry from '$lib/components/main-page/TopSongsArtistsInUserCountry.svelte'
   import type { IpDetails } from '../domain/local/entities/IpDetails'
+    import SongsYouMayLink from '$lib/components/main-page/SongsYouMayLink.svelte'
 
   export let data: any
 
-  let key: string | null = null
-  let ip: IpDetails | null
+  let authKey: string | null = null
+  let ipDetails: IpDetails | null
 
   if (browser) {
-    key = window.atob(data.data)
-    if (data.ip != undefined) ip = JSON.parse(data.ip)
+    authKey = window.atob(data.data)
+    if (data.ip != undefined) ipDetails = JSON.parse(data.ip)
   }
 </script>
 
@@ -31,14 +32,15 @@
   <link rel="canonical" href="https://zenemusic.co" />
 </svelte:head>
 
-{#if key != null}
-  <TopListeningSongs authKey={key} />
-  <RadioStateLists authKey={key} ipDetails={ip} />
-  <TopGlobalTrendingArtists authKey={key} />
+{#if authKey != null}
+  <TopListeningSongs {authKey} />
+  <RadioStateLists {authKey} {ipDetails} />
+  <TopGlobalTrendingArtists {authKey} />
   <TopMood />
-  <FreshAddedSong authKey={key} />
-  <GlobalTopTrendingSongs authKey={key} />
-  <TopSongsInUserCountry authKey={key} ipDetails={ip} />
+  <FreshAddedSong {authKey} />
+  <GlobalTopTrendingSongs {authKey} />
+  <TopSongsInUserCountry {authKey} {ipDetails} />
+  <SongsYouMayLink {authKey}/>
 
   <div class="h-60" />
 {/if}

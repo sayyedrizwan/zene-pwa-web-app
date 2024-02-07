@@ -8,8 +8,7 @@
   import { env } from '$env/dynamic/public'
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
   import GridFullCardItem from '../global-view/items/GridFullCardItem.svelte'
-    import DualArtistsItems from '../global-view/items/DualArtistsItems.svelte'
-    import { list } from 'firebase/storage'
+  import DualArtistsItems from '../global-view/items/DualArtistsItems.svelte'
 
   export let authKey: string
   export let ipDetails: IpDetails | null

@@ -56,8 +56,8 @@ export async function getAllPlayHistory(offset: number, limit: number) {
     try {
         const request = record.openCursor(null, 'prev')
 
-        let advanced = offset === 0;
-        let counter = 0;
+        let advanced = offset === 0
+        let counter = 0
 
         request.onsuccess = (event: Event) => {
             const cursor = (event.target as any).result
