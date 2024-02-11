@@ -28,7 +28,6 @@ export async function insertMusicHistory(m: MusicData, window: Window & typeof g
         const oldRecords = await checkNameExistsWithIndex(eSongId)
 
         if (oldRecords != null) {
-            console.log(oldRecords)
             updateMusicHistory(oldRecords)
             return
         }
@@ -69,7 +68,6 @@ export async function getAllPlayHistory(offset: number, limit: number) {
             }
 
             counter++
-            console.log(cursor.value)
             results.push(cursor.value)
 
             if (counter >= limit) return
@@ -85,8 +83,8 @@ export async function getAllPlayHistory(offset: number, limit: number) {
     }
 }
 
-export async function topTenSongsListener(lists: (music: MusicHistoryData[]) => void) {
-    let results: MusicHistoryData[] = []
+export async function topTenSongsListener(lists: (music: string[]) => void) {
+    let results: string[] = []
 
     const db = await openMusicHistoryDatabase()
     const tx = db.transaction([musicHistory], 'readonly').objectStore(musicHistory)
@@ -98,7 +96,7 @@ export async function topTenSongsListener(lists: (music: MusicHistoryData[]) => 
         index.onsuccess = (event: Event) => {
             const cursor = (event.target as any).result
             if (cursor && count < 16) {
-                results.push(cursor.value as MusicHistoryData)
+                if((cursor.value as MusicHistoryData).s != null) results.push((cursor.value as MusicHistoryData).s!)
                 count++
                 cursor.continue()
             }
