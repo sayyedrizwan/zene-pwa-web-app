@@ -85,7 +85,7 @@ export async function getAllPlayHistory(offset: number, limit: number) {
     }
 }
 
-export async function topTenSongsListener() {
+export async function topTenSongsListener(lists: (music: MusicHistoryData[]) => void) {
     let results: MusicHistoryData[] = []
 
     const db = await openMusicHistoryDatabase()
@@ -97,11 +97,18 @@ export async function topTenSongsListener() {
     try {
         index.onsuccess = (event: Event) => {
             const cursor = (event.target as any).result
-            if (cursor && count < 10) {
-                console.log(cursor.value)
+            if (cursor && count < 16) {
+                results.push(cursor.value as MusicHistoryData)
                 count++
                 cursor.continue()
             }
+            if (cursor === null) try {
+                lists(results)
+            } catch (error) {
+                error
+            }
+
+
         }
     } catch (error) {
         count = 0
