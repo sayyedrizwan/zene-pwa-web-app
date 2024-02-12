@@ -16,6 +16,7 @@ const clientName = 'WEB_REMIX'
 const clientVersion = '1.20240205.00.00'
 
 export const yt_music_search = `https://music.youtube.com/youtubei/v1/search?key=${YT_MUSIC_KEY}&prettyPrint=false`
+export const yt_music_song_info = `https://music.youtube.com/youtubei/v1/player?key=${YT_MUSIC_KEY}&prettyPrint=false`
 export const yt_music_next = `https://music.youtube.com/youtubei/v1/next?key=${YT_MUSIC_KEY}&prettyPrint=false`
 export const yt_music_browse = `https://music.youtube.com/youtubei/v1/browse?key=${YT_MUSIC_KEY}0&prettyPrint=false`
 export const yt_music_search_suggestion = `https://music.youtube.com/youtubei/v1/music/get_search_suggestions?key==${YT_MUSIC_KEY}&prettyPrint=false`
@@ -66,6 +67,21 @@ export function ytMusicBodyWithParamsWithIp(ip: IpJsonResponse, b: string): stri
             }
         },
         "browseId": "${b}"
+    }
+    `
+}
+
+export function ytMusicBodyWithVID(id: string): string {
+  return `
+    {
+        "videoId": "${id}",
+        "context": {
+            "client": {
+                "userAgent": "${userAgent}",
+                "clientName": "${clientName}",
+                "clientVersion": "${clientVersion}"
+            }
+        }
     }
     `
 }

@@ -33,13 +33,13 @@
 </svelte:head>
 
 {#if authKey != null}
-  <TopListeningSongs {authKey} />
+  <!-- <TopListeningSongs {authKey} />
   <RadioStateLists {authKey} {ipDetails} />
   <TopGlobalTrendingArtists {authKey} />
   <TopMood />
   <FreshAddedSong {authKey} />
   <GlobalTopTrendingSongs {authKey} />
-  <TopSongsInUserCountry {authKey} {ipDetails} />
+  <TopSongsInUserCountry {authKey} {ipDetails} /> -->
   <SongsYouMayLink {authKey}/>
 
   <div class="h-60" />

@@ -7,8 +7,8 @@
   import axios from 'axios'
   import type { SearchMusicData } from '../../../domain/local/entities/MusicData'
   import RadioStationItems from '../main-page/radio/RadioStationItems.svelte'
-    import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
-    import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
+  import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
+  import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
 
   export let key: string
   export let searchParam: string
@@ -90,16 +90,15 @@
         <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Albums</h3>
         <h3 class="text-white urbanist-light text-sm md:text-xl mx-2 md:mx-4 mt-4">No Album Found.</h3>
       {/if}
-      
     </div>
 
     <div>
       {#if searchSuggestion.data.songs.length > 0}
         <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs</h3>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-[96%]">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg">
           {#each searchSuggestion.data.songs as musicData}
-          <CardWithTopMenuIcon musicData={musicData} />
+            <CardWithTopMenuIcon {musicData} />
           {/each}
         </div>
       {:else}

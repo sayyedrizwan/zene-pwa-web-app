@@ -5,7 +5,7 @@
 
   export let data: any
   let key: string | null = null
-  export let searchParam = ''
+  export let searchParam  = ''
 
   if (browser) key = window.atob(data.data)
 </script>

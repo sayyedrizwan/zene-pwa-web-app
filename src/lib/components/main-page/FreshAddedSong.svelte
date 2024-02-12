@@ -16,7 +16,7 @@
     response = { type: ResponseDataEnum.LOADING }
 
     const cacheDB = new DataIndexDS<MusicDataList>(freshAddedCache, indexDB)
-      const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+    const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
       if (cacheRecords.length > 0)

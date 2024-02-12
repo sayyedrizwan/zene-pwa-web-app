@@ -2,7 +2,7 @@ import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/en
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 import { encryptAppSharedData } from '../../utils/EncryptionForAPI'
 import { getTextAfterKeyword, getTextBeforeKeyword, getTextBeforeLastKeyword, joinArtists } from '../../utils/utils'
-import { all_search_albums_params, all_search_artists_params, all_search_params, new_release_params, ytMusicBodyWithInput, ytMusicBodyWithParams, ytMusicBodyWithParamsNext, ytMusicBodyWithParamsWithIp, ytMusicHeader, yt_music_browse, yt_music_next, yt_music_search, yt_music_search_suggestion } from './YtMusicUtil'
+import { all_search_albums_params, all_search_artists_params, all_search_params, new_release_params, ytMusicBodyWithInput, ytMusicBodyWithParams, ytMusicBodyWithParamsNext, ytMusicBodyWithParamsWithIp, ytMusicBodyWithVID, ytMusicHeader, yt_music_browse, yt_music_next, yt_music_search, yt_music_search_suggestion, yt_music_song_info } from './YtMusicUtil'
 import type { YtMusicBrowseData } from './domain/YtMusicBrowseData'
 import type { YtMusicBrowseGrids } from './domain/YtMusicBrowseGrids'
 import type { YtMusicBrowsePlaylists } from './domain/YtMusicBrowsePlaylists'
@@ -93,6 +93,15 @@ export class YtMusicAPIImpl {
     return music
   }
 
+  // async songInfo(id: string): Promise<MusicData> {
+  //   const r = await fetch(yt_music_song_info, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithVID(id) })
+  //   const response = (await r.json()) as YtMusicSearchResponse
+   
+
+
+  // }
+
+
   async newReleaseSearch(ip: IpJsonResponse): Promise<MusicDataList> {
     const lists: string[] = []
     const listsNew: MusicData[] = []
@@ -176,17 +185,14 @@ export class YtMusicAPIImpl {
           let name: string | null = null
           let id: string | null = null
 
-          item.musicResponsiveListItemRenderer?.flexColumns?.forEach(n => {
-            n.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach(t => {
-              if (t.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
-                if (t.text != undefined) {
-                  id = t.navigationEndpoint?.browseEndpoint?.browseId ?? null
-                  name = t.text
-                }
+          item?.musicTwoRowItemRenderer?.title?.runs?.forEach(t => {
+            if(t.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST"){
+              if (t.text != undefined) {
+                id = t.navigationEndpoint?.browseEndpoint?.browseId ?? null
+                name = t.text
               }
-            })
+            }
           })
-
           similarArtists.push(new MusicData(name, name, id, thumbnail ?? "", MusicType.ARTISTS))
         })
       }
