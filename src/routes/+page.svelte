@@ -10,6 +10,7 @@
   import TopSongsInUserCountry from '$lib/components/main-page/TopSongsArtistsInUserCountry.svelte'
   import type { IpDetails } from '../domain/local/entities/IpDetails'
     import SongsYouMayLink from '$lib/components/main-page/SongsYouMayLink.svelte'
+    import AlbumsForYou from '$lib/components/main-page/AlbumsForYou.svelte'
 
   export let data: any
 
@@ -41,6 +42,7 @@
   <GlobalTopTrendingSongs {authKey} />
   <TopSongsInUserCountry {authKey} {ipDetails} /> -->
   <SongsYouMayLink {authKey}/>
+  <AlbumsForYou {authKey}/>
 
   <div class="h-60" />
 {/if}

@@ -1,10 +1,10 @@
 import type { MusicData } from "./MusicData"
 
-export class SongsYouMayLikeCache {
+export class SongsYouMayLikeCache<T> {
     cache: string[]
-    response: SongsYouMayLike
+    response: T
 
-    constructor(cache: string[], response: SongsYouMayLike){
+    constructor(cache: string[], response: T){
         this.cache = cache
         this.response = response
     }

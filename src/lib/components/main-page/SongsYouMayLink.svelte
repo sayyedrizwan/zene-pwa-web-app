@@ -15,7 +15,7 @@
   let response: ResponseData<SongsYouMayLike> = { type: ResponseDataEnum.EMPTY }
 
   const readMusic = async (music: string[]) => {
-    const cacheDB = new DataIndexDS<SongsYouMayLikeCache>(songMayLikeCache, indexDB)
+    const cacheDB = new DataIndexDS<SongsYouMayLikeCache<SongsYouMayLike>>(songMayLikeCache, indexDB)
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     if (music.length <= 0) {
@@ -24,8 +24,10 @@
     }
 
     try {
+      response = { type: ResponseDataEnum.LOADING }
+      
       if (cacheRecords.length > 0) {
-        const records = cacheRecords[0] as SongsYouMayLikeCache
+        const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
         if (JSON.stringify(records.cache) == JSON.stringify(music) && records.response.like.length > 0) {
           response = { type: ResponseDataEnum.SUCCESS, data: records.response }
           return
