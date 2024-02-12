@@ -138,15 +138,62 @@ export class YtMusicAPIImpl {
     return new MusicDataList(listsNew)
   }
 
-  async browseSongsId(ip: IpJsonResponse, id: string): Promise<MusicData[]> {
-    const lists: MusicData[] = []
+  async browseSongsId(ip: IpJsonResponse, id: string): Promise<[MusicData[], MusicData[]]> {
+    const youMightAlsoLike: MusicData[] = []
+    const similarArtists: MusicData[] = []
 
-    const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(ip, id) })
-    const musics = (await musicr.json()) as YtMusicBrowseData
+    const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(ip, id) })
+    const response = (await r.json()) as YtMusicBrowseData
 
-    console.log(musics.contents?.sectionListRenderer)
+    response.contents?.sectionListRenderer?.contents?.forEach(c => {
+      if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label?.toLowerCase() == "you might also like") {
+        c.musicCarouselShelfRenderer?.contents?.forEach(item => {
+          const thumbnail = item?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
+          let name: string | null = null
+          let songId: string | null = null
+          let artistsName: string[] = []
 
-    return lists
+          item.musicResponsiveListItemRenderer?.flexColumns?.forEach(n => {
+            n.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach(t => {
+              if (t.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_ATV") {
+                songId = t.navigationEndpoint.watchEndpoint.videoId ?? null
+                name = t.text ?? null
+              }
+
+              if (t.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
+                if (t.text != undefined) artistsName.push(t.text)
+              }
+            })
+          })
+
+          if (name != null && songId != null) youMightAlsoLike.push(new MusicData(name, joinArtists(artistsName), songId, thumbnail ?? "", MusicType.MUSIC))
+        })
+      }
+
+      if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label?.toLowerCase() == "similar artists") {
+        c.musicCarouselShelfRenderer?.contents?.forEach(item => {
+          const thumbnail = item?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 226)?.url?.replace('w226-h226-', 'w512-h512-')
+          let name: string | null = null
+          let id: string | null = null
+
+          item.musicResponsiveListItemRenderer?.flexColumns?.forEach(n => {
+            n.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach(t => {
+              if (t.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
+                if (t.text != undefined) {
+                  id = t.navigationEndpoint?.browseEndpoint?.browseId ?? null
+                  name = t.text
+                }
+              }
+            })
+          })
+
+          similarArtists.push(new MusicData(name, name, id, thumbnail ?? "", MusicType.ARTISTS))
+        })
+      }
+    })
+
+
+    return [youMightAlsoLike, similarArtists]
   }
 
 
@@ -191,7 +238,7 @@ export class YtMusicAPIImpl {
           const artists = items.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0].text?.replaceAll("and", "&")
           const id = items.playlistPanelVideoRenderer?.videoId
 
-          if(name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? "", id, thumbnail ?? "", MusicType.ALBUM))
+          if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? "", id, thumbnail ?? "", MusicType.ALBUM))
         })
       }
     })

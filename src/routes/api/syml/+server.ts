@@ -21,12 +21,15 @@ export const POST = (async (events: RequestEvent) => {
 
   const songYouMayLike : MusicData[] = [] 
   const songYouMayLikeToListen : MusicData[] = [] 
+  const songYouMayLikeToArtists : MusicData[] = [] 
   const songYouMayLikeToExplore : MusicData[] = [] 
 
   await Promise.all(
     list.map(async (m: string, i: number) => {
       const d = await yt.getBrowseDetailsAndNextSongs(ipData, atob(m))
       const lists = await yt.browseSongsId(ipData, d[1] ?? "")
+
+      // console.log(lists)
       // if()
       // const music = await yt.releatedSongs
       // if (music.songId != null) listsNew.push(music)
