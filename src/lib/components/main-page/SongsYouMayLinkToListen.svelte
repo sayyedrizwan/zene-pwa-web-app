@@ -2,15 +2,15 @@
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
   import { openSongDialog } from '$lib/utils/f'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
-  import type { MusicData } from '../../../domain/local/entities/MusicData'
+  import type { SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
 
-  export let songsYouMayLikeToListen: MusicData[]
+  export let youMayLike: SongsYouMayLike | null
 </script>
 
-{#if songsYouMayLikeToListen.length > 0}
+{#if (youMayLike?.listen?.length ?? 0) > 0}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs you may like to listen</h3>
 
-  {#each splitArrayIntoChunks(songsYouMayLikeToListen, 4) as topItem}
+  {#each splitArrayIntoChunks(youMayLike?.listen ?? [], 4) as topItem}
     <div class="flex overflow-x-auto w-full scrollbar-hide gap-4 mt-5">
       {#each topItem as musicData}
         <button class="p-2 rounded-lg shadow-lg cursor-pointer w-56 md:w-96 mb-8">

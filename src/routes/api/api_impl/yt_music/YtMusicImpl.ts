@@ -97,13 +97,13 @@ export class YtMusicAPIImpl {
   async songInfo(id: string): Promise<MusicData | null> {
     const r = await fetch(yt_music_song_info, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithVID(id) })
     const response = (await r.json()) as YtMusicSongsInfoData
-   
-   const name = response?.videoDetails?.title
-   const artists = response?.videoDetails?.author?.replaceAll("and", "&")
-   const songId = response?.videoDetails?.videoId
-   const thumbnail = response?.videoDetails?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
-    
-    
+
+    const name = response?.videoDetails?.title
+    const artists = response?.videoDetails?.author?.replaceAll("and", "&")
+    const songId = response?.videoDetails?.videoId
+    const thumbnail = response?.videoDetails?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
+
+
 
     return name != undefined && songId != undefined ? new MusicData(name, artists ?? "", songId, thumbnail ?? "", MusicType.MUSIC) : null
   }
@@ -200,7 +200,8 @@ export class YtMusicAPIImpl {
               }
             }
           })
-          similarArtists.push(new MusicData(name, name, id, thumbnail ?? "", MusicType.ARTISTS))
+          if (name != undefined)
+            similarArtists.push(new MusicData(name, name, encryptAppSharedData(name), thumbnail ?? "", MusicType.ARTISTS))
         })
       }
     })

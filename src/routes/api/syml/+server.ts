@@ -46,10 +46,34 @@ export const POST = (async (events: RequestEvent) => {
     })
   )
 
-  const songYouMayLikeSet = new Set(shuffleList(songYouMayLike))
-  const songYouMayLikeToListenSet = new Set(shuffleList(songYouMayLikeToListen))
-  const songYouMayLikeToExploreSet = new Set(shuffleList(songYouMayLikeToExplore))
-  const artistsSuggestionsSet = new Set(shuffleList(artistsSuggestions))
+  const songYouMayLikeSet: MusicData[] = []
+  const songYouMayLikeToListenSet: MusicData[] = []
+  const songYouMayLikeToExploreSet: MusicData[] = []
+  const artistsSuggestionsSet: MusicData[] = []
+  
+  songYouMayLike.forEach(s => {
+    if(isInList(songYouMayLikeSet, s.songId ?? "") == false) songYouMayLikeSet.push(s)
+  })
 
-  return json(new SongsYouMayLike(Array.from(songYouMayLikeSet), Array.from(songYouMayLikeToListenSet), Array.from(songYouMayLikeToExploreSet), Array.from(artistsSuggestionsSet)))
+  songYouMayLikeToListen.forEach(s => {
+    if(isInList(songYouMayLikeSet, s.songId ?? "") == false) {
+      if(isInList(songYouMayLikeToListenSet, s.songId ?? "") == false) songYouMayLikeToListenSet.push(s)
+    }
+  })
+
+
+  songYouMayLikeToExplore.forEach(s => {
+    if(isInList(songYouMayLikeToExploreSet, s.songId ?? "") == false) songYouMayLikeToExploreSet.push(s)
+  })
+
+  artistsSuggestions.forEach(s => {
+    if(isInList(artistsSuggestionsSet, s.songId ?? "") == false) artistsSuggestionsSet.push(s)
+  })
+
+
+  return json(new SongsYouMayLike(songYouMayLikeSet, songYouMayLikeToListenSet, songYouMayLikeToExploreSet, artistsSuggestionsSet))
 })
+
+function isInList(dataArr: MusicData[], id: string): boolean {
+  return dataArr.find(data => data.songId === id) ? true : false
+}

@@ -11,15 +11,18 @@
   import type { IpDetails } from '../domain/local/entities/IpDetails'
   import SongsYouMayLink from '$lib/components/main-page/SongsYouMayLink.svelte'
   import AlbumsForYou from '$lib/components/main-page/AlbumsForYou.svelte'
-    import type { MusicData } from '../domain/local/entities/MusicData'
-    import SongsYouMayLinkToListen from '$lib/components/main-page/SongsYouMayLinkToListen.svelte'
+  import type { MusicData } from '../domain/local/entities/MusicData'
+  import SongsYouMayLinkToListen from '$lib/components/main-page/SongsYouMayLinkToListen.svelte'
+  import type { SongsYouMayLike } from '../domain/local/entities/SongsYouMayLike'
+  import ArtistsCards from '$lib/components/global-view/items/ArtistsCards.svelte'
+  import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
 
   export let data: any
 
   let authKey: string | null = null
   let ipDetails: IpDetails | null
 
-  let songsYouMayLikeToListen: MusicData[] = []
+  let youMayLike: SongsYouMayLike | null = null
 
   if (browser) {
     authKey = window.atob(data.data)
@@ -45,9 +48,28 @@
   <FreshAddedSong {authKey} />
   <GlobalTopTrendingSongs {authKey} />
   <TopSongsInUserCountry {authKey} {ipDetails} />
-  <SongsYouMayLink {authKey} bind:songsYouMayLikeToListen/>
+  <SongsYouMayLink {authKey} bind:youMayLike />
   <AlbumsForYou {authKey}/>
-  <SongsYouMayLinkToListen bind:songsYouMayLikeToListen/>
+  <SongsYouMayLinkToListen bind:youMayLike />
+
+  {#if (youMayLike?.artists?.length ?? 0) > 0}
+    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Similar Artists</h3>
+    <div class="overflow-x-auto flex scrollbar-hide">
+      {#each youMayLike?.artists ?? [] as artists}
+        <ArtistsCards {artists} />
+      {/each}
+    </div>
+  {/if}
+
+  {#if (youMayLike?.explore.length ?? 0) > 0}
+    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs</h3>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg">
+      {#each youMayLike?.explore ?? [] as musicData}
+        <CardWithTopMenuIcon {musicData} />
+      {/each}
+    </div>
+  {/if}
 
   <div class="h-60" />
 {/if}
