@@ -9,8 +9,10 @@
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
   import { openSongDialog } from '$lib/utils/f'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
+  import type { MusicData } from '../../../domain/local/entities/MusicData'
 
   export let authKey: string
+  export let songsYouMayLikeToListen: MusicData[]
 
   let response: ResponseData<SongsYouMayLike> = { type: ResponseDataEnum.EMPTY }
 
@@ -25,10 +27,11 @@
 
     try {
       response = { type: ResponseDataEnum.LOADING }
-      
+
       if (cacheRecords.length > 0) {
         const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
         if (JSON.stringify(records.cache) == JSON.stringify(music) && records.response.like.length > 0) {
+          songsYouMayLikeToListen = records.response.listen
           response = { type: ResponseDataEnum.SUCCESS, data: records.response }
           return
         }
@@ -37,7 +40,8 @@
       const res = await axios.post(env.PUBLIC_S_Y_M_L, music, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as SongsYouMayLike
       response = { type: ResponseDataEnum.SUCCESS, data: data }
-
+      songsYouMayLikeToListen = data.listen
+         
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(new SongsYouMayLikeCache(music, data))
     } catch (error) {

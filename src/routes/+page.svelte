@@ -9,13 +9,17 @@
   import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
   import TopSongsInUserCountry from '$lib/components/main-page/TopSongsArtistsInUserCountry.svelte'
   import type { IpDetails } from '../domain/local/entities/IpDetails'
-    import SongsYouMayLink from '$lib/components/main-page/SongsYouMayLink.svelte'
-    import AlbumsForYou from '$lib/components/main-page/AlbumsForYou.svelte'
+  import SongsYouMayLink from '$lib/components/main-page/SongsYouMayLink.svelte'
+  import AlbumsForYou from '$lib/components/main-page/AlbumsForYou.svelte'
+    import type { MusicData } from '../domain/local/entities/MusicData'
+    import SongsYouMayLinkToListen from '$lib/components/main-page/SongsYouMayLinkToListen.svelte'
 
   export let data: any
 
   let authKey: string | null = null
   let ipDetails: IpDetails | null
+
+  let songsYouMayLikeToListen: MusicData[] = []
 
   if (browser) {
     authKey = window.atob(data.data)
@@ -41,8 +45,9 @@
   <FreshAddedSong {authKey} />
   <GlobalTopTrendingSongs {authKey} />
   <TopSongsInUserCountry {authKey} {ipDetails} />
-  <SongsYouMayLink {authKey}/>
+  <SongsYouMayLink {authKey} bind:songsYouMayLikeToListen/>
   <AlbumsForYou {authKey}/>
+  <SongsYouMayLinkToListen bind:songsYouMayLikeToListen/>
 
   <div class="h-60" />
 {/if}

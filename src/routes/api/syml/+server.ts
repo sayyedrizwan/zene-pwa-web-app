@@ -36,7 +36,7 @@ export const POST = (async (events: RequestEvent) => {
       })
 
       lists[0].forEach((item, i) => {
-        if (i <= 3) songYouMayLikeToListen.push(item)
+        if (i <= 2) songYouMayLikeToListen.push(item)
         else songYouMayLikeToExplore.push(item)
       })
 
