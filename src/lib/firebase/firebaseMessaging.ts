@@ -20,6 +20,6 @@ import { firebaseMessaging } from "./firebase";
 // }
 
 export async function getFCMToken() {
-   const t = await getToken(firebaseMessaging, { vapidKey: 'BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M' })
+   const t = await getToken(firebaseMessaging!, { vapidKey: 'BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M' })
    console.log(t)
 }
