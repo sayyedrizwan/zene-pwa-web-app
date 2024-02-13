@@ -1,6 +1,7 @@
 import { initializeApp, type FirebaseApp, getApps } from 'firebase/app'
 import { getAnalytics, type Analytics } from 'firebase/analytics'
 import { browser } from '$app/environment'
+import { getMessaging, type Messaging } from "firebase/messaging"
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC6dhNuFEKeoClW69Rwl5v7sjWXVjtfF1Y',
@@ -14,9 +15,11 @@ const firebaseConfig = {
 
 let app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
 let firebaseAnalytics: Analytics | undefined
+let firebaseMessaging: Messaging | undefined
 
 if (browser) {
   firebaseAnalytics = getAnalytics(app)
+  firebaseMessaging = getMessaging(app)
 }
 
-export { firebaseAnalytics }
+export { firebaseAnalytics, firebaseMessaging }

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { pwaInfo } from 'virtual:pwa-info'
   import './tailwind.svelte'
+  import '$lib/firebase/firebase'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
   import { onBrowser } from '$lib/utils/Utils'
@@ -14,7 +15,7 @@
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
-    import { getAllPlayHistory, topTenSongsListener } from '$lib/utils/p/shistory'
+    import { getFCMToken } from '$lib/firebase/firebaseMessaging'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -26,6 +27,10 @@
   let songPlayer: Boolean = false
 
   onMount(async () => {
+    setTimeout(()=> {
+      getFCMToken()
+    }, 1000)
+    
     audioPlayer = new APManager()
     audioPlayer.init()
 

@@ -11,13 +11,13 @@ const config = {
     },
     adapter: adapter(),
     serviceWorker: {
-      register: false,
+      register: false
     },
     prerender: {
       entries: ['/api'],
     },
     files: {
-      serviceWorker: generateSW ? undefined :'src/prompt-sw.ts',
+      serviceWorker: generateSW ? undefined : 'src/prompt-sw.ts'
     },
   },
 }
