@@ -9,6 +9,7 @@ import type { YtMusicBrowsePlaylists } from './domain/YtMusicBrowsePlaylists'
 import type { YtMusicNextBrowser } from './domain/YtMusicNextBrowser'
 import type { YtMusicSearchKeywordsSuggestion } from './domain/YtMusicSearchKeywordsSuggestion'
 import type { YtMusicSearchResponse } from './domain/YtMusicSearchResponse'
+import type { YtMusicSongsInfoData } from './domain/YtMusicSongsInfoData'
 
 export class YtMusicAPIImpl {
 
@@ -93,13 +94,19 @@ export class YtMusicAPIImpl {
     return music
   }
 
-  // async songInfo(id: string): Promise<MusicData> {
-  //   const r = await fetch(yt_music_song_info, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithVID(id) })
-  //   const response = (await r.json()) as YtMusicSearchResponse
+  async songInfo(id: string): Promise<MusicData | null> {
+    const r = await fetch(yt_music_song_info, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithVID(id) })
+    const response = (await r.json()) as YtMusicSongsInfoData
    
+   const name = response?.videoDetails?.title
+   const artists = response?.videoDetails?.author?.replaceAll("and", "&")
+   const songId = response?.videoDetails?.videoId
+   const thumbnail = response?.videoDetails?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
+    
+    
 
-
-  // }
+    return name != undefined && songId != undefined ? new MusicData(name, artists ?? "", songId, thumbnail ?? "", MusicType.MUSIC) : null
+  }
 
 
   async newReleaseSearch(ip: IpJsonResponse): Promise<MusicDataList> {
@@ -186,7 +193,7 @@ export class YtMusicAPIImpl {
           let id: string | null = null
 
           item?.musicTwoRowItemRenderer?.title?.runs?.forEach(t => {
-            if(t.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST"){
+            if (t.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
               if (t.text != undefined) {
                 id = t.navigationEndpoint?.browseEndpoint?.browseId ?? null
                 name = t.text
