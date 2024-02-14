@@ -15,7 +15,7 @@
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
-    import { getFCMToken } from '$lib/firebase/firebaseMessaging'
+  import { setUpForegroundFCM } from '$lib/firebase/firebase'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -27,10 +27,6 @@
   let songPlayer: Boolean = false
 
   onMount(async () => {
-    setTimeout(()=> {
-      getFCMToken()
-    }, 1000)
-    
     audioPlayer = new APManager()
     audioPlayer.init()
 
@@ -51,6 +47,10 @@
     document.addEventListener('songdialog', (event: Event) => {
       songMenuDialog = (event as CustomEvent).detail.value
     })
+
+    setTimeout(()=> {
+      setUpForegroundFCM()
+    }, 2000)
   })
 </script>
 
