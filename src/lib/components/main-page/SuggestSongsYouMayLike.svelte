@@ -1,0 +1,89 @@
+<script lang="ts">
+  import { topTenSongsListener } from '$lib/utils/p/shistory'
+  import { onMount } from 'svelte'
+  import type { MusicData } from '../../../domain/local/entities/MusicData'
+  import { openSongDialog, toEncr } from '$lib/utils/f'
+  import axios from 'axios'
+  import { env } from '$env/dynamic/public'
+  import type { SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
+  import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
+  import { splitArrayIntoChunks } from '$lib/utils/Utils'
+  import MenuIcon from '$lib/assets/img/ic_menu.svg'
+
+  export let authKey: string
+  export let topSongsCountry: MusicData[]
+  export let youMayLike: SongsYouMayLike | null
+  let interval: NodeJS.Timeout | null = null
+
+  let response: ResponseData<SongsYouMayLike> = { type: ResponseDataEnum.EMPTY }
+
+  async function intervalLike() {
+    if (topSongsCountry.length == 0) return
+    clearInterval(interval!)
+
+    try {
+      const list = topSongsCountry.length > 8 ? toEncr(topSongsCountry.slice(0, 8)) : toEncr(topSongsCountry)
+
+      const res = await axios.post(env.PUBLIC_S_Y_M_L, list, { timeout: 60000, headers: { AuthorizationKey: authKey } })
+      const data = (await res.data) as SongsYouMayLike
+      youMayLike = data
+      response = { type: ResponseDataEnum.SUCCESS, data: data }
+    } catch (error) {
+      response = { type: ResponseDataEnum.ERROR }
+    }
+  }
+
+  const readMusic = async (music: string[]) => {
+    response = { type: ResponseDataEnum.LOADING }
+
+    if (music.length <= 0) interval = setInterval(intervalLike, 800)
+    else response = { type: ResponseDataEnum.ERROR }
+  }
+
+  onMount(async () => {
+    await topTenSongsListener(readMusic)
+  })
+</script>
+
+{#if response.type == ResponseDataEnum.LOADING}
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs you may like</h3>
+
+  <div class="flex overflow-x-auto w-full scrollbar-hide">
+    {#each Array(15) as _, index (index)}
+      <div>
+        <div class="p-3">
+          <div class="relative w-[13rem] h-[11rem] rounded-lg bg-gray-400 animate-pulse" />
+        </div>
+
+        <div class="p-3">
+          <div class="relative w-[13rem] h-[11rem] rounded-lg bg-gray-400 animate-pulse" />
+        </div>
+      </div>
+    {/each}
+  </div>
+{:else if response.type == ResponseDataEnum.SUCCESS}
+  {#if response.data.like.length > 0}
+    <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs you may like</h3>
+
+    <div class="flex overflow-x-auto w-full scrollbar-hide">
+      {#each splitArrayIntoChunks(response.data.like, 2) as topItem}
+        <div>
+          {#each topItem as item}
+            <button class="p-3 cursor-pointer">
+              <div class="relative size-[13rem] md:size-[15rem] bg-black rounded-lg">
+                <img class="absolute top-0 left-0 size-[13rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
+                <div class="absolute top-0 left-0 size-[13rem] md:size-[15rem] bg-maincolor rounded-lg bg-opacity-50"></div>
+                <button on:click|stopPropagation={() => openSongDialog(item)} class="absolute top-2 right-2 size-6 cursor-pointer"><img src={MenuIcon} alt="menu" /></button>
+
+                <div class="absolute bottom-2 left-2">
+                  <p class="text-white urbanist-semibold text-base ms-1.5 truncate text-left w-[12rem] md:w-[14rem]">{item.name}</p>
+                  <p class="text-white urbanist-thin text-base ms-1.5 truncate text-left w-[12rem] md:w-[14rem]">{item.artists}</p>
+                </div>
+              </div>
+            </button>
+          {/each}
+        </div>
+      {/each}
+    </div>
+  {/if}
+{/if}

@@ -34,16 +34,9 @@ export async function setUpForegroundFCM() {
     console.log("Message received. ", payload)
     alert("Notificacion");
   })
-  
   } catch (error) {
-    console.log(error)
+    error
   }
-
-  // const token = await getToken(firebaseMessaging!, { vapidKey: "BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M" })
-  // console.log(token)
-
-  // alert(token)
-
 }
 
 export { firebaseAnalytics, firebaseMessaging }

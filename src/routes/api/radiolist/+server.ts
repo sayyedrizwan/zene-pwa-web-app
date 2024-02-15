@@ -10,6 +10,7 @@ export async function POST(events: RequestEvent) {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   const radio = new RadioBrowserImpl()
+
   try {
     const cityRadio: MusicData[] = []
     const countryRadio: MusicData[] = []
@@ -18,7 +19,6 @@ export async function POST(events: RequestEvent) {
     const ipData = (await responseIp.data) as IpJsonResponse
 
     const response = await radio.countryRadios(ipData.country)
-
     response.forEach((r) => {
       if (r.name != undefined && r.stationuuid != undefined)
         if (r.state?.toLowerCase() === ipData.city.toLowerCase())

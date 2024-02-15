@@ -16,6 +16,7 @@
   import type { SongsYouMayLike } from '../domain/local/entities/SongsYouMayLike'
   import ArtistsCards from '$lib/components/global-view/items/ArtistsCards.svelte'
   import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
+    import SuggestSongsYouMayLike from '$lib/components/main-page/SuggestSongsYouMayLike.svelte'
 
   export let data: any
 
@@ -23,6 +24,7 @@
   let ipDetails: IpDetails | null
 
   let youMayLike: SongsYouMayLike | null = null
+  let topSongsCountry: MusicData[] = []
 
   if (browser) {
     authKey = window.atob(data.data)
@@ -46,8 +48,9 @@
   <TopGlobalTrendingArtists {authKey} />
   <TopMood />
   <FreshAddedSong {authKey} />
-  <GlobalTopTrendingSongs {authKey} />
+  <GlobalTopTrendingSongs {authKey} bind:topSongsCountry/>
   <TopSongsInUserCountry {authKey} {ipDetails} />
+  <SuggestSongsYouMayLike {authKey} bind:topSongsCountry bind:youMayLike/>
   <SongsYouMayLink {authKey} bind:youMayLike />
   <AlbumsForYou {authKey}/>
   <SongsYouMayLinkToListen bind:youMayLike />

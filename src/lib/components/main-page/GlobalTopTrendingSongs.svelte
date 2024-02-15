@@ -10,6 +10,7 @@
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
 
   export let authKey: string
+  export let topSongsCountry: MusicData[]
 
   let response: ResponseData<MusicData[][] | null> = { type: ResponseDataEnum.EMPTY }
 
@@ -24,6 +25,7 @@
         if (isAPICachedForADay(cacheRecords[0].length, `t_s_l`)) {
           const records = cacheRecords[0] as MusicDataList
           if (records.results?.length ?? 0 > 0) {
+            topSongsCountry = records?.results ?? []
             response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records?.results ?? [], 3) }
             return
           }
@@ -31,6 +33,7 @@
 
       const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicDataList
+      topSongsCountry = data?.results ?? []
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data?.results ?? [], 3) }
       localStorage.setItem(`t_s_l`, Date.now().toString())
       cacheDB.deleteAllRecords()
