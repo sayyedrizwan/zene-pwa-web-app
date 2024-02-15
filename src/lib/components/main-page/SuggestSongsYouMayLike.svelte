@@ -5,10 +5,11 @@
   import { openSongDialog, toEncr } from '$lib/utils/f'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
-  import type { SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
+  import { SongsYouMayLikeCache, type SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
+  import { DataIndexDS, indexDB, songMayLikeSuggestionCache } from '$lib/utils/indexd'
 
   export let authKey: string
   export let topSongsCountry: MusicData[]
@@ -21,15 +22,31 @@
     if (topSongsCountry.length == 0) return
     clearInterval(interval!)
 
+    const cacheDB = new DataIndexDS<SongsYouMayLikeCache<SongsYouMayLike>>(songMayLikeSuggestionCache, indexDB)
+    const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+
     try {
       const list = topSongsCountry.length > 8 ? toEncr(topSongsCountry.slice(0, 8)) : toEncr(topSongsCountry)
+
+      if (cacheRecords.length > 0) {
+        const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
+        if (JSON.stringify(records.cache) == JSON.stringify(list) && records.response.like.length > 0) {
+          youMayLike = records.response
+          response = { type: ResponseDataEnum.SUCCESS, data: records.response }
+          return
+        }
+      }
 
       const res = await axios.post(env.PUBLIC_S_Y_M_L, list, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as SongsYouMayLike
       youMayLike = data
       response = { type: ResponseDataEnum.SUCCESS, data: data }
+
+      cacheDB.deleteAllRecords()
+      cacheDB.saveToIndexedDB(new SongsYouMayLikeCache(list, data))
     } catch (error) {
-      response = { type: ResponseDataEnum.ERROR }
+        cacheDB.deleteAllRecords()
+        response = { type: ResponseDataEnum.ERROR }
     }
   }
 
