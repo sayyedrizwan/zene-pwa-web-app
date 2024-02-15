@@ -7,7 +7,7 @@ import type { ArtistsInfoData } from '../../../domain/local/entities/ArtistsInfo
 export const load = async ({ params, fetch, cookies, getClientAddress }) => {
   const artistName = decryptAppSharedData(params.id)
 
-  if (artistName === "") return { data: "", name: "" }
+  if (artistName === "") return { data: "", name: "" } 
 
   const data = await serverLoadFunction(fetch, cookies, getClientAddress())
 

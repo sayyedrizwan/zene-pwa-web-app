@@ -6,14 +6,19 @@
   import axios from 'axios'
   import ArrowLeft from '$lib/assets/img/ic_arrow_down.svg'
   import PinIcon from '$lib/assets/img/ic_pin.svg'
+  import UnPinIcon from '$lib/assets/img/ic_unpin.svg'
   import AirdropIcon from '$lib/assets/img/ic_airdrop.svg'
   import ShareIcon from '$lib/assets/img/ic_share.svg'
   import { playSongZene, shareATxt } from '$lib/utils/f'
   import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
+   import { checkPinExistsWithIndex, deletePin, insertPin } from '$lib/utils/p/pin'
+    import { ArtistsPinData } from '../../../domain/local/entities/ArtistsPinData'
 
   export let key: string
   export let artistsInfo: ArtistsInfoData
+  export let url: string | null
 
+  let isPinned: Boolean = false
   let showFullDesc: Boolean = false
   let videoTime: NodeJS.Timeout | null = null
   let radioId: string | null = null
@@ -43,6 +48,7 @@
   }
 
   onMount(async () => {
+    addRmPin(false)
     artistsVideo()
     artistsRadio()
   })
@@ -63,6 +69,25 @@
     }
     const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? '', window.atob(radioId), artistsInfo.image ?? '', MusicType.MUSIC)
     playSongZene(m)
+  }
+
+  async function addRmPin(d: Boolean) {
+    if(d === true) isPinned = !isPinned
+
+    const exists = await checkPinExistsWithIndex(url ?? "")
+    
+    if(exists == null) {
+      if(d === false) isPinned = false
+      else {
+        const a = new ArtistsPinData(url!, artistsInfo.name!, artistsInfo.image!, new Date().getTime())
+        insertPin(a)
+      }
+    } else {
+      if(d === false) isPinned = true
+      else {
+        deletePin(url!)
+      }
+    }
   }
 </script>
 
@@ -102,10 +127,10 @@
 {/if}
 
 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 leading-6 rounded-lg p-3 mt-7">
-  <div class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer">
-    <img src={PinIcon} alt="pin" class="size-5" />
-    <p class="text-white urbanist-semibold text-base ms-1">Pin</p>
-  </div>
+  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer" on:click={() => addRmPin(true)}>
+    <img src={isPinned === true ? UnPinIcon : PinIcon} alt="pin" class="size-5" />
+    <p class="text-white urbanist-semibold text-base ms-1">{isPinned === true ? `Unpin` : `Pin`}</p>
+  </button>
   <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer" on:click={startPlayingRadio}>
     <img src={AirdropIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Radio</p>
