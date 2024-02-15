@@ -5,7 +5,7 @@
   import { env } from '$env/dynamic/public'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import type { MusicDataList } from '../../../domain/local/entities/MusicData'
-  import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
+    import CardsWithFullColor from '../global-view/items/CardsWithFullColor.svelte'
 
   export let key: string
   export let artistsInfo: ArtistsInfoData
@@ -32,8 +32,9 @@
   {#if response.data?.results?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-28 text-start">Top Songs</h3>
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
-      {#each response?.data?.results ?? [] as musicData}
-        <CardWithTopMenuIcon {musicData} />
+      {#each response?.data?.results ?? [] as item}
+        <CardsWithFullColor {item}/>
+        <!-- <CardWithTopMenuIcon {musicData} /> -->
       {/each}
     </div>
   {/if}
