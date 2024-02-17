@@ -1,5 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/environment'
+    import FeedTopList from '$lib/components/feed-page/FeedTopList.svelte'
 
   export let data: any
   let key: string | null = null
@@ -19,7 +20,10 @@
 </svelte:head>
 
 {#if key != null}
+
+  <h3 class="text-white urbanist-semibold text-2xl md:text-3xl pl-9 mt-14 mb-6">Feed</h3>
   
+  <FeedTopList />
 
   <div class="h-60" />
 {/if}

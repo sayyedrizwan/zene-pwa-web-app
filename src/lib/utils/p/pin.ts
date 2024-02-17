@@ -35,6 +35,33 @@ export async function insertPin(p: ArtistsPinData) {
 }
 
 
+
+export async function addedPinLists(lists: (results: ArtistsPinData[]) => void) {
+    let results: ArtistsPinData[] = []
+
+    const db = await openPinDatabase()
+    const tx = db.transaction([pinStore], 'readonly').objectStore(pinStore)
+    const index = tx.openCursor(null, 'prev')
+
+    try {
+        index.onsuccess = (event: Event) => {
+            const cursor = (event.target as any).result
+            if (cursor) {
+                if((cursor.value as ArtistsPinData) != null) results.push((cursor.value as ArtistsPinData))
+                cursor.continue()
+            }
+            if (cursor === null) try {
+                lists(results)
+            } catch (error) {
+                error
+            }
+        }
+    } catch (error) {
+        
+    }
+}
+
+
 export async function checkPinExistsWithIndex(id: string): Promise<ArtistsPinData | null> {
     const db = await openPinDatabase()
     const tx = db.transaction([pinStore], 'readonly')
