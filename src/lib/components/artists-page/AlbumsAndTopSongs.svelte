@@ -45,7 +45,7 @@
       <div class="p-2">
         <div class="relative w-80 h-36 rounded-lg bg-gray-400 animate-pulse" />
       </div>
-    {/each}
+    
   </div>
 {/if}
 

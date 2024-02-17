@@ -4,11 +4,12 @@
   import { addedPinLists } from '$lib/utils/p/pin'
   import PinIcon from '$lib/assets/img/ic_pin.svg'
 
+  let isLoading: Boolean = true
   let pinLists: ArtistsPinData[] = []
 
   const pin = async (results: ArtistsPinData[]) => {
+    isLoading = false
     pinLists = results
-    console.log(pinLists)
   }
 
   onMount(async () => {
@@ -16,9 +17,17 @@
   })
 </script>
 
-<div class="relative rounded-xl overflow-auto">
-  <div class="w-full mx-auto shadow-xl">
-    <div class="overflow-x-auto flex">
+{#if isLoading === true}
+  <div class="overflow-x-auto flex w-full mx-auto shadow-xl">
+    {#each Array(15) as _, index (index)}
+      <div class="flex-none py-6 px-3 first:pl-6 last:pr-6">
+        <div class="size-44 rounded-full bg-gray-400 animate-pulse m-3" />
+      </div>
+    {/each}
+  </div>
+{:else}
+  <div class="relative rounded-xl overflow-auto">
+    <div class="overflow-x-auto flex w-full mx-auto shadow-xl">
       {#each pinLists as item}
         <a class="flex-none py-6 px-3 first:pl-6 last:pr-6" href={`/a/${item.id}`}>
           <div class="flex flex-col items-center justify-center gap-3">
@@ -30,4 +39,4 @@
       {/each}
     </div>
   </div>
-</div>
+{/if}
