@@ -33,7 +33,7 @@
   {#if response.data?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Artists Images</h3>
 
-    <div class="flex overflow-x-scroll mt-2">
+    <div class="flex overflow-x-scroll mt-2 scrollbar-hide">
       <div class="flex flex-nowrap">
         {#each response.data as item}
           <button on:click|preventDefault={() => (dialogImage = item)} class="inline-block px-3">

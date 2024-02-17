@@ -40,12 +40,12 @@
   {/if}
 {:else if searchSuggestion.type == ResponseDataEnum.LOADING}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Latest Songs</h3>
-  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
+  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2 scrollbar-hide">
     {#each Array(15) as _, index (index)}
       <div class="p-2">
         <div class="relative w-80 h-36 rounded-lg bg-gray-400 animate-pulse" />
       </div>
-    
+    {/each}
   </div>
 {/if}
 
@@ -58,7 +58,7 @@
   {/if}
 {:else if searchSuggestion.type == ResponseDataEnum.LOADING}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Albums</h3>
-  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
+  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2 scrollbar-hide">
     {#each Array(15) as _, index (index)}
       <div class="p-2">
         <div class="relative w-80 h-36 rounded-lg bg-gray-400 animate-pulse" />
@@ -76,7 +76,7 @@
   {/if}
 {:else if artistsLists.type == ResponseDataEnum.LOADING}
   <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Similar Artists</h3>
-  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
+  <div class="flex overflow-x-auto w-full scrollbar-hide mt-2 scrollbar-hide">
     {#each Array(15) as _, index (index)}
       <div class="p-2">
         <div class="relative w-80 h-36 rounded-lg bg-gray-400 animate-pulse" />

@@ -1,13 +1,13 @@
 <script lang="ts">
   import { browser } from '$app/environment'
-    import FeedTopList from '$lib/components/feed-page/FeedTopList.svelte'
+  import FeedItemsLists from '$lib/components/feed-page/FeedItemsLists.svelte'
+  import FeedTopList from '$lib/components/feed-page/FeedTopList.svelte'
 
   export let data: any
   let key: string | null = null
 
   if (browser) key = window.atob(data.data)
 </script>
-
 
 <svelte:head>
   <title>Feed | Zene: A Free Muic App</title>
@@ -20,10 +20,10 @@
 </svelte:head>
 
 {#if key != null}
-
   <h3 class="text-white urbanist-semibold text-2xl md:text-3xl pl-9 mt-14 mb-6">Feed</h3>
-  
+
   <FeedTopList />
+  <FeedItemsLists authKey={key} />
 
   <div class="h-60" />
 {/if}

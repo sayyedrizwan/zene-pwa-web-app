@@ -149,7 +149,7 @@ export class YtMusicAPIImpl {
       lists.map(async (m) => {
         const music = await this.musicSearchSingle(m, false)
         if (music.songId != null) listsNew.push(music)
-      }),
+      })
     )
     return new MusicDataList(listsNew)
   }

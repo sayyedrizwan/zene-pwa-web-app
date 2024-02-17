@@ -1,6 +1,7 @@
-import { MusicData, MusicType } from "../../../../domain/local/entities/MusicData";
-import { ytBodyWithQuery, ytHeader, yt_video_search } from "./YtUtils";
-import type { YtSearchVideoResponse } from "./domain/YtSearchVideoResponse";
+import { MusicData, MusicType } from "../../../../domain/local/entities/MusicData"
+import { bingYtChannelSearch, ytBodyWithQuery, ytHeader, yt_video_search } from "./YtUtils"
+import type { YtSearchVideoResponse } from "./domain/YtSearchVideoResponse"
+import { JSDOM } from 'jsdom'
 
 export class YtAPIImpl {
 
@@ -18,8 +19,23 @@ export class YtAPIImpl {
                 if (videoId != undefined) list.push(new MusicData(name ?? "", '', videoId, thumbnail, MusicType.VIDEO))
             })
         })
-
-
         return list
+    }
+
+
+    async searchArtistsChannelsVideos(search: string): Promise<MusicData[]> {
+        try {
+            const r = await fetch(bingYtChannelSearch(search), { method: 'GET' })
+            const response = (await r.text()) as string
+            const page = new JSDOM(response)
+            let url = page.window.document.querySelector('.tilk')?.getAttribute("href")
+            if(url != undefined) {
+               console.log(url)
+            }
+        } catch (error) {
+            error
+        }
+
+        return []
     }
 }

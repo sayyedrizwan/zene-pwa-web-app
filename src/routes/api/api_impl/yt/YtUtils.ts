@@ -1,6 +1,8 @@
-import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
-
 export const YT_KEY = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
+
+export function bingYtChannelSearch(s: string) {
+    return `https://www.bing.com/search?q=${s.trim().toLowerCase().replace(" ", "+")}+youtube+official+channel&pq=taylor+swift+youtube+official+channel`
+}
 
 export const ytHeader = {
     'x-origin': 'https://www.youtube.com',
