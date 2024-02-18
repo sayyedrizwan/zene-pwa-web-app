@@ -1,6 +1,6 @@
 import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { apiError, authKeyError, getIpAddress, getTextBeforeKeyword, ipBaseUrl } from '../../utils/utils'
+import { apiError, authKeyError, getIpAddress, ipBaseUrl } from '../../utils/utils'
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 import axios from 'axios'
@@ -29,7 +29,7 @@ export async function POST(events: RequestEvent) {
 
     await Promise.all(
       lists.map(async (m) => {
-        const name = getTextBeforeKeyword(getTextBeforeKeyword(m?.artists ?? '', ',')!, '&')
+        const name = m?.artists?.textBeforeKeyword(',')?.textBeforeKeyword('&')
         const music = await ytImpl.artistsSearch(name ?? '')
         if (music[0].songId != null) artistsLists.push(music[0])
       }),

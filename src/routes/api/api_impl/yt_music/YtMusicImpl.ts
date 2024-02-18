@@ -1,7 +1,7 @@
 import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/entities/MusicData'
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 import { encryptAppSharedData } from '../../utils/EncryptionForAPI'
-import { getTextAfterKeyword, getTextBeforeKeyword, getTextBeforeLastKeyword, joinArtists } from '../../utils/utils'
+import { joinArtists } from '../../utils/utils'
 import { all_search_albums_params, all_search_artists_params, all_search_params, new_release_params, ytMusicBodyWithInput, ytMusicBodyWithParams, ytMusicBodyWithParamsNext, ytMusicBodyWithParamsWithIp, ytMusicBodyWithVID, ytMusicHeader, yt_music_browse, yt_music_next, yt_music_search, yt_music_search_suggestion, yt_music_song_info } from './YtMusicUtil'
 import type { YtMusicBrowseData } from './domain/YtMusicBrowseData'
 import type { YtMusicBrowseGrids } from './domain/YtMusicBrowseGrids'
@@ -134,11 +134,12 @@ export class YtMusicAPIImpl {
       element?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((music) => {
         music?.musicPlaylistShelfRenderer?.contents?.forEach((items) => {
           const name = items.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPlayData?.accessibilityData?.label
-          let data = getTextAfterKeyword(name?.toLowerCase() ?? '', 'play')
-          if (data?.includes('|')) data = getTextBeforeKeyword(data, '|')
+          let data : string | undefined | null = name?.toLowerCase()?.textAfterKeyword('play')
+
+          if (data?.includes('|')) data = data?.textBeforeKeyword('|')
           else {
-            const temp = getTextBeforeKeyword(data ?? '', 'minute')
-            data = getTextBeforeLastKeyword(temp ?? '', '-')
+            const temp = data?.textBeforeKeyword('minute')
+            data = (temp ?? '')?.textBeforeKeyword('-')
           }
           lists.push(data ?? '')
         })
@@ -221,7 +222,7 @@ export class YtMusicAPIImpl {
       tabs?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
         contents?.musicShelfRenderer?.contents?.forEach(albums => {
           const thumbnail = albums?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-          const name = getTextAfterKeyword(albums?.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPauseData?.accessibilityData?.label ?? "", "Pause")
+          const name = albums?.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPauseData?.accessibilityData?.label?.textAfterKeyword("Pause") ?? ""
           const id = albums?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
           if (id != null) lists.push(new MusicData(name, name, id, thumbnail ?? "", MusicType.ALBUM))

@@ -22,6 +22,9 @@ export function ipBaseUrl(ip: string) {
 export const google_news_api = "https://news.google.com/rss/search"
 
 
+export const bing_news_api = "https://www.bing.com/news/search"
+
+
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
 export const radio_browser_url = '_api._tcp.radio-browser.info'
@@ -74,46 +77,99 @@ export function joinArtists(artists: string[]): string {
   }
 }
 
-export function getTextAfterKeyword(txt: string, char: string): string | null {
-  const index: number = txt.indexOf(char)
-
-  if (index !== -1) {
-    const result: string = txt.substring(index + char.length).trim()
-    return result
-  } else {
-    return txt
+declare global {
+  interface String {
+    textAfterKeyword(char : string) : string
+    textAfterLastKeyword(char : string) : string | null
+    textBeforeKeyword(char : string) : string | null
+    textBeforeLastKeyword(char : string) : string | null
   }
 }
 
-export function getTextAfterLastKeyword(txt: string, char: string): string | null {
+String.prototype.textAfterKeyword = function (char : string) : string {
+  const index: number = this.indexOf(char)
+
+  if (index !== -1) {
+    const result: string = this.substring(index + char.length).trim()
+    return result
+  } else {
+    return String(this)
+  }
+}
+
+String.prototype.textAfterLastKeyword = function (char : string) : string | null {
   try {
-    const lastDashIndex = txt.lastIndexOf(char)
-    return txt.substring(lastDashIndex + 1).trim()
+    const lastDashIndex = this.lastIndexOf(char)
+    return this.substring(lastDashIndex + 1).trim()
   } catch (error) {
     return null
   }
 }
 
-export function getTextBeforeKeyword(txt: string, char: string): string | null {
-  const index: number = txt.indexOf(char)
+String.prototype.textBeforeKeyword = function (char : string) : string | null {
+  const index: number = this.indexOf(char)
 
   if (index !== -1) {
-    const result: string = txt.substring(0, index).trim()
+    const result: string = this.substring(0, index).trim()
     return result
   } else {
-    return txt
+    return String(this)
   }
 }
-export function getTextBeforeLastKeyword(txt: string, char: string): string | null {
-  const lastIndex: number = txt.lastIndexOf(char)
+
+String.prototype.textBeforeLastKeyword = function (char : string) : string | null {
+  const lastIndex: number = this.lastIndexOf(char)
 
   if (lastIndex !== -1) {
-    const result: string = txt.substring(0, lastIndex).trim()
+    const result: string = this.substring(0, lastIndex).trim()
     return result
   } else {
-    return txt
+    return String(this)
   }
 }
+
+// export function getTextAfterKeyword(txt: string, char: string): string | null {
+//   const index: number = txt.indexOf(char)
+
+//   if (index !== -1) {
+//     const result: string = txt.substring(index + char.length).trim()
+//     return result
+//   } else {
+//     return txt
+//   }
+// }
+
+// export function getTextAfterLastKeyword(txt: string, char: string): string | null {
+//   try {
+//     const lastDashIndex = txt.lastIndexOf(char)
+//     return txt.substring(lastDashIndex + 1).trim()
+//   } catch (error) {
+//     return null
+//   }
+// }
+
+// export function getTextBeforeKeyword(txt: string, char: string): string | null {
+//   const index: number = txt.indexOf(char)
+
+//   if (index !== -1) {
+//     const result: string = txt.substring(0, index).trim()
+//     return result
+//   } else {
+//     return txt
+//   }
+// }
+
+
+// export function getTextBeforeLastKeyword(txt: string, char: string): string | null {
+//   const lastIndex: number = txt.lastIndexOf(char)
+
+//   if (lastIndex !== -1) {
+//     const result: string = txt.substring(0, lastIndex).trim()
+//     return result
+//   } else {
+//     return txt
+//   }
+// }
 
 export function getIpAddress(events: RequestEvent): string {
   return events.cookies.get(users_ip_address) ?? ""

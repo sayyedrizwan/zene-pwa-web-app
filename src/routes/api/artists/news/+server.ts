@@ -1,7 +1,7 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
 import { apiError, authKeyError } from '../../utils/utils'
 import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
-import { GNewsImpl } from '../../api_impl/news/GNewsImpl'
+import { NewsImpl } from '../../api_impl/news/NewsImpl'
 
 export async function POST(events: RequestEvent) {
   const headers = events.request.headers
@@ -11,7 +11,7 @@ export async function POST(events: RequestEvent) {
   if (name === "") return json(apiError)
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
-  const news = new GNewsImpl()
+  const news = new NewsImpl()
 
   try {
     const search = news.search(name)
