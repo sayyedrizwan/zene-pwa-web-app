@@ -179,6 +179,7 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
+    if(this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
 
     if (this.music?.type == MusicType.RADIO) {
