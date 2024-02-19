@@ -22,7 +22,7 @@ export const POST = (async (events: RequestEvent) => {
     list.map(async (m) => {
       const name = decryptAppSharedData(m.id!)
       if(name.trim() != ""){
-        const list = await news.searchBing(name.trim())
+        const list = await news.searchBing(name.trim(), m.img ?? "")
         list.forEach(n => {
           dataLists.push(n)
         })

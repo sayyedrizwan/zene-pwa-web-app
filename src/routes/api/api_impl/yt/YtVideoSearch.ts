@@ -49,7 +49,7 @@ export class YtAPIImpl {
                                     const name = c.richItemRenderer?.content.videoRenderer.title.runs[0].text
                                     const desc = c.richItemRenderer?.content.videoRenderer.title.accessibility.accessibilityData.label
                                     const timestamp = parseRelativeTimeString(c.richItemRenderer?.content.videoRenderer.publishedTimeText.simpleText!)
-                                    if(videoID != undefined) list.push(new FeedData(name ?? "", desc ?? "", thumbnail, '', 'youtube.com', 'youtube.com', timestamp, FeedType.YOUTUBE))
+                                    if(videoID != undefined) list.push(new FeedData(search, name ?? "", desc ?? "", thumbnail,  `https://www.youtube.com/watch?v=${videoID}`, 'youtube.com', 'youtube.com', timestamp, FeedType.YOUTUBE))
                                 })
                             }
                         })

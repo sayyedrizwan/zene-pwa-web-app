@@ -1,4 +1,5 @@
 export class FeedData {
+  name?: string
   title?: string
   desc?: string
   thumbnail?: string
@@ -8,7 +9,8 @@ export class FeedData {
   ts?: number
   type?: FeedType
 
-  constructor(title: string, desc: string, thumbnail: string, link: string, srcName: string, srcImg: string, ts: number, type : FeedType) {
+  constructor(name: string, title: string, desc: string, thumbnail: string, link: string, srcName: string, srcImg: string, ts: number, type : FeedType) {
+    this.name = name
     this.title = title
     this.desc = desc
     this.thumbnail = thumbnail

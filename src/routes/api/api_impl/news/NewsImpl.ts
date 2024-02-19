@@ -44,7 +44,7 @@ export class NewsImpl {
 
 
 
-  async searchBing(search: string): Promise<FeedData[]> {
+  async searchBing(search: string, img: string): Promise<FeedData[]> {
     const lists: FeedData[] = []
     const r = await axios.get(bing_news_api, { params: { q: String(search).replaceAll(" ", "+").trim(), FORM: 'PTFTNR' } })
     const response = await r.data as string
@@ -65,8 +65,9 @@ export class NewsImpl {
 
       if (thumbnail == null)
         thumbnail = items.querySelector(".image.right")?.querySelector('img')?.getAttribute('data-src')
+      
 
-      if (title != undefined) lists.push(new FeedData(title, desc ?? "", thumbnail ?? "", link!, src ?? "", srcImg ?? "", parseRelativeTimeString(`${time} ago`), FeedType.NEWS))
+      if (title != undefined) lists.push(new FeedData(search, title, desc ?? "", String(thumbnail) == "undefined" ? img : `https://bing.com${thumbnail}`, link!, src ?? "", srcImg ?? "", parseRelativeTimeString(`${time} ago`), FeedType.NEWS))
     })
 
     return lists
