@@ -16,7 +16,7 @@ export async function POST(req: RequestEvent) {
 
   try {
     const response = await ytImpl.albumsInfo(id)
-    return json(response[0])
+    return json(response)
   }catch (error) {
     return json({})
   }

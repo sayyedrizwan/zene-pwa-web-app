@@ -303,7 +303,8 @@ export class YtMusicAPIImpl {
   }
 
 
-  async albumsInfo(id: string): Promise<MusicData | null> {
+  async albumsInfo(id: string): Promise<[MusicData | null, MusicData[]]> {
+    const lists : MusicData[] = []
     try {
       const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(null, id) })
       const response = (await r.json()) as YtMusicBrowsePlaylists
@@ -320,9 +321,9 @@ export class YtMusicAPIImpl {
       const thumbnail = response.header?.musicDetailHeaderRenderer?.thumbnail?.croppedSquareThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
 
 
-      return new MusicData(title!, artists, description ?? "", thumbnail ?? "", MusicType.ALBUM)
+      return [new MusicData(title!, artists, description ?? "", thumbnail ?? "", MusicType.ALBUM), lists]
     } catch (error) {
-      return null
+      return [null, []]
     }
   }
 }

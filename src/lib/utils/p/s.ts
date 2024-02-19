@@ -58,7 +58,7 @@ export class APManager implements AudioPlayer {
 
     this.audioElement.oncanplaythrough = () => {
       this.audioElement!.play()
-      if(this.music != undefined) insertMusicHistory(this.music, window)
+      if (this.music != undefined) insertMusicHistory(this.music, window)
 
       if (this.audioElement?.paused) {
         const event = new Event('click')
@@ -101,7 +101,7 @@ export class APManager implements AudioPlayer {
     this.buffering = true
 
     if (music.type == MusicType.RADIO) {
-      if (url.includes(".m3u8") === true){
+      if (url.includes(".m3u8") === true) {
         if (Hls.isSupported()) {
           var hls = new Hls()
           hls.loadSource(url)
@@ -110,7 +110,7 @@ export class APManager implements AudioPlayer {
           this.videoElement!.src = url
         }
       } else
-          this.videoElement!.src = url
+        this.videoElement!.src = url
 
       return
     }
@@ -179,7 +179,7 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
-    if(this.audioElement?.paused === false) return false
+    if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
 
     if (this.music?.type == MusicType.RADIO) {
@@ -189,16 +189,16 @@ export class APManager implements AudioPlayer {
   }
 
   songDuration(): number {
-   if(isNaN(this.audioElement!.duration)) return 0
-   return this.audioElement!.duration
+    if (isNaN(this.audioElement!.duration)) return 0
+    return this.audioElement!.duration
   }
 
   songCurrentDuration(): number {
-   if(isNaN(this.audioElement!.currentTime)) return 0
-   return this.audioElement!.currentTime
+    if (isNaN(this.audioElement!.currentTime)) return 0
+    return this.audioElement!.currentTime
   }
 
-  changeSongDuration(v: number) : void {
+  changeSongDuration(v: number): void {
     this.audioElement!.currentTime = v
   }
 
