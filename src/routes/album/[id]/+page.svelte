@@ -1,5 +1,7 @@
 <script lang="ts">
   import { browser } from '$app/environment'
+  import AlbumsLIstsInfo from '$lib/components/album-page/AlbumsLIstsInfo.svelte'
+  import TopAlbumsInfo from '$lib/components/album-page/TopAlbumsInfo.svelte'
   import type { IpDetails } from '../../../domain/local/entities/IpDetails'
   import type { MusicData } from '../../../domain/local/entities/MusicData'
 
@@ -31,12 +33,12 @@
 </svelte:head>
 
 {#if key != null}
-  <div class="bg-gray-950 w-full">
-    <!-- <TopVideoImgInfo {key} {artistsInfo} {url}/>
-    <ArtistsImagesView {key} {artistsInfo} />
-    <ArtistsTopNews {key} {artistsInfo} />
-    <ArtistsTopSongs {key} {artistsInfo} />
-    <AlbumsAndTopSongs {key} {artistsInfo} /> -->
+  <div class="w-full">
+    <TopAlbumsInfo {albumInfo} />
+
+    <AlbumsLIstsInfo {key} name={`${albumInfo?.name} - ${albumInfo.artists}`} />
+
+    
   </div>
 
   <div class="h-60" />

@@ -1,3 +1,4 @@
+import { atob, btoa } from 'buffer'
 import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/entities/MusicData'
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 import { encryptAppSharedData } from '../../utils/EncryptionForAPI'
@@ -225,7 +226,7 @@ export class YtMusicAPIImpl {
           const name = albums?.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPauseData?.accessibilityData?.label?.textAfterKeyword("Pause") ?? ""
           const id = albums?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
-          if (id != null) lists.push(new MusicData(name, name, id, thumbnail ?? "", MusicType.ALBUM))
+          if (id != null) lists.push(new MusicData(name, name, btoa(id).replaceAll("=", ""), thumbnail ?? "", MusicType.ALBUM))
         })
       })
     })
@@ -253,7 +254,7 @@ export class YtMusicAPIImpl {
           const artists = items.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0].text?.replaceAll("and", "&")
           const id = items.playlistPanelVideoRenderer?.videoId
 
-          if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? "", id, thumbnail ?? "", MusicType.ALBUM))
+          if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? "", btoa(id).replaceAll("=", ""), thumbnail ?? "", MusicType.ALBUM))
         })
       }
     })

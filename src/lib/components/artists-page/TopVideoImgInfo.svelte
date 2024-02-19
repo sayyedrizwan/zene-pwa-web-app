@@ -11,8 +11,8 @@
   import ShareIcon from '$lib/assets/img/ic_share.svg'
   import { playSongZene, shareATxt } from '$lib/utils/f'
   import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
-   import { checkPinExistsWithIndex, deletePin, insertPin } from '$lib/utils/p/pin'
-    import { ArtistsPinData } from '../../../domain/local/entities/ArtistsPinData'
+  import { checkPinExistsWithIndex, deletePin, insertPin } from '$lib/utils/p/pin'
+  import { ArtistsPinData } from '../../../domain/local/entities/ArtistsPinData'
 
   export let key: string
   export let artistsInfo: ArtistsInfoData
@@ -72,18 +72,18 @@
   }
 
   async function addRmPin(d: Boolean) {
-    if(d === true) isPinned = !isPinned
+    if (d === true) isPinned = !isPinned
 
-    const exists = await checkPinExistsWithIndex(url ?? "")
-    
-    if(exists == null) {
-      if(d === false) isPinned = false
+    const exists = await checkPinExistsWithIndex(url ?? '')
+
+    if (exists == null) {
+      if (d === false) isPinned = false
       else {
         const a = new ArtistsPinData(url!, artistsInfo.name!, artistsInfo.image!, new Date().getTime())
         insertPin(a)
       }
     } else {
-      if(d === false) isPinned = true
+      if (d === false) isPinned = true
       else {
         deletePin(url!)
       }
