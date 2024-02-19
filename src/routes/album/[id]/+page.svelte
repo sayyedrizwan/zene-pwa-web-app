@@ -31,13 +31,13 @@
 </svelte:head>
 
 {#if key != null}
-<div class="bg-gray-950 w-full">
-  <!-- <TopVideoImgInfo {key} {artistsInfo} {url}/>
+  <div class="bg-gray-950 w-full">
+    <!-- <TopVideoImgInfo {key} {artistsInfo} {url}/>
     <ArtistsImagesView {key} {artistsInfo} />
     <ArtistsTopNews {key} {artistsInfo} />
     <ArtistsTopSongs {key} {artistsInfo} />
     <AlbumsAndTopSongs {key} {artistsInfo} /> -->
-</div>
+  </div>
 
-<div class="h-60" />
+  <div class="h-60" />
 {/if}
