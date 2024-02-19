@@ -622,6 +622,7 @@ export interface Subtitle {
 
 export interface Run9 {
   text?: string
+  navigationEndpoint?: NavigationEndpoint
 }
 
 export interface Menu2 {

@@ -14,7 +14,7 @@ export async function POST(events: RequestEvent) {
   const news = new NewsImpl()
 
   try {
-    const search = news.search(name)
+    const search = await news.search(name)
     return json(search)
   } catch (error) {
     return json([])

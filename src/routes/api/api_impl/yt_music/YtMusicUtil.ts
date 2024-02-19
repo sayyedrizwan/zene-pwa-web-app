@@ -54,13 +54,25 @@ export function ytMusicBodyWithInput(q: string): string {
     `
 }
 
-export function ytMusicBodyWithParamsWithIp(ip: IpJsonResponse, b: string): string {
-  return `
+export function ytMusicBodyWithParamsWithIp(ip: IpJsonResponse | null, b: string): string {
+ if(ip == null) return `
     {
         "context": {
             "client": {
-                "gl": "${ip.countryCode}",
-                "remoteHost": "${ip.query}",
+                "userAgent": "${userAgent}",
+                "clientName": "${clientName}",
+                "clientVersion": "${clientVersion}"
+            }
+        },
+        "browseId": "${b}"
+    }
+    `
+    else  return `
+    {
+        "context": {
+            "client": {
+                "gl": "${ip?.countryCode}",
+                "remoteHost": "${ip?.query}",
                 "userAgent": "${userAgent}",
                 "clientName": "${clientName}",
                 "clientVersion": "${clientVersion}"

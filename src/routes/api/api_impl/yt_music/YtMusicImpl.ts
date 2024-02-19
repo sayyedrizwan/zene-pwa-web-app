@@ -134,7 +134,7 @@ export class YtMusicAPIImpl {
       element?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((music) => {
         music?.musicPlaylistShelfRenderer?.contents?.forEach((items) => {
           const name = items.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPlayData?.accessibilityData?.label
-          let data : string | undefined | null = name?.toLowerCase()?.textAfterKeyword('play')
+          let data: string | undefined | null = name?.toLowerCase()?.textAfterKeyword('play')
 
           if (data?.includes('|')) data = data?.textBeforeKeyword('|')
           else {
@@ -299,5 +299,29 @@ export class YtMusicAPIImpl {
     })
 
     return list
+  }
+
+
+  async albumsInfo(id: string): Promise<MusicData | null> {
+    try {
+      const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(null, id) })
+      const response = (await r.json()) as YtMusicBrowsePlaylists
+      const title = response.header?.musicDetailHeaderRenderer?.title?.runs?.[0].text
+      let artists: string | null = null
+
+      response.header?.musicDetailHeaderRenderer?.subtitle?.runs?.forEach(e => {
+        if (e.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
+          artists = e.text ?? null
+        }
+      })
+
+      const description = response.header?.musicDetailHeaderRenderer?.description?.runs?.[0]?.text
+      const thumbnail = response.header?.musicDetailHeaderRenderer?.thumbnail?.croppedSquareThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
+
+
+      return new MusicData(title!, artists, description ?? "", thumbnail ?? "", MusicType.ALBUM)
+    } catch (error) {
+      return null
+    }
   }
 }
