@@ -18,8 +18,6 @@
     url = data.url
     key = window.atob(data.data)
     if (data.ip != undefined) ip = JSON.parse(data.ip)
-
-    console.log(albumInfo)
   }
 </script>
 

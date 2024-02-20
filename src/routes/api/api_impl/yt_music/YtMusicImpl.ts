@@ -11,6 +11,7 @@ import type { YtMusicNextBrowser } from './domain/YtMusicNextBrowser'
 import type { YtMusicSearchKeywordsSuggestion } from './domain/YtMusicSearchKeywordsSuggestion'
 import type { YtMusicSearchResponse } from './domain/YtMusicSearchResponse'
 import type { YtMusicSongsInfoData } from './domain/YtMusicSongsInfoData'
+import type { YtBrowsePlaylistsData } from './domain/YtBrowsePlaylistsData'
 
 export class YtMusicAPIImpl {
 
@@ -303,11 +304,11 @@ export class YtMusicAPIImpl {
   }
 
 
-  async albumsInfo(id: string): Promise<[MusicData | null, MusicData[]]> {
-    const lists : MusicData[] = []
+  async albumsInfo(id: string): Promise<[MusicData | null, string[]]> {
+    const lists : string[] = []
     try {
       const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(null, id) })
-      const response = (await r.json()) as YtMusicBrowsePlaylists
+      const response = (await r.json()) as YtBrowsePlaylistsData
       const title = response.header?.musicDetailHeaderRenderer?.title?.runs?.[0].text
       let artists: string | null = null
 
@@ -320,6 +321,21 @@ export class YtMusicAPIImpl {
       const description = response.header?.musicDetailHeaderRenderer?.description?.runs?.[0]?.text
       const thumbnail = response.header?.musicDetailHeaderRenderer?.thumbnail?.croppedSquareThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
 
+      response.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach(t => {
+        t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
+          c?.musicShelfRenderer?.contents?.forEach(m => {
+            m.musicResponsiveListItemRenderer?.flexColumns?.forEach(item => {
+              if(item.musicResponsiveListItemFlexColumnRenderer?.displayPriority == "MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH"){
+                item.musicResponsiveListItemFlexColumnRenderer.text?.runs?.forEach(list => {
+                  if(list.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_OMV"  || list.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_ATV" ){
+                    if(list.text != undefined) lists.push(list.text)
+                  }
+                })
+              }
+            })
+          })
+        })
+      })
 
       return [new MusicData(title!, artists, description ?? "", thumbnail ?? "", MusicType.ALBUM), lists]
     } catch (error) {

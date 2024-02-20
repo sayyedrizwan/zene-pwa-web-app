@@ -2,7 +2,6 @@
   import type { MusicData } from '../../../domain/local/entities/MusicData'
   import ARROW_DOWN from '$lib/assets/img/ic_arrow_down.svg'
   import { shareATxt } from '$lib/utils/f'
-  import ShareIcon from '$lib/assets/img/ic_share.svg'
 
   export let albumInfo: MusicData
 
