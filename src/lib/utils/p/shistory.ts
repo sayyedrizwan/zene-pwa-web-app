@@ -1,4 +1,4 @@
-import type { MusicData } from "../../../domain/local/entities/MusicData"
+import { MusicType, type MusicData } from "../../../domain/local/entities/MusicData"
 import { MusicHistoryData } from "../../../domain/local/entities/MusicHistoryData"
 import { wait } from "../indexd"
 
@@ -21,6 +21,8 @@ function openMusicHistoryDatabase() {
 
 
 export async function insertMusicHistory(m: MusicData, window: Window & typeof globalThis) {
+    if(m.type == MusicType.RADIO) return
+    
     try {
         const eSongId = window.btoa(m?.songId!).replace("=", "")
         const songDetails = window.btoa(JSON.stringify(m)).replace("=", "")
