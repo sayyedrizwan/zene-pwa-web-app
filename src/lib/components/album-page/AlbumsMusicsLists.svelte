@@ -4,23 +4,37 @@
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
+  import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
 
   export let key: string
   export let url: string | null
 
-  let lists: ResponseData<MusicData[]> = { type: ResponseDataEnum.EMPTY }
+  let response: ResponseData<MusicData[]> = { type: ResponseDataEnum.EMPTY }
 
   onMount(async () => {
+    response = { type: ResponseDataEnum.LOADING }
     try {
-        console.log(window.atob(url ?? ""))
-      const res = await axios({ method: 'post', url: env.PUBLIC_ARTISTS_ALBUMS_SONGS, headers: { AuthorizationKey: key, id: window.atob(url ?? "") }})
-      let response = (await res.data) as MusicData[]
-      console.log(response)
-      lists = { type: ResponseDataEnum.SUCCESS, data: response }
+      const res = await axios({ method: 'post', url: env.PUBLIC_ARTISTS_ALBUMS_SONGS, headers: { AuthorizationKey: key, id: window.atob(url ?? '') } })
+      let data = (await res.data) as MusicData[]
+      response = { type: ResponseDataEnum.SUCCESS, data: data }
     } catch (error) {
-      lists = { type: ResponseDataEnum.ERROR }
+      response = { type: ResponseDataEnum.ERROR }
     }
   })
-
 </script>
 
+{#if response.type == ResponseDataEnum.SUCCESS}
+  <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs</h3>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg">
+    {#each response.data as musicData}
+      <CardWithTopMenuIcon {musicData} />
+    {/each}
+  </div>
+{:else if response.type == ResponseDataEnum.LOADING}
+  {#each Array(15) as _, index (index)}
+    <div class="px-4 pt-8">
+      <div class="relative w-full h-28 rounded-lg bg-gray-400 animate-pulse" />
+    </div>
+  {/each}
+{/if}
