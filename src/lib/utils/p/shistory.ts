@@ -21,8 +21,8 @@ function openMusicHistoryDatabase() {
 
 
 export async function insertMusicHistory(m: MusicData, window: Window & typeof globalThis) {
-    if(m.type == MusicType.RADIO) return
-    
+    if (m.type == MusicType.RADIO) return
+
     try {
         const eSongId = window.btoa(m?.songId!).replace("=", "")
         const songDetails = window.btoa(JSON.stringify(m)).replace("=", "")
@@ -46,44 +46,81 @@ export async function insertMusicHistory(m: MusicData, window: Window & typeof g
     }
 }
 
-
-export async function getAllPlayHistory(offset: number, limit: number) {
-    let results: MusicHistoryData[] = []
-
+export async function getAllPlayHistory(start: number, total: number = 5): Promise<MusicHistoryData[]> {
     const db = await openMusicHistoryDatabase()
-    const tx = db.transaction([musicHistory], 'readonly')
-    const record = tx.objectStore(musicHistory)
+    
+    return new Promise(function(resolve, reject) {
+		const t = db.transaction([musicHistory],'readonly')
+		const historyStore = t.objectStore(musicHistory)
+		const history : MusicHistoryData[]  = []
 
-    try {
-        const request = record.openCursor(null, 'prev')
+		let hasSkipped = false
 
-        let advanced = offset === 0
-        let counter = 0
+		historyStore.openCursor(null, 'prev').onsuccess = (e: any) => {
+			var cursor = e.target.result
+			if(!hasSkipped && start > 0) {
+				hasSkipped = true
+				cursor.advance(start)
+				return
+			}
+			if(cursor) {
+                console.log(cursor.value)
+				history.push(cursor.value)
+				if(history.length < total) {
+					cursor.continue()
+				} else {
+					resolve(history)
+				}
+			} else {
+				resolve(history)
+			}
+		};
 
-        request.onsuccess = (event: Event) => {
-            const cursor = (event.target as any).result
-            if (!cursor) return
-
-            if (!advanced) {
-                advanced = true
-                cursor.advance(offset)
-            }
-
-            counter++
-            results.push(cursor.value)
-
-            if (counter >= limit) return
-
-            try {
-                cursor.continue()
-            } catch (error) {
-                error
-            }
-        }
-    } catch (error) {
-        results = []
-    }
+	});
 }
+
+
+// export async function getAllPlayHistory(offset: number, limit: number, lists: (music: MusicHistoryData[]) => void) {
+//     let results: MusicHistoryData[] = []
+
+//     const db = await openMusicHistoryDatabase()
+//     const tx = db.transaction([musicHistory], 'readonly')
+//     const record = tx.objectStore(musicHistory)
+
+//     try {
+//         const request = record.openCursor(null, 'prev')
+
+//         let count = 0
+
+//         request.onsuccess = (event: Event) => {
+//             const currentCursor = (event.target as any).result
+//             if (currentCursor && count >= offset && count < offset + limit) {
+//                 results.push(currentCursor.value)
+//                 console.log(currentCursor.value)
+//                 count++
+           
+//                 if (count >= offset + limit) {
+//                     try {
+//                         currentCursor.stop()            
+//                     } catch (error) {
+                        
+//                     }
+//                 } else {
+//                   if (currentCursor) {
+//                     currentCursor.continue()
+//                   }
+//                 }
+//               }
+//         }
+
+
+//         tx.oncomplete = (event: Event) => {
+//             lists(results)
+//         }
+//     } catch (error) {
+//         results = []
+//     }
+// }
 
 export async function topTenSongsListener(lists: (music: string[]) => void) {
     let results: string[] = []
@@ -98,7 +135,7 @@ export async function topTenSongsListener(lists: (music: string[]) => void) {
         index.onsuccess = (event: Event) => {
             const cursor = (event.target as any).result
             if (cursor && count < 16) {
-                if((cursor.value as MusicHistoryData).s != null) results.push((cursor.value as MusicHistoryData).s!)
+                if ((cursor.value as MusicHistoryData).s != null) results.push((cursor.value as MusicHistoryData).s!)
                 count++
                 cursor.continue()
             }

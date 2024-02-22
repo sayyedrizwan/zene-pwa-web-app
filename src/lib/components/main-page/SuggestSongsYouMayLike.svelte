@@ -2,7 +2,7 @@
   import { topTenSongsListener } from '$lib/utils/p/shistory'
   import { onMount } from 'svelte'
   import type { MusicData } from '../../../domain/local/entities/MusicData'
-  import { openSongDialog, toEncr } from '$lib/utils/f'
+  import { openSongDialog, playSongZene, toEncr } from '$lib/utils/f'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import { SongsYouMayLikeCache, type SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
@@ -86,7 +86,7 @@
       {#each splitArrayIntoChunks(response.data.like, 2) as topItem}
         <div>
           {#each topItem as item}
-            <button class="p-3 cursor-pointer">
+            <button class="p-3 cursor-pointer"  on:click|stopPropagation={() => playSongZene(item)}>
               <div class="relative size-[13rem] md:size-[15rem] bg-black rounded-lg">
                 <img class="absolute top-0 left-0 size-[13rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
                 <div class="absolute top-0 left-0 size-[13rem] md:size-[15rem] bg-maincolor rounded-lg bg-opacity-50"></div>
