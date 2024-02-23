@@ -25,7 +25,7 @@ export async function insertMusicHistory(m: MusicData, window: Window & typeof g
 
     try {
         const eSongId = window.btoa(m?.songId!).replace("=", "")
-        const songDetails = window.btoa(JSON.stringify(m)).replace("=", "")
+        const songDetails = window.btoa(JSON.stringify(m))
 
         const oldRecords = await checkNameExistsWithIndex(eSongId)
 
@@ -64,7 +64,6 @@ export async function getAllPlayHistory(start: number, total: number = 5): Promi
 				return
 			}
 			if(cursor) {
-                console.log(cursor.value)
 				history.push(cursor.value)
 				if(history.length < total) {
 					cursor.continue()
@@ -78,49 +77,6 @@ export async function getAllPlayHistory(start: number, total: number = 5): Promi
 
 	});
 }
-
-
-// export async function getAllPlayHistory(offset: number, limit: number, lists: (music: MusicHistoryData[]) => void) {
-//     let results: MusicHistoryData[] = []
-
-//     const db = await openMusicHistoryDatabase()
-//     const tx = db.transaction([musicHistory], 'readonly')
-//     const record = tx.objectStore(musicHistory)
-
-//     try {
-//         const request = record.openCursor(null, 'prev')
-
-//         let count = 0
-
-//         request.onsuccess = (event: Event) => {
-//             const currentCursor = (event.target as any).result
-//             if (currentCursor && count >= offset && count < offset + limit) {
-//                 results.push(currentCursor.value)
-//                 console.log(currentCursor.value)
-//                 count++
-           
-//                 if (count >= offset + limit) {
-//                     try {
-//                         currentCursor.stop()            
-//                     } catch (error) {
-                        
-//                     }
-//                 } else {
-//                   if (currentCursor) {
-//                     currentCursor.continue()
-//                   }
-//                 }
-//               }
-//         }
-
-
-//         tx.oncomplete = (event: Event) => {
-//             lists(results)
-//         }
-//     } catch (error) {
-//         results = []
-//     }
-// }
 
 export async function topTenSongsListener(lists: (music: string[]) => void) {
     let results: string[] = []

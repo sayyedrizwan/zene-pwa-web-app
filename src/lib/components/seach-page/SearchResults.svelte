@@ -9,9 +9,8 @@
   import RadioStationItems from '../main-page/radio/RadioStationItems.svelte'
   import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
   import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
-    import ArtistsCards from '../global-view/items/ArtistsCards.svelte'
+  import ArtistsCards from '../global-view/items/ArtistsCards.svelte'
 
-  export let key: string
   export let searchParam: string
 
   let searchSuggestion: ResponseData<SearchMusicData> = { type: ResponseDataEnum.EMPTY }
@@ -23,7 +22,7 @@
   onMount(async () => {
     searchSuggestion = { type: ResponseDataEnum.LOADING }
     try {
-      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, headers: { AuthorizationKey: key }, data: { q: searchParam.trim() } })
+      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, data: { q: searchParam.trim() } })
       const response = (await res.data) as SearchMusicData
 
       searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }

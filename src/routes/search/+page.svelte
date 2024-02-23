@@ -1,15 +1,9 @@
 <script lang="ts">
-  import { browser } from '$app/environment'
   import SearchTopBar from '$lib/components/seach-page/SearchTopBar.svelte'
   import SearchResults from '$lib/components/seach-page/SearchResults.svelte'
 
-  export let data: any
-  let key: string | null = null
-  export let searchParam  = ''
-
-  if (browser) key = window.atob(data.data)
+  export let searchParam = ''
 </script>
-
 
 <svelte:head>
   <title>Search | Zene: A Free Muic App</title>
@@ -21,12 +15,10 @@
   <link rel="canonical" href="https://zenemusic.co/search" />
 </svelte:head>
 
-{#if key != null}
-  {#if searchParam.length > 2}
-    <SearchResults {key} bind:searchParam />
-  {:else}
-    <SearchTopBar {key} bind:searchParam />
-  {/if}
-
-  <div class="h-60" />
+{#if searchParam.length > 2}
+  <SearchResults bind:searchParam />
+{:else}
+  <SearchTopBar bind:searchParam />
 {/if}
+
+<div class="h-60" />

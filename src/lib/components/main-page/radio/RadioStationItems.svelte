@@ -14,8 +14,8 @@
         <div class="flex flex-1 h-[10rem] justify-center items-center">
           <div class="m-auto flex-col justify-center items-center">
             <center>
-              <p class="text-white urbanist-semibold text-base ms-1.5">{musicData?.name}</p>
-              <p class="text-white urbanist-thin text-sm ms-1.5">{musicData?.artists}</p>
+              <p class="text-white urbanist-semibold text-base ms-1.5 w-[16rem]">{musicData?.name}</p>
+              <p class="text-white urbanist-thin text-sm ms-1.5 w-[16rem]">{musicData?.artists}</p>
             </center>
           </div>
         </div>

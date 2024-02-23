@@ -17,7 +17,6 @@
     try {
       const res = await axios.post(env.PUBLIC_SEARCH_ARTISTS_NEWS, {}, { headers: { AuthorizationKey: key, name: artistsInfo.name } })
       const list = (await res.data) as NewsData[]
-      console.log(list)
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks(list, 3) }
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }

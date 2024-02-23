@@ -18,7 +18,6 @@
       const res = await axios.post(env.PUBLIC_FEEDS, results, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as FeedData[]
       response = { type: ResponseDataEnum.SUCCESS, data: data }
-      console.log(data)
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }
     }

@@ -1,3 +1,6 @@
+import { atob } from "buffer"
+import { MusicType, MusicData } from "./MusicData"
+
 export class MusicHistoryData {
   s?: string
   d?: string
@@ -10,4 +13,16 @@ export class MusicHistoryData {
     this.ts = ts
     this.p = p
   }
+}
+
+export function getDataOnMusicData(m : MusicHistoryData): MusicData {
+  let music : MusicData | null = null
+  try {
+    const songDetails = window.atob(m.d ?? "")
+    music = JSON.parse(songDetails) as MusicData
+  } catch (error) {
+    music = new MusicData("No Found", "", "", "", MusicType.MUSIC)
+  }
+
+  return music
 }

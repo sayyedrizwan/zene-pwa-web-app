@@ -9,7 +9,7 @@ export const GET = (async (req: RequestEvent) => {
   const video_url = new URL(req.url).searchParams.get('id') ?? ""
   const videoId = atob(video_url)
 
-  if(isFromZeneOrigin(req) === false) new Response("")
+  if(isFromZeneOrigin(req) === false) return new Response("")
   
   try {
     if(videoId.length > 20 && videoId.split("-").length > 3){

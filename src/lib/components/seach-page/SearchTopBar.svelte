@@ -7,7 +7,6 @@
   import SEARCH from '$lib/assets/img/ic_search.svg'
   import ARROW_UP_RIGHT from '$lib/assets/img/ic_arrow_up_right.svg'
 
-  export let key: string
   export let searchParam: string
   let voiceSearchTranscript = ''
   let isListening = false
@@ -26,7 +25,7 @@
     searchSuggestion = { type: ResponseDataEnum.LOADING }
     const searchValue = document.getElementById('voice-search') as HTMLInputElement
     try {
-      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_KEYWORDS, headers: { AuthorizationKey: key }, data: { q: searchValue.value.trim() } })
+      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_KEYWORDS, data: { q: searchValue.value.trim() } })
       const response = (await res.data) as string[]
       searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }
     } catch (error) {
