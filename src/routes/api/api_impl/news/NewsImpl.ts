@@ -14,8 +14,8 @@ export class NewsImpl {
     const r = await axios.get(google_news_api, { params: { q: String(search) } })
     const response = await r.data as string
 
-    const itemRegex = /<item>(.*?)<\/item>/gs;
-    const items = response.match(itemRegex);
+    const itemRegex = /<item>(.*?)<\/item>/gs
+    const items = response.match(itemRegex)
 
     if (items) {
       for (const item of items) {

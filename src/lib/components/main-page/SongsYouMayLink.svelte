@@ -1,22 +1,20 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { topTenSongsListener } from '$lib/utils/p/shistory'
+  import { latestFifteenSongsListener, topTenSongsListener } from '$lib/utils/p/shistory'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import { SongsYouMayLikeCache, type SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { DataIndexDS, indexDB, songMayLikeCache } from '$lib/utils/indexd'
   import { splitArrayIntoChunks } from '$lib/utils/Utils'
-  import { openSongDialog } from '$lib/utils/f'
-  import MenuIcon from '$lib/assets/img/ic_menu.svg'
-    import CardsWithFullColor from '../global-view/items/CardsWithFullColor.svelte'
+  import CardsWithFullColor from '../global-view/items/CardsWithFullColor.svelte'
 
   export let authKey: string
   export let youMayLike: SongsYouMayLike | null
 
   let response: ResponseData<SongsYouMayLike> = { type: ResponseDataEnum.EMPTY }
 
-  const readMusic = async (music: string[]) => {
+  async function readMusic(music: string[]) {
     const cacheDB = new DataIndexDS<SongsYouMayLikeCache<SongsYouMayLike>>(songMayLikeCache, indexDB)
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
@@ -31,7 +29,7 @@
       if (cacheRecords.length > 0) {
         const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
         if (JSON.stringify(records.cache) == JSON.stringify(music) && records.response.like.length > 0) {
-            youMayLike = records.response
+          youMayLike = records.response
           response = { type: ResponseDataEnum.SUCCESS, data: records.response }
           return
         }
@@ -41,7 +39,7 @@
       const data = (await res.data) as SongsYouMayLike
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       youMayLike = data
-         
+
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(new SongsYouMayLikeCache(music, data))
     } catch (error) {
@@ -51,7 +49,8 @@
   }
 
   onMount(async () => {
-    await topTenSongsListener(readMusic)
+    const lists = await latestFifteenSongsListener()
+    readMusic(lists)
   })
 </script>
 
@@ -79,7 +78,7 @@
       {#each splitArrayIntoChunks(response.data.like, 2) as topItem}
         <div>
           {#each topItem as item}
-          <CardsWithFullColor {item}/>
+            <CardsWithFullColor {item} />
           {/each}
         </div>
       {/each}

@@ -7,7 +7,7 @@
   import { FeedType, type FeedData } from '../../../domain/local/entities/FeedData'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import YoutubeIcon from '$lib/assets/img/ic_youtube_color.svg'
-   
+
   export let authKey: string
 
   let response: ResponseData<FeedData[]> = { type: ResponseDataEnum.EMPTY }
@@ -28,37 +28,28 @@
   })
 
   function timeAgoFromTimestamp(timestamp: number | undefined): string {
-  if(timestamp == undefined) return ""
-  const now = new Date().getTime()
-  const difference = now - timestamp
+    if (timestamp == undefined) return ''
+    const now = new Date().getTime()
+    const difference = now - timestamp
 
-  if (difference < 0) {
-    return 'Not yet';
+    if (difference < 0) {
+      return 'Not yet'
+    }
+
+    const seconds = Math.floor(difference / 1000)
+    const minutes = Math.floor(seconds / 60)
+    const hours = Math.floor(minutes / 60)
+    const days = Math.floor(hours / 24)
+    const months = Math.floor(days / 30)
+    const years = Math.floor(months / 12)
+
+    if (years > 0) return new Date(timestamp).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })
+    else if (months > 0) return `${months} month${months > 1 ? 's' : ''} ago`
+    else if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`
+    else if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`
+    else if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`
+    else return `${seconds} second${seconds > 1 ? 's' : ''} ago`
   }
-
-  const seconds = Math.floor(difference / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(months / 12);
-
-  
-  if (years > 0) {
-    const date = new Date(timestamp)
-    return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric'})
-  } else if (months > 0) {
-    return `${months} month${months > 1 ? 's' : ''} ago`;
-  } else if (days > 0) {
-    return `${days} day${days > 1 ? 's' : ''} ago`;
-  } else if (hours > 0) {
-    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-  } else if (minutes > 0) {
-    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-  } else {
-    return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
-  }
-}
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING}
@@ -78,25 +69,24 @@
 {:else if response.type == ResponseDataEnum.SUCCESS}
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     {#each response.data as items}
-        <a class="bg-gray-900 rounded-lg p-3 cursor-pointer justify-start relative" href={items.link} target="_blank">
-          <p class="text-white urbanist-thin w-full text-start">{items.name} {items.type == FeedType.NEWS ? 'News' : 'youtube channel video'}</p>
+      <a class="bg-gray-900 rounded-lg p-3 cursor-pointer justify-start relative" href={items.link} target="_blank">
+        <p class="text-white urbanist-thin w-full text-start">{items.name} {items.type == FeedType.NEWS ? 'News' : 'youtube channel video'}</p>
 
-          <div class="flex pt-3">
-            <div class="relative">
-              <img src={items.thumbnail} alt={items.name} class="h-36 w-36 object-cover rounded-sm" />
-              {#if items.type == FeedType.YOUTUBE}
-                <img src={YoutubeIcon} alt="yt" class="absolute size-8 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
-              {/if}
-            </div>
-            <div class="ms-3">
-              <h1 class="text-white urbanist-bold line-clamp-2 text-start">{items.title}</h1>
-              <h1 class="text-white urbanist-light line-clamp-4 mt-2 text-sm text-start">{items.desc}</h1>
-            </div>
+        <div class="flex pt-3">
+          <div class="relative">
+            <img src={items.thumbnail} alt={items.name} class="h-36 w-36 object-cover rounded-sm" />
+            {#if items.type == FeedType.YOUTUBE}
+              <img src={YoutubeIcon} alt="yt" class="absolute size-8 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
+            {/if}
           </div>
+          <div class="ms-3">
+            <h1 class="text-white urbanist-bold line-clamp-2 text-start">{items.title}</h1>
+            <h1 class="text-white urbanist-light line-clamp-4 mt-2 text-sm text-start">{items.desc}</h1>
+          </div>
+        </div>
 
-          <p class="text-white urbanist-thin text-sm absolute bottom-2 right-2">{timeAgoFromTimestamp(items.ts)}</p>
-
-        </a>
+        <p class="text-white urbanist-thin text-sm absolute bottom-2 right-2">{timeAgoFromTimestamp(items.ts)}</p>
+      </a>
     {/each}
   </div>
 {/if}

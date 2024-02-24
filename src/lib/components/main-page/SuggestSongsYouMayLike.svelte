@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { topTenSongsListener } from '$lib/utils/p/shistory'
+  import { latestFifteenSongsListener, topTenSongsListener } from '$lib/utils/p/shistory'
   import { onMount } from 'svelte'
   import type { MusicData } from '../../../domain/local/entities/MusicData'
   import { openSongDialog, playSongZene, toEncr } from '$lib/utils/f'
@@ -50,7 +50,7 @@
     }
   }
 
-  const readMusic = async (music: string[]) => {
+  async function readMusic(music: string[]) {
     response = { type: ResponseDataEnum.LOADING }
 
     if (music.length <= 0) interval = setInterval(intervalLike, 800)
@@ -58,7 +58,8 @@
   }
 
   onMount(async () => {
-    await topTenSongsListener(readMusic)
+    const lists = await latestFifteenSongsListener()
+    readMusic(lists)
   })
 </script>
 

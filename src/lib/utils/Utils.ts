@@ -38,7 +38,7 @@ export function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
 
 
 export function capitalizeFirstLetterOfEveryWords(str: string): string {
-  return str.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase());
+  return str.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase())
 }
 
 export function formatRelativeTime(dateString: string): string {

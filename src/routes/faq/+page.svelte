@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Footer from '$lib/components/global-view/Footer.svelte';
+  import Footer from '$lib/components/global-view/Footer.svelte'
     import { FaqListsRepository } from '../../domain/local/repositories/FaqLists'
 
-  const faqListsRepository = new FaqListsRepository();
-  const faqQuestions = faqListsRepository.getAllFaqs();
+  const faqListsRepository = new FaqListsRepository()
+  const faqQuestions = faqListsRepository.getAllFaqs()
 </script>
 
 

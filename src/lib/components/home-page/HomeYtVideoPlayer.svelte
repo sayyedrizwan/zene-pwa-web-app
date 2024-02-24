@@ -1,6 +1,6 @@
 <script lang="ts">
-  let desktopcontent: string = "";
-  let mobilecontent: string = "";
+  let desktopcontent: string = ""
+  let mobilecontent: string = ""
 
   const desktopVideoList: string[] = [
     "TQYwytwhyrU",
@@ -10,7 +10,7 @@
     "rBry1fjs1Xc",
     "oIanKG5VWi0",
     "9v1n8vLzqOA",
-  ];
+  ]
 
   const mobileVideoList: string[] = [
     "oPOYhIISEdc",
@@ -20,13 +20,13 @@
     "RtDwfsBS0U4",
     "MR6xRgpAPX4",
     "zoCmwA9lyc4",
-  ];
+  ]
 
-  const i = Math.floor(Math.random() * desktopVideoList.length);
-  desktopcontent = desktopVideoList[i];
+  const i = Math.floor(Math.random() * desktopVideoList.length)
+  desktopcontent = desktopVideoList[i]
 
-  const j = Math.floor(Math.random() * mobileVideoList.length);
-  mobilecontent = mobileVideoList[j];
+  const j = Math.floor(Math.random() * mobileVideoList.length)
+  mobilecontent = mobileVideoList[j]
 </script>
 
 <iframe

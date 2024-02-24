@@ -1,3 +1,3 @@
 <script lang="ts">
-  import "../tailwind.css";
+  import "../tailwind.css"
 </script>

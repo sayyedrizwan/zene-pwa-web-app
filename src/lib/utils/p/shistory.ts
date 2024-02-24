@@ -11,7 +11,7 @@ function openMusicHistoryDatabase() {
         request.onupgradeneeded = (event) => {
             const db = (event.target as any).result
             const r = db.createObjectStore(musicHistory, { keyPath: 's', autoIncrement: false })
-            r.createIndex('p', 'p', { unique: false });
+            r.createIndex('p', 'p', { unique: false })
         }
 
         request.onsuccess = () => resolve(request.result)
@@ -46,36 +46,68 @@ export async function insertMusicHistory(m: MusicData, window: Window & typeof g
     }
 }
 
-export async function getAllPlayHistory(start: number, total: number = 5): Promise<MusicHistoryData[]> {
+export async function getAllPlayHistory(start: number, total: number = 50): Promise<MusicHistoryData[]> {
     const db = await openMusicHistoryDatabase()
-    
-    return new Promise(function(resolve, reject) {
-		const t = db.transaction([musicHistory],'readonly')
-		const historyStore = t.objectStore(musicHistory)
-		const history : MusicHistoryData[]  = []
 
-		let hasSkipped = false
+    return new Promise(function (resolve, reject) {
+        const t = db.transaction([musicHistory], 'readonly')
+        const historyStore = t.objectStore(musicHistory)
+        const history: MusicHistoryData[] = []
 
-		historyStore.openCursor(null, 'prev').onsuccess = (e: any) => {
-			var cursor = e.target.result
-			if(!hasSkipped && start > 0) {
-				hasSkipped = true
-				cursor.advance(start)
-				return
-			}
-			if(cursor) {
-				history.push(cursor.value)
-				if(history.length < total) {
-					cursor.continue()
-				} else {
-					resolve(history)
-				}
-			} else {
-				resolve(history)
-			}
-		};
+        let hasSkipped = false
 
-	});
+        historyStore.openCursor(null, 'prev').onsuccess = (e: any) => {
+            var cursor = e.target.result
+            if (!hasSkipped && start > 0) {
+                hasSkipped = true
+                cursor.advance(start)
+                return
+            }
+            if (cursor) {
+                history.push(cursor.value)
+                if (history.length < total) {
+                    cursor.continue()
+                } else {
+                    resolve(history)
+                }
+            } else {
+                resolve(history)
+            }
+        }
+    })
+}
+
+export async function latestFifteenSongsListener(): Promise<string[]> {
+    const db = await openMusicHistoryDatabase()
+    const start = 0
+    const total = 15
+
+    return new Promise(function (resolve, reject) {
+        const t = db.transaction([musicHistory], 'readonly')
+        const historyStore = t.objectStore(musicHistory)
+        const history: string[] = []
+
+        let hasSkipped = false
+
+        historyStore.openCursor(null, 'prev').onsuccess = (e: any) => {
+            var cursor = e.target.result
+            if (!hasSkipped && start > 0) {
+                hasSkipped = true
+                cursor.advance(start)
+                return
+            }
+            if (cursor) {
+                if ((cursor.value as MusicHistoryData).s != null) history.push((cursor.value as MusicHistoryData).s!)
+                if (history.length < total) {
+                    cursor.continue()
+                } else {
+                    resolve(history)
+                }
+            } else {
+                resolve(history)
+            }
+        }
+    })
 }
 
 export async function topTenSongsListener(lists: (music: string[]) => void) {

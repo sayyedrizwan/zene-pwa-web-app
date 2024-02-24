@@ -34,52 +34,52 @@ export function ytBodyWithQuery(q: string): string {
 
 export function parseRelativeTimeString(relativeTime: string): number {
     try {
-        const regex = /(\d+)\s+(\w+)\s+ago/;
+        const regex = /(\d+)\s+(\w+)\s+ago/
         const matches = String(relativeTime).trim().match(regex)
 
         if (!matches || matches.length !== 3) {
             throw new Error('Invalid relative time string format')
         }
 
-        const quantity = parseInt(matches[1]);
-        const unit = matches[2];
+        const quantity = parseInt(matches[1])
+        const unit = matches[2]
 
-        const currentDate = new Date();
-        let timestamp = currentDate.getTime();
+        const currentDate = new Date()
+        let timestamp = currentDate.getTime()
 
         switch (unit) {
             case 'second':
             case 'seconds':
-                timestamp -= quantity * 1000;
-                break;
+                timestamp -= quantity * 1000
+                break
             case 'minute':
             case 'minutes':
-                timestamp -= quantity * 60 * 1000;
-                break;
+                timestamp -= quantity * 60 * 1000
+                break
             case 'hour':
             case 'hours':
-                timestamp -= quantity * 60 * 60 * 1000;
-                break;
+                timestamp -= quantity * 60 * 60 * 1000
+                break
             case 'day':
             case 'days':
-                timestamp -= quantity * 24 * 60 * 60 * 1000;
-                break;
+                timestamp -= quantity * 24 * 60 * 60 * 1000
+                break
             case 'week':
             case 'weeks':
-                timestamp -= quantity * 7 * 24 * 60 * 60 * 1000;
-                break;
+                timestamp -= quantity * 7 * 24 * 60 * 60 * 1000
+                break
             case 'month':
             case 'months':
-                currentDate.setMonth(currentDate.getMonth() - quantity);
+                currentDate.setMonth(currentDate.getMonth() - quantity)
                 timestamp = currentDate.getTime();
                 break;
             case 'year':
             case 'years':
-                currentDate.setFullYear(currentDate.getFullYear() - quantity);
-                timestamp = currentDate.getTime();
-                break;
+                currentDate.setFullYear(currentDate.getFullYear() - quantity)
+                timestamp = currentDate.getTime()
+                break
             default:
-                throw new Error('Invalid unit');
+                throw new Error('Invalid unit')
         }
 
         return timestamp

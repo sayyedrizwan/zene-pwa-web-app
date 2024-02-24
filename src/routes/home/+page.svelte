@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Footer from '$lib/components/global-view/Footer.svelte';
-  import HomeGetAppFor from '$lib/components/home-page/HomeGetAppFor.svelte';
-  import HomeInfoPage from '$lib/components/home-page/HomeInfoPage.svelte';
-  import HomeVideoTopHeader from '$lib/components/home-page/HomeVideoTopHeader.svelte';
-  import HomeYtVideoPlayer from '$lib/components/home-page/HomeYtVideoPlayer.svelte';
+  import Footer from '$lib/components/global-view/Footer.svelte'
+  import HomeGetAppFor from '$lib/components/home-page/HomeGetAppFor.svelte'
+  import HomeInfoPage from '$lib/components/home-page/HomeInfoPage.svelte'
+  import HomeVideoTopHeader from '$lib/components/home-page/HomeVideoTopHeader.svelte'
+  import HomeYtVideoPlayer from '$lib/components/home-page/HomeYtVideoPlayer.svelte'
 </script>
 
 <svelte:head>

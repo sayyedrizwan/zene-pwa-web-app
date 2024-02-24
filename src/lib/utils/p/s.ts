@@ -105,7 +105,7 @@ export class APManager implements AudioPlayer {
         if (Hls.isSupported()) {
           var hls = new Hls()
           hls.loadSource(url)
-          hls.attachMedia(this.videoElement!);
+          hls.attachMedia(this.videoElement!)
         } else if (this.videoElement!.canPlayType('application/vnd.apple.mpegurl')) {
           this.videoElement!.src = url
         }

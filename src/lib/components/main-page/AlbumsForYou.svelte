@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import type { MusicData, MusicDataList } from '../../../domain/local/entities/MusicData'
+  import type { MusicDataList } from '../../../domain/local/entities/MusicData'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
-  import { topTenSongsListener } from '$lib/utils/p/shistory'
+  import { latestFifteenSongsListener, topTenSongsListener } from '$lib/utils/p/shistory'
   import { DataIndexDS, albumsForYouCache, indexDB } from '$lib/utils/indexd'
   import { SongsYouMayLikeCache } from '../../../domain/local/entities/SongsYouMayLike'
   import axios from 'axios'
@@ -12,7 +12,7 @@
 
   let response: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
 
-  const readMusic = async (music: string[]) => {
+  async function readMusic(music: string[]) {
     const cacheDB = new DataIndexDS<SongsYouMayLikeCache<MusicDataList>>(albumsForYouCache, indexDB)
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
@@ -45,7 +45,8 @@
   }
 
   onMount(async () => {
-    await topTenSongsListener(readMusic)
+    const lists = await latestFifteenSongsListener()
+    readMusic(lists)
   })
 </script>
 

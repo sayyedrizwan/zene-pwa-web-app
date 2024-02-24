@@ -63,11 +63,11 @@ export function artistsSplitToHTMLString(artists: string): string {
 }
 
 export function durationToTime(d: number) {
-  const hours = Math.floor(d / 3600);
-  const minutes = Math.floor((d % 3600) / 60);
-  const seconds = Math.floor(d % 60);
+  const hours = Math.floor(d / 3600)
+  const minutes = Math.floor((d % 3600) / 60)
+  const seconds = Math.floor(d % 60)
 
-  const hoursString = hours < 10 ? `0${hours}` : `${hours}`;
+  const hoursString = hours < 10 ? `0${hours}` : `${hours}`
   const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`
   const secondsString = seconds < 10 ? `0${seconds}` : `${seconds}`
   return `${hoursString == "00" ? `` : `${hoursString}:`}${minutesString}:${secondsString}`

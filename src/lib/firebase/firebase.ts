@@ -32,7 +32,7 @@ export async function setUpForegroundFCM() {
    
    onMessage(firebaseMessaging!, (payload) => {
     console.log("Message received. ", payload)
-    alert("Notificacion");
+    alert("Notificacion")
   })
   } catch (error) {
     error
