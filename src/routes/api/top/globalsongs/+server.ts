@@ -1,9 +1,7 @@
 import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { apiError, authKeyError, getBase64FromImageUrl, top_100_artists_billboard } from '../../utils/utils'
-import { JSDOM } from 'jsdom'
-import { MusicData, MusicDataList, MusicType } from '../../../../domain/local/entities/MusicData'
-import axios from 'axios'
+import { apiError, authKeyError } from '../../utils/utils'
+import { MusicData, MusicDataList } from '../../../../domain/local/entities/MusicData'
 import { SpotifyImpl } from '../../api_impl/spotify/SpotifyImpl'
 import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 

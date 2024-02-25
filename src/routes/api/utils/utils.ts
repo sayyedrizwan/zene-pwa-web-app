@@ -1,6 +1,4 @@
 import type { RequestEvent } from '@sveltejs/kit'
-import { Buffer } from 'buffer'
-import sharp from 'sharp'
 
 export const support_mail_server = 'knocknock@zenemusic.co'
 
@@ -32,6 +30,17 @@ export const radio_browser_country = '/json/stations/bycountry/'
 export const radio_browser_name = '/json/stations/search?name='
 export const radio_browser_search_by_uuid = '/json/stations/byuuid?uuids='
 
+
+export function spotifyAuthURL() {
+  const state = generateRandomString(16)
+  const scope = 'user-read-private user-read-email'   
+  const client_id = '07cca9af3ee4411baaf2355a8ea61d3f'
+  const callback_url = `${location.href}/splaylists`
+  return `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scope}&state=${state}&redirect_uri=${callback_url}`
+}
+
+
+
 // cookie
 export const last_sync_ts_cookie = 'last_sync_ts'
 export const users_ip_address = 'i'
@@ -49,20 +58,6 @@ export function formatNumberString(numberString: string): string {
   }
   const formatter = new Intl.NumberFormat('en-US')
   return formatter.format(parsedNumber)
-}
-
-export async function getBase64FromImageUrl(imageUrl: string): Promise<string | undefined> {
-  try {
-    const res = await fetch(imageUrl)
-    const abuffer = await res.arrayBuffer()
-
-    const buffer = Buffer.from(new Uint8Array(abuffer))
-    const buff = await sharp(buffer).toFormat('jpeg').toBuffer()
-    let base64data = buff.toString('base64')
-    return `data:image/jpeg;base64,${base64data.toString()}`
-  } catch (error) {
-    return ''
-  }
 }
 
 export function joinArtists(artists: string[]): string {
@@ -128,49 +123,6 @@ String.prototype.textBeforeLastKeyword = function (char : string) : string | nul
   }
 }
 
-// export function getTextAfterKeyword(txt: string, char: string): string | null {
-//   const index: number = txt.indexOf(char)
-
-//   if (index !== -1) {
-//     const result: string = txt.substring(index + char.length).trim()
-//     return result
-//   } else {
-//     return txt
-//   }
-// }
-
-// export function getTextAfterLastKeyword(txt: string, char: string): string | null {
-//   try {
-//     const lastDashIndex = txt.lastIndexOf(char)
-//     return txt.substring(lastDashIndex + 1).trim()
-//   } catch (error) {
-//     return null
-//   }
-// }
-
-// export function getTextBeforeKeyword(txt: string, char: string): string | null {
-//   const index: number = txt.indexOf(char)
-
-//   if (index !== -1) {
-//     const result: string = txt.substring(0, index).trim()
-//     return result
-//   } else {
-//     return txt
-//   }
-// }
-
-
-// export function getTextBeforeLastKeyword(txt: string, char: string): string | null {
-//   const lastIndex: number = txt.lastIndexOf(char)
-
-//   if (lastIndex !== -1) {
-//     const result: string = txt.substring(0, lastIndex).trim()
-//     return result
-//   } else {
-//     return txt
-//   }
-// }
-
 export function getIpAddress(events: RequestEvent): string {
   return events.cookies.get(users_ip_address) ?? ""
 }
@@ -206,4 +158,15 @@ export function shuffleList<T>(array: T[]): T[] {
   }
 
   return shuffledArray
+}
+
+
+
+export function generateRandomString(length: number) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let result = ''
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+  return result
 }

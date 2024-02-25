@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "devrun": "vite dev",
-    "dev": "npm run devrun -- --host",
+    "dev": "npm run devrun -- --host --port 3419",
     "build": "vite build",
     "buildpreview": "npm run build && npm run preview",
     "preview": "vite preview",
@@ -41,7 +41,6 @@
     "jsdom": "^24.0.0",
     "npm": "^10.4.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "sharp": "^0.33.2",
     "util.promisify": "^1.1.2",
     "vite-plugin-pwa": "^0.19.0"
   }

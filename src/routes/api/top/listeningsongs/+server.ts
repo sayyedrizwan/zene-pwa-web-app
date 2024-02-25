@@ -1,6 +1,6 @@
 import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { apiError, authKeyError, formatNumberString, getBase64FromImageUrl, lastfm_top_playing_songs } from '../../utils/utils'
+import { apiError, authKeyError, formatNumberString, lastfm_top_playing_songs } from '../../utils/utils'
 import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 import { TopSongsMusic, TopSongsMusicResults } from '../../../../domain/local/entities/TopSongsMusic'
 import type { LastFmTopSongsResponse } from './domain/LastFmTopSongsResponse'
@@ -19,10 +19,8 @@ export async function POST(events: RequestEvent) {
       data.results.track.map(async (e) => {
         const musicName = `${e.name} - ${e.artist}`
         const music = await ytMusicAPI.musicSearchSingle(musicName, true)
-        const imageAsBase64 = await getBase64FromImageUrl(e.image.replace('174s/', ''))
-
         if (music.name != null && music.songId != null) {
-          list.push(new TopSongsMusic(imageAsBase64!, formatNumberString(e.listeners), music))
+          list.push(new TopSongsMusic(e.image.replace('174s/', ''), formatNumberString(e.listeners), music))
         }
       }),
     )
