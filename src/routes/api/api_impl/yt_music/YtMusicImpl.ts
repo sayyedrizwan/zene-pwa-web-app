@@ -58,8 +58,6 @@ export class YtMusicAPIImpl {
 
   async musicSearchSingle(search: string, doCheck: boolean): Promise<MusicData> {
     let music: MusicData = new MusicData(null, null, null, '', MusicType.MUSIC)
-    console.log(search)
-
     try {
       const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_params) })
       const response = (await r.json()) as YtMusicSearchResponse

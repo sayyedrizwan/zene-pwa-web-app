@@ -89,40 +89,14 @@ export class SpotifyImpl {
     return playlists
   }
 
-  async playlistsSongsSpotifyAuthToken(token: string, id: string): Promise<MusicData[]> {
-    let sList: string[] = []
-    let list: MusicData[] = []
-
-    let isRunning = true
-    let offset = 0
-
+  async playlistsSongsSpotifyAuthToken(offset: number, token: string, id: string): Promise<SpotifyPlaylistsUserSongsResponse | null> {
+    let s : SpotifyPlaylistsUserSongsResponse | null = null 
     try {
-      while (isRunning) {
-        const response = await axios.get(spotifyPlaylistsTracks(id), { headers: { Authorization: token }, params: { offset: offset, limit: 100 } })
-        const songs = await response.data as SpotifyPlaylistsUserSongsResponse
-
-        songs.items.forEach(item => {
-          sList.push(`${item.track.name} - ${item.track.artists[0].name}`)
-        })
-
-        if (songs?.next != null) {
-          const match = songs?.next?.match(/[?&]offset=(\d+)/)
-          if (match) offset = parseInt(match[1])
-          else isRunning = false
-        } else isRunning = false
-      }
+      const response = await axios.get(spotifyPlaylistsTracks(id), { headers: { Authorization: token }, params: { offset: offset, limit: 100 } })
+      s = await response.data as SpotifyPlaylistsUserSongsResponse
     } catch (error) {
-      list = []
+      s = null
     }
-
-    const ytMusicImpl = new YtMusicAPIImpl()
-    await Promise.all(
-      sList.map(async (items) => {
-        const music = await ytMusicImpl.musicSearchSingle(items, false)
-        list.push(music)
-      })
-    )
-
-    return list
+    return s
   }
 }
