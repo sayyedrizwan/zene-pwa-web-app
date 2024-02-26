@@ -1,5 +1,5 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { decryptAPIKeyAndIsValid, decryptData } from '../../utils/EncryptionForAPI'
+import { decryptAPIKeyAndIsValidLong, decryptData } from '../../utils/EncryptionForAPI'
 import { authKeyError } from '../../utils/utils'
 import { SpotifyImpl } from '../../api_impl/spotify/SpotifyImpl'
 import { SpotifyPlaylistsMusicTrackData } from '../../../../domain/local/entities/SpotifyPlaylistsMusicData'
@@ -7,7 +7,7 @@ import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 import type { MusicData } from '../../../../domain/local/entities/MusicData'
 
 export const POST = (async (events: RequestEvent) => {
-  if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
+  if (!decryptAPIKeyAndIsValidLong(events)) return json(authKeyError)
   const body = await events.request.json()
 
   const spotify = new SpotifyImpl()
@@ -26,7 +26,11 @@ export const POST = (async (events: RequestEvent) => {
     const playlistsAndSongs = await spotify.playlistsSongsSpotifyAuthToken(offset, decryptData(body.code), body.id)
     
     playlistsAndSongs?.items.forEach(item => {
-      lists.push(`${item.track.name} - ${item.track.artists[0].name}`)
+      try {
+        lists.push(`${item.track.name} - ${item.track.artists[0].name}`)
+      } catch (error) {
+        error
+      }
     })
 
     if (playlistsAndSongs?.next != null) {
