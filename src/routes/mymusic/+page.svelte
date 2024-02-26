@@ -30,6 +30,4 @@
 
 <ImportMyMusic />
 
-<iframe src="" id="myIframe" title="" />
-
 <div class="h-64" />
