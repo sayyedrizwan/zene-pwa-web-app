@@ -12,6 +12,8 @@ export const POST = (async (events: RequestEvent) => {
   const spotify = new SpotifyImpl()
   const token = await spotify.getBasicTokens(list.uri, list.code)
 
+  console.log(token)
+
   let isRunning = true
   let offset = 0
 
@@ -22,7 +24,9 @@ export const POST = (async (events: RequestEvent) => {
 
     await Promise.all(
       (playlistsAndSongs?.items ?? []).map(async (items) => {
-        const img = items.images?.findLast((t) => t.height == 640)?.url ?? ""
+        let img = items.images?.findLast((t) => t.height == 640)?.url ?? ""
+        if(img == "" && (items.images?.length ?? 0) > 0) img = items.images?.[0].url ?? ""
+        
         if (items.id != undefined) {
           const playlistsAndSongs = await spotify.playlistsSongsSpotifyAuthToken(token, items.id)
           lists.push(new SpotifyPlaylistsMusicData(items.id, img, items.name ?? "", items.owner?.display_name ?? "", playlistsAndSongs))

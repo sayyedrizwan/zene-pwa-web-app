@@ -33,7 +33,7 @@
 {#if items.length > 0}
   {#each items as history}
     <button on:click|stopPropagation={() => playSongZene(getDataOnMusicData(history))}>
-      <div class="flex-none px-1 first:pl-5 last:pr-5">
+      <div class="flex-none px-1 first:pl-5 last:pr-5 overflow-y-hidden">
         <div class="flex flex-col items-center justify-center gap-2 cursor-pointer">
           <div class={`relative w-[16rem] h-[17rem] bg-maincolor rounded-lg p-3`}>
             <button on:click|stopPropagation={() => openSongDialog(getDataOnMusicData(history))}><img src={MenuIcon} class="absolute top-3 left-3 size-6" alt="menu" /></button>

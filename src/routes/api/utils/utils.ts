@@ -33,7 +33,7 @@ export const radio_browser_search_by_uuid = '/json/stations/byuuid?uuids='
 
 export function spotifyAuthURL() {
   const state = generateRandomString(16)
-  const scope = 'user-read-private user-read-email'   
+  const scope = 'user-read-private playlist-read-private playlist-read-collaborative'   
   const client_id = '07cca9af3ee4411baaf2355a8ea61d3f'
   const callback_url = `${location.href}/splaylists`
   return `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scope}&state=${state}&redirect_uri=${callback_url}`

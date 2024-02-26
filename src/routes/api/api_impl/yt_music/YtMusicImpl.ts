@@ -17,23 +17,26 @@ export class YtMusicAPIImpl {
 
   async artistsSearch(search: string): Promise<MusicData[]> {
     const music: MusicData[] = []
+    try {
+      const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_artists_params) })
+      const response = (await r.json()) as YtMusicSearchResponse
 
-    const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_artists_params) })
-    const response = (await r.json()) as YtMusicSearchResponse
-
-    response.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tab) => {
-      tab.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
-        contents.musicShelfRenderer?.contents?.forEach((artists) => {
-          artists?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
-            if (names.musicResponsiveListItemFlexColumnRenderer?.displayPriority == 'MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH') {
-              const name = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? null
-              const thumbnail = artists?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-              if (name != null) if (name.trim().toLocaleLowerCase() != "artist") music.push(new MusicData(name, name, encryptAppSharedData(name), thumbnail ?? '', MusicType.ARTISTS))
-            }
+      response.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tab) => {
+        tab.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
+          contents.musicShelfRenderer?.contents?.forEach((artists) => {
+            artists?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
+              if (names.musicResponsiveListItemFlexColumnRenderer?.displayPriority == 'MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH') {
+                const name = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? null
+                const thumbnail = artists?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
+                if (name != null) if (name.trim().toLocaleLowerCase() != "artist") music.push(new MusicData(name, name, encryptAppSharedData(name), thumbnail ?? '', MusicType.ARTISTS))
+              }
+            })
           })
         })
       })
-    })
+    } catch (error) {
+      error
+    }
 
     return music
   }
@@ -55,44 +58,49 @@ export class YtMusicAPIImpl {
 
   async musicSearchSingle(search: string, doCheck: boolean): Promise<MusicData> {
     let music: MusicData = new MusicData(null, null, null, '', MusicType.MUSIC)
+    console.log(search)
 
-    const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_params) })
-    const response = (await r.json()) as YtMusicSearchResponse
-    response?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tabs) => {
-      tabs?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
-        contents.musicShelfRenderer?.contents?.forEach((musicContents) => {
-          const thumbnail = musicContents?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-          let name: string | null
-          let songId: string | null
-          let artistsName: string[] = []
+    try {
+      const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_params) })
+      const response = (await r.json()) as YtMusicSearchResponse
+      response?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tabs) => {
+        tabs?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
+          contents.musicShelfRenderer?.contents?.forEach((musicContents) => {
+            const thumbnail = musicContents?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
+            let name: string | null
+            let songId: string | null
+            let artistsName: string[] = []
 
-          musicContents?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
-            const info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
-            if (info?.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == 'MUSIC_VIDEO_TYPE_ATV') {
-              name = info.text ?? null
-              songId = info.navigationEndpoint?.watchEndpoint?.videoId ?? null
-            }
-            if (info?.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == 'MUSIC_PAGE_TYPE_ARTIST') {
-              if (info.text != undefined && info.text.trim() != '') artistsName.push(info.text)
+            musicContents?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
+              const info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
+              if (info?.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == 'MUSIC_VIDEO_TYPE_ATV') {
+                name = info.text ?? null
+                songId = info.navigationEndpoint?.watchEndpoint?.videoId ?? null
+              }
+              if (info?.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == 'MUSIC_PAGE_TYPE_ARTIST') {
+                if (info.text != undefined && info.text.trim() != '') artistsName.push(info.text)
+              }
+            })
+
+            if (music.songId == null) {
+              if (artistsName.length == 0) {
+                try {
+                  const a = musicContents?.musicResponsiveListItemRenderer?.flexColumns?.[1]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
+                  artistsName.push(a ?? '')
+                } catch (error) {
+                  error
+                }
+              }
+              if (doCheck) {
+                if (search?.includes(name!)) music = new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC)
+              } else music = new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC)
             }
           })
-
-          if (music.songId == null) {
-            if (artistsName.length == 0) {
-              try {
-                const a = musicContents?.musicResponsiveListItemRenderer?.flexColumns?.[1]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
-                artistsName.push(a ?? '')
-              } catch (error) {
-                error
-              }
-            }
-            if (doCheck) {
-              if (search?.includes(name!)) music = new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC)
-            } else music = new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC)
-          }
         })
       })
-    })
+    } catch (error) {
+      error
+    }
     return music
   }
 
@@ -305,7 +313,7 @@ export class YtMusicAPIImpl {
 
 
   async albumsInfo(id: string): Promise<[MusicData | null, string[]]> {
-    const lists : string[] = []
+    const lists: string[] = []
     try {
       const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(null, id) })
       const response = (await r.json()) as YtBrowsePlaylistsData
@@ -325,10 +333,10 @@ export class YtMusicAPIImpl {
         t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
           c?.musicShelfRenderer?.contents?.forEach(m => {
             m.musicResponsiveListItemRenderer?.flexColumns?.forEach(item => {
-              if(item.musicResponsiveListItemFlexColumnRenderer?.displayPriority == "MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH"){
+              if (item.musicResponsiveListItemFlexColumnRenderer?.displayPriority == "MUSIC_RESPONSIVE_LIST_ITEM_COLUMN_DISPLAY_PRIORITY_HIGH") {
                 item.musicResponsiveListItemFlexColumnRenderer.text?.runs?.forEach(list => {
-                  if(list.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_OMV"  || list.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_ATV" ){
-                    if(list.text != undefined) lists.push(list.text)
+                  if (list.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_OMV" || list.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_ATV") {
+                    if (list.text != undefined) lists.push(list.text)
                   }
                 })
               }
