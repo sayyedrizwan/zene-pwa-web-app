@@ -1,11 +1,17 @@
-export class SpotifyPlaylistsMusicData {
-  name?: string
-  image?: string
-  description?: string
+import type { MusicData } from "./MusicData"
 
-  constructor(name: string, image: string, description: string) {
+export class SpotifyPlaylistsMusicData {
+  id?: string
+  thumbnail?: string
+  name?: string
+  artists?: string
+  music?: MusicData[]
+
+  constructor(id: string,thumbnail: string, name: string, artists: string, music: MusicData[]) {
+    this.id = id
+    this.thumbnail = thumbnail
     this.name = name
-    this.image = image
-    this.description = description
+    this.artists = artists
+    this.music = music
   }
 }

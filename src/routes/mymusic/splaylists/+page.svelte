@@ -1,5 +1,14 @@
 <script lang="ts">
+  import { browser } from '$app/environment'
+  import type { SpotifyPlaylistsMusicData } from '../../../domain/local/entities/SpotifyPlaylistsMusicData.js'
 
+  export let data: any
+
+  let lists: SpotifyPlaylistsMusicData[] = []
+
+  if (browser) {
+    lists = data.response as SpotifyPlaylistsMusicData[]
+  }
 </script>
 
 <svelte:head>
@@ -14,7 +23,8 @@
 
 <h3 class="text-white urbanist-semibold text-4xl md:text-6xl ms-4 md:ms-7 mt-11">Spotify Playlists</h3>
 
-
-
+{#each lists as playlists}
+  <p class="text-white">{playlists.name}</p>
+{/each}
 
 <div class="h-64" />

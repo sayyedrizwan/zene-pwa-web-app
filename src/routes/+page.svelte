@@ -16,7 +16,7 @@
   import type { SongsYouMayLike } from '../domain/local/entities/SongsYouMayLike'
   import ArtistsCards from '$lib/components/global-view/items/ArtistsCards.svelte'
   import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
-    import SuggestSongsYouMayLike from '$lib/components/main-page/SuggestSongsYouMayLike.svelte'
+  import SuggestSongsYouMayLike from '$lib/components/main-page/SuggestSongsYouMayLike.svelte'
 
   export let data: any
 
@@ -48,11 +48,11 @@
   <TopGlobalTrendingArtists {authKey} />
   <TopMood />
   <FreshAddedSong {authKey} />
-  <GlobalTopTrendingSongs {authKey} bind:topSongsCountry/>
+  <GlobalTopTrendingSongs {authKey} bind:topSongsCountry />
   <TopSongsInUserCountry {authKey} {ipDetails} />
-  <SuggestSongsYouMayLike {authKey} bind:topSongsCountry bind:youMayLike/>
+  <SuggestSongsYouMayLike {authKey} bind:topSongsCountry bind:youMayLike />
   <SongsYouMayLink {authKey} bind:youMayLike />
-  <AlbumsForYou {authKey}/>
+  <AlbumsForYou {authKey} />
   <SongsYouMayLinkToListen bind:youMayLike />
 
   {#if (youMayLike?.artists?.length ?? 0) > 0}

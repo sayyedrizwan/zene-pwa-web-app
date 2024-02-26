@@ -1,11 +1,14 @@
 import { env } from '$env/dynamic/private'
 import axios from 'axios'
 import { Buffer } from "buffer"
-import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_PLAYLISTS_SEARCH, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, SPOTIFY_USER_PLAYLISTS, spotifyPlaylistSearch } from './SpotifyUtil'
+import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_PLAYLISTS_SEARCH, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, SPOTIFY_USER_PLAYLISTS, spotifyPlaylistSearch, spotifyPlaylistsTracks } from './SpotifyUtil'
 import type { SpotifyTokenResponse } from './domain/SpotifyTokenResponse'
 import type { SpotifyPlaylistsSongsResponse } from './domain/SpotifyPlaylistsSongsResponse'
 import type { SpotifyPlaylistsResponse } from './domain/SpotifyPlaylistsResponse'
 import type { SpotifyUserPlaylistsResponse } from './domain/SpotifyUserPlaylistsResponse'
+import type { SpotifyPlaylistsUserSongsResponse } from './domain/SpotifyPlaylistsUserSongsResponse'
+import type { MusicData } from '../../../../domain/local/entities/MusicData'
+import { YtMusicAPIImpl } from '../yt_music/YtMusicImpl'
 
 export class SpotifyImpl {
   private async getTokens(): Promise<string> {
@@ -26,7 +29,7 @@ export class SpotifyImpl {
     body.append('code', code)
 
     const authCode = Buffer.from(env.SPOTIFY_CLIENT_ID + ':' + env.SPOTIFY_CLIENT_SECRET)!.toString('base64')
-    const response = await fetch(SPOTIFY_API_TOKEN_GENREATE, { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${authCode}`}, body: body })
+    const response = await fetch(SPOTIFY_API_TOKEN_GENREATE, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${authCode}` }, body: body })
     const token = await response.json() as SpotifyTokenResponse
 
     return `${token.token_type} ${token.access_token}`
@@ -84,5 +87,42 @@ export class SpotifyImpl {
     }
 
     return playlists
+  }
+
+  async playlistsSongsSpotifyAuthToken(token: string, id: string): Promise<MusicData[]> {
+    let sList: string[] = []
+    let list: MusicData[] = []
+
+    let isRunning = true
+    let offset = 0
+
+    try {
+      while (isRunning) {
+        const response = await axios.get(spotifyPlaylistsTracks(id), { headers: { Authorization: token }, params: { offset: offset, limit: 100 } })
+        const songs = await response.data as SpotifyPlaylistsUserSongsResponse
+
+        songs.items.forEach(item => {
+          sList.push(`${item.track.name} - ${item.track.artists[0].name}`)
+        })
+
+        if (songs?.next != null) {
+          const match = songs?.next?.match(/[?&]offset=(\d+)/)
+          if (match) offset = parseInt(match[1])
+          else isRunning = false
+        } else isRunning = false
+      }
+    } catch (error) {
+      list = []
+    }
+
+    const ytMusicImpl = new YtMusicAPIImpl()
+    await Promise.all(
+      sList.map(async (items) => {
+        const music = await ytMusicImpl.musicSearchSingle(items, false)
+        list.push(music)
+      })
+    )
+
+    return list
   }
 }

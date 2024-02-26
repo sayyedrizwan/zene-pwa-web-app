@@ -1,6 +1,7 @@
 import { btoa } from 'buffer'
 import { serverLoadFunction } from '../../api/utils/serverpage.js'
 import { env } from '$env/dynamic/private'
+import type { SpotifyPlaylistsMusicData } from '../../../domain/local/entities/SpotifyPlaylistsMusicData.js'
 
 export const load = async ({ fetch, cookies, getClientAddress, url }) => {
   const clientAddress = getClientAddress()
@@ -17,8 +18,6 @@ export const load = async ({ fetch, cookies, getClientAddress, url }) => {
   const key = (await data).keyData
 
   const res = await fetch(env.SPOTIFY_ZENE_API, { method: 'POST', headers: { AuthorizationKey: key}, body : JSON.stringify({uri: rurl, code: code}) })
-  const response = await res.json()
-
-
-  return { data: btoa(key), ip: JSON.stringify((await data).ip) }
+  const response = await res.json() as SpotifyPlaylistsMusicData[]
+  return { data: btoa(key), ip: JSON.stringify((await data).ip), response: response }
 }
