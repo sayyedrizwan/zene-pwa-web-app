@@ -14,6 +14,7 @@
   let songsLists: SpotifyPlaylistsMusicTrackData[] = []
   let selectedLists: MusicData[] = []
   let text = ''
+  let loadingNum = 0
 
   let responses: ResponseData<Boolean> = { type: ResponseDataEnum.EMPTY }
 
@@ -26,6 +27,7 @@
       lists.map(async (items, num) => {
         const response = await axios.post(env.PUBLIC_SPOTIFY_ZENE_S_API, { id: items.id, code: items.token, name: items.name }, { headers: { AuthorizationKey: window.atob(data.data) } })
         const r = (await response.data) as SpotifyPlaylistsMusicTrackData
+        loadingNum += 1
         if (r.id != undefined) songsLists.push(r)
       })
     )
@@ -41,6 +43,7 @@
   }
 
   onMount(async () => {
+    loadingNum = 0
     lists = data.response as SpotifyPlaylistsMusicData[]
     getAllMusic()
   })
@@ -105,7 +108,7 @@
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
-      <p class="text-start text-white urbanist-regular mt-3 mx-1 text-sm">Loading all playlists songs... Please wait...</p>
+      <p class="text-white urbanist-regular mt-3 mx-1 text-sm text-center">Loading all playlists songs... Please wait... {loadingNum}/{lists.length}</p>
     </div>
   </div>
 {/if}
