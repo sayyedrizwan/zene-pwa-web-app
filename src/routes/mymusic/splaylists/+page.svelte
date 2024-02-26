@@ -1,9 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
-  onMount(async () => {
-    
-  })
 
 </script>
 
@@ -18,5 +13,8 @@
 </svelte:head>
 
 <h3 class="text-white urbanist-semibold text-4xl md:text-6xl ms-4 md:ms-7 mt-11">Spotify Playlists</h3>
+
+
+
 
 <div class="h-64" />

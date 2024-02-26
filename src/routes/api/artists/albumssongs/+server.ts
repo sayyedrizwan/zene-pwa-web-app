@@ -26,7 +26,6 @@ export async function POST(req: RequestEvent) {
 
     return json(lists)
   }catch (error) {
-    console.log(error)
     return json({})
   }
 }

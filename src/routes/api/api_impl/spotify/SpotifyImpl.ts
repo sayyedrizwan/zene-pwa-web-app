@@ -1,9 +1,11 @@
 import { env } from '$env/dynamic/private'
 import axios from 'axios'
-import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_PLAYLISTS_SEARCH, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, spotifyPlaylistSearch } from './SpotifyUtil'
+import { Buffer } from "buffer"
+import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_PLAYLISTS_SEARCH, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, SPOTIFY_USER_PLAYLISTS, spotifyPlaylistSearch } from './SpotifyUtil'
 import type { SpotifyTokenResponse } from './domain/SpotifyTokenResponse'
 import type { SpotifyPlaylistsSongsResponse } from './domain/SpotifyPlaylistsSongsResponse'
 import type { SpotifyPlaylistsResponse } from './domain/SpotifyPlaylistsResponse'
+import type { SpotifyUserPlaylistsResponse } from './domain/SpotifyUserPlaylistsResponse'
 
 export class SpotifyImpl {
   private async getTokens(): Promise<string> {
@@ -13,6 +15,19 @@ export class SpotifyImpl {
     body.append('client_secret', env.SPOTIFY_CLIENT_SECRET)
 
     const token = (await axios.post(SPOTIFY_API_TOKEN_GENREATE, body)).data as SpotifyTokenResponse
+
+    return `${token.token_type} ${token.access_token}`
+  }
+
+  async getBasicTokens(uri: string, code: string): Promise<string> {
+    const body = new URLSearchParams()
+    body.append('grant_type', 'authorization_code')
+    body.append('redirect_uri', uri)
+    body.append('code', code)
+
+    const authCode = Buffer.from(env.SPOTIFY_CLIENT_ID + ':' + env.SPOTIFY_CLIENT_SECRET)!.toString('base64')
+    const response = await fetch(SPOTIFY_API_TOKEN_GENREATE, { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${authCode}`}, body: body })
+    const token = await response.json() as SpotifyTokenResponse
 
     return `${token.token_type} ${token.access_token}`
   }
@@ -55,5 +70,19 @@ export class SpotifyImpl {
     } catch (error) {
       return list
     }
+  }
+
+
+  async playlistsAndSongsWithAuthToken(token: string, offset: number): Promise<SpotifyUserPlaylistsResponse | null> {
+    let playlists: SpotifyUserPlaylistsResponse | null = null
+
+    try {
+      const response = await axios.get(SPOTIFY_USER_PLAYLISTS, { headers: { Authorization: token }, params: { offset: offset, limit: 49 } })
+      playlists = await response.data as SpotifyUserPlaylistsResponse
+    } catch (error) {
+      playlists = null
+    }
+
+    return playlists
   }
 }

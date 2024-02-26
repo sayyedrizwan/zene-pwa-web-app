@@ -1,6 +1,11 @@
 <script lang="ts">
   import MyMusicHistory from '$lib/components/mymusic-page/MyMusicHistory.svelte'
   import ImportMyMusic from '$lib/components/mymusic-page/ImportMyMusic.svelte'
+  import { onMount } from 'svelte'
+
+  onMount(async () => {
+    // window.performance.getEntries().map(e => console.log(e.name) )
+  })
 </script>
 
 <svelte:head>
@@ -24,5 +29,7 @@
 <div class="h-44 md:h-72" />
 
 <ImportMyMusic />
+
+<iframe src="" id="myIframe" title="" />
 
 <div class="h-64" />
