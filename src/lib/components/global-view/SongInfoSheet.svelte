@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { openSongDialog, playSongZene } from '$lib/utils/f'
+  import { openSongDialog, playSongZene, shareATxt } from '$lib/utils/f'
   import 'animate.css'
   import PlayIcon from '$lib/assets/img/ic_play.svg'
+  import ShareIcon from '$lib/assets/img/ic_share.svg'
+  import CloseIcon from '$lib/assets/img/ic_close.svg'
   import InfoButtonItems from './items/InfoButtonItems.svelte'
   import type { MusicData } from '../../../domain/local/entities/MusicData'
 
@@ -14,6 +16,11 @@
   function play() {
     playSongZene(songMenuDialog)
     songMenuDialog = null
+  }
+
+  function share() {
+    const title = `${songMenuDialog?.name ?? ''} on Zene`
+    shareATxt(title, `https://zenemusic.co/s/${window.btoa(songMenuDialog!.songId!).replace("=", "")}`)
   }
 </script>
 
@@ -29,6 +36,8 @@
     <div class="absolute left-3 bottom-7 right-3 md:left-1/2 md:bottom-7 md:transform md:-translate-x-1/2 h-40 md:h-52 w-auto md:w-2/4 bg-maincolor z-50 rounded-xl overflow-x-auto flex items-center">
       <div class="overflow-x-auto flex scrollbar-hide">
         <InfoButtonItems title="Play" img={PlayIcon} click={play} />
+        <InfoButtonItems title="Share" img={ShareIcon} click={share} />
+        <InfoButtonItems title="Close" img={CloseIcon} click={close} />
       </div>
     </div>
   </div>
