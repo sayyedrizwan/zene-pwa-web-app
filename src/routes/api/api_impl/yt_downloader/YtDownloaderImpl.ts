@@ -17,7 +17,6 @@ export class YTDownloaderImpl {
     try {
       const responseOther = await fetch(ytDownloaderY2mateDownload(videoId), { method: 'GET', headers: yt2_mate_downloader_header })
       const rOther = await responseOther.json() as YT2MateInfoResponse
-
       if (rOther.error === true) return ""
 
       let audioQuality = 0

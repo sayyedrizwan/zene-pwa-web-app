@@ -44,6 +44,12 @@
     }
   }
 
+
+  document.addEventListener('onstartedapp', async () => {
+    const lists = await latestFifteenSongsListener()
+    readMusic(lists)
+  })
+
   onMount(async () => {
     const lists = await latestFifteenSongsListener()
     readMusic(lists)

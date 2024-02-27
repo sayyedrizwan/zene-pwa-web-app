@@ -48,7 +48,7 @@
       songMenuDialog = (event as CustomEvent).detail.value
     })
 
-    setTimeout(()=> {
+    setTimeout(() => {
       setUpForegroundFCM()
     }, 2000)
   })
@@ -67,7 +67,7 @@
   <MusicPlaySmallView {audioPlayer} />
 
   {#if songMenuDialog != null}
-    <SongInfoSheet />
+    <SongInfoSheet bind:songMenuDialog />
   {/if}
 
   {#if songPlayer === true}

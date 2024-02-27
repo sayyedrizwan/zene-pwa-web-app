@@ -10,6 +10,7 @@ export function onBrowser() {
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       lastSyncTimeCheck()
+      document.dispatchEvent(new CustomEvent('onstartedapp', {}))
     }
   })
 }

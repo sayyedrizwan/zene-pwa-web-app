@@ -39,7 +39,6 @@
   async function loadMusicUrl() {
     if (isReloadCalled) return
     isReloadCalled = true
-
     const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(musicData?.m?.songId ?? '')}`, { timeout: 120000 })
     audioPlayer.playMusic(window.atob(response.data), musicData?.m!)
   }

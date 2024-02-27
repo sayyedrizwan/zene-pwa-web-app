@@ -18,7 +18,7 @@
 
   let response: ResponseData<SongsYouMayLike> = { type: ResponseDataEnum.EMPTY }
 
-  async function intervalLike() {
+  async function intervalLike(music: string[]) {
     if (topSongsCountry.length == 0) return
     clearInterval(interval!)
 
@@ -26,7 +26,7 @@
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
-      const list = topSongsCountry.length > 8 ? toEncr(topSongsCountry.slice(0, 8)) : toEncr(topSongsCountry)
+      const list = music.length > 0 ? music : topSongsCountry.length > 8 ? toEncr(topSongsCountry.slice(0, 8)) : toEncr(topSongsCountry)
 
       if (cacheRecords.length > 0) {
         const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
@@ -36,7 +36,7 @@
           return
         }
       }
-
+      response = { type: ResponseDataEnum.LOADING }
       const res = await axios.post(env.PUBLIC_S_Y_M_L, list, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as SongsYouMayLike
       youMayLike = data
@@ -45,17 +45,19 @@
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(new SongsYouMayLikeCache(list, data))
     } catch (error) {
-        cacheDB.deleteAllRecords()
-        response = { type: ResponseDataEnum.ERROR }
+      cacheDB.deleteAllRecords()
+      response = { type: ResponseDataEnum.ERROR }
     }
   }
 
   async function readMusic(music: string[]) {
-    response = { type: ResponseDataEnum.LOADING }
-
-    if (music.length <= 0) interval = setInterval(intervalLike, 800)
-    else response = { type: ResponseDataEnum.ERROR }
+    interval = setInterval(()=> intervalLike(music), 800)
   }
+
+  document.addEventListener('onstartedapp', async () => {
+    const lists = await latestFifteenSongsListener()
+    readMusic(lists)
+  })
 
   onMount(async () => {
     const lists = await latestFifteenSongsListener()
@@ -87,7 +89,7 @@
       {#each splitArrayIntoChunks(response.data.like, 2) as topItem}
         <div>
           {#each topItem as item}
-            <button class="p-3 cursor-pointer"  on:click|stopPropagation={() => playSongZene(item)}>
+            <button class="p-3 cursor-pointer" on:click|stopPropagation={() => playSongZene(item)}>
               <div class="relative size-[13rem] md:size-[15rem] bg-black rounded-lg">
                 <img class="absolute top-0 left-0 size-[13rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
                 <div class="absolute top-0 left-0 size-[13rem] md:size-[15rem] bg-maincolor rounded-lg bg-opacity-50"></div>

@@ -35,6 +35,9 @@ export class APManager implements AudioPlayer {
     if (this.audioElement != undefined) {
       this.stop()
     }
+    if (this.videoElement != undefined) {
+      this.stop()
+    }
 
     const videoe = document.createElement('video') as HTMLVideoElement
     const audioe = document.createElement('audio') as HTMLAudioElement
@@ -111,7 +114,6 @@ export class APManager implements AudioPlayer {
         }
       } else
         this.videoElement!.src = url
-
       return
     }
 
@@ -179,7 +181,7 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
-    if (this.audioElement?.paused === false) return false
+    // if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
 
     if (this.music?.type == MusicType.RADIO) {
@@ -207,6 +209,7 @@ export class APManager implements AudioPlayer {
       this.videoElement?.pause()
       this.videoElement!.currentTime = 0
     } catch (error) {
+      console.log(error)
       error
     }
 
