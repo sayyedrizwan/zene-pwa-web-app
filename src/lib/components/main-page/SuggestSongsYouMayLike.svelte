@@ -2,7 +2,7 @@
   import { latestFifteenSongsListener, topTenSongsListener } from '$lib/utils/p/shistory'
   import { onMount } from 'svelte'
   import type { MusicData } from '../../../domain/local/entities/MusicData'
-  import { openSongDialog, playSongZene, toEncr } from '$lib/utils/f'
+  import { openSongDialog, playSongZene } from '$lib/utils/f'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import { SongsYouMayLikeCache, type SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
@@ -26,7 +26,9 @@
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
-      const list = music.length > 0 ? music : topSongsCountry.length > 8 ? toEncr(topSongsCountry.slice(0, 8)) : toEncr(topSongsCountry)
+      const list = music.length > 0 ? music : topSongsCountry.length > 8 ? topSongsCountry.slice(0, 8).map((m) => m.songId!) : topSongsCountry.map((m) => m.songId!) ?? []
+
+
 
       if (cacheRecords.length > 0) {
         const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
@@ -36,6 +38,7 @@
           return
         }
       }
+
       response = { type: ResponseDataEnum.LOADING }
       const res = await axios.post(env.PUBLIC_S_Y_M_L, list, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as SongsYouMayLike

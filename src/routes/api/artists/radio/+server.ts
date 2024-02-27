@@ -18,7 +18,7 @@ export async function POST(events: RequestEvent) {
     const id =  getRandomItem(videos)
 
     if(id == undefined) return new Response("")
-    return new Response(btoa(id.songId!))
+    return new Response(btoa(id.songId!).replaceLastChar("=", ""))
   }catch (error) {
     return new Response("")
   }

@@ -24,10 +24,9 @@ export async function insertMusicHistory(m: MusicData, window: Window & typeof g
     if (m.type == MusicType.RADIO) return
 
     try {
-        const eSongId = window.btoa(m?.songId!).replace("=", "")
         const songDetails = window.btoa(JSON.stringify(m))
 
-        const oldRecords = await checkNameExistsWithIndex(eSongId)
+        const oldRecords = await checkNameExistsWithIndex(m?.songId!)
 
         if (oldRecords != null) {
             updateMusicHistory(oldRecords)
@@ -38,7 +37,7 @@ export async function insertMusicHistory(m: MusicData, window: Window & typeof g
         const tx = db.transaction([musicHistory], 'readwrite')
         const record = tx.objectStore(musicHistory)
 
-        if (m.songId != undefined) record.put(new MusicHistoryData(eSongId, songDetails, new Date().getTime(), 1))
+        if (m.songId != undefined) record.put(new MusicHistoryData(m?.songId!, songDetails, new Date().getTime(), 1))
 
         tx.oncomplete = () => { }
     } catch (error) {

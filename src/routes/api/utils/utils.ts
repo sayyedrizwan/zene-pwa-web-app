@@ -78,7 +78,16 @@ declare global {
     textAfterLastKeyword(char : string) : string | null
     textBeforeKeyword(char : string) : string | null
     textBeforeLastKeyword(char : string) : string | null
+    replaceLastChar(char : string, v: string) : string
   }
+}
+
+String.prototype.replaceLastChar = function (char : string, v: string) : string {
+  const lastEqualIndex = this.lastIndexOf(char)
+  if (lastEqualIndex !== -1) {
+    return this.slice(0, lastEqualIndex) + v
+  }
+  return String(this)
 }
 
 String.prototype.textAfterKeyword = function (char : string) : string {

@@ -37,7 +37,7 @@
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
       try {
-        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${window.btoa(song.songId ?? '')}`, { timeout: 120000 })
+        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000 })
         audioPlayer.playMusic(window.atob(response.data), song)
       } catch (error) {
         alert('Error loading song. Please try again later.')

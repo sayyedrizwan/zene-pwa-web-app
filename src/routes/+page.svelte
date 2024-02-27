@@ -9,7 +9,6 @@
   import GlobalTopTrendingSongs from '$lib/components/main-page/GlobalTopTrendingSongs.svelte'
   import TopSongsInUserCountry from '$lib/components/main-page/TopSongsArtistsInUserCountry.svelte'
   import type { IpDetails } from '../domain/local/entities/IpDetails'
-  import SongsYouMayLink from '$lib/components/main-page/SongsYouMayLink.svelte'
   import AlbumsForYou from '$lib/components/main-page/AlbumsForYou.svelte'
   import type { MusicData } from '../domain/local/entities/MusicData'
   import SongsYouMayLinkToListen from '$lib/components/main-page/SongsYouMayLinkToListen.svelte'
@@ -51,7 +50,6 @@
   <GlobalTopTrendingSongs {authKey} bind:topSongsCountry />
   <TopSongsInUserCountry {authKey} {ipDetails} />
   <SuggestSongsYouMayLike {authKey} bind:topSongsCountry bind:youMayLike />
-  <SongsYouMayLink {authKey} bind:youMayLike />
   <AlbumsForYou {authKey} />
   <SongsYouMayLinkToListen bind:youMayLike />
 

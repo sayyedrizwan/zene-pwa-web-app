@@ -72,14 +72,3 @@ export function durationToTime(d: number) {
   const secondsString = seconds < 10 ? `0${seconds}` : `${seconds}`
   return `${hoursString == "00" ? `` : `${hoursString}:`}${minutesString}:${secondsString}`
 }
-
-export function toEncr(m: MusicData[]): string[]{
-    const ids: string[] = []
-
-    m.forEach(e => {
-      const id = window.btoa(e.songId ?? "").replaceAll("=", "")
-      ids.push(id)
-    })
-
-    return ids
-}

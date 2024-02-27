@@ -88,7 +88,7 @@ export function encryptData(value: string): string {
     const encryptedCharCode = charCode ^ keyChar
     encryptedText += String.fromCharCode(encryptedCharCode)
   }
-  return btoa(encryptedText).replace('==', '')
+  return btoa(encryptedText).replaceLastChar("==", "")
 }
 
 export function decryptData(value: string): string {

@@ -209,7 +209,6 @@ export class APManager implements AudioPlayer {
       this.videoElement?.pause()
       this.videoElement!.currentTime = 0
     } catch (error) {
-      console.log(error)
       error
     }
 

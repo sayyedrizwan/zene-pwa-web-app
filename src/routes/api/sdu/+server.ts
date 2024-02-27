@@ -8,7 +8,6 @@ import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
 export const GET = (async (req: RequestEvent) => {
   const video_url = new URL(req.url).searchParams.get('id') ?? ""
   const videoId = atob(video_url)
-
   if(isFromZeneOrigin(req) === false) return new Response("")
   
   try {
@@ -16,7 +15,7 @@ export const GET = (async (req: RequestEvent) => {
       const radio = new RadioBrowserImpl()
       const response = await radio.radioPlayURL(videoId)
       const url = response[0].url_resolved == null ? response[0].url : response[0].url_resolved
-      return new Response(btoa(url ?? ""))
+      return new Response(btoa(url ?? "").replaceLastChar("=", ""))
     }
 
     const ytDownloader = new YTDownloaderImpl()
@@ -24,7 +23,7 @@ export const GET = (async (req: RequestEvent) => {
 
     if (url === "") return new Response("")
 
-    return new Response(btoa(url ?? ""))
+    return new Response(btoa(url ?? "").replaceLastChar("=", ""))
   } catch (error) {
     return new Response("")
   }

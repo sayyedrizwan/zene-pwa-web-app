@@ -90,8 +90,8 @@ export class YtMusicAPIImpl {
                 }
               }
               if (doCheck) {
-                if (search?.includes(name!)) music = new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC)
-              } else music = new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC)
+                if (search?.includes(name!)) music = new MusicData(name!, joinArtists(artistsName), btoa(songId!).replaceLastChar("=", ""), thumbnail!, MusicType.MUSIC)
+              } else music = new MusicData(name!, joinArtists(artistsName), btoa(songId!).replaceLastChar("=", ""), thumbnail!, MusicType.MUSIC)
             }
           })
         })
@@ -113,7 +113,7 @@ export class YtMusicAPIImpl {
 
 
 
-    return name != undefined && songId != undefined ? new MusicData(name, artists ?? "", songId, thumbnail ?? "", MusicType.MUSIC) : null
+    return name != undefined && songId != undefined ? new MusicData(name, artists ?? "", btoa(songId).replaceLastChar("=", ""), thumbnail ?? "", MusicType.MUSIC) : null
   }
 
 
@@ -191,7 +191,7 @@ export class YtMusicAPIImpl {
             })
           })
 
-          if (name != null && songId != null) youMightAlsoLike.push(new MusicData(name, joinArtists(artistsName), songId, thumbnail ?? "", MusicType.MUSIC))
+          if (name != null && songId != null) youMightAlsoLike.push(new MusicData(name, joinArtists(artistsName), btoa(songId).replaceLastChar("=", ""), thumbnail ?? "", MusicType.MUSIC))
         })
       }
 
@@ -233,7 +233,7 @@ export class YtMusicAPIImpl {
           const name = albums?.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPauseData?.accessibilityData?.label?.textAfterKeyword("Pause") ?? ""
           const id = albums?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
-          if (id != null) lists.push(new MusicData(name, name, btoa(id).replaceAll("=", ""), thumbnail ?? "", MusicType.ALBUM))
+          if (id != null) lists.push(new MusicData(name, name, btoa(id).replaceLastChar("=", ""), thumbnail ?? "", MusicType.ALBUM))
         })
       })
     })
@@ -261,7 +261,7 @@ export class YtMusicAPIImpl {
           const artists = items.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0].text?.replaceAll("and", "&")
           const id = items.playlistPanelVideoRenderer?.videoId
 
-          if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? "", btoa(id).replaceAll("=", ""), thumbnail ?? "", MusicType.ALBUM))
+          if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? "", btoa(id).replaceLastChar("=", ""), thumbnail ?? "", MusicType.ALBUM))
         })
       }
     })
@@ -301,7 +301,7 @@ export class YtMusicAPIImpl {
             }
           }
 
-          list.push(new MusicData(name!, joinArtists(artistsName), songId!, thumbnail!, MusicType.MUSIC))
+          list.push(new MusicData(name!, joinArtists(artistsName), btoa(songId!).replaceLastChar("=", ""), thumbnail!, MusicType.MUSIC))
         })
       })
     })
@@ -313,7 +313,7 @@ export class YtMusicAPIImpl {
   async albumsInfo(id: string): Promise<[MusicData | null, string[]]> {
     const lists: string[] = []
     try {
-      const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(null, id) })
+      const r = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(null, atob(id)) })
       const response = (await r.json()) as YtBrowsePlaylistsData
       const title = response.header?.musicDetailHeaderRenderer?.title?.runs?.[0].text
       let artists: string | null = null

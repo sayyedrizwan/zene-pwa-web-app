@@ -67,6 +67,7 @@
       alert('No Radio Found')
       return
     }
+    
     const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? '', window.atob(radioId), artistsInfo.image ?? '', MusicType.MUSIC)
     playSongZene(m)
   }

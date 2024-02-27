@@ -4,7 +4,7 @@ import { env } from '$env/dynamic/public'
 import type { MusicData } from '../../../domain/local/entities/MusicData.js'
 
 export const load = async ({ params, fetch, cookies, getClientAddress }) => {
-  const albumId = atob(params.id)
+  const albumId = params.id
 
   const data = await serverLoadFunction(fetch, cookies, getClientAddress())
 

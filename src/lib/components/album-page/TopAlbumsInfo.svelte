@@ -21,15 +21,16 @@
       <h4 class="text-white urbanist-semibold text-xl mt-2">{albumInfo.artists}</h4>
       <h6 class={`text-white urbanist-thin text-base mt-4 ${isDescriptionFull === true ? `line-clamp-4` : ``}`}>{albumInfo.songId}</h6>
       <div class="w-full flex justify-center items-center">
-        <button on:click={() => (isDescriptionFull = !isDescriptionFull)} class={`${isDescriptionFull === true ? `rotate-0` : `rotate-180`}`}>
-          <img src={ARROW_DOWN} alt="arrow" class="size-6 md:size-8 m-5 translate-y-1" />
-        </button>
+        {#if (albumInfo?.songId?.length ?? 0) > 4 === true}
+          <button on:click={() => (isDescriptionFull = !isDescriptionFull)} class={`${isDescriptionFull === true ? `rotate-0` : `rotate-180`}`}>
+            <img src={ARROW_DOWN} alt="arrow" class="size-6 md:size-8 m-5 translate-y-1" />
+          </button>
+        {/if}
       </div>
 
       <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto" on:click={shareAlbum}>
         <p class="text-white urbanist-semibold text-base mx-5">Share</p>
       </button>
-
     </div>
   </div>
 </div>
