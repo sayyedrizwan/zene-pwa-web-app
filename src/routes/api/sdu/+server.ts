@@ -23,6 +23,8 @@ export const GET = (async (req: RequestEvent) => {
 
     if (url === "") return new Response("")
 
+    console.log(url)
+
     return new Response(btoa(url ?? "").replaceLastChar("=", ""))
   } catch (error) {
     return new Response("")

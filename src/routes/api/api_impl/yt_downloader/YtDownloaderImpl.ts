@@ -1,19 +1,27 @@
-import { yt2_downloader_convertor, yt2_downloader_task_convertor, yt2_mate_downloader_header, ytDownloaderDownload, ytDownloaderY2mateDownload, yt_downloader_header } from "./ytdownloaderutils"
+import { yt2_downloader_convertor, yt2_downloader_task_convertor, yt2_mate_downloader_header, yt5s_ink_download_token, yt5s_ink_downloader, yt5s_ink_header, ytDownloaderY2mateDownload } from "./ytdownloaderutils"
 import { waitServer } from "../../utils/utils"
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from "./domain/YT2MateInfoResponse"
-import type { YTDownloaderResponse } from "./domain/YTDownloaderResponse"
+import { JSDOM } from 'jsdom'
+import type { YT5sDownloadResponse } from "./domain/YT5sDownloadResponse"
 
 export class YTDownloaderImpl {
 
   async videoURL(videoId: string) {
-    try {
-      const response = await fetch(ytDownloaderDownload(videoId), { method: 'POST', headers: yt_downloader_header, body: `platform=youtube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${videoId}&title=HISS&id=${videoId}&ext=mp3&note=128k&format=` })
-      const r = await response.json() as YTDownloaderResponse
-      if ((r?.status ?? "") === "success") return r?.downloadUrlX
-    } catch (error) {
-      error
-    }
-    
+    // try {
+    //   const r = await fetch(yt5s_ink_download_token)
+    //   const token = (new JSDOM(await r.text())).window.document.querySelector('#token')?.getAttribute("value")
+
+    //   const urlencoded = new URLSearchParams()
+    //   urlencoded.append("url", `https://m.youtube.com/watch?v=${videoId}`)
+    //   urlencoded.append("token", token ?? "")
+
+    //   const downloaderResponse = await fetch(yt5s_ink_downloader, {method : 'POST', body: urlencoded , headers : yt5s_ink_header})
+    //   const downloader = await downloaderResponse.json() as YT5sDownloadResponse
+    //   return downloader.medias.findLast((d) => d.quality == "128kbps" && d.extension == "mp3")?.url
+    // } catch (error) {
+    //   error
+    // }
+
     try {
       const responseOther = await fetch(ytDownloaderY2mateDownload(videoId), { method: 'GET', headers: yt2_mate_downloader_header })
       const rOther = await responseOther.json() as YT2MateInfoResponse
