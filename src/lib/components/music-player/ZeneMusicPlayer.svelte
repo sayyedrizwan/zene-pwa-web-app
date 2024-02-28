@@ -2,12 +2,13 @@
   import ARROW_DOWN from '$lib/assets/img/ic_arrow_down.svg'
   import { onDestroy, onMount } from 'svelte'
   import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
-  import { DataIndexDS, indexDB, musicPlayerInfoCache } from '$lib/utils/indexd'
+  import { DataIndexDS, indexDB, musicPlayerInfoCache, wait } from '$lib/utils/indexd'
   import MusicRecordsLists from './view/MusicRecordsLists.svelte'
   import PlayinSongsDurationAction from './view/PlayingSongsDurationAction.svelte'
   import type { APManager } from '$lib/utils/p/s'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
+  import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 
   export let songPlayer: Boolean
   export let audioPlayer: APManager
@@ -16,7 +17,6 @@
   let currentDuration: number
   let totalDuration: number
   let isBuffering: boolean = false
-  let isReloadCalled: boolean = false
 
   let musicData: MusicPlayerData | null = null
   let interval: NodeJS.Timeout | null = null
@@ -37,10 +37,11 @@
   }
 
   async function loadMusicUrl() {
-    if (isReloadCalled) return
-    isReloadCalled = true
+    await wait(1000)
+    if ((musicData?.m?.songId ?? '') == '') return
+    audioPlayer.startBuffering()
     const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${musicData?.m?.songId ?? ''}`, { timeout: 120000 })
-    audioPlayer.playMusic(window.atob(response.data), musicData?.m!)
+    audioPlayer.playMusic(response.data as DURLResponse, musicData?.m!)
   }
 
   async function checkFunction() {
@@ -54,11 +55,11 @@
     totalDuration = audioPlayer.songDuration()
     isPlaying = audioPlayer.isPlaying()
     isBuffering = audioPlayer?.isBuffering() ?? false
-
-    if (currentDuration == 0) loadMusicUrl()
   }
 
   onMount(async () => {
+    checkFunction()
+    if (audioPlayer.songDuration() == 0 && (audioPlayer?.isBuffering() ?? false) === false) loadMusicUrl()
     interval = setInterval(checkFunction, 500)
   })
 

@@ -28,8 +28,6 @@
     try {
       const list = music.length > 0 ? music : topSongsCountry.length > 8 ? topSongsCountry.slice(0, 8).map((m) => m.songId!) : topSongsCountry.map((m) => m.songId!) ?? []
 
-
-
       if (cacheRecords.length > 0) {
         const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
         if (JSON.stringify(records.cache) == JSON.stringify(list) && records.response.like.length > 0) {

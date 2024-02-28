@@ -1,11 +1,14 @@
 import Hls from 'hls.js'
 import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 import { insertMusicHistory } from './shistory'
+import { DataIndexDS, indexDB, musicPlayerInfoCache, wait } from '../indexd'
+import { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
+import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 
 
 interface AudioPlayer {
   init(): void
-  playMusic(url: string, music: MusicData): Promise<void>
+  playMusic(path: DURLResponse, music: MusicData): Promise<void>
   updatemetadata(music: MusicData): void
   pause(): void
   play(): void
@@ -50,7 +53,6 @@ export class APManager implements AudioPlayer {
     mpegsource.type = 'audio/mpeg'
     audioe.appendChild(mpegsource)
 
-
     this.videoElement = videoe
     this.audioElement = audioe
     this.sourceElementOGG = oggsource
@@ -61,14 +63,15 @@ export class APManager implements AudioPlayer {
 
     this.audioElement.oncanplaythrough = () => {
       this.audioElement!.play()
+
       if (this.music != undefined) insertMusicHistory(this.music, window)
+      
 
       if (this.audioElement?.paused) {
         const event = new Event('click')
         this.audioElement.dispatchEvent(event)
         this.audioElement.play()
       }
-      this.buffering = false
     }
 
     this.audioElement.addEventListener('loadedmetadata', () => {
@@ -95,14 +98,16 @@ export class APManager implements AudioPlayer {
     })
   }
 
-  async playMusic(url: string, music: MusicData): Promise<void> {
+  async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
+
+    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : ``
 
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'
     this.buffering = true
-
+   
     if (music.type == MusicType.RADIO) {
       if (url.includes(".m3u8") === true) {
         if (Hls.isSupported()) {
@@ -121,6 +126,10 @@ export class APManager implements AudioPlayer {
     this.sourceElementMPEG!.src = url
     this.sourceElementOGG!.src = url
     this.audioElement!.load()
+  }
+
+  startBuffering(): void {
+    this.buffering = true
   }
 
 
@@ -181,12 +190,14 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
-    // if (this.audioElement?.paused === false) return false
+    if (this.audioElement!.currentTime > 0) return false
+    if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
 
     if (this.music?.type == MusicType.RADIO) {
       return this.audioElement!.networkState == 2
     }
+
     return this.audioElement!.networkState == 2
   }
 
@@ -200,7 +211,7 @@ export class APManager implements AudioPlayer {
     return this.audioElement!.currentTime
   }
 
-  changeSongDuration(v: number): void {
+  async changeSongDuration(v: number) {
     this.audioElement!.currentTime = v
   }
 

@@ -16,8 +16,7 @@
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
   import { setUpForegroundFCM } from '$lib/firebase/firebase'
-  import { yt5s_ink_download_token, yt5s_ink_downloader, yt5s_ink_header } from './api/api_impl/yt_downloader/ytdownloaderutils'
-  import type { YT5sDownloadResponse } from './api/api_impl/yt_downloader/domain/YT5sDownloadResponse'
+    import type { DURLResponse } from '../domain/local/entities/DURLResponse'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -40,12 +39,10 @@
       const song = (event as CustomEvent).detail.value as MusicData
       audioPlayer.stop()
       try {
-        const controller = new AbortController()
-        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000, signal: controller.signal })
-        controller.abort()
-        audioPlayer.playMusic(window.atob(response.data), song)
+        audioPlayer.startBuffering()
+        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000 })
+        audioPlayer.playMusic(response.data as DURLResponse, song)
       } catch (error) {
-        console.log(error)
         alert('Error loading song. Please try again later.')
       }
     })

@@ -1,19 +1,13 @@
 import { yt2_downloader_convertor, yt2_downloader_task_convertor, yt2_mate_downloader_header, yt5s_ink_download_token, yt5s_ink_downloader, yt5s_ink_header, ytDownloaderY2mateDownload } from "./ytdownloaderutils"
 import { waitServer } from "../../utils/utils"
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from "./domain/YT2MateInfoResponse"
-import { JSDOM } from 'jsdom'
-import ytdl from 'ytdl-core'
-import tmp from 'tmp'
-import fs from 'fs'
 import type { YT5sDownloadResponse } from "./domain/YT5sDownloadResponse"
 import axios from "axios"
 
 export class YTDownloaderImpl {
 
   async videoURL(videoId: string) {
-    const path = this.videoYTDownloader(videoId)
-
-    return path
+    // const path = this.videoYTDownloader(videoId)
 
     try {
       const responseOther = await fetch(ytDownloaderY2mateDownload(videoId), { method: 'GET', headers: yt2_mate_downloader_header })
@@ -56,10 +50,7 @@ export class YTDownloaderImpl {
 
 
   async videoYTDownloader(videoId: string) {
-    const info = await ytdl.getInfo(videoId)
-    const audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
-    const audioPath = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs"))?.url
-    console.log(audioPath)
-    return audioPath
+    
+    return ""
   }
 }
