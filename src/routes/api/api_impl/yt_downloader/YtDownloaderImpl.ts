@@ -2,25 +2,18 @@ import { yt2_downloader_convertor, yt2_downloader_task_convertor, yt2_mate_downl
 import { waitServer } from "../../utils/utils"
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from "./domain/YT2MateInfoResponse"
 import { JSDOM } from 'jsdom'
+import ytdl from 'ytdl-core'
+import tmp from 'tmp'
+import fs from 'fs'
 import type { YT5sDownloadResponse } from "./domain/YT5sDownloadResponse"
+import axios from "axios"
 
 export class YTDownloaderImpl {
 
   async videoURL(videoId: string) {
-    // try {
-    //   const r = await fetch(yt5s_ink_download_token)
-    //   const token = (new JSDOM(await r.text())).window.document.querySelector('#token')?.getAttribute("value")
+    const path = this.videoYTDownloader(videoId)
 
-    //   const urlencoded = new URLSearchParams()
-    //   urlencoded.append("url", `https://m.youtube.com/watch?v=${videoId}`)
-    //   urlencoded.append("token", token ?? "")
-
-    //   const downloaderResponse = await fetch(yt5s_ink_downloader, {method : 'POST', body: urlencoded , headers : yt5s_ink_header})
-    //   const downloader = await downloaderResponse.json() as YT5sDownloadResponse
-    //   return downloader.medias.findLast((d) => d.quality == "128kbps" && d.extension == "mp3")?.url
-    // } catch (error) {
-    //   error
-    // }
+    return path
 
     try {
       const responseOther = await fetch(ytDownloaderY2mateDownload(videoId), { method: 'GET', headers: yt2_mate_downloader_header })
@@ -59,5 +52,14 @@ export class YTDownloaderImpl {
     } catch (error) {
       return ""
     }
+  }
+
+
+  async videoYTDownloader(videoId: string) {
+    const info = await ytdl.getInfo(videoId)
+    const audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
+    const audioPath = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs"))?.url
+    console.log(audioPath)
+    return audioPath
   }
 }
