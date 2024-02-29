@@ -10,7 +10,7 @@
       {are_you_ready}?<br />{to_dive_into_some_fresh_tunes}
     </h2>
     <a
-      class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-blue-800 rounded-full shadow-xl border border-transparent hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-999 focus:ring-sky-500 hover-animation hover:bg-gray-950"
+      class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white"
       href="/">{open_zene__web_player}</a
     >
     <div class="mt-14 xl:mt-20">
