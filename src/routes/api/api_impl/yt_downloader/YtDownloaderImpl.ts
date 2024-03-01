@@ -75,10 +75,12 @@ export class YTDownloaderImpl {
 
       console.log(`exc 3 ${((Date.now()) - startTime) / 1000} seconds`)
 
-      const request = await axios.request({method: 'POST', maxBodyLength: Infinity, url: 'https://0x0.st', data : formData })
+      const request = await fetch('https://0x0.st', { method: "POST", body: formData })
+      // const request = await axios.request({method: 'POST', maxBodyLength: Infinity, url: 'https://0x0.st', data : formData })
       console.log(`exc 4 ${((Date.now()) - startTime) / 1000} seconds`)
-      return request.data
+      return request.text()
     } catch (error) {
+      console.log(error)
       return null
     }
   }
