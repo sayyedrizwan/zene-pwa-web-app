@@ -6,6 +6,7 @@ export const GET = (async (req: RequestEvent, res: RequestHandler) => {
   let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
   let url = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs="))?.url
 
+  console.log(url)
   try {
     const response = await fetch(url!)
 
@@ -20,3 +21,4 @@ export const GET = (async (req: RequestEvent, res: RequestHandler) => {
     return new Response('Failed to fetch data', { status: 500 })
   }
 })
+

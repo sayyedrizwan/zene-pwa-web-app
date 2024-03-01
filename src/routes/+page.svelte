@@ -26,6 +26,7 @@
   let topSongsCountry: MusicData[] = []
 
   if (browser) {
+    console.log(data.id)
     authKey = window.atob(data.data)
     if (data.ip != undefined) ipDetails = JSON.parse(data.ip)
   }
