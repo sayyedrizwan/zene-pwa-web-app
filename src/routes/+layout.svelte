@@ -41,7 +41,6 @@
       try {
         audioPlayer.startBuffering()
         const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000 })
-        console.log(response.data)
         audioPlayer.playMusic(response.data as DURLResponse, song)
       } catch (error) {
         alert('Error loading song. Please try again later.')

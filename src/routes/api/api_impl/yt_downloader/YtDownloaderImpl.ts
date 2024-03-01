@@ -52,34 +52,22 @@ export class YTDownloaderImpl {
 
   async videoYTDownloader(videoId: string): Promise<string | null>  {
     try {
-      const startTime = Date.now()
-
-      console.log(videoId)
       let info = await ytdl.getInfo(videoId)
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs="))?.url
-
-      console.log(`exc 1 ${((Date.now()) - startTime) / 1000} seconds`)
 
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const concatenatedBuffer = concatenateUint8Arrays(chucks)
       const blob = new Blob([concatenatedBuffer], { type: 'audio/mp3' })
 
-
-      console.log(`exc 2 ${((Date.now()) - startTime) / 1000} seconds`)
-
       const formData = new FormData();
       formData.append('file', blob, `${new Date().getTime()}_${generateRandomString(20)}.mp3`)
       formData.append('expires', "2")
 
-      console.log(`exc 3 ${((Date.now()) - startTime) / 1000} seconds`)
-
       const request = await fetch('https://x0.at/', { method: "POST", body: formData })
-      console.log(`exc 4 ${((Date.now()) - startTime) / 1000} seconds`)
       return (await request.text()).trim()
     } catch (error) {
-      console.log(error)
       return null
     }
   }
