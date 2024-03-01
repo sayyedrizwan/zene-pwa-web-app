@@ -11,8 +11,7 @@ const config = {
       dir: './',
     },
     adapter: adapter({
-      edge: false,
-      split: true
+      edge: true
     }),
     serviceWorker: {
       register: false
