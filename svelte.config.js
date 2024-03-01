@@ -1,7 +1,7 @@
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { generateSW } from './pwa.mjs'
-import adapter from '@sveltejs/adapter-netlify'
-// import adapter from '@sveltejs/adapter-auto'
+// import adapter from '@sveltejs/adapter-netlify'
+import adapter from '@sveltejs/adapter-auto'
 
 const config = {
   preprocess: vitePreprocess(),
@@ -10,10 +10,7 @@ const config = {
     env: {
       dir: './',
     },
-    adapter: adapter({
-      edge: false,
-      split: true
-    }),
+    adapter: adapter(),
     serviceWorker: {
       register: false
     },

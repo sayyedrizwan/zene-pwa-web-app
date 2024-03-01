@@ -100,7 +100,7 @@ export class APManager implements AudioPlayer {
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
-    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://0x0.st/${path?.u}.mp3` : ``
+    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://x0.at/${path?.u}.mp3` : ``
 
     this.music = music
     this.audioElement!.preload = 'auto'
