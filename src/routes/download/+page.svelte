@@ -36,7 +36,7 @@
         <img class="mb-2" src={deviceType == 4 ? DesktopMusicImg : deviceType == 3 ? MacMusicImg : PhoneMusicImg} alt="clipart" />
         <h4 class="mb-3 text-[22px] font-semibold leading-tight text-white mt-6 urbanist-bold">Download Zene</h4>
         <p class="mb-8 text-lg text-white urbanist-light">
-          Bring your free music to your {deviceType == 0 ? 'iPhone' : deviceType == 1 ? 'iPad' : deviceType == 2 ? 'Android Smartphone' : deviceType == 3 ? 'Mac and Macbook' : deviceType == 4 ? 'Windows Desktop' : deviceType == 5 ? 'Android Tablet' : 'Device'}.
+          Bring your free music to your {deviceType == 0 ? 'iPhone' : deviceType == 1 ? 'iPad' : deviceType == 2 ? 'Android Smartphone' : deviceType == 3 ? 'Mac/Macbook' : deviceType == 4 ? 'Windows Desktop' : deviceType == 5 ? 'Android Tablet' : 'Device'}.
         </p>
         <button class="font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md hover:bg-gray-800 flex items-center gap-3 urbanist-regular" type="button">
           <svg class=" size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
