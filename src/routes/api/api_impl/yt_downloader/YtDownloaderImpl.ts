@@ -87,8 +87,6 @@ export class YTDownloaderImpl {
 
 }
 
-
-
 async function getFileSize(url: string): Promise<number | null> {
   try {
     const response = await axios.head(url)
