@@ -1,5 +1,5 @@
 import { yt2_downloader_convertor, yt2_downloader_task_convertor, yt2_mate_downloader_header, yt5s_ink_download_token, yt5s_ink_downloader, yt5s_ink_header, ytDownloaderY2mateDownload } from "./ytdownloaderutils"
-import { waitServer } from "../../utils/utils"
+import { generateRandomString, waitServer } from "../../utils/utils"
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from "./domain/YT2MateInfoResponse"
 import ytdl from 'ytdl-core'
 import axios, { type AxiosResponse } from "axios"
@@ -59,26 +59,24 @@ export class YTDownloaderImpl {
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs="))?.url
 
-      console.log('12222222')
+      console.log(`exc 1 ${((Date.now()) - startTime) / 1000} seconds`)
+
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const concatenatedBuffer = concatenateUint8Arrays(chucks)
       const blob = new Blob([concatenatedBuffer], { type: 'audio/mp3' })
 
 
-      console.log('3333333333333333')
+      console.log(`exc 2 ${((Date.now()) - startTime) / 1000} seconds`)
 
       const formData = new FormData();
-      formData.append('file', blob, 'filename.mp3')
+      formData.append('file', blob, `${new Date().getTime()}_${generateRandomString(20)}.mp3`)
       formData.append('expires', "2")
 
-      console.log('4444444444444444')
+      console.log(`exc 3 ${((Date.now()) - startTime) / 1000} seconds`)
 
       const request = await axios.request({method: 'POST', maxBodyLength: Infinity, url: 'https://0x0.st', data : formData })
-
-      const endTime = Date.now();
-      const executionTime = endTime - startTime
-      console.log(`exc ${executionTime / 1000} seconds`)
+      console.log(`exc 4 ${((Date.now()) - startTime) / 1000} seconds`)
       return request.data
     } catch (error) {
       return null
