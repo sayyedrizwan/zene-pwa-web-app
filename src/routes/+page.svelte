@@ -42,13 +42,6 @@
 </svelte:head>
 
 {#if authKey != null}
-
-  <!-- <audio controls preload="auto">
-    <source src="/api/downloads" type="audio/ogg" />
-    <source src="/api/downloads" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio> -->
-
   <TopListeningSongs {authKey} />
   <RadioStateLists {authKey} {ipDetails} />
   <TopGlobalTrendingArtists {authKey} />

@@ -30,7 +30,7 @@ export const GET = (async (req: RequestEvent) => {
     if(url.includes("srvcdn7.2convert.me/dl?")){
        urlPoint = url.textAfterKeyword("srvcdn7.2convert.me/dl?hash=") ?? ""
        type = 0
-    } else if(url.includes("x0.at/")){
+    } else if(url.includes("x0.at")){
        urlPoint = url.textAfterKeyword("x0.at/")?.replaceAll(".mp3", "") ?? ""
        type = 1
     }
