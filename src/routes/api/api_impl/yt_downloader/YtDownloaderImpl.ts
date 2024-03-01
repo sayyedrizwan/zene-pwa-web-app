@@ -52,6 +52,8 @@ export class YTDownloaderImpl {
 
   async videoYTDownloader(videoId: string): Promise<string | null>  {
     try {
+      const startTime = Date.now()
+
       console.log(videoId)
       let info = await ytdl.getInfo(videoId)
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
@@ -73,6 +75,10 @@ export class YTDownloaderImpl {
       console.log('4444444444444444')
 
       const request = await axios.request({method: 'POST', maxBodyLength: Infinity, url: 'https://0x0.st', data : formData })
+
+      const endTime = Date.now();
+      const executionTime = endTime - startTime
+      console.log(`exc ${executionTime / 1000} seconds`)
       return request.data
     } catch (error) {
       return null
