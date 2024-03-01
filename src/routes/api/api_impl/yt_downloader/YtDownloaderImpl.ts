@@ -52,18 +52,25 @@ export class YTDownloaderImpl {
 
   async videoYTDownloader(videoId: string): Promise<string | null>  {
     try {
+      console.log(videoId)
       let info = await ytdl.getInfo(videoId)
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs="))?.url
 
+      console.log('12222222')
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const concatenatedBuffer = concatenateUint8Arrays(chucks)
       const blob = new Blob([concatenatedBuffer], { type: 'audio/mp3' })
 
+
+      console.log('3333333333333333')
+
       const formData = new FormData();
       formData.append('file', blob, 'filename.mp3')
       formData.append('expires', "2")
+
+      console.log('4444444444444444')
 
       const request = await axios.request({method: 'POST', maxBodyLength: Infinity, url: 'https://0x0.st', data : formData })
       return request.data
