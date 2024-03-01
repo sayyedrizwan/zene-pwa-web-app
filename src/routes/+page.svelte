@@ -44,8 +44,8 @@
 {#if authKey != null}
 
   <audio controls preload="auto">
-    <source src="http://localhost:3419/api/downloads" type="audio/ogg" />
-    <source src="http://localhost:3419/api/downloads" type="audio/mpeg" />
+    <source src="/api/downloads" type="audio/ogg" />
+    <source src="/api/downloads" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
 
