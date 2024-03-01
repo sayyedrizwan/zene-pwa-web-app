@@ -1,13 +1,14 @@
 import { yt2_downloader_convertor, yt2_downloader_task_convertor, yt2_mate_downloader_header, yt5s_ink_download_token, yt5s_ink_downloader, yt5s_ink_header, ytDownloaderY2mateDownload } from "./ytdownloaderutils"
 import { waitServer } from "../../utils/utils"
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from "./domain/YT2MateInfoResponse"
-import type { YT5sDownloadResponse } from "./domain/YT5sDownloadResponse"
-import axios from "axios"
+import ytdl from 'ytdl-core'
+import axios, { type AxiosResponse } from "axios"
 
 export class YTDownloaderImpl {
 
   async videoURL(videoId: string) {
-    // const path = this.videoYTDownloader(videoId)
+    const path = await this.videoYTDownloader(videoId)
+    if (path != null) return path
 
     try {
       const responseOther = await fetch(ytDownloaderY2mateDownload(videoId), { method: 'GET', headers: yt2_mate_downloader_header })
@@ -49,8 +50,81 @@ export class YTDownloaderImpl {
   }
 
 
-  async videoYTDownloader(videoId: string) {
-    
-    return ""
+  async videoYTDownloader(videoId: string): Promise<string | null>  {
+    try {
+      let info = await ytdl.getInfo(videoId)
+      let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
+      let url = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs="))?.url
+
+      const fileSize = await getFileSize(url!)
+      const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
+      const concatenatedBuffer = concatenateUint8Arrays(chucks)
+      const blob = new Blob([concatenatedBuffer], { type: 'audio/mp3' })
+
+      const formData = new FormData();
+      formData.append('file', blob, 'filename.mp3')
+      formData.append('expires', "2")
+
+      const request = await axios.request({method: 'POST', maxBodyLength: Infinity, url: 'https://0x0.st', data : formData })
+      return request.data
+    } catch (error) {
+      return null
+    }
   }
+
+}
+
+
+
+async function getFileSize(url: string): Promise<number | null> {
+  try {
+    const response = await axios.head(url)
+    const contentLength = response.headers['content-length']
+    return contentLength ? parseInt(contentLength, 10) : null
+  } catch (error) {
+    return null
+  }
+}
+
+
+async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: number): Promise<Uint8Array[]> {
+  const chunks: Uint8Array[] = []
+  let start = 0
+
+  let status = true
+
+  setTimeout(() => {
+    status = false
+  }, 5 * 1000)
+
+  while (status) {
+    const end = Math.min(start + chunkSize - 1, fileSize - 1)
+    const headers = { Range: `bytes=${start}-${end}` }
+    try {
+      const response: AxiosResponse<ArrayBuffer> = await axios.get(url, { responseType: 'arraybuffer', headers })
+
+      const chunk = new Uint8Array(response.data);
+      chunks.push(chunk);
+
+      if (end === fileSize - 1) break
+
+      start = end + 1
+    } catch (error) {
+      break
+    }
+  }
+  return chunks
+}
+
+function concatenateUint8Arrays(chunks: Uint8Array[]): Uint8Array {
+  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+  const result = new Uint8Array(totalLength);
+  let offset = 0;
+
+  chunks.forEach(chunk => {
+    result.set(chunk, offset);
+    offset += chunk.length;
+  });
+
+  return result;
 }

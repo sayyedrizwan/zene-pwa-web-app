@@ -26,10 +26,15 @@ export const GET = (async (req: RequestEvent) => {
     if (url === "") return json({})
     let urlPoint = ''
     let type = 0
+    console.log(url)
     if(url.includes("srvcdn7.2convert.me/dl?")){
        urlPoint = url.textAfterKeyword("srvcdn7.2convert.me/dl?hash=") ?? ""
        type = 0
+    } else if(url.includes("0x0.st/")){
+       urlPoint = url.textAfterKeyword("0x0.st/")?.replaceAll(".mp3", "") ?? ""
+       type = 1
     }
+
     return json(new DURLResponse(urlPoint, type))
   } catch (error) {
     return json({})

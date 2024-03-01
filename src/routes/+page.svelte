@@ -26,7 +26,6 @@
   let topSongsCountry: MusicData[] = []
 
   if (browser) {
-    console.log(data.id)
     authKey = window.atob(data.data)
     if (data.ip != undefined) ipDetails = JSON.parse(data.ip)
   }
@@ -44,11 +43,11 @@
 
 {#if authKey != null}
 
-  <audio controls preload="auto">
+  <!-- <audio controls preload="auto">
     <source src="/api/downloads" type="audio/ogg" />
     <source src="/api/downloads" type="audio/mpeg" />
     Your browser does not support the audio element.
-  </audio>
+  </audio> -->
 
   <TopListeningSongs {authKey} />
   <RadioStateLists {authKey} {ipDetails} />
