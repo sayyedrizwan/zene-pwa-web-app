@@ -9,7 +9,7 @@
 
   function shareAlbum() {
     const title = `${albumInfo?.name ?? 'Album'} Album on Zene`
-    shareATxt(title, window.location.href)
+    shareATxt(title, window.location.href, albumInfo.thumbnail)
   }
 </script>
 

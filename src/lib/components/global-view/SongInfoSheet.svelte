@@ -20,7 +20,7 @@
 
   function share() {
     const title = `${songMenuDialog?.name ?? ''} on Zene`
-    shareATxt(title, `https://zenemusic.co/s/${songMenuDialog!.songId!}`)
+    shareATxt(title, `https://zenemusic.co/s/${songMenuDialog!.songId!}`, songMenuDialog?.thumbnail)
   }
 </script>
 

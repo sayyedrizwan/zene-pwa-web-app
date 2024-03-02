@@ -1,9 +1,9 @@
 export class NotificationAlertsData {
-  img: string
   title: string
   desc: string
-
-  constructor(img: string, title: string, desc: string,) {
+  img: string
+  
+  constructor(title: string, desc: string, img: string) {
     this.img = img
     this.title = title
     this.desc = desc

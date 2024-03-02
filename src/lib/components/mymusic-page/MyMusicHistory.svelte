@@ -3,7 +3,7 @@
   import { getDataOnMusicData, type MusicHistoryData } from '../../../domain/local/entities/MusicHistoryData'
   import { wait } from '$lib/utils/indexd'
   import { getAllPlayHistory } from '$lib/utils/p/shistory'
-  import { openSongDialog, playSongZene } from '$lib/utils/f'
+  import { notificationAlertListener, openSongDialog, playSongZene } from '$lib/utils/f'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
   import ArrowLeft from '$lib/assets/img/ic_arrow_left.svg'
 
@@ -20,7 +20,7 @@
       if (data.length < limit) isLoadingMoreBtn = false
       else isLoadingMoreBtn = true
     } catch (error) {
-      alert('Error Reading the songs history')
+      notificationAlertListener('Error reading your songs history.', 'Please refresh the page or try clearing Zene website cache or data.', null)
     }
   }
 

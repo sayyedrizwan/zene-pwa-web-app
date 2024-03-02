@@ -17,7 +17,10 @@
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
   import { setUpForegroundFCM } from '$lib/firebase/firebase'
   import type { DURLResponse } from '../domain/local/entities/DURLResponse'
-    import AlertDialog from '$lib/components/global-view/AlertDialog.svelte'
+  import AlertDialog from '$lib/components/global-view/AlertDialog.svelte'
+  import type { NotificationAlertsData } from '../domain/local/entities/NotificationAlertsData'
+  import { wait } from '$lib/utils/indexd'
+    import { notificationAlertListener } from '$lib/utils/f'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -28,12 +31,25 @@
 
   let songPlayer: Boolean = false
 
+  let notificationAlert: NotificationAlertsData | null = null
+
   onMount(async () => {
     audioPlayer = new APManager()
     audioPlayer.init()
 
     document.addEventListener('songplayer', async (event: Event) => {
       songPlayer = (event as CustomEvent).detail.value as Boolean
+    })
+
+    document.addEventListener('notificationalert', async (event: Event) => {
+      const notification = (event as CustomEvent).detail.value as NotificationAlertsData
+      if (notification?.title == notificationAlert?.title && notification?.desc == notificationAlert?.desc && notification?.desc == notificationAlert?.desc) return
+
+      if (notificationAlert != null) {
+        notificationAlert = null
+        await wait(500)
+      }
+      notificationAlert = notification
     })
 
     document.addEventListener('playsongid', async (event: Event) => {
@@ -44,7 +60,7 @@
         const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000 })
         audioPlayer.playMusic(response.data as DURLResponse, song)
       } catch (error) {
-        alert('Error loading song. Please try again later.')
+        notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }
     })
     document.addEventListener('songdialog', (event: Event) => {
@@ -80,4 +96,6 @@
 
 <NoInternetDialog />
 
-<!-- <AlertDialog /> -->
+{#if notificationAlert != null}
+  <AlertDialog bind:notificationAlert />
+{/if}

@@ -1,5 +1,6 @@
 import { MusicType, type MusicData } from '../../domain/local/entities/MusicData'
 import { MusicPlayerData } from '../../domain/local/entities/MusicPlayerData'
+import { NotificationAlertsData } from '../../domain/local/entities/NotificationAlertsData'
 import { DataIndexDS, indexDB, musicPlayerInfoCache } from './indexd'
 import { setSuggestRelatedSongId } from './pid'
 
@@ -28,6 +29,14 @@ export function playSongZene(song: MusicData | null) {
 }
 
 
+export function notificationAlertListener(title: string, desc: string, img: string | null) {
+  const customEvent = new CustomEvent('notificationalert', {
+    detail: { value: new NotificationAlertsData(title, desc, img ?? '/logo512.png') }
+  })
+  document.dispatchEvent(customEvent)
+}
+
+
 export function showMusicPlayer(v: Boolean) {
   const customEvent = new CustomEvent('songplayer', {
     detail: { value: v },
@@ -35,7 +44,7 @@ export function showMusicPlayer(v: Boolean) {
   document.dispatchEvent(customEvent)
 }
 
-export async function shareATxt(title: string, url: string) {
+export async function shareATxt(title: string, url: string, img: string | null = null) {
   const sharedDataSample = {
     title: title,
     text: title,
@@ -45,7 +54,7 @@ export async function shareATxt(title: string, url: string) {
     await navigator.share(sharedDataSample)
   } catch (e) {
     await navigator.clipboard.writeText(url)
-    alert('Share link copied successfully..')
+    notificationAlertListener('Linked copied.', 'Sharing link copied successfully..', img)
   }
 }
 

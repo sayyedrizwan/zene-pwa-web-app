@@ -9,7 +9,8 @@
   import UnPinIcon from '$lib/assets/img/ic_unpin.svg'
   import AirdropIcon from '$lib/assets/img/ic_airdrop.svg'
   import ShareIcon from '$lib/assets/img/ic_share.svg'
-  import { playSongZene, shareATxt } from '$lib/utils/f'
+  import RadioImg from '$lib/assets/img/radio_img.png'
+  import { notificationAlertListener, playSongZene, shareATxt } from '$lib/utils/f'
   import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
   import { checkPinExistsWithIndex, deletePin, insertPin } from '$lib/utils/p/pin'
   import { ArtistsPinData } from '../../../domain/local/entities/ArtistsPinData'
@@ -59,12 +60,12 @@
 
   function shareArtists() {
     const title = `${artistsInfo?.name ?? 'Artists'} on Zene`
-    shareATxt(title, window.location.href)
+    shareATxt(title, window.location.href, artistsInfo.image)
   }
 
   function startPlayingRadio() {
     if (radioId === null) {
-      alert('No Radio Found')
+      notificationAlertListener('Error playing radio.', 'Try again later or please select any other radio to play.', RadioImg)
       return
     }
     

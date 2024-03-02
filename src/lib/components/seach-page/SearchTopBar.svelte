@@ -6,6 +6,7 @@
   import { env } from '$env/dynamic/public'
   import SEARCH from '$lib/assets/img/ic_search.svg'
   import ARROW_UP_RIGHT from '$lib/assets/img/ic_arrow_up_right.svg'
+  import { notificationAlertListener } from '$lib/utils/f'
 
   export let searchParam: string
   let voiceSearchTranscript = ''
@@ -68,7 +69,7 @@
       }
 
       recognition.start()
-    } else alert('Speech recognition not supported in this browser')
+    } else notificationAlertListener('Browser not supported.', 'Speech recognition not supported in this browser.', MIC)
   }
 
   function forceStopListening(recognition: SpeechRecognition) {
@@ -112,10 +113,10 @@
 
       <img src={MIC} alt="mic" class="size-15 mt-6 bg-white p-3 rounded-full animate-ping" />
 
-      {#if voiceSearchTranscript === ""}
-      <p class="urbanist-light text-white pb-12 pt-6">please speak</p>
+      {#if voiceSearchTranscript === ''}
+        <p class="urbanist-light text-white pb-12 pt-6">please speak</p>
       {:else}
-      <p class="urbanist-light text-white pb-12 pt-6">{voiceSearchTranscript}</p>
+        <p class="urbanist-light text-white pb-12 pt-6">{voiceSearchTranscript}</p>
       {/if}
     </div>
   {/if}
