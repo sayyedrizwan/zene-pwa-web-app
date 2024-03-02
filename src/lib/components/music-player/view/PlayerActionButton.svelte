@@ -6,15 +6,20 @@
   import RepeatIcon from '$lib/assets/img/ic_repeat.svg'
   import LoopIcon from '$lib/assets/img/ic_loop.svg'
   import DownloadIcon from '$lib/assets/img/ic_download.svg'
+
+  async function loadVideo() {
+    
+  }
+
 </script>
 
 <div class="overflow-x-auto flex mt-9 scrollbar-hide mb-9">
-    <RoundCardsIconsButton img={IconFilmIcon} title={'Switch to Video'} />
-    <RoundCardsIconsButton img={CaptionIcon} title={'Switch to Lyrics Video'} />
-    <RoundCardsIconsButton img={RepeatIcon} title={'Play in Loop'} />
-    <RoundCardsIconsButton img={LoopIcon} title={'Autoplay is on'} />
-    <RoundCardsIconsButton img={ShareIcon} title={'Share'} />
-    <RoundCardsIconsButton img={DownloadIcon} title={'Offline Download'} />
+    <RoundCardsIconsButton img={IconFilmIcon} title={'Switch to Video'} functions={loadVideo}/>
+    <RoundCardsIconsButton img={CaptionIcon} title={'Switch to Lyrics Video'} functions={loadVideo}/>
+    <RoundCardsIconsButton img={RepeatIcon} title={'Play in Loop'} functions={loadVideo}/>
+    <RoundCardsIconsButton img={LoopIcon} title={'Autoplay is on'} functions={loadVideo}/>
+    <RoundCardsIconsButton img={ShareIcon} title={'Share'} functions={loadVideo}/>
+    <RoundCardsIconsButton img={DownloadIcon} title={'Offline Download'} functions={loadVideo}/>
 </div>
 
 <!-- // switch to video
