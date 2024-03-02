@@ -34,7 +34,6 @@
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
       {#each response?.data?.results ?? [] as item}
         <CardsWithFullColor {item}/>
-        <!-- <CardWithTopMenuIcon {musicData} /> -->
       {/each}
     </div>
   {/if}

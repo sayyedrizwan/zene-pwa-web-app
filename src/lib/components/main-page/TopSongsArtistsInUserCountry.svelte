@@ -66,7 +66,7 @@
   {:else if responseSongs.type == ResponseDataEnum.SUCCESS}
     {#if responseSongs.data.results?.length ?? 0 > 0}
       <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Top Songs in {ipDetails?.country ?? 'your country'}</h3>
-      <GridFullCardItem results={responseSongs.data} />
+      <GridFullCardItem results={responseSongs.data} bg={"bg-maincolor"}/>
     {/if}
   {/if}
 </div>
