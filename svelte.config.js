@@ -2,6 +2,7 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { generateSW } from './pwa.mjs'
 // import adapter from '@sveltejs/adapter-netlify'
 import adapter from '@sveltejs/adapter-auto'
+import cspDirectives from './csp-directives.mjs'
 
 const config = {
   preprocess: vitePreprocess(),
@@ -12,8 +13,8 @@ const config = {
     },
     adapter: adapter(),
     csp: {
-      mode: "hash",
-      directives: { "script-src": ["self"] },
+      mode: 'hash',
+      directives: cspDirectives,
     },
     serviceWorker: {
       register: false
