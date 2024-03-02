@@ -8,7 +8,7 @@ const cspDirectives = {
     'font-src': ["'self'", 'data:', 'https://*.cloudflare.com'],
     'form-action': ["'self'"],
     'frame-ancestors': ["'self'"],
-    'frame-src': ["'self'"],
+    'frame-src': ["'self'", 'https://www.youtube.com/'],
     'manifest-src': ["'self'"],
     'media-src': ["'self'", 'data:', '*'],
     'object-src': ["'none'"],

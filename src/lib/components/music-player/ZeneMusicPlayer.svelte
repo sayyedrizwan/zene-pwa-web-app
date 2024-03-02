@@ -1,7 +1,7 @@
 <script lang="ts">
   import ARROW_DOWN from '$lib/assets/img/ic_arrow_down.svg'
   import { onDestroy, onMount } from 'svelte'
-  import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
+  import { MusicPlayerPlayingStatus, type MusicPlayerData, type ResponseMusicPlayerPlayingStatus } from '../../../domain/local/entities/MusicPlayerData'
   import { DataIndexDS, indexDB, musicPlayerInfoCache, wait } from '$lib/utils/indexd'
   import MusicRecordsLists from './view/MusicRecordsLists.svelte'
   import PlayinSongsDurationAction from './view/PlayingSongsDurationAction.svelte'
@@ -22,6 +22,8 @@
 
   let musicData: MusicPlayerData | null = null
   let interval: NodeJS.Timeout | null = null
+
+  let musicPlayerPlayingStatus : ResponseMusicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.SONG, data: "" }
 
   function closePlayer() {
     const backBg = document.getElementById('playerBackBg') as HTMLElement
@@ -76,7 +78,7 @@
       <div class="mt-20" />
       <MusicRecordsLists bind:musicData />
       <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
-      <PlayerActionButton />
+      <PlayerActionButton bind:musicPlayerPlayingStatus/>
       <MusicRelatedSongs bind:musicData />
     </div>
 
