@@ -15,7 +15,7 @@ export const GET = (async (req: RequestEvent) => {
   const ytImpl = new YtAPIImpl()
 
   try {
-    const vId = await ytImpl.searchArtistsVideo(`${name} official music video`)
+    const vId = await ytImpl.searchVideo(`${name} official music video`)
     return new Response(vId[0].songId!)  
   }catch (error) {
     return new Response("")

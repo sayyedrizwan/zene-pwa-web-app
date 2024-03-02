@@ -14,7 +14,7 @@ export async function POST(events: RequestEvent) {
   const ytImpl = new YtAPIImpl()
  
   try {
-    const videos = await ytImpl.searchArtistsVideo(`${name} songs playlist`)
+    const videos = await ytImpl.searchVideo(`${name} songs playlist`)
     const id =  getRandomItem(videos)
 
     if(id == undefined) return new Response("")

@@ -7,7 +7,7 @@ import { JSDOM } from 'jsdom'
 
 export class YtAPIImpl {
 
-    async searchArtistsVideo(search: string): Promise<MusicData[]> {
+    async searchVideo(search: string): Promise<MusicData[]> {
         const list: MusicData[] = []
         const r = await fetch(yt_video_search, { method: 'POST', headers: ytHeader, body: ytBodyWithQuery(search) })
         const response = (await r.json()) as YtSearchVideoResponse

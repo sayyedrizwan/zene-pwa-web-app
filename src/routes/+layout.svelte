@@ -17,6 +17,7 @@
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
   import { setUpForegroundFCM } from '$lib/firebase/firebase'
   import type { DURLResponse } from '../domain/local/entities/DURLResponse'
+    import AlertDialog from '$lib/components/global-view/AlertDialog.svelte'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -78,3 +79,5 @@
 {/if}
 
 <NoInternetDialog />
+
+<!-- <AlertDialog /> -->

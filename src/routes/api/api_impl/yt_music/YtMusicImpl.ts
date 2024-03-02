@@ -110,9 +110,7 @@ export class YtMusicAPIImpl {
     const artists = response?.videoDetails?.author?.replaceAll("and", "&")
     const songId = response?.videoDetails?.videoId
     const thumbnail = response?.videoDetails?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
-
-
-
+    
     return name != undefined && songId != undefined ? new MusicData(name, artists ?? "", btoa(songId).replaceLastChar("=", ""), thumbnail ?? "", MusicType.MUSIC) : null
   }
 

@@ -59,6 +59,8 @@
     totalDuration = audioPlayer.songDuration()
     isPlaying = audioPlayer.isPlaying()
     isBuffering = audioPlayer?.isBuffering() ?? false
+
+    if(musicPlayerPlayingStatus.type != MusicPlayerPlayingStatus.SONG) audioPlayer.pause()
   }
 
   onMount(async () => {
@@ -70,15 +72,20 @@
   onDestroy(() => {
     if (interval != null) clearInterval(interval)
   })
+
+  function toMusicFunction() {
+    musicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.SONG, data: "" }
+    audioPlayer.play()
+  }
 </script>
 
 <div id="playerBackBg" class="fixed top-0 left-0 right-0 h-full w-full z-[1000] bg-black bg-opacity-70 p-7 animate__animated animate__fadeIn">
   <div id="playerMainBg" class="fixed top-0 left-0 right-0 h-full w-full animate__animated animate__fadeInUp animate__slow">
     <div class="absolute top-0 left-0 h-full w-full bg-maincolor overflow-auto">
       <div class="mt-20" />
-      <MusicRecordsLists bind:musicData />
+      <MusicRecordsLists bind:musicData bind:musicPlayerPlayingStatus/>
       <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
-      <PlayerActionButton bind:musicPlayerPlayingStatus/>
+      <PlayerActionButton bind:musicData bind:musicPlayerPlayingStatus {toMusicFunction}/>
       <MusicRelatedSongs bind:musicData />
     </div>
 

@@ -16,7 +16,7 @@ export class MusicPlayerData {
   }
 }
 
-export type ResponseMusicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.SONG, data: "" } | { type: MusicPlayerPlayingStatus.VIDEO, data: "" } | { type: MusicPlayerPlayingStatus.LYRICS_VIDEO, data: "" }
+export type ResponseMusicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.SONG, data: string } | { type: MusicPlayerPlayingStatus.VIDEO, data: string } | { type: MusicPlayerPlayingStatus.LYRICS_VIDEO, data: string }
 
 export enum MusicPlayerPlayingStatus {
   SONG, VIDEO, LYRICS_VIDEO
