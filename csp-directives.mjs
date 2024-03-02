@@ -3,7 +3,7 @@ const rootDomain = "zenemusic.co"
 const cspDirectives = {
     'base-uri': ["'self'"],
     'child-src': ["'self'"],
-    'connect-src': ["'self'", 'ws://localhost:*', 'https://*.googleapis.com', 'https://www.google-analytics.com'],
+    'connect-src': ["'self'", 'ws://localhost:*', 'https://*.googleapis.com', 'https://www.google-analytics.com', 'https://*.sentry.io/'],
     'img-src': ["'self'", 'data:', '*'],
     'font-src': ["'self'", 'data:', 'https://cdnjs.cloudflare.com'],
     'form-action': ["'self'"],
