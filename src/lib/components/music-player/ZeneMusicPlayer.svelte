@@ -9,6 +9,7 @@
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
+    import PlayerActionButton from './view/PlayerActionButton.svelte'
 
   export let songPlayer: Boolean
   export let audioPlayer: APManager
@@ -74,6 +75,7 @@
       <div class="mt-20" />
       <MusicRecordsLists bind:musicData />
       <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
+      <PlayerActionButton />
     </div>
 
     <div class="relative bg-maincolor w-full">
