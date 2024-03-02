@@ -16,7 +16,7 @@
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
   import { setUpForegroundFCM } from '$lib/firebase/firebase'
-    import type { DURLResponse } from '../domain/local/entities/DURLResponse'
+  import type { DURLResponse } from '../domain/local/entities/DURLResponse'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -28,8 +28,15 @@
   let songPlayer: Boolean = false
 
   onMount(async () => {
+    if (window.parent && window.parent.location.hostname !== 'www.abc.com') {
+        window.location.href = "https://www.google.com";
+      // throw new Error()
+    }
+
     audioPlayer = new APManager()
     audioPlayer.init()
+
+    document.cookie = 'foo=;domain=music.youtube.com/;expires=Sat, 01-Jan-2029 00:00:00 GMT'
 
     document.addEventListener('songplayer', async (event: Event) => {
       songPlayer = (event as CustomEvent).detail.value as Boolean
