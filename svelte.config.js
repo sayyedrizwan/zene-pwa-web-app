@@ -10,6 +10,9 @@ const config = {
     env: {
       dir: './',
     },
+    csp: {
+      frameAncestors: false,
+    },
     adapter: adapter(),
     serviceWorker: {
       register: false
