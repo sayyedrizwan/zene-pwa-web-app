@@ -1,8 +1,10 @@
 import { MusicType, type MusicData } from '../../domain/local/entities/MusicData'
 import { MusicPlayerData } from '../../domain/local/entities/MusicPlayerData'
 import { DataIndexDS, indexDB, musicPlayerInfoCache } from './indexd'
+import { setSuggestRelatedSongId } from './pid'
 
 export function openSongDialog(musicInfo: MusicData | null) {
+  setSuggestRelatedSongId('', null)
   const customEvent = new CustomEvent('songdialog', {
     detail: { value: musicInfo },
   })
