@@ -4,7 +4,7 @@
   import type { MusicDataList } from '../../../../domain/local/entities/MusicData'
 
   export let results: MusicDataList
-  export let bg: string
+  export let bg: string = "bg-maincolor"
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-white text-sm text-center font-bold leading-6 bg-stripes-fuchsia rounded-lg">
