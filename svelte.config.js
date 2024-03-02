@@ -10,10 +10,11 @@ const config = {
     env: {
       dir: './',
     },
-    csp: {
-      frameAncestors: false,
-    },
     adapter: adapter(),
+    csp: {
+      mode: "hash",
+      directives: { "script-src": ["self"] },
+    },
     serviceWorker: {
       register: false
     },
