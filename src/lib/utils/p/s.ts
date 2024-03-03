@@ -117,6 +117,8 @@ export class APManager implements AudioPlayer {
     stop()
     const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://x0.at/${path?.u}.mp3` : ``
 
+    console.log(url)
+
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'

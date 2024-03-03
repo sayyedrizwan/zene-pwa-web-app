@@ -59,7 +59,7 @@ export class YTDownloaderImpl {
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       // const concatenatedBuffer = concatenateUint8Arrays(chucks)
-      const blob = new Blob(chucks, { type: 'audio/mp3' })
+      const blob = new Blob(chucks, { type: 'audio/mpeg' })
 
       const formData = new FormData();
       formData.append('file', blob, `${new Date().getTime()}_${generateRandomString(20)}.mp3`)
