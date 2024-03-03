@@ -4,6 +4,7 @@ import { insertMusicHistory } from './shistory'
 import { DataIndexDS, indexDB, musicPlayerInfoCache, wait } from '../indexd'
 import { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
 import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
+import { getCookie } from '../c'
 
 
 interface AudioPlayer {
@@ -61,11 +62,25 @@ export class APManager implements AudioPlayer {
     this.audioElement.onplay = () => this.buffering = false
     this.videoElement.onplay = () => this.buffering = false
 
+
+    this.audioElement.onended = () => {
+      if (getCookie('should_loop') == 'should') {
+        try {
+          this.audioElement?.pause()
+          this.audioElement!.currentTime = 0
+          this.audioElement?.play()
+        } catch (error) {
+          console.log(error)
+          error
+        }
+      }
+    }
+
     this.audioElement.oncanplaythrough = () => {
       this.audioElement!.play()
 
       if (this.music != undefined) insertMusicHistory(this.music, window)
-      
+
 
       if (this.audioElement?.paused) {
         const event = new Event('click')
@@ -106,7 +121,7 @@ export class APManager implements AudioPlayer {
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'
     this.buffering = true
-   
+
     if (music.type == MusicType.RADIO) {
       if (url.includes(".m3u8") === true) {
         if (Hls.isSupported()) {

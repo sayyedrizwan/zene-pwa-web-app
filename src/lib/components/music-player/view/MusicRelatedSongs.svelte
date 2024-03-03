@@ -22,7 +22,6 @@
       return
     }
     songs = { type: ResponseDataEnum.LOADING }
-
     try {
       const res = await axios.post(env.PUBLIC_S_Y_M_L_P, [musicData?.m.songId], { timeout: 60000 })
       const data = (await res.data) as SongsYouMayLike
