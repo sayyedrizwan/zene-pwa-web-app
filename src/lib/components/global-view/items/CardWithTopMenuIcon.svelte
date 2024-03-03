@@ -4,9 +4,10 @@
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
 
   export let musicData: MusicData
+  export let list: MusicData[]
 </script>
 
-<button class="p-2 rounded-lg shadow-lg cursor-pointer" on:click|stopPropagation={() => playSongZene(musicData)}>
+<button class="p-2 rounded-lg shadow-lg cursor-pointer" on:click|stopPropagation={() => playSongZene(musicData, list)}>
   <div class="relative cursor-pointer">
     <img src={musicData.thumbnail} alt={musicData.name} class="w-96 rounded-lg object-cover" />
     <div class="absolute top-0 left-0 w-full h-full rounded-lg bg-gradient-to-bl from-maincolor to-transparent"></div>

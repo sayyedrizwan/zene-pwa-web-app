@@ -14,7 +14,7 @@
   }
 
   function play() {
-    playSongZene(songMenuDialog)
+    playSongZene(songMenuDialog, null)
     songMenuDialog = null
   }
 

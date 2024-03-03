@@ -59,7 +59,7 @@
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Fresh Added Songs</h3>
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2 overflow-y-hidden">
       {#each response.data.results ?? [] as item}
-        <button class="p-2" on:click|stopPropagation={() => playSongZene(item)}>
+        <button class="p-2" on:click|stopPropagation={() => playSongZene(item, response.type == ResponseDataEnum.SUCCESS ? response.data.results : null)}>
           <div class="w-80 h-[11rem] rounded-lg bg-lightblack flex">
             <div class="relative w-3/4 h-[11rem]">
               <p class={`text-white urbanist-semibold text-start ${String(item?.name).length > 15 ? 'text-sm' : 'text-2xl'} m-3`}>{item?.name}</p>

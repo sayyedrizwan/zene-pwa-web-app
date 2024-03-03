@@ -4,10 +4,11 @@
   import PlayIcon from '$lib/assets/img/ic_play.svg'
   import MenuIcon from '$lib/assets/img/ic_menu.svg'
   import { type ResponseData, ResponseDataEnum } from '../../../domain/RequestEnumClass'
-  import type { TopSongsMusicResults } from '../../../domain/local/entities/TopSongsMusic'
+  import type { TopSongsMusic, TopSongsMusicResults } from '../../../domain/local/entities/TopSongsMusic'
   import { openSongDialog, playSongZene } from '$lib/utils/f'
   import { DataIndexDS, indexDB, isAPICached, topSongTableCache } from '$lib/utils/indexd'
   import axios from 'axios'
+    import { MusicData } from '../../../domain/local/entities/MusicData'
 
   export let authKey: string
 
@@ -44,6 +45,10 @@
   onMount(async () => {
     topSongs()
   })
+
+  function convertToMusicData(list: TopSongsMusic[] | undefined): MusicData[] {
+    return list?.map((s) => s.music!) ?? []
+  }
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING}
@@ -64,7 +69,7 @@
       {#each response?.data?.music ?? [] as item (item?.music?.songId)}
         <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
           <div class="flex flex-col items-center justify-center gap-2 cursor-pointer">
-            <button class="relative w-[16rem] h-[22rem] bg-black rounded-lg" on:click|stopPropagation={() => playSongZene(item.music)}>
+            <button class="relative w-[16rem] h-[22rem] bg-black rounded-lg" on:click|stopPropagation={() => playSongZene(item.music, response.type == ResponseDataEnum.SUCCESS ? convertToMusicData(response?.data?.music) : null)}>
               <img src={item?.artistsImg} alt={item.music?.artists} class="absolute top-0 left-0 w-full h-full object-cover rounded-lg" referrerpolicy="no-referrer" />
               <div class="absolute top-0 left-0 w-full h-full rounded-lg bg-opacity-60 md:bg-opacity-30 bg-maincolor hover-animation" />
               <div class="absolute top-0 left-0 w-full h-full rounded-lg md:bg-opacity-10 md:bg-maincolor md:hover:bg-opacity-50 hover-animation">

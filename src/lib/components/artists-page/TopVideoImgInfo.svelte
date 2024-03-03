@@ -70,7 +70,7 @@
     }
     
     const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? '', window.atob(radioId), artistsInfo.image ?? '', MusicType.MUSIC)
-    playSongZene(m)
+    playSongZene(m, null)
   }
 
   async function addRmPin(d: Boolean) {

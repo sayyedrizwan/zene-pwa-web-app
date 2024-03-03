@@ -1,9 +1,24 @@
 <script lang="ts">
+    import { deepListCompare } from '$lib/utils/Utils'
   import { artistsSplitToHTMLString } from '$lib/utils/f'
+  import type { MusicData } from '../../../../domain/local/entities/MusicData'
   import { MusicPlayerPlayingStatus, type MusicPlayerData, type ResponseMusicPlayerPlayingStatus } from '../../../../domain/local/entities/MusicPlayerData'
 
   export let musicData: MusicPlayerData | null
   export let musicPlayerPlayingStatus: ResponseMusicPlayerPlayingStatus
+
+  let tempMusicDataList: MusicData[] = []
+
+  function listsChanges() {
+    if (deepListCompare(tempMusicDataList, (musicData?.lists ?? []))) return
+    tempMusicDataList = musicData?.lists ?? []
+
+    musicData?.lists.forEach((s) => {
+      // console.log(s.name)
+    })
+  }
+
+  $: musicData?.lists, listsChanges()
 </script>
 
 <div class="w-full flex justify-center items-center mt-32">

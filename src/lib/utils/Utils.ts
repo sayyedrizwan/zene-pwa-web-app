@@ -71,3 +71,22 @@ export function formatRelativeTime(dateString: string): string {
 export function getFavIcon(url: String): string {
   return `https://icon.horse/icon/${url.replaceAll("https://", "")}`
 }
+
+
+export function deepListCompare(list1: any[], list2: any[]): boolean {
+  if (list1.length !== list2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < list1.length; i++) {
+    if (typeof list1[i] === 'object' && typeof list2[i] === 'object') {
+     return deepListCompare(list1[i], list2[i]);
+    } else {
+      if (list1[i] !== list2[i]) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}

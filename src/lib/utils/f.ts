@@ -12,11 +12,11 @@ export function openSongDialog(musicInfo: MusicData | null) {
   document.dispatchEvent(customEvent)
 }
 
-export function playSongZene(song: MusicData | null) {
+export function playSongZene(song: MusicData | null, list: MusicData[] | null | undefined) {
   if (song == null) return
   const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
   cacheDB.deleteAllRecords()
-  let m = new MusicPlayerData([], song, 0, 0, MusicType.MUSIC)
+  let m = new MusicPlayerData(list ?? [song], song, 0, 0, MusicType.MUSIC)
   cacheDB.saveToIndexedDB(m)
 
 

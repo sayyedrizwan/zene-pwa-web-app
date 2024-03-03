@@ -94,7 +94,7 @@
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg px-4">
       {#each selectedLists as musicData}
         {#if musicData.songId != null}
-          <CardWithTopMenuIcon {musicData} />
+          <CardWithTopMenuIcon {musicData} list={selectedLists}/>
         {/if}
       {/each}
     </div>

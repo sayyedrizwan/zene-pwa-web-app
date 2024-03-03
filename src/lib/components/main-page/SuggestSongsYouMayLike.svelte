@@ -90,7 +90,7 @@
       {#each splitArrayIntoChunks(response.data.like, 2) as topItem}
         <div>
           {#each topItem as item}
-            <button class="p-3 cursor-pointer" on:click|stopPropagation={() => playSongZene(item)}>
+            <button class="p-3 cursor-pointer" on:click|stopPropagation={() => playSongZene(item, response.type == ResponseDataEnum.SUCCESS ? response.data.like ?? null : null)}>
               <div class="relative size-[13rem] md:size-[15rem] bg-black rounded-lg">
                 <img class="absolute top-0 left-0 size-[13rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
                 <div class="absolute top-0 left-0 size-[13rem] md:size-[15rem] bg-maincolor rounded-lg bg-opacity-50"></div>

@@ -32,7 +32,7 @@
 
 {#if items.length > 0}
   {#each items as history}
-    <button on:click|stopPropagation={() => playSongZene(getDataOnMusicData(history))}>
+    <button on:click|stopPropagation={() => playSongZene(getDataOnMusicData(history), null)}>
       <div class="flex-none px-1 first:pl-5 last:pr-5 overflow-y-hidden">
         <div class="flex flex-col items-center justify-center gap-2 cursor-pointer">
           <div class={`relative w-[16rem] h-[17rem] bg-maincolor rounded-lg p-3`}>

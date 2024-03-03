@@ -13,7 +13,7 @@
   {#each splitArrayIntoChunks(youMayLike?.listen ?? [], 4) as topItem}
     <div class="flex overflow-x-auto w-full scrollbar-hide gap-4 mt-5">
       {#each topItem as musicData}
-        <button class="p-2 rounded-lg shadow-lg cursor-pointer w-56 md:w-96 mb-8"  on:click|stopPropagation={() => playSongZene(musicData)}>
+        <button class="p-2 rounded-lg shadow-lg cursor-pointer w-56 md:w-96 mb-8"  on:click|stopPropagation={() => playSongZene(musicData, youMayLike?.listen ?? null)}>
           <div class="relative bottom-2 left-2 w-56 md:w-96">
             <img src={musicData.thumbnail} alt={musicData.name} class="size-56 md:size-96 rounded-lg object-cover" />
             <div class="absolute top-0 left-0 w-full h-full rounded-lg bg-gradient-to-bl from-maincolor to-transparent"></div>

@@ -33,7 +33,7 @@
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-28 text-start">Top Songs</h3>
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
       {#each response?.data?.results ?? [] as item}
-        <CardsWithFullColor {item}/>
+        <CardsWithFullColor {item} list={response.data?.results ?? [item]}/>
       {/each}
     </div>
   {/if}

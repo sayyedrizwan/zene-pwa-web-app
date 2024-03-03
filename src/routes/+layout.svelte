@@ -54,6 +54,7 @@
 
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
+      audioPlayer.startBuffering()
       audioPlayer.stop()
       try {
         audioPlayer.startBuffering()
@@ -63,6 +64,7 @@
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }
     })
+    
     document.addEventListener('songdialog', (event: Event) => {
       songMenuDialog = (event as CustomEvent).detail.value
     })

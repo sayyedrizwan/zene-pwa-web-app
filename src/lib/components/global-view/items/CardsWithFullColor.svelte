@@ -4,9 +4,10 @@
   import type { MusicData } from '../../../../domain/local/entities/MusicData'
 
   export let item: MusicData
+  export let list: MusicData[]
 </script>
 
-<button class="p-3 cursor-pointer" on:click|stopPropagation={() => playSongZene(item)}>
+<button class="p-3 cursor-pointer" on:click|stopPropagation={() => playSongZene(item, list)}>
   <div class="relative size-[13rem] md:size-[15rem] bg-black rounded-lg">
     <img class="absolute top-0 left-0 size-[13rem] md:size-[15rem] object-contain rounded-lg" src={item.thumbnail} alt={item.name} referrerpolicy="no-referrer" />
     <div class="absolute top-0 left-0 size-[13rem] md:size-[15rem] bg-maincolor rounded-lg bg-opacity-50"></div>

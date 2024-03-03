@@ -6,7 +6,7 @@
   export let musicData: MusicData
 </script>
 
-<button on:click|stopPropagation={() => playSongZene(musicData)}>
+<button on:click|stopPropagation={() => playSongZene(musicData, null)}>
   <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
     <div class="flex flex-col items-center justify-center gap-2 cursor-pointer">
       <div class={`relative w-[16rem] h-[14rem] bg-maincolor rounded-lg p-3`}>

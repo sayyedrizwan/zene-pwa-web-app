@@ -12,7 +12,7 @@
   export let authKey: string
   export let topSongsCountry: MusicData[]
 
-  let response: ResponseData<MusicData[][] | null> = { type: ResponseDataEnum.EMPTY }
+  let response: ResponseData<MusicData[] | null> = { type: ResponseDataEnum.EMPTY }
 
   async function topGlobalSongs() {
     response = { type: ResponseDataEnum.LOADING }
@@ -26,7 +26,7 @@
           const records = cacheRecords[0] as MusicDataList
           if (records.results?.length ?? 0 > 0) {
             topSongsCountry = records?.results ?? []
-            response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(records?.results ?? [], 3) }
+            response = { type: ResponseDataEnum.SUCCESS, data: records?.results ?? [] }
             return
           }
         }
@@ -34,7 +34,7 @@
       const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicDataList
       topSongsCountry = data?.results ?? []
-      response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data?.results ?? [], 3) }
+      response = { type: ResponseDataEnum.SUCCESS, data: data?.results ?? []}
       localStorage.setItem(`t_s_l`, Date.now().toString())
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)
@@ -62,10 +62,10 @@
   {#if response.data?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Global top trending songs</h3>
     <div class="flex overflow-x-auto w-full scrollbar-hide mt-2">
-      {#each response?.data ?? [] as item}
+      {#each splitArrayIntoChunks(response?.data ?? [], 3) as item}
         <div>
           {#each item as songs}
-            <button class="p-2" on:click|stopPropagation={() => playSongZene(songs)}>
+            <button class="p-2" on:click|stopPropagation={() => playSongZene(songs, response.type == ResponseDataEnum.SUCCESS ? response?.data ?? null : null)}>
               <div class="w-80 h-[8rem] rounded-xl bg-lightblack flex justify-center items-center">
                 <img src={songs?.thumbnail} alt={songs?.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
                 <div class="w-full m-3">

@@ -11,11 +11,11 @@
   import { ResponseDataEnum, type ResponseData } from '../../../../domain/RequestEnumClass'
 
   export let musicData: MusicPlayerData | null
+  export let scrollMusicToTop: () => void
 
   let songs: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
 
-  onMount(async () => {
-    await wait(1000)
+  async function s() {
     const l = songs.type == ResponseDataEnum.SUCCESS ? getSuggestRelatedSongId(musicData?.m.songId ?? '', songs.data) : null
     if (l != null) {
       songs = { type: ResponseDataEnum.SUCCESS, data: l }
@@ -30,6 +30,17 @@
     } catch (error) {
       songs = { type: ResponseDataEnum.ERROR }
     }
+  }
+
+  onMount(async () => {
+    document.addEventListener('playsongid', async (event: Event) => {
+      scrollMusicToTop()
+      await wait(1000)
+      s()
+    })
+    
+    await wait(1000)
+    s()
   })
 </script>
 
@@ -40,7 +51,7 @@
     <GridFullCardItem results={songs?.data} bg={'bg-black'} />
   {/if}
 {:else if songs.type == ResponseDataEnum.LOADING}
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 leading-6 bg-stripes-fuchsia rounded-lg">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 leading-6 bg-stripes-fuchsia rounded-lg">
     {#each Array(15) as _, index (index)}
       <div class="p-2">
         <div class="w-full h-[8rem] rounded-xl bg-black bg-opacity-60 flex justify-center items-center animate-pulse" />

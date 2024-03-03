@@ -71,7 +71,6 @@ export class APManager implements AudioPlayer {
           this.audioElement!.currentTime = 0
           this.audioElement?.play()
         } catch (error) {
-          console.log(error)
           error
         }
       }
@@ -144,6 +143,7 @@ export class APManager implements AudioPlayer {
   }
 
   startBuffering(): void {
+    this.stop()
     this.buffering = true
   }
 
