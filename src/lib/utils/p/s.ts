@@ -14,6 +14,7 @@ interface AudioPlayer {
   pause(): void
   play(): void
   stop(): void
+  playOrPause(): void
   seekForward(v: number): void
   seekBackward(v: number): void
   isPlaying(): boolean | undefined
@@ -181,6 +182,11 @@ export class APManager implements AudioPlayer {
 
   pause(): void {
     this.audioElement?.pause()
+  }
+
+  playOrPause(): void {
+    if(this.isPlaying()) this.audioElement?.pause()
+    else this.audioElement?.play()
   }
 
 

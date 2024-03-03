@@ -20,7 +20,7 @@
   import AlertDialog from '$lib/components/global-view/AlertDialog.svelte'
   import type { NotificationAlertsData } from '../domain/local/entities/NotificationAlertsData'
   import { wait } from '$lib/utils/indexd'
-    import { notificationAlertListener } from '$lib/utils/f'
+  import { notificationAlertListener } from '$lib/utils/f'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -66,6 +66,12 @@
     document.addEventListener('songdialog', (event: Event) => {
       songMenuDialog = (event as CustomEvent).detail.value
     })
+
+    document.body.onkeyup = (e) => {
+      if ((e.key == ' ' && e.code == 'Space') || (e.key == 's' && e.code == 'KeyS')) audioPlayer.playOrPause()
+      if ((e.key == 'ArrowRight' && e.code == 'ArrowRight') || (e.key == 'd' && e.code == 'KeyD')) audioPlayer.seekForward(5)
+      if ((e.key == 'ArrowLeft' && e.code == 'ArrowLeft') || (e.key == 'a' && e.code == 'KeyA')) audioPlayer.seekBackward(5)
+    }
 
     setTimeout(() => {
       setUpForegroundFCM()
