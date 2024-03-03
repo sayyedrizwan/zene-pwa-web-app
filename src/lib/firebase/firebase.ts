@@ -19,8 +19,13 @@ let firebaseAnalytics: Analytics | undefined
 let firebaseMessaging: Messaging | undefined
 
 if (browser) {
-  firebaseAnalytics = getAnalytics(app)
-  firebaseMessaging = getMessaging(app)
+
+  try {
+    firebaseAnalytics = getAnalytics(app)
+    firebaseMessaging = getMessaging(app)
+  } catch (error) {
+    error
+  }
 }
 
 
@@ -28,12 +33,12 @@ export async function setUpForegroundFCM() {
   await Notification.requestPermission()
 
   try {
-   getToken(firebaseMessaging!, { vapidKey: "BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M" })
-   
-   onMessage(firebaseMessaging!, (payload) => {
-    console.log("Message received. ", payload)
-    alert("Notificacion")
-  })
+    getToken(firebaseMessaging!, { vapidKey: "BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M" })
+
+    onMessage(firebaseMessaging!, (payload) => {
+      console.log("Message received. ", payload)
+      alert("Notificacion")
+    })
   } catch (error) {
     error
   }

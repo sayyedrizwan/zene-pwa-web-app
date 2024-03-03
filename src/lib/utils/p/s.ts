@@ -1,8 +1,6 @@
 import Hls from 'hls.js'
 import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 import { insertMusicHistory } from './shistory'
-import { DataIndexDS, indexDB, musicPlayerInfoCache, wait } from '../indexd'
-import { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
 import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 import { getCookie } from '../c'
 
@@ -52,7 +50,7 @@ export class APManager implements AudioPlayer {
     audioe.appendChild(oggsource)
 
     const mpegsource = document.createElement('source') as HTMLSourceElement
-    mpegsource.type = 'audio/mpeg'
+    mpegsource.type = 'audio/mp3'
     audioe.appendChild(mpegsource)
 
     this.videoElement = videoe
@@ -89,6 +87,10 @@ export class APManager implements AudioPlayer {
       }
     }
 
+    this.audioElement.onerror = (e) => {
+      console.log(e)
+    }
+
     this.audioElement.addEventListener('loadedmetadata', () => {
       this.audioElement!.title = ""
       this.updatemetadata(this.music!)
@@ -115,7 +117,7 @@ export class APManager implements AudioPlayer {
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
-    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://x0.at/${path?.u}.mp3` : ``
+    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://x0.at/${path?.u?.trim()}.mp3` : ``
 
     console.log(url)
 
@@ -137,10 +139,10 @@ export class APManager implements AudioPlayer {
         this.videoElement!.src = url
       return
     }
-
+    
     this.audioElement!.autoplay = true
-    this.sourceElementMPEG!.src = url
-    this.sourceElementOGG!.src = url
+    this.sourceElementMPEG!.src = url.trim()
+    this.sourceElementOGG!.src = url.trim()
     this.audioElement!.load()
   }
 
@@ -212,6 +214,7 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
+    return false
     if (this.audioElement!.currentTime > 0) return false
     if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
