@@ -7,27 +7,31 @@
     "distDir": "../build"
   },
   "package": {
-    "productName": "Zene - A Free Music App",
+    "productName": "Zene",
     "version": "0.1.0"
   },
   "tauri": {
+    "macOSPrivateApi": true,
     "allowlist": {
       "all": false
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
+      "category": "Music",
+      "copyright": "Zene | Rizwan Sayyed",
       "deb": {
         "depends": []
       },
       "externalBin": [],
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
+        "../static/logo76.png",
+        "../static/logo120.png",
+        "../static/logo152.png",
+        "../static/logo167.png",
+        "../static/logo180.png",
+        "../static/logo820.png",
+        "../static/icon.svg",
+        "../static/favicon.svg"
       ],
       "identifier": "com.rizwansayyed.zene",
       "longDescription": "",
@@ -39,7 +43,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
+      "shortDescription": "Introducing Zene a free music app, the ultimate music experience that redefines the way you listen to your favorite tunes. Dive into a world of limitless music with our free app, offering ad-free access to over 1 billion songs, albums, playlists, podcasts, covers, remixes, and more.",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
@@ -55,7 +59,8 @@
     },
     "windows": [
       {
-        "fullscreen": false,
+        "transparent": true,
+        "fullscreen": true,
         "height": 600,
         "resizable": true,
         "title": "Zene: A Free Music App",
