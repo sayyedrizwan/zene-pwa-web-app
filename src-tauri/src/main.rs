@@ -1,6 +1,6 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use tauri::{ AboutMetadata, CustomMenuItem, Menu, MenuItem, Submenu };
+use tauri::{ CustomMenuItem, Menu, Submenu, WindowMenuEvent };
 
 fn action_menu() -> Submenu {
   let settings = CustomMenuItem::new("settings".to_string(), "Settings").accelerator("Cmd+S");
@@ -40,10 +40,16 @@ fn help_menu() -> Submenu {
   return Submenu::new("Help", Menu::new().add_item(mail_us).add_item(feedback)); 
 }
 
+fn menu_handler(event: WindowMenuEvent) {
+  event.window().emit("refresh", "").unwrap();
+  println!("Menu Item {} clicked", event.menu_item_id());
+}
+
 fn main() {
   let action_menu = Menu::os_default("Zene").add_submenu(action_menu()).add_submenu(player_menu()).add_submenu(shortcuts_menu()).add_submenu(download_menu()).add_submenu(help_menu());
   tauri::Builder::default()
         .menu(action_menu)
+        .on_menu_event(menu_handler)
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
