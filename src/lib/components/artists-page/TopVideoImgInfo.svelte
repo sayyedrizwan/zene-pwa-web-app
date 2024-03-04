@@ -68,8 +68,7 @@
       notificationAlertListener('Error playing radio.', 'Try again later or please select any other radio to play.', RadioImg)
       return
     }
-    
-    const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? '', window.atob(radioId), artistsInfo.image ?? '', MusicType.MUSIC)
+    const m = new MusicData(`Radio for ${artistsInfo.name}`, artistsInfo.name ?? '', radioId, artistsInfo.image ?? '', MusicType.MUSIC)
     playSongZene(m, null)
   }
 

@@ -1,5 +1,5 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { decryptAPIKeyAndIsValid, isFromZeneOrigin } from '../utils/EncryptionForAPI'
+import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
 import { authKeyError, getIpAddress, ipBaseUrl, shuffleList } from '../utils/utils'
 import { atob } from 'buffer'
 import { YtMusicAPIImpl } from '../api_impl/yt_music/YtMusicImpl'
@@ -27,7 +27,13 @@ export const POST = (async (events: RequestEvent) => {
 
   await Promise.all(
     list.map(async (m: string) => {
-      const d = await yt.getBrowseDetailsAndNextSongs(ipData, atob(m))
+      let id = ''
+      try {
+        atob(m)
+      } catch (error) {
+        id = m
+      }
+      const d = await yt.getBrowseDetailsAndNextSongs(ipData, id)
       const lists = await yt.browseSongsId(ipData, d[1] ?? "")
 
       d[0].forEach((item, i) => {

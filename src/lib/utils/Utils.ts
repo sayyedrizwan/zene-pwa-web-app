@@ -1,4 +1,8 @@
 import { AnalyticsEvents, registerFirebaseEvents } from '$lib/firebase/registerAnalytics'
+import axios from 'axios'
+import type { IpJsonResponse } from '../../routes/api/radiolist/domain/IpJsonResponse'
+import { setCookie } from './c'
+import { ipBaseUrl } from '../../routes/api/utils/utils'
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)
@@ -89,4 +93,18 @@ export function deepListCompare(list1: any[], list2: any[]): boolean {
   }
 
   return true;
+}
+
+
+
+export async function setServerIpAddress() {
+  try {
+    const r = await axios.get(ipBaseUrl(''))
+    const response = await r.data as IpJsonResponse
+    alert(response.query)
+    setCookie('i', response.query)
+  } catch (error) {
+    alert(error)
+    null
+  }
 }

@@ -4,12 +4,14 @@ import { RadioBrowserImpl } from '../api_impl/radio/RadioBrowserImpl'
 import { YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'
 import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
 import { DURLResponse } from '../../../domain/local/entities/DURLResponse'
+import { isSameServerIp } from '../utils/utils'
 
 
 export const GET = (async (req: RequestEvent) => {
   const video_url = new URL(req.url).searchParams.get('id') ?? ""
-  const videoId = atob(video_url)
-  
+  const videoId = video_url.length > 20 ? video_url : atob(video_url)
+  const isSameServer = await isSameServerIp(req.cookies.get("i") ?? ``)
+
   if(isFromZeneOrigin(req) === false) json({})
 
   try {
@@ -17,11 +19,11 @@ export const GET = (async (req: RequestEvent) => {
       const radio = new RadioBrowserImpl()
       const response = await radio.radioPlayURL(videoId)
       const url = response[0].url_resolved == null ? response[0].url : response[0].url_resolved
-      return new Response(btoa(url ?? "").replaceLastChar("=", ""))
+      return json(new DURLResponse(url ?? "", 3))
     }
-
+    
     const ytDownloader = new YTDownloaderImpl()
-    const url = await ytDownloader.videoURL(videoId)
+    const url = await ytDownloader.videoURL(videoId, isSameServer)
 
     if (url === "") return json({})
     let urlPoint = ''
@@ -30,9 +32,12 @@ export const GET = (async (req: RequestEvent) => {
     if(url.includes("srvcdn7.2convert.me/dl?")){
        urlPoint = url.textAfterKeyword("srvcdn7.2convert.me/dl?hash=") ?? ""
        type = 0
-    } else if(url.includes("x0.at/")){
-       urlPoint = url.textAfterKeyword("x0.at/")?.replaceAll(".mp4", "") ?? ""
+    } else if(url.includes("0x0.st/")){
+       urlPoint = url.textAfterKeyword("0x0.st/")?.replaceAll(".mp3", "") ?? ""
        type = 1
+    } else {
+      urlPoint = url
+      type = 3
     }
 
     return json(new DURLResponse(urlPoint, type))

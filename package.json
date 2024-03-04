@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "devrun": "vite dev",
+    "tauri": "tauri",
+    "tauridev": "tauri dev",
     "dev": "npm run devrun -- --host --port 3419",
     "build": "vite build",
     "buildpreview": "npm run build && npm run preview",
@@ -14,8 +16,10 @@
     "packageupdate": "npx npm-check-updates -u"
   },
   "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.5.2",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
+    "@tauri-apps/cli": "^1.5.10",
     "@types/tmp": "^0.2.6",
     "@vite-pwa/sveltekit": "^0.4.0",
     "autoprefixer": "^10.4.18",

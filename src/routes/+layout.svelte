@@ -4,7 +4,7 @@
   import '$lib/firebase/firebase'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
-  import { onBrowser } from '$lib/utils/Utils'
+  import { onBrowser, setServerIpAddress } from '$lib/utils/Utils'
   import LogoWithBrand from '$lib/components/global-view/LogoWithBrand.svelte'
   import { onMount } from 'svelte'
   import axios from 'axios'
@@ -21,6 +21,7 @@
   import type { NotificationAlertsData } from '../domain/local/entities/NotificationAlertsData'
   import { wait } from '$lib/utils/indexd'
   import { notificationAlertListener } from '$lib/utils/f'
+    import { doc } from 'firebase/firestore'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -32,6 +33,10 @@
   let songPlayer: Boolean = false
 
   let notificationAlert: NotificationAlertsData | null = null
+
+  if(browser) {
+    if ('__TAURI__' in window) setServerIpAddress()
+  }
 
   onMount(async () => {
     audioPlayer = new APManager()
@@ -58,13 +63,13 @@
       audioPlayer.stop()
       try {
         audioPlayer.startBuffering()
-        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000 })
+        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000, withCredentials: true })
         audioPlayer.playMusic(response.data as DURLResponse, song)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }
     })
-    
+
     document.addEventListener('songdialog', (event: Event) => {
       songMenuDialog = (event as CustomEvent).detail.value
     })

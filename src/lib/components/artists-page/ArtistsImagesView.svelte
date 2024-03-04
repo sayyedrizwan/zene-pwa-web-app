@@ -55,7 +55,7 @@
 {/if}
 
 {#if dialogImage.length > 5}
-  <button class="fixed top-0 left-0 h-screen w-screen bg-black z-49" on:click={() => (dialogImage = '')}>
+  <button class="fixed top-0 left-0 h-screen w-screen bg-black z-[100]" on:click={() => (dialogImage = '')}>
     <img src={dialogImage} alt="Artists Name" class="object-contain h-screen w-screen" />
   </button>
 {/if}

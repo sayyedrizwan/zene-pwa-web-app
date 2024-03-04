@@ -16,7 +16,8 @@
   import ArtistsCards from '$lib/components/global-view/items/ArtistsCards.svelte'
   import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
   import SuggestSongsYouMayLike from '$lib/components/main-page/SuggestSongsYouMayLike.svelte'
-
+  import { getCookie } from '$lib/utils/c'
+  
   export let data: any
 
   let authKey: string | null = null
@@ -42,12 +43,6 @@
 </svelte:head>
 
 {#if authKey != null}
-
-<video controls autoplay loop muted playsinline>
-  <source src="https://x0.at/MQ3h.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
-
   <TopListeningSongs {authKey} />
   <RadioStateLists {authKey} {ipDetails} />
   <TopGlobalTrendingArtists {authKey} />
@@ -73,7 +68,7 @@ Your browser does not support the video tag.
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg">
       {#each youMayLike?.explore ?? [] as musicData}
-        <CardWithTopMenuIcon {musicData} list={youMayLike?.explore ?? [musicData]}/>
+        <CardWithTopMenuIcon {musicData} list={youMayLike?.explore ?? [musicData]} />
       {/each}
     </div>
   {/if}

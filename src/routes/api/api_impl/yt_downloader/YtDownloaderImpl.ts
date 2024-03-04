@@ -6,8 +6,8 @@ import axios, { type AxiosResponse } from "axios"
 
 export class YTDownloaderImpl {
 
-  async videoURL(videoId: string) {
-    const path = await this.videoYTDownloader(videoId)
+  async videoURL(videoId: string, isSameServer: Boolean) {
+    const path = await this.videoYTDownloader(videoId, isSameServer)
     if (path != null) return path
 
     try {
@@ -50,24 +50,25 @@ export class YTDownloaderImpl {
   }
 
 
-  async videoYTDownloader(videoId: string): Promise<string | null> {
+  async videoYTDownloader(videoId: string, isSameServer: Boolean): Promise<string | null> {
     try {
       let info = await ytdl.getInfo(videoId)
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes("audio/mp4; codecs="))?.url
-      console.log(url)
-      
+
+      if (isSameServer === true) return url ?? null
+
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const blob = new Blob(chucks, { type: 'audio/mp4' })
 
       const formData = new FormData();
-      formData.append('file', blob, `${new Date().getTime()}_${generateRandomString(20)}.mp4`)
+      formData.append('file', blob, `${new Date().getTime()}_${generateRandomString(20)}.mp3`)
       formData.append('expires', "2")
 
-      const request = await fetch('https://x0.at/', { method: "POST", body: formData })
+      const request = await fetch('https://0x0.st/', { method: "POST", body: formData })
       const response = await request.text()
-      console.log(response)
+
       return response.trim()
     } catch (error) {
       return null

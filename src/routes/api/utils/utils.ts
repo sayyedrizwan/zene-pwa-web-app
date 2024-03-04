@@ -1,4 +1,5 @@
 import type { RequestEvent } from '@sveltejs/kit'
+import type { IpJsonResponse } from '../radiolist/domain/IpJsonResponse'
 
 export const support_mail_server = 'knocknock@zenemusic.co'
 
@@ -23,6 +24,9 @@ export const google_news_api = "https://news.google.com/rss/search"
 export const bing_news_api = "https://www.bing.com/news/search"
 
 
+export const check_ip_aws = "http://checkip.amazonaws.com/"
+
+
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
 export const radio_browser_url = '_api._tcp.radio-browser.info'
@@ -33,7 +37,7 @@ export const radio_browser_search_by_uuid = '/json/stations/byuuid?uuids='
 
 export function spotifyAuthURL() {
   const state = generateRandomString(16)
-  const scope = 'user-read-private playlist-read-private playlist-read-collaborative'   
+  const scope = 'user-read-private playlist-read-private playlist-read-collaborative'
   const client_id = '07cca9af3ee4411baaf2355a8ea61d3f'
   const callback_url = `${location.href}/splaylists`
   return `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scope}&state=${state}&redirect_uri=${callback_url}`
@@ -46,6 +50,27 @@ export const last_sync_ts_cookie = 'last_sync_ts'
 export const users_ip_address = 'i'
 export const users_ip_details = 'i_d'
 
+
+export let ipAddress: string | null = null
+
+export async function isSameServerIp(ip: string) {
+  if (ipAddress != null && ipAddress.includes(".")) {
+    if(ip.textBeforeLastKeyword('.') == ipAddress.textBeforeLastKeyword('.')) return true
+  }
+
+  console.log(ip)
+  console.log(ipAddress)
+
+  try {
+    const r = await fetch(ipBaseUrl(''))
+    const response = await r.json() as IpJsonResponse
+    ipAddress = response.query
+    if(ip.textBeforeLastKeyword('.') == ipAddress.textBeforeLastKeyword('.')) return true
+    else return false
+  } catch (error) {
+    return false
+  }
+}
 
 export function waitServer(time: number) {
   return new Promise((resolve) => { setTimeout(resolve, time) })
@@ -74,15 +99,15 @@ export function joinArtists(artists: string[]): string {
 
 declare global {
   interface String {
-    textAfterKeyword(char : string) : string
-    textAfterLastKeyword(char : string) : string | null
-    textBeforeKeyword(char : string) : string | null
-    textBeforeLastKeyword(char : string) : string | null
-    replaceLastChar(char : string, v: string) : string
+    textAfterKeyword(char: string): string
+    textAfterLastKeyword(char: string): string | null
+    textBeforeKeyword(char: string): string | null
+    textBeforeLastKeyword(char: string): string | null
+    replaceLastChar(char: string, v: string): string
   }
 }
 
-String.prototype.replaceLastChar = function (char : string, v: string) : string {
+String.prototype.replaceLastChar = function (char: string, v: string): string {
   const lastEqualIndex = this.lastIndexOf(char)
   if (lastEqualIndex !== -1) {
     return this.slice(0, lastEqualIndex) + v
@@ -90,7 +115,7 @@ String.prototype.replaceLastChar = function (char : string, v: string) : string 
   return String(this)
 }
 
-String.prototype.textAfterKeyword = function (char : string) : string {
+String.prototype.textAfterKeyword = function (char: string): string {
   const index: number = this.indexOf(char)
 
   if (index !== -1) {
@@ -101,7 +126,7 @@ String.prototype.textAfterKeyword = function (char : string) : string {
   }
 }
 
-String.prototype.textAfterLastKeyword = function (char : string) : string | null {
+String.prototype.textAfterLastKeyword = function (char: string): string | null {
   try {
     const lastDashIndex = this.lastIndexOf(char)
     return this.substring(lastDashIndex + 1).trim()
@@ -110,7 +135,7 @@ String.prototype.textAfterLastKeyword = function (char : string) : string | null
   }
 }
 
-String.prototype.textBeforeKeyword = function (char : string) : string | null {
+String.prototype.textBeforeKeyword = function (char: string): string | null {
   const index: number = this.indexOf(char)
 
   if (index !== -1) {
@@ -121,7 +146,7 @@ String.prototype.textBeforeKeyword = function (char : string) : string | null {
   }
 }
 
-String.prototype.textBeforeLastKeyword = function (char : string) : string | null {
+String.prototype.textBeforeLastKeyword = function (char: string): string | null {
   const lastIndex: number = this.lastIndexOf(char)
 
   if (lastIndex !== -1) {
