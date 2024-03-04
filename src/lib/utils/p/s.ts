@@ -87,10 +87,6 @@ export class APManager implements AudioPlayer {
       }
     }
 
-    this.audioElement.onerror = (e) => {
-      console.log(e)
-    }
-
     this.audioElement.addEventListener('loadedmetadata', () => {
       this.audioElement!.title = ""
       this.updatemetadata(this.music!)

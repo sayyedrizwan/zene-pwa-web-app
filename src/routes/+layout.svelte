@@ -21,7 +21,7 @@
   import type { NotificationAlertsData } from '../domain/local/entities/NotificationAlertsData'
   import { wait } from '$lib/utils/indexd'
   import { notificationAlertListener } from '$lib/utils/f'
-    import { doc } from 'firebase/firestore'
+  import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -34,7 +34,7 @@
 
   let notificationAlert: NotificationAlertsData | null = null
 
-  if(browser) {
+  if (browser) {
     if ('__TAURI__' in window) setServerIpAddress()
   }
 
@@ -105,6 +105,8 @@
   {#if songPlayer === true}
     <ZeneMusicPlayer bind:songPlayer bind:audioPlayer />
   {/if}
+
+  <RightClickMenu />
 {/if}
 
 <NoInternetDialog />

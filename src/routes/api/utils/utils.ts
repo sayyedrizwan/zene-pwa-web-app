@@ -58,9 +58,6 @@ export async function isSameServerIp(ip: string) {
     if(ip.textBeforeLastKeyword('.') == ipAddress.textBeforeLastKeyword('.')) return true
   }
 
-  console.log(ip)
-  console.log(ipAddress)
-
   try {
     const r = await fetch(ipBaseUrl(''))
     const response = await r.json() as IpJsonResponse

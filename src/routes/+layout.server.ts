@@ -10,12 +10,12 @@ export const load = async ({ fetch, cookies, getClientAddress }) => {
 // for tauri app
 // uncomment rendering type, change the adapter
 
-// export const ssr = false
-// export const csr = true
-// export const prerender = true
-
-
-
-export const ssr = true
+export const ssr = false
 export const csr = true
-export const prerender = false
+export const prerender = true
+
+
+
+// export const ssr = true
+// export const csr = true
+// export const prerender = false
