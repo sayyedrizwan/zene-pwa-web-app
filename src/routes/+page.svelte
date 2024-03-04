@@ -42,6 +42,12 @@
 </svelte:head>
 
 {#if authKey != null}
+
+<video controls autoplay loop muted playsinline>
+  <source src="https://x0.at/MQ3h.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
   <TopListeningSongs {authKey} />
   <RadioStateLists {authKey} {ipDetails} />
   <TopGlobalTrendingArtists {authKey} />

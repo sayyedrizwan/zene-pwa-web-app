@@ -117,10 +117,8 @@ export class APManager implements AudioPlayer {
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
-    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://x0.at/${path?.u?.trim()}.mp3` : ``
-
-    console.log(url)
-
+    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://x0.at/${path?.u?.trim()}.mp4` : ``
+   
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'
@@ -133,13 +131,17 @@ export class APManager implements AudioPlayer {
           hls.loadSource(url)
           hls.attachMedia(this.videoElement!)
         } else if (this.videoElement!.canPlayType('application/vnd.apple.mpegurl')) {
+          this.videoElement!.autoplay = true
           this.videoElement!.src = url
+          this.videoElement!.load()
         }
-      } else
+      } else {
+        this.videoElement!.autoplay = true
         this.videoElement!.src = url
+        this.videoElement!.load()
+      }
       return
     }
-    
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.sourceElementOGG!.src = url.trim()
@@ -189,7 +191,7 @@ export class APManager implements AudioPlayer {
   }
 
   playOrPause(): void {
-    if(this.isPlaying()) this.audioElement?.pause()
+    if (this.isPlaying()) this.audioElement?.pause()
     else this.audioElement?.play()
   }
 
@@ -214,15 +216,11 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
-    return false
     if (this.audioElement!.currentTime > 0) return false
     if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
 
-    if (this.music?.type == MusicType.RADIO) {
-      return this.audioElement!.networkState == 2
-    }
-
+    if (this.music?.type == MusicType.RADIO) return this.audioElement!.networkState == 2
     return this.audioElement!.networkState == 2
   }
 
