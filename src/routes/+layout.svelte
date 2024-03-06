@@ -106,7 +106,7 @@
     <ZeneMusicPlayer bind:songPlayer bind:audioPlayer />
   {/if}
 
-  <RightClickMenu />
+  <RightClickMenu bind:audioPlayer/>
 {/if}
 
 <NoInternetDialog />

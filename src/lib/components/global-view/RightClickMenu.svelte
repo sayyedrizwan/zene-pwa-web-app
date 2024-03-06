@@ -1,12 +1,33 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import RightClickItems from './items/RightClickItems.svelte'
-  import { appWindow } from "@tauri-apps/api/window";
+  import { appWindow } from '@tauri-apps/api/window'
+  import { goto } from '$app/navigation'
+  import type { APManager } from '$lib/utils/p/s'
+  import { open } from '@tauri-apps/api/shell';
+    import { support_mail_server } from '../../../routes/api/utils/utils'
+
+  export let audioPlayer: APManager
 
   function shortcutListeners() {
-    appWindow.listen("refresh", ({ event, payload }) => {
-        console.log('runnneddd')
-     });
+    appWindow.listen('menu_shortcuts', ({ event, payload }) => {
+      if (payload == 'settings') goto('')
+      else if (payload == 'refresh') window.location.reload()
+      else if (payload == 'notifications') console.log('')
+      else if (payload == 'feed') goto('/feed')
+      else if (payload == 'search') goto('/search')
+      else if (payload == 'my_music') goto('/mymusic')
+      else if (payload == 'play') audioPlayer.playOrPause()
+      else if (payload == 'next_song') audioPlayer.nextSong()
+      else if (payload == 'previous_song') audioPlayer.previousSong()
+      else if (payload == 'seek_forward') audioPlayer.seekForward(5)
+      else if (payload == 'seek_backward') audioPlayer.seekBackward(5)
+      else if (payload == 'android') open('https://play.google.com/store/apps/details?id=com.rizwansayyed.zene')
+      else if (payload == 'download_app') open('https://zenemusic.co/download')
+      else if (payload == 'mail_us') open(`mailto:${support_mail_server}`)
+      else if (payload == 'feedback') open(`mailto:${support_mail_server}?subject=feedback`)
+      else if (payload == 'faq') open('https://zenemusic.co/faq')
+    })
   }
 
   onMount(() => {

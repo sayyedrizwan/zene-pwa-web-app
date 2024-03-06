@@ -17,6 +17,8 @@ interface AudioPlayer {
   seekBackward(v: number): void
   isPlaying(): boolean | undefined
   isBuffering(): boolean | undefined
+  nextSong(): void
+  previousSong():void
   songDuration(): number
   changeSongDuration(v: number): void
 }
@@ -191,7 +193,6 @@ export class APManager implements AudioPlayer {
     else this.audioElement?.play()
   }
 
-
   play(): void {
     this.audioElement?.play()
   }
@@ -202,6 +203,14 @@ export class APManager implements AudioPlayer {
 
   seekBackward(v: number): void {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
+  }
+
+  nextSong(): void {
+   
+  }
+
+  previousSong(): void {
+   
   }
 
   isPlaying(): boolean {

@@ -17,7 +17,7 @@ fn shortcuts_menu() -> Submenu {
 }
 
 fn player_menu() -> Submenu {
-  let play = CustomMenuItem::new("play".to_string(), "Playback").accelerator("Space");
+  let play = CustomMenuItem::new("play".to_string(), "Play/Pause").accelerator("Space");
   let next = CustomMenuItem::new("next_song".to_string(), "Next Song").accelerator("E");
   let previous = CustomMenuItem::new("previous_song".to_string(), "Previous Song").accelerator("Q");
   let seek_forward = CustomMenuItem::new("seek_forward".to_string(), "Seek Forward").accelerator("D");
@@ -27,22 +27,22 @@ fn player_menu() -> Submenu {
 
 fn download_menu() -> Submenu {
   let android = CustomMenuItem::new("android".to_string(), "Android");
-  let ios = CustomMenuItem::new("ios".to_string(), "IOS");
-  let windows = CustomMenuItem::new("windows".to_string(), "Windows");
-  let macos = CustomMenuItem::new("windows".to_string(), "MacOS");
-  let linux = CustomMenuItem::new("linux".to_string(), "Linux");
+  let ios = CustomMenuItem::new("download_app".to_string(), "IOS");
+  let windows = CustomMenuItem::new("download_app".to_string(), "Windows");
+  let macos = CustomMenuItem::new("download_app".to_string(), "MacOS");
+  let linux = CustomMenuItem::new("download_app".to_string(), "Linux");
   return Submenu::new("Downloads", Menu::new().add_item(android).add_item(ios).add_item(windows).add_item(macos).add_item(linux)); 
 }
 
 fn help_menu() -> Submenu {
   let mail_us = CustomMenuItem::new("mail_us".to_string(), "Mail Us");
   let feedback = CustomMenuItem::new("feedback".to_string(), "Feedback");
-  return Submenu::new("Help", Menu::new().add_item(mail_us).add_item(feedback)); 
+  let faq = CustomMenuItem::new("faq".to_string(), "FAQ");
+  return Submenu::new("Help", Menu::new().add_item(mail_us).add_item(feedback).add_item(faq)); 
 }
 
 fn menu_handler(event: WindowMenuEvent) {
-  event.window().emit("refresh", "").unwrap();
-  println!("Menu Item {} clicked", event.menu_item_id());
+  event.window().emit("menu_shortcuts", event.menu_item_id()).unwrap();
 }
 
 fn main() {
