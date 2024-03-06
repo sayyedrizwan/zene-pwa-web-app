@@ -1,4 +1,4 @@
-import type { MusicData } from "./MusicData"
+import type { MusicData } from './MusicData'
 
 export class SpotifyPlaylistsMusicData {
   id?: string

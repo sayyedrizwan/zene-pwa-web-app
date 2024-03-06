@@ -10,20 +10,20 @@ export function generateAPIKey(): string {
   return encryptData(s)
 }
 
-export function isFromZeneOrigin(events: RequestEvent) : Boolean{
-  try{
-    if(dev) return true
-    if(events.request.headers.get('Origin') == "https://www.zenemusic.co") return true
-    if(events.cookies.get("i")?.split('.')?.length ?? 0 >= 3) return true
-  
+export function isFromZeneOrigin(events: RequestEvent): Boolean {
+  try {
+    if (dev) return true
+    if (events.request.headers.get('Origin') == 'https://www.zenemusic.co') return true
+    if (events.cookies.get('i')?.split('.')?.length ?? 0 >= 3) return true
+
     return false
-  }catch(e){
+  } catch (e) {
     return false
   }
 }
 
 export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
-  if(isFromZeneOrigin(events) === false) return false
+  if (isFromZeneOrigin(events) === false) return false
 
   try {
     const headers = events.request.headers
@@ -88,7 +88,7 @@ export function encryptData(value: string): string {
     const encryptedCharCode = charCode ^ keyChar
     encryptedText += String.fromCharCode(encryptedCharCode)
   }
-  return btoa(encryptedText).replaceLastChar("==", "")
+  return btoa(encryptedText).replaceLastChar('==', '')
 }
 
 export function decryptData(value: string): string {
@@ -110,17 +110,16 @@ export function decryptData(value: string): string {
 const key = Buffer.from(env.ALGORITHM_ENCR_SECRET_KEY.padEnd(16, '\0'), 'binary')
 
 export function decryptAppSharedData(value: string): string {
-  const v = value.replaceAll("__", "/")
+  const v = value.replaceAll('__', '/')
   try {
     const decipher = crypto.createDecipheriv(env.ALGORITHM_ENCR_KEY, key, Buffer.alloc(16))
     let decryptedText = decipher.update(v, 'base64', 'utf8')
     decryptedText += decipher.final('utf8')
     return decryptedText
   } catch (e) {
-    return ""
+    return ''
   }
 }
-
 
 export function encryptAppSharedData(plainText: string) {
   try {
@@ -128,8 +127,8 @@ export function encryptAppSharedData(plainText: string) {
     let cipherText = cipher.update(plainText, 'utf8', 'base64')
     cipherText += cipher.final('base64')
     const e = cipherText.replace(/=+$/, '')
-    return e.replaceAll("/", "__")
+    return e.replaceAll('/', '__')
   } catch (e) {
-    return ""
+    return ''
   }
 }

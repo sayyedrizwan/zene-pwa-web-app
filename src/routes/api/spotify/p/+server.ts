@@ -4,7 +4,7 @@ import { authKeyError } from '../../utils/utils'
 import { SpotifyImpl } from '../../api_impl/spotify/SpotifyImpl'
 import { SpotifyPlaylistsMusicData } from '../../../../domain/local/entities/SpotifyPlaylistsMusicData'
 
-export const POST = (async (events: RequestEvent) => {
+export const POST = async (events: RequestEvent) => {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   const list = await events.request.json()
@@ -26,11 +26,11 @@ export const POST = (async (events: RequestEvent) => {
 
     await Promise.all(
       (playlistsAndSongs?.items ?? []).map(async (items) => {
-        let img = items.images?.findLast((t) => t.height == 640)?.url ?? ""
-        if (img == "" && (items.images?.length ?? 0) > 0) img = items.images?.[0].url ?? ""
+        let img = items.images?.findLast((t) => t.height == 640)?.url ?? ''
+        if (img == '' && (items.images?.length ?? 0) > 0) img = items.images?.[0].url ?? ''
 
-        if (items.id != undefined) lists.push(new SpotifyPlaylistsMusicData(items.id, encryptData(token), img, items.name ?? "", items.owner?.display_name ?? ""))
-      })
+        if (items.id != undefined) lists.push(new SpotifyPlaylistsMusicData(items.id, encryptData(token), img, items.name ?? '', items.owner?.display_name ?? ''))
+      }),
     )
 
     if (playlistsAndSongs?.next != null) {
@@ -38,8 +38,7 @@ export const POST = (async (events: RequestEvent) => {
       if (match) offset = parseInt(match[1])
       else isRunning = false
     } else isRunning = false
-
   }
 
   return json(lists)
-})
+}

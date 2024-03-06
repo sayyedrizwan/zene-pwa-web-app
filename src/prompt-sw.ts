@@ -4,15 +4,12 @@
 /// <reference lib="esnext" />
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
-import { initializeApp, type FirebaseApp, getApps } from 'firebase/app'
-import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw"
 
 declare let self: ServiceWorkerGlobalScope
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()
 })
-
 
 // self.__WB_MANIFEST is default injection point
 precacheAndRoute(self.__WB_MANIFEST)

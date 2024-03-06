@@ -6,13 +6,13 @@ import { SpotifyPlaylistsMusicTrackData } from '../../../../domain/local/entitie
 import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 import type { MusicData } from '../../../../domain/local/entities/MusicData'
 
-export const POST = (async (events: RequestEvent) => {
+export const POST = async (events: RequestEvent) => {
   if (!decryptAPIKeyAndIsValidLong(events)) return json(authKeyError)
   const body = await events.request.json()
 
   const spotify = new SpotifyImpl()
   const ytMusic = new YtMusicAPIImpl()
- 
+
   let isRunning = true
   let offset = 0
 
@@ -24,8 +24,8 @@ export const POST = (async (events: RequestEvent) => {
 
   while (isRunning) {
     const playlistsAndSongs = await spotify.playlistsSongsSpotifyAuthToken(offset, decryptData(body.code), body.id)
-    
-    playlistsAndSongs?.items.forEach(item => {
+
+    playlistsAndSongs?.items.forEach((item) => {
       try {
         lists.push(`${item.track.name} - ${item.track.artists[0].name}`)
       } catch (error) {
@@ -46,8 +46,8 @@ export const POST = (async (events: RequestEvent) => {
     lists.map(async (m) => {
       const music = await ytMusic.musicSearchSingle(m, false)
       if (music.songId != null) newLists.push(music)
-    })
+    }),
   )
 
   return json(new SpotifyPlaylistsMusicTrackData(body.id, newLists))
-})
+}

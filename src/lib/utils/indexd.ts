@@ -28,7 +28,7 @@ export function isAPICachedForADay(recordsSize: number, storageName: string): bo
     if (recordsSize == 0) return false
     const differenceInMinutes: number = Math.floor((Date.now() - parseInt(localStorage.getItem(storageName)?.toString()!)) / (1000 * 60))
     if (differenceInMinutes >= 200) return false
-    
+
     return true
   } catch (error) {
     return false
@@ -102,7 +102,6 @@ export class DataIndexDS<T> {
     }
   }
 }
-
 
 export function wait(time: number) {
   return new Promise((resolve) => {

@@ -8,8 +8,7 @@ import axios from 'axios'
 import type { IpJsonResponse } from '../radiolist/domain/IpJsonResponse'
 import { SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
 
-
-export const POST = (async (events: RequestEvent) => {
+export const POST = async (events: RequestEvent) => {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
   const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
   const ipData = (await responseIp.data) as IpJsonResponse
@@ -28,7 +27,7 @@ export const POST = (async (events: RequestEvent) => {
   await Promise.all(
     list.map(async (m: string) => {
       const d = await yt.getBrowseDetailsAndNextSongs(ipData, atob(m))
-      const lists = await yt.browseSongsId(ipData, d[1] ?? "")
+      const lists = await yt.browseSongsId(ipData, d[1] ?? '')
 
       d[0].forEach((item, i) => {
         if (i <= 2) songYouMayLike.push(item)
@@ -40,40 +39,38 @@ export const POST = (async (events: RequestEvent) => {
         else songYouMayLikeToExplore.push(item)
       })
 
-      lists[1].forEach(item => {
+      lists[1].forEach((item) => {
         artistsSuggestions.push(item)
       })
-    })
+    }),
   )
 
   const songYouMayLikeSet: MusicData[] = []
   const songYouMayLikeToListenSet: MusicData[] = []
   const songYouMayLikeToExploreSet: MusicData[] = []
   const artistsSuggestionsSet: MusicData[] = []
-  
-  songYouMayLike.forEach(s => {
-    if(isInList(songYouMayLikeSet, s.songId ?? "") == false) songYouMayLikeSet.push(s)
+
+  songYouMayLike.forEach((s) => {
+    if (isInList(songYouMayLikeSet, s.songId ?? '') == false) songYouMayLikeSet.push(s)
   })
 
-  songYouMayLikeToListen.forEach(s => {
-    if(isInList(songYouMayLikeSet, s.songId ?? "") == false) {
-      if(isInList(songYouMayLikeToListenSet, s.songId ?? "") == false) songYouMayLikeToListenSet.push(s)
+  songYouMayLikeToListen.forEach((s) => {
+    if (isInList(songYouMayLikeSet, s.songId ?? '') == false) {
+      if (isInList(songYouMayLikeToListenSet, s.songId ?? '') == false) songYouMayLikeToListenSet.push(s)
     }
   })
 
-
-  songYouMayLikeToExplore.forEach(s => {
-    if(isInList(songYouMayLikeToExploreSet, s.songId ?? "") == false) songYouMayLikeToExploreSet.push(s)
+  songYouMayLikeToExplore.forEach((s) => {
+    if (isInList(songYouMayLikeToExploreSet, s.songId ?? '') == false) songYouMayLikeToExploreSet.push(s)
   })
 
-  artistsSuggestions.forEach(s => {
-    if(isInList(artistsSuggestionsSet, s.songId ?? "") == false) artistsSuggestionsSet.push(s)
+  artistsSuggestions.forEach((s) => {
+    if (isInList(artistsSuggestionsSet, s.songId ?? '') == false) artistsSuggestionsSet.push(s)
   })
-
 
   return json(new SongsYouMayLike(songYouMayLikeSet, songYouMayLikeToListenSet, songYouMayLikeToExploreSet, artistsSuggestionsSet))
-})
+}
 
 function isInList(dataArr: MusicData[], id: string): boolean {
-  return dataArr.find(data => data.songId === id) ? true : false
+  return dataArr.find((data) => data.songId === id) ? true : false
 }

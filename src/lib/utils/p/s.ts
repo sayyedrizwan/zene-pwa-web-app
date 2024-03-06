@@ -4,7 +4,6 @@ import { insertMusicHistory } from './shistory'
 import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 import { getCookie } from '../c'
 
-
 interface AudioPlayer {
   init(): void
   playMusic(path: DURLResponse, music: MusicData): Promise<void>
@@ -18,7 +17,7 @@ interface AudioPlayer {
   isPlaying(): boolean | undefined
   isBuffering(): boolean | undefined
   nextSong(): void
-  previousSong():void
+  previousSong(): void
   songDuration(): number
   changeSongDuration(v: number): void
 }
@@ -60,9 +59,8 @@ export class APManager implements AudioPlayer {
     this.sourceElementOGG = oggsource
     this.sourceElementMPEG = mpegsource
 
-    this.audioElement.onplay = () => this.buffering = false
-    this.videoElement.onplay = () => this.buffering = false
-
+    this.audioElement.onplay = () => (this.buffering = false)
+    this.videoElement.onplay = () => (this.buffering = false)
 
     this.audioElement.onended = () => {
       if (getCookie('should_loop') == 'should') {
@@ -81,7 +79,6 @@ export class APManager implements AudioPlayer {
 
       if (this.music != undefined) insertMusicHistory(this.music, window)
 
-
       if (this.audioElement?.paused) {
         const event = new Event('click')
         this.audioElement.dispatchEvent(event)
@@ -90,7 +87,7 @@ export class APManager implements AudioPlayer {
     }
 
     this.audioElement.addEventListener('loadedmetadata', () => {
-      this.audioElement!.title = ""
+      this.audioElement!.title = ''
       this.updatemetadata(this.music!)
 
       if (this.audioElement?.duration === Infinity || isNaN(Number(this.audioElement?.duration))) {
@@ -122,7 +119,7 @@ export class APManager implements AudioPlayer {
     this.buffering = true
 
     if (music.type == MusicType.RADIO) {
-      if (url.includes(".m3u8") === true) {
+      if (url.includes('.m3u8') === true) {
         if (Hls.isSupported()) {
           var hls = new Hls()
           hls.loadSource(url)
@@ -151,7 +148,6 @@ export class APManager implements AudioPlayer {
     this.buffering = true
   }
 
-
   updatemetadata(music: MusicData): void {
     const ms = window.navigator.mediaSession
     if (!ms) return
@@ -160,7 +156,7 @@ export class APManager implements AudioPlayer {
       title: `${music?.name ?? 'Zene'}`,
       artist: `${music?.artists ?? 'zene: free music player'}`,
       album: 'Zene',
-      artwork: [{ src: music?.thumbnail ?? "", sizes: '512x512', type: 'image/png' }]
+      artwork: [{ src: music?.thumbnail ?? '', sizes: '512x512', type: 'image/png' }],
     })
 
     const setActionHandler = ms.setActionHandler.bind(ms)
@@ -179,10 +175,9 @@ export class APManager implements AudioPlayer {
       this.seekForward(5)
     })
 
-    setActionHandler('previoustrack', function () { })
-    setActionHandler('nexttrack', function () { })
+    setActionHandler('previoustrack', function () {})
+    setActionHandler('nexttrack', function () {})
   }
-
 
   pause(): void {
     this.audioElement?.pause()
@@ -205,13 +200,9 @@ export class APManager implements AudioPlayer {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
-  nextSong(): void {
-   
-  }
+  nextSong(): void {}
 
-  previousSong(): void {
-   
-  }
+  previousSong(): void {}
 
   isPlaying(): boolean {
     if (this.music?.type == MusicType.RADIO) {

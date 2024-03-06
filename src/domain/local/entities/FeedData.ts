@@ -9,7 +9,7 @@ export class FeedData {
   ts?: number
   type?: FeedType
 
-  constructor(name: string, title: string, desc: string, thumbnail: string, link: string, srcName: string, srcImg: string, ts: number, type : FeedType) {
+  constructor(name: string, title: string, desc: string, thumbnail: string, link: string, srcName: string, srcImg: string, ts: number, type: FeedType) {
     this.name = name
     this.title = title
     this.desc = desc
@@ -22,7 +22,7 @@ export class FeedData {
   }
 }
 
-
 export enum FeedType {
-  YOUTUBE, NEWS
+  YOUTUBE,
+  NEWS,
 }

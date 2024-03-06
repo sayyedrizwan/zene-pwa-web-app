@@ -6,35 +6,34 @@ import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
 import { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 import { isSameServerIp } from '../utils/utils'
 
-
-export const GET = (async (req: RequestEvent) => {
-  const video_url = new URL(req.url).searchParams.get('id') ?? ""
+export const GET = async (req: RequestEvent) => {
+  const video_url = new URL(req.url).searchParams.get('id') ?? ''
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
-  const isSameServer = await isSameServerIp(req.cookies.get("i") ?? ``)
+  const isSameServer = await isSameServerIp(req.cookies.get('i') ?? ``)
 
-  if(isFromZeneOrigin(req) === false) json({})
+  if (isFromZeneOrigin(req) === false) json({})
 
   try {
-    if(videoId.length > 20 && videoId.split("-").length > 3){
+    if (videoId.length > 20 && videoId.split('-').length > 3) {
       const radio = new RadioBrowserImpl()
       const response = await radio.radioPlayURL(videoId)
       const url = response[0].url_resolved == null ? response[0].url : response[0].url_resolved
-      return json(new DURLResponse(url ?? "", 3))
+      return json(new DURLResponse(url ?? '', 3))
     }
-    
+
     const ytDownloader = new YTDownloaderImpl()
     const url = await ytDownloader.videoURL(videoId, isSameServer)
 
-    if (url === "") return json({})
+    if (url === '') return json({})
     let urlPoint = ''
     let type = 0
-    
-    if(url.includes("srvcdn7.2convert.me/dl?")){
-       urlPoint = url.textAfterKeyword("srvcdn7.2convert.me/dl?hash=") ?? ""
-       type = 0
-    } else if(url.includes("0x0.st/")){
-       urlPoint = url.textAfterKeyword("0x0.st/")?.replaceAll(".mp3", "") ?? ""
-       type = 1
+
+    if (url.includes('srvcdn7.2convert.me/dl?')) {
+      urlPoint = url.textAfterKeyword('srvcdn7.2convert.me/dl?hash=') ?? ''
+      type = 0
+    } else if (url.includes('0x0.st/')) {
+      urlPoint = url.textAfterKeyword('0x0.st/')?.replaceAll('.mp3', '') ?? ''
+      type = 1
     } else {
       urlPoint = url
       type = 3
@@ -44,4 +43,4 @@ export const GET = (async (req: RequestEvent) => {
   } catch (error) {
     return json({})
   }
-})
+}

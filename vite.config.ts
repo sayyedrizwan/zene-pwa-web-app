@@ -6,7 +6,7 @@ import { generateSW } from './pwa.mjs'
 export default defineConfig({
   logLevel: 'info',
   build: {
-    minify: false
+    minify: false,
   },
   define: {
     __DATE__: `'${new Date().toISOString()}'`,

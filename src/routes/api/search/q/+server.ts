@@ -6,25 +6,23 @@ import { MusicData, MusicType, SearchMusicData } from '../../../../domain/local/
 import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 
 export async function POST(events: RequestEvent) {
-  if(isFromZeneOrigin(events) === false) return json({})
-  
+  if (isFromZeneOrigin(events) === false) return json({})
+
   const body = await events.request.json()
   const q = body.q
-
 
   const radioBrowserImpl = new RadioBrowserImpl()
   const ytMusicImpl = new YtMusicAPIImpl()
 
   try {
-    const radio : MusicData[] = [] 
+    const radio: MusicData[] = []
     const radioList = await radioBrowserImpl.radioSearch(q)
     const artistsList = await ytMusicImpl.artistsSearch(q)
     const albumList = await ytMusicImpl.albumSearch(q)
     const songList = await ytMusicImpl.songsSearch(q)
-    
+
     radioList.forEach((r) => {
-      if (r.name != undefined && r.stationuuid != undefined)
-          radio.push(new MusicData(r.name, r.language ?? '', r.stationuuid, r.favicon ?? '', MusicType.RADIO))
+      if (r.name != undefined && r.stationuuid != undefined) radio.push(new MusicData(r.name, r.language ?? '', r.stationuuid, r.favicon ?? '', MusicType.RADIO))
     })
 
     return json(new SearchMusicData(radio, artistsList, albumList, songList))

@@ -41,9 +41,8 @@ export function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
   return result
 }
 
-
 export function capitalizeFirstLetterOfEveryWords(str: string): string {
-  return str.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase())
+  return str.replace(/(^\w{1})|(\s+\w{1})/g, (match) => match.toUpperCase())
 }
 
 export function formatRelativeTime(dateString: string): string {
@@ -62,45 +61,41 @@ export function formatRelativeTime(dateString: string): string {
   else if (hours < 24) return `${hours} hours ago`
   else if (days < 30) return `${days} days ago`
   else if (months < 12) return `${months} months ago`
-  else return date.toLocaleDateString('en-US', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
+  else
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
 }
-
-
 
 export function getFavIcon(url: String): string {
-  return `https://icon.horse/icon/${url.replaceAll("https://", "")}`
+  return `https://icon.horse/icon/${url.replaceAll('https://', '')}`
 }
-
 
 export function deepListCompare(list1: any[], list2: any[]): boolean {
   if (list1.length !== list2.length) {
-    return false;
+    return false
   }
 
   for (let i = 0; i < list1.length; i++) {
     if (typeof list1[i] === 'object' && typeof list2[i] === 'object') {
-     return deepListCompare(list1[i], list2[i]);
+      return deepListCompare(list1[i], list2[i])
     } else {
       if (list1[i] !== list2[i]) {
-        return false;
+        return false
       }
     }
   }
 
-  return true;
+  return true
 }
-
-
 
 export async function setServerIpAddress() {
   try {
     const r = await axios.get(ipBaseUrl(''))
-    const response = await r.data as IpJsonResponse
+    const response = (await r.data) as IpJsonResponse
     alert(response.query)
     setCookie('i', response.query)
   } catch (error) {

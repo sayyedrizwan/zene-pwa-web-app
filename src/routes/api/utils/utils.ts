@@ -18,14 +18,11 @@ export function ipBaseUrl(ip: string) {
   return `http://ip-api.com/json/${ip}`
 }
 
-export const google_news_api = "https://news.google.com/rss/search"
+export const google_news_api = 'https://news.google.com/rss/search'
 
+export const bing_news_api = 'https://www.bing.com/news/search'
 
-export const bing_news_api = "https://www.bing.com/news/search"
-
-
-export const check_ip_aws = "http://checkip.amazonaws.com/"
-
+export const check_ip_aws = 'http://checkip.amazonaws.com/'
 
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
@@ -33,7 +30,6 @@ export const radio_browser_url = '_api._tcp.radio-browser.info'
 export const radio_browser_country = '/json/stations/bycountry/'
 export const radio_browser_name = '/json/stations/search?name='
 export const radio_browser_search_by_uuid = '/json/stations/byuuid?uuids='
-
 
 export function spotifyAuthURL() {
   const state = generateRandomString(16)
@@ -43,26 +39,23 @@ export function spotifyAuthURL() {
   return `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scope}&state=${state}&redirect_uri=${callback_url}`
 }
 
-
-
 // cookie
 export const last_sync_ts_cookie = 'last_sync_ts'
 export const users_ip_address = 'i'
 export const users_ip_details = 'i_d'
 
-
 export let ipAddress: string | null = null
 
 export async function isSameServerIp(ip: string) {
-  if (ipAddress != null && ipAddress.includes(".")) {
-    if(ip.textBeforeLastKeyword('.') == ipAddress.textBeforeLastKeyword('.')) return true
+  if (ipAddress != null && ipAddress.includes('.')) {
+    if (ip.textBeforeLastKeyword('.') == ipAddress.textBeforeLastKeyword('.')) return true
   }
 
   try {
     const r = await fetch(ipBaseUrl(''))
-    const response = await r.json() as IpJsonResponse
+    const response = (await r.json()) as IpJsonResponse
     ipAddress = response.query
-    if(ip.textBeforeLastKeyword('.') == ipAddress.textBeforeLastKeyword('.')) return true
+    if (ip.textBeforeLastKeyword('.') == ipAddress.textBeforeLastKeyword('.')) return true
     else return false
   } catch (error) {
     return false
@@ -70,7 +63,9 @@ export async function isSameServerIp(ip: string) {
 }
 
 export function waitServer(time: number) {
-  return new Promise((resolve) => { setTimeout(resolve, time) })
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
 }
 
 export function formatNumberString(numberString: string): string {
@@ -155,7 +150,7 @@ String.prototype.textBeforeLastKeyword = function (char: string): string | null 
 }
 
 export function getIpAddress(events: RequestEvent): string {
-  return events.cookies.get(users_ip_address) ?? ""
+  return events.cookies.get(users_ip_address) ?? ''
 }
 
 export function isStringValidJSONObject<T>(str: string): boolean {
@@ -166,7 +161,6 @@ export function isStringValidJSONObject<T>(str: string): boolean {
     return false
   }
 }
-
 
 export function getRandomItem<T>(list: T[]): T | undefined {
   if (list.length === 0) return undefined
@@ -180,18 +174,13 @@ export function shuffleList<T>(array: T[]): T[] {
 
   while (currentIndex !== 0) {
     const randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex -= 1;
+    currentIndex -= 1
 
-    [shuffledArray[currentIndex], shuffledArray[randomIndex]] = [
-      shuffledArray[randomIndex],
-      shuffledArray[currentIndex],
-    ]
+    ;[shuffledArray[currentIndex], shuffledArray[randomIndex]] = [shuffledArray[randomIndex], shuffledArray[currentIndex]]
   }
 
   return shuffledArray
 }
-
-
 
 export function generateRandomString(length: number) {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

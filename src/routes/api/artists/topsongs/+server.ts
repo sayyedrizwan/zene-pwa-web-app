@@ -9,10 +9,10 @@ import { MusicDataList, type MusicData } from '../../../../domain/local/entities
 
 export async function POST(events: RequestEvent) {
   const headers = events.request.headers
-  const name = headers.get('name') ?? ""
-  
+  const name = headers.get('name') ?? ''
+
   if (name == undefined) return json(apiError)
-  if (name === "") return json(apiError)
+  if (name === '') return json(apiError)
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   const ytImpl = new YtMusicAPIImpl()
@@ -20,24 +20,23 @@ export async function POST(events: RequestEvent) {
   try {
     const searchInfo = await axios.get(searchLastFM(name))
     const pageInfo = new JSDOM(await searchInfo.data)
-    const link = pageInfo.window.document.querySelectorAll('.js-link-block-cover-link.link-block-cover-link')[0]?.getAttribute("href")
-    const mainpageInfo = await axios.get(lastFMMainPage(link ?? ""))
+    const link = pageInfo.window.document.querySelectorAll('.js-link-block-cover-link.link-block-cover-link')[0]?.getAttribute('href')
+    const mainpageInfo = await axios.get(lastFMMainPage(link ?? ''))
     const mainpageHomeInfo = new JSDOM(await mainpageInfo.data)
 
-    const names: string[] = [] 
-    mainpageHomeInfo.window.document.querySelectorAll('td.chartlist-name').forEach(page => {
-      names.push(page.querySelector('a')?.textContent ?? "")
+    const names: string[] = []
+    mainpageHomeInfo.window.document.querySelectorAll('td.chartlist-name').forEach((page) => {
+      names.push(page.querySelector('a')?.textContent ?? '')
     })
 
-    
-    const lists: MusicData[] = [] 
+    const lists: MusicData[] = []
     await Promise.all(
       names.map(async (m) => {
         const music = await ytImpl.musicSearchSingle(`${m} - ${name}`, false)
         if (music.songId != null) lists.push(music)
       }),
     )
-    
+
     return json(new MusicDataList(lists))
   } catch (error) {
     return json(apiError)

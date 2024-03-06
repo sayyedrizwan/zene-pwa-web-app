@@ -1,8 +1,8 @@
 import { initializeApp, type FirebaseApp, getApps } from 'firebase/app'
 import { getAnalytics, type Analytics } from 'firebase/analytics'
 import { browser } from '$app/environment'
-import { type Messaging, onMessage, getToken } from "firebase/messaging"
-import { getMessaging } from "firebase/messaging"
+import { type Messaging, onMessage, getToken } from 'firebase/messaging'
+import { getMessaging } from 'firebase/messaging'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC6dhNuFEKeoClW69Rwl5v7sjWXVjtfF1Y',
@@ -19,7 +19,6 @@ let firebaseAnalytics: Analytics | undefined
 let firebaseMessaging: Messaging | undefined
 
 if (browser) {
-
   try {
     firebaseAnalytics = getAnalytics(app)
     firebaseMessaging = getMessaging(app)
@@ -28,16 +27,15 @@ if (browser) {
   }
 }
 
-
 export async function setUpForegroundFCM() {
   await Notification.requestPermission()
 
   try {
-    getToken(firebaseMessaging!, { vapidKey: "BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M" })
+    getToken(firebaseMessaging!, { vapidKey: 'BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M' })
 
     onMessage(firebaseMessaging!, (payload) => {
-      console.log("Message received. ", payload)
-      alert("Notificacion")
+      console.log('Message received. ', payload)
+      alert('Notificacion')
     })
   } catch (error) {
     error

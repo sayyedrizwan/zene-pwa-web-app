@@ -55,7 +55,8 @@ export function ytMusicBodyWithInput(q: string): string {
 }
 
 export function ytMusicBodyWithParamsWithIp(ip: IpJsonResponse | null, b: string): string {
- if(ip == null) return `
+  if (ip == null)
+    return `
     {
         "context": {
             "client": {
@@ -67,7 +68,8 @@ export function ytMusicBodyWithParamsWithIp(ip: IpJsonResponse | null, b: string
         "browseId": "${b}"
     }
     `
-    else  return `
+  else
+    return `
     {
         "context": {
             "client": {
@@ -97,7 +99,6 @@ export function ytMusicBodyWithVID(id: string): string {
     }
     `
 }
-
 
 export function ytMusicBodyWithParamsNext(ip: IpJsonResponse, s: string): string {
   return `

@@ -1,4 +1,4 @@
-import type { MusicData, MusicType } from "./MusicData"
+import type { MusicData, MusicType } from './MusicData'
 
 export class MusicPlayerData {
   lists: MusicData[]
@@ -16,8 +16,10 @@ export class MusicPlayerData {
   }
 }
 
-export type ResponseMusicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.SONG, data: string } | { type: MusicPlayerPlayingStatus.VIDEO, data: string } | { type: MusicPlayerPlayingStatus.LYRICS_VIDEO, data: string }
+export type ResponseMusicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.SONG; data: string } | { type: MusicPlayerPlayingStatus.VIDEO; data: string } | { type: MusicPlayerPlayingStatus.LYRICS_VIDEO; data: string }
 
 export enum MusicPlayerPlayingStatus {
-  SONG, VIDEO, LYRICS_VIDEO
-} 
+  SONG,
+  VIDEO,
+  LYRICS_VIDEO,
+}

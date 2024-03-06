@@ -59,16 +59,7 @@
         "depends": []
       },
       "externalBin": [],
-      "icon": [
-        "../static/logo76.png",
-        "../static/logo120.png",
-        "../static/logo152.png",
-        "../static/logo167.png",
-        "../static/logo180.png",
-        "../static/logo820.png",
-        "../static/icon.svg",
-        "../static/favicon.svg"
-      ],
+      "icon": ["../static/logo76.png", "../static/logo120.png", "../static/logo152.png", "../static/logo167.png", "../static/logo180.png", "../static/logo820.png", "../static/icon.svg", "../static/favicon.svg"],
       "identifier": "com.rizwansayyed.zene",
       "longDescription": "",
       "macOS": {

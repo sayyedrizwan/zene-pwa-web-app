@@ -8,27 +8,26 @@ export async function POST(events: RequestEvent) {
   const name = headers.get('name')
 
   if (name == undefined) return json(apiError)
-  if (name === "") return json(apiError)
+  if (name === '') return json(apiError)
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
-
   const pImpl = new PinterestImpl()
- 
+
   try {
     const searchLists = [`${name}`, `${name} photoshoot`, `${name} latest images`, `${name} lyrics`]
-    const imageList : string[] = []
+    const imageList: string[] = []
 
     await Promise.all(
       searchLists.map(async (e) => {
         const search = await pImpl.searchImage(e)
-        search?.resource_response?.data?.results?.forEach(i => {
-          if(i.images?.orig?.url != undefined) imageList.push(i.images?.orig?.url)
+        search?.resource_response?.data?.results?.forEach((i) => {
+          if (i.images?.orig?.url != undefined) imageList.push(i.images?.orig?.url)
         })
-      })
+      }),
     )
 
     return json(shuffleList(imageList))
-  }catch (error) {
+  } catch (error) {
     return json([])
   }
 }

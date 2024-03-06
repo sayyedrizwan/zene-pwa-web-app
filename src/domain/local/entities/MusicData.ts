@@ -16,7 +16,6 @@ export class MusicDataList {
   }
 }
 
-
 export class SearchMusicData {
   radio: MusicData[] = []
   artists: MusicData[] = []
@@ -52,5 +51,5 @@ export enum MusicType {
   RADIO,
   ARTISTS,
   ALBUM,
-  VIDEO
+  VIDEO,
 }

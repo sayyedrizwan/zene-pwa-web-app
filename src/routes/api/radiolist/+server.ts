@@ -21,10 +21,8 @@ export async function POST(events: RequestEvent) {
     const response = await radio.countryRadios(ipData.country)
     response.forEach((r) => {
       if (r.name != undefined && r.stationuuid != undefined)
-        if (r.state?.toLowerCase() === ipData.city.toLowerCase())
-          cityRadio.push(new MusicData(r.name, r.language ?? '', r.stationuuid, r.favicon ?? '', MusicType.RADIO))
-        else
-          countryRadio.push(new MusicData(r.name, r.language ?? '', r.stationuuid, r.favicon ?? '', MusicType.RADIO))
+        if (r.state?.toLowerCase() === ipData.city.toLowerCase()) cityRadio.push(new MusicData(r.name, r.language ?? '', r.stationuuid, r.favicon ?? '', MusicType.RADIO))
+        else countryRadio.push(new MusicData(r.name, r.language ?? '', r.stationuuid, r.favicon ?? '', MusicType.RADIO))
     })
     return json(new ExtraDataMusicData(cityRadio, countryRadio))
   } catch (error) {

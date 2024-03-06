@@ -8,18 +8,18 @@ export async function POST(events: RequestEvent) {
   const name = headers.get('name')
 
   if (name == undefined) return json(apiError)
-  if (name === "") return json(apiError)
+  if (name === '') return json(apiError)
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   const ytImpl = new YtAPIImpl()
- 
+
   try {
     const videos = await ytImpl.searchVideo(`${name} songs playlist`)
-    const id =  getRandomItem(videos)
+    const id = getRandomItem(videos)
 
-    if(id == undefined) return new Response("")
-    return new Response(btoa(id.songId!).replaceLastChar("=", ""))
-  }catch (error) {
-    return new Response("")
+    if (id == undefined) return new Response('')
+    return new Response(btoa(id.songId!).replaceLastChar('=', ''))
+  } catch (error) {
+    return new Response('')
   }
 }
