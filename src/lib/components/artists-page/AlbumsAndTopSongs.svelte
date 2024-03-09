@@ -34,7 +34,7 @@
 </script>
 
 {#if searchSuggestion.type == ResponseDataEnum.SUCCESS}
-  {#if searchSuggestion.data?.album.length ?? 0 > 0}
+  {#if searchSuggestion.data?.album?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Latest Songs</h3>
     <GridFullCardItem results={new MusicDataList(searchSuggestion.data.songs)} />
   {/if}
@@ -52,7 +52,7 @@
 
 
 {#if searchSuggestion.type == ResponseDataEnum.SUCCESS}
-  {#if searchSuggestion.data?.album.length ?? 0 > 0}
+  {#if searchSuggestion.data?.album?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Albums</h3>
     <CardAlbumsItems albums={searchSuggestion.data.album} />
   {/if}

@@ -10,7 +10,7 @@
 
   export let data: any
 
-  const artistsInfo = data.info as ArtistsInfoData
+  $: artistsInfo = data.info as ArtistsInfoData
 
   let key: string | null = null
   let ip: IpDetails | null

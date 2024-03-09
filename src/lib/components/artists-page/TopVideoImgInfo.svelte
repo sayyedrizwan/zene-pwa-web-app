@@ -49,6 +49,7 @@
   }
 
   onMount(async () => {
+    console.log('rgyrhr')
     addRmPin(false)
     artistsVideo()
     artistsRadio()

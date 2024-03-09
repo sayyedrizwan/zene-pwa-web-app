@@ -16,7 +16,6 @@
   import ArtistsCards from '$lib/components/global-view/items/ArtistsCards.svelte'
   import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
   import SuggestSongsYouMayLike from '$lib/components/main-page/SuggestSongsYouMayLike.svelte'
-  import { getCookie } from '$lib/utils/c'
   
   export let data: any
 

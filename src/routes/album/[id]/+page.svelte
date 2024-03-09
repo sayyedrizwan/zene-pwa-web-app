@@ -8,7 +8,7 @@
 
   export let data: any
 
-  const albumInfo = data.info as MusicData
+  $: albumInfo = data.info as MusicData
 
   let key: string | null = null
   let ip: IpDetails | null
