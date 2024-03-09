@@ -4,6 +4,8 @@ import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskR
 import ytdl from 'ytdl-core'
 import axios, { type AxiosResponse } from 'axios'
 
+// https://wsnd.io/po9R9bHq/videoplayback.mp4
+
 export class YTDownloaderImpl {
   async videoURL(videoId: string, isSameServer: Boolean) {
     const path = await this.videoYTDownloader(videoId, isSameServer)
@@ -54,19 +56,23 @@ export class YTDownloaderImpl {
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
 
-      if (isSameServer === true) return url ?? null
+      // if (isSameServer === true) return url ?? null
 
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const blob = new Blob(chucks, { type: 'audio/mp4' })
 
+      const responseUid = await fetch("https://wsend.net/createunreg", {
+        method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" }, body: "start=1"
+      })
+      const uid = await responseUid.text()
+
+
       const formData = new FormData()
-      formData.append('file', blob, `${new Date().getTime()}_${generateRandomString(20)}.mp3`)
-      formData.append('expires', '2')
-
-      const request = await fetch('https://0x0.st/', { method: 'POST', body: formData })
+      formData.append('filehandle', blob, "videoplayback.mp4")
+      formData.append('uid', uid)
+      const request = await fetch('https://wsend.net/upload_cli', { method: 'POST', headers: {}, body: formData })
       const response = await request.text()
-
       return response.trim()
     } catch (error) {
       return null

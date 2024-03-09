@@ -40,5 +40,5 @@
     </div>
   </div>
 {:else}
-    <h3 class="text-white urbanist-regular text-base md:text-xl pl-9 mt-24 mb-6 w-full text-center">No pinned artists yet! Pin artists by going to their profile to see their latest, music, projects and new in your feed.</h3>
+  <h3 class="text-white urbanist-regular text-base md:text-xl pl-9 mt-24 mb-6 w-full text-center">No pinned artists yet! Pin artists by going to their profile to see their latest, music, projects and new in your feed.</h3>
 {/if}

@@ -112,7 +112,7 @@ export class APManager implements AudioPlayer {
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
-    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://0x0.st/${path?.u?.trim()}.mp3` : path.u?.trim() ?? ``
+    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp4` : path.u?.trim() ?? ``
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'
@@ -175,8 +175,8 @@ export class APManager implements AudioPlayer {
       this.seekForward(5)
     })
 
-    setActionHandler('previoustrack', function () {})
-    setActionHandler('nexttrack', function () {})
+    setActionHandler('previoustrack', function () { })
+    setActionHandler('nexttrack', function () { })
   }
 
   pause(): void {
@@ -200,9 +200,9 @@ export class APManager implements AudioPlayer {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
-  nextSong(): void {}
+  nextSong(): void { }
 
-  previousSong(): void {}
+  previousSong(): void { }
 
   isPlaying(): boolean {
     if (this.music?.type == MusicType.RADIO) {

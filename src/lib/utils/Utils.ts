@@ -96,7 +96,6 @@ export async function setServerIpAddress() {
   try {
     const r = await axios.get(ipBaseUrl(''))
     const response = (await r.data) as IpJsonResponse
-    alert(response.query)
     setCookie('i', response.query)
   } catch (error) {
     alert(error)

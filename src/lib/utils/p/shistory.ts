@@ -54,7 +54,7 @@ export async function getAllPlayHistory(start: number, total: number = 50): Prom
 
     let hasSkipped = false
 
-    historyStore.openCursor(null, 'prev').onsuccess = (e: any) => {
+    historyStore.openCursor(null, 'next').onsuccess = (e: any) => {
       var cursor = e.target.result
       if (!hasSkipped && start > 0) {
         hasSkipped = true

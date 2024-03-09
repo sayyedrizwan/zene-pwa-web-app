@@ -13,8 +13,8 @@
   let response: ResponseData<FeedData[]> = { type: ResponseDataEnum.EMPTY }
 
   const pin = async (results: ArtistsPinData[]) => {
+    response = { type: ResponseDataEnum.LOADING }
     try {
-      response = { type: ResponseDataEnum.LOADING }
       const res = await axios.post(env.PUBLIC_FEEDS, results, { timeout: 60000, headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as FeedData[]
       response = { type: ResponseDataEnum.SUCCESS, data: data }
@@ -67,26 +67,28 @@
     <span class="sr-only">Loading...</span>
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {#each response.data as items}
-      <a class="bg-gray-900 rounded-lg p-3 cursor-pointer justify-start relative" href={items.link} target="_blank">
-        <p class="text-white urbanist-thin w-full text-start">{items.name} {items.type == FeedType.NEWS ? 'News' : 'youtube channel video'}</p>
+  {#if response.data.length > 0}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {#each response.data as items}
+        <a class="bg-gray-900 rounded-lg p-3 cursor-pointer justify-start relative" href={items.link} target="_blank">
+          <p class="text-white urbanist-thin w-full text-start">{items.name} {items.type == FeedType.NEWS ? 'News' : 'youtube channel video'}</p>
 
-        <div class="flex pt-3">
-          <div class="relative">
-            <img src={items.thumbnail} alt={items.name} class="h-36 w-36 object-cover rounded-sm" />
-            {#if items.type == FeedType.YOUTUBE}
-              <img src={YoutubeIcon} alt="yt" class="absolute size-8 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
-            {/if}
+          <div class="flex pt-3">
+            <div class="relative">
+              <img src={items.thumbnail} alt={items.name} class="h-36 w-36 object-cover rounded-sm" />
+              {#if items.type == FeedType.YOUTUBE}
+                <img src={YoutubeIcon} alt="yt" class="absolute size-8 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
+              {/if}
+            </div>
+            <div class="ms-3">
+              <h1 class="text-white urbanist-bold line-clamp-2 text-start">{items.title}</h1>
+              <h1 class="text-white urbanist-light line-clamp-4 mt-2 text-sm text-start">{items.desc}</h1>
+            </div>
           </div>
-          <div class="ms-3">
-            <h1 class="text-white urbanist-bold line-clamp-2 text-start">{items.title}</h1>
-            <h1 class="text-white urbanist-light line-clamp-4 mt-2 text-sm text-start">{items.desc}</h1>
-          </div>
-        </div>
 
-        <p class="text-white urbanist-thin text-sm absolute bottom-2 right-2">{timeAgoFromTimestamp(items.ts)}</p>
-      </a>
-    {/each}
-  </div>
+          <p class="text-white urbanist-thin text-sm absolute bottom-2 right-2">{timeAgoFromTimestamp(items.ts)}</p>
+        </a>
+      {/each}
+    </div>
+  {/if}
 {/if}

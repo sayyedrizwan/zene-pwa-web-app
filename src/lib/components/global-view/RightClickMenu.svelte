@@ -50,10 +50,6 @@
       }
     }
   })
-
-  function settings(){
-
-  }
 </script>
 
 <div class="absolute" id="contextMenu" style="display:none">

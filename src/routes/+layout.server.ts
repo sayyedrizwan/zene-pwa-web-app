@@ -8,7 +8,7 @@ export const load = async ({ fetch, cookies, getClientAddress }) => {
 
 // for tauri app
 // uncomment rendering type, change the adapter
-// change $env/dynamic/private to $env/dynamic/private
+// change $env/static/private to $env/dynamic/private
 // comment @tauri-apps/api/window
 
 // export const ssr = false

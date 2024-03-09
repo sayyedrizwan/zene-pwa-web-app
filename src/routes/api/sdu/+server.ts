@@ -1,5 +1,5 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { atob, btoa } from 'buffer'
+import { atob } from 'buffer'
 import { RadioBrowserImpl } from '../api_impl/radio/RadioBrowserImpl'
 import { YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'
 import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
@@ -31,8 +31,8 @@ export const GET = async (req: RequestEvent) => {
     if (url.includes('srvcdn7.2convert.me/dl?')) {
       urlPoint = url.textAfterKeyword('srvcdn7.2convert.me/dl?hash=') ?? ''
       type = 0
-    } else if (url.includes('0x0.st/')) {
-      urlPoint = url.textAfterKeyword('0x0.st/')?.replaceAll('.mp3', '') ?? ''
+    } else if (url.includes('wsnd.io/')) {
+      urlPoint = url.textAfterKeyword('wsnd.io/')?.replaceAll('/videoplayback.mp4', '') ?? ''
       type = 1
     } else {
       urlPoint = url
