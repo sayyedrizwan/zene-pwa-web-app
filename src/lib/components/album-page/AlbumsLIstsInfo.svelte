@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { SearchMusicData } from '../../../domain/local/entities/MusicData'
   import axios from 'axios'
@@ -11,13 +10,13 @@
 
   let searchSuggestion: ResponseData<SearchMusicData> = { type: ResponseDataEnum.EMPTY }
 
-  onMount(async () => {
+  async function mount() {
     searchSuggestion = { type: ResponseDataEnum.LOADING }
     try {
       const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, headers: { AuthorizationKey: key }, data: { q: name.trim() } })
       let response = (await res.data) as SearchMusicData
 
-      if(response.album.length > 1) {
+      if (response.album.length > 1) {
         response = new SearchMusicData([], [], response.album.slice(1), [])
       }
 
@@ -25,7 +24,9 @@
     } catch (error) {
       searchSuggestion = { type: ResponseDataEnum.ERROR }
     }
-  })
+  }
+
+  $: name, mount()
 </script>
 
 {#if searchSuggestion.type == ResponseDataEnum.SUCCESS}

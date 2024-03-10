@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte'
   import type { ArtistsInfoData } from '../../../domain/local/entities/ArtistsInfoData'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { env } from '$env/dynamic/public'
@@ -21,7 +20,6 @@
 
   let isPinned: Boolean = false
   let showFullDesc: Boolean = false
-  let videoTime: NodeJS.Timeout | null = null
   let radioId: string | null = null
   let response: ResponseData<string | null> = { type: ResponseDataEnum.EMPTY }
 
@@ -48,16 +46,13 @@
     }
   }
 
-  onMount(async () => {
-    console.log('rgyrhr')
+  function mount(){
     addRmPin(false)
     artistsVideo()
     artistsRadio()
-  })
-
-  onDestroy(() => {
-    if (videoTime != undefined) clearInterval(videoTime)
-  })
+  }
+  
+  $: artistsInfo.name, mount()
 
   function shareArtists() {
     const title = `${artistsInfo?.name ?? 'Artists'} on Zene`

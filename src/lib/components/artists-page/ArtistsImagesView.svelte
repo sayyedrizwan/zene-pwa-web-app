@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import type { ArtistsInfoData } from '../../../domain/local/entities/ArtistsInfoData'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
@@ -23,10 +22,9 @@
       response = { type: ResponseDataEnum.ERROR }
     }
   }
+  
+  $: artistsInfo.name,  artistsImages()
 
-  onMount(async () => {
-    artistsImages()
-  })
 </script>
 
 {#if response.type == ResponseDataEnum.SUCCESS}

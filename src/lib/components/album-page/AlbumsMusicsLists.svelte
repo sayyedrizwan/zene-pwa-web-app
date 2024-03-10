@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import type { MusicData } from '../../../domain/local/entities/MusicData'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
@@ -12,7 +11,7 @@
   let response: ResponseData<MusicData[]> = { type: ResponseDataEnum.EMPTY }
 
 
-  onMount(async () => {
+  async function mount() {
     response = { type: ResponseDataEnum.LOADING }
     try {
       const res = await axios.post(env.PUBLIC_ARTISTS_ALBUMS_SONGS, { headers: { AuthorizationKey: key, id: url } })
@@ -21,7 +20,9 @@
     } catch (error) {
       response = { type: ResponseDataEnum.ERROR }
     }
-  })
+  }
+
+  $: url, mount()
 </script>
 
 {#if response.type == ResponseDataEnum.SUCCESS}

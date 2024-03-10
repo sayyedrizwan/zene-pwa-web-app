@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import type { ArtistsInfoData } from '../../../domain/local/entities/ArtistsInfoData'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import { MusicDataList, type MusicData, type SearchMusicData } from '../../../domain/local/entities/MusicData'
@@ -7,8 +6,8 @@
   import { env } from '$env/dynamic/public'
   import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
   import DualArtistsItems from '../global-view/items/DualArtistsItems.svelte'
-    import { splitArrayIntoChunks } from '$lib/utils/Utils'
-    import GridFullCardItem from '../global-view/items/GridFullCardItem.svelte'
+  import { splitArrayIntoChunks } from '$lib/utils/Utils'
+  import GridFullCardItem from '../global-view/items/GridFullCardItem.svelte'
 
   export let key: string
   export let artistsInfo: ArtistsInfoData
@@ -28,9 +27,7 @@
     }
   }
 
-  onMount(async () => {
-    search()
-  })
+  $: artistsInfo.name, search()
 </script>
 
 {#if searchSuggestion.type == ResponseDataEnum.SUCCESS}
@@ -49,8 +46,6 @@
   </div>
 {/if}
 
-
-
 {#if searchSuggestion.type == ResponseDataEnum.SUCCESS}
   {#if searchSuggestion.data?.album?.length ?? 0 > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Albums</h3>
@@ -66,8 +61,6 @@
     {/each}
   </div>
 {/if}
-
-
 
 {#if artistsLists.type == ResponseDataEnum.SUCCESS}
   {#if artistsLists.data.length ?? 0 > 0}

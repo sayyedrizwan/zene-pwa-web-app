@@ -23,9 +23,8 @@
     }
   }
 
-  onMount(async () => {
-    artistsNews()
-  })
+
+  $: artistsInfo.name, artistsNews()
 </script>
 
 <div class="mt-2">

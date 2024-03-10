@@ -14,7 +14,7 @@
 </script>
 
 <div class="flex-none lg:flex w-full mt-16">
-  <img src={albumInfo.thumbnail} alt={albumInfo.name} class="size-96 ms-7 rounded-xl shadow-sm shadow-gray-400" />
+  <img src={albumInfo.thumbnail} alt={albumInfo.name} class="size-72 md:size-96 ms-7 rounded-xl shadow-sm shadow-gray-400" />
   <div class="h-96 lg:flex lg:justify-center lg:items-center mx-7">
     <div class="mt-11 lg:mt-0">
       <h2 class="text-white urbanist-semibold text-3xl lg:text-6xl">{albumInfo.name}</h2>
