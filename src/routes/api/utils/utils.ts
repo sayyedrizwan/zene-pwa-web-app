@@ -18,6 +18,9 @@ export function ipBaseUrl(ip: string) {
   return `http://ip-api.com/json/${ip}`
 }
 
+export const rent_an_advise_lyrics_search =  `https://www.rentanadviser.com/subtitles/subtitles4songs.aspx`
+export const rent_an_advise_lyrics_find =  `https://www.rentanadviser.com/subtitles/`
+
 export const google_news_api = 'https://news.google.com/rss/search'
 
 export const bing_news_api = 'https://www.bing.com/news/search'

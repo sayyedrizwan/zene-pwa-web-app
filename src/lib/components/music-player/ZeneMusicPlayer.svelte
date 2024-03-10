@@ -11,6 +11,7 @@
   import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
   import PlayerActionButton from './view/PlayerActionButton.svelte'
   import MusicRelatedSongs from './view/MusicRelatedSongs.svelte'
+  import SongLyricsView from './view/SongLyricsView.svelte'
 
   export let songPlayer: Boolean
   export let audioPlayer: APManager
@@ -81,7 +82,7 @@
   function scrollMusicToTop() {
     audioPlayer.startBuffering()
     const id = document.getElementById('scrollmusic') as HTMLElement
-    if(id != null) id.scroll({ top: 0, behavior: 'smooth' })
+    if (id != null) id.scroll({ top: 0, behavior: 'smooth' })
   }
 </script>
 
@@ -92,7 +93,8 @@
       <MusicRecordsLists bind:musicData bind:musicPlayerPlayingStatus />
       <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
       <PlayerActionButton bind:musicData bind:musicPlayerPlayingStatus {toMusicFunction} />
-      <MusicRelatedSongs bind:musicData {scrollMusicToTop} />
+      <SongLyricsView bind:musicData bind:currentDuration/>
+      <!-- <MusicRelatedSongs bind:musicData {scrollMusicToTop} /> -->
     </div>
 
     <div class="relative bg-maincolor w-full">

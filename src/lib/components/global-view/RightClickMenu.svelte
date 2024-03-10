@@ -52,7 +52,7 @@
   })
 </script>
 
-<div class="absolute" id="contextMenu" style="display:none">
+<div class="absolute z-[3000]" id="contextMenu" style="display:none">
   <div class="bg-white w-60 border border-gray-300 rounded-lg flex flex-col text-sm py-4 px-2 text-gray-500 shadow-lg">
     <RightClickItems text={''} click={() => {}}/>
     <RightClickItems text={'Settings'} click={() => goto('/settings')}/>

@@ -12,9 +12,7 @@ export const POST = async (events: RequestEvent) => {
   if (!isFromZeneOrigin(events)) return json(authKeyError)
   const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
   const ipData = (await responseIp.data) as IpJsonResponse
-
   const list = await events.request.json()
-
   if (list.length <= 0) return json({})
 
   const yt = new YtMusicAPIImpl()
@@ -26,12 +24,7 @@ export const POST = async (events: RequestEvent) => {
 
   await Promise.all(
     list.map(async (m: string) => {
-      let id = ''
-      try {
-        atob(m)
-      } catch (error) {
-        id = m
-      }
+      let id = atob(m)
       const d = await yt.getBrowseDetailsAndNextSongs(ipData, id)
       const lists = await yt.browseSongsId(ipData, d[1] ?? '')
 

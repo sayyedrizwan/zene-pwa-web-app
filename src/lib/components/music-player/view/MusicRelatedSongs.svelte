@@ -27,7 +27,7 @@
       const data = (await res.data) as SongsYouMayLike
       songs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList([...data.like, ...data.listen, ...data.explore]) }
       setSuggestRelatedSongId(musicData?.m.songId ?? '', songs.data)
-    } catch (error) {
+    } catch (error) {  
       songs = { type: ResponseDataEnum.ERROR }
     }
   }

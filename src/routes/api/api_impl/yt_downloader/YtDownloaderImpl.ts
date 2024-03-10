@@ -1,5 +1,5 @@
 import { yt2_downloader_convertor, yt2_downloader_task_convertor, yt2_mate_downloader_header, yt5s_ink_download_token, yt5s_ink_downloader, yt5s_ink_header, ytDownloaderY2mateDownload } from './ytdownloaderutils'
-import { generateRandomString, waitServer } from '../../utils/utils'
+import { waitServer } from '../../utils/utils'
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from './domain/YT2MateInfoResponse'
 import ytdl from 'ytdl-core'
 import axios, { type AxiosResponse } from 'axios'
@@ -66,7 +66,6 @@ export class YTDownloaderImpl {
         method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" }, body: "start=1"
       })
       const uid = await responseUid.text()
-
 
       const formData = new FormData()
       formData.append('filehandle', blob, "videoplayback.mp4")
