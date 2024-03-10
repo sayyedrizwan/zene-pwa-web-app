@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setMusicLyrics } from '$lib/utils/pid'
+  import { getMusicLyrics, setMusicLyrics } from '$lib/utils/pid'
   import { ResponseDataEnum, type ResponseData } from '../../../../domain/RequestEnumClass'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
   import axios from 'axios'
@@ -23,11 +23,11 @@
     await wait(500)
     if (isEverRunned == true) return
     if (musicData?.m?.songId == undefined) return
-    // const v = getMusicLyrics(musicData?.m?.songId ?? '')
-    // if (v != null) {
-    //   songLyrics = { type: ResponseDataEnum.SUCCESS, data: v }
-    //   return
-    // }
+    const v = getMusicLyrics(musicData?.m?.songId ?? '')
+    if (v != null) {
+      songLyrics = { type: ResponseDataEnum.SUCCESS, data: v }
+      return
+    }
 
     isEverRunned = true
     try {

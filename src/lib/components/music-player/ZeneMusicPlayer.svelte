@@ -94,7 +94,7 @@
       <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
       <PlayerActionButton bind:musicData bind:musicPlayerPlayingStatus {toMusicFunction} />
       <SongLyricsView bind:musicData bind:currentDuration/>
-      <!-- <MusicRelatedSongs bind:musicData {scrollMusicToTop} /> -->
+      <MusicRelatedSongs bind:musicData {scrollMusicToTop} />
     </div>
 
     <div class="relative bg-maincolor w-full">
