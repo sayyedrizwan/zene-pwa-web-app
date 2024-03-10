@@ -1,8 +1,8 @@
 export class LyricsResponseData {
-  lyrics?: string
+  lyrics?: string | null
   sync?: boolean
 
-  constructor(lyrics: string, sync: boolean) {
+  constructor(lyrics: string | null, sync: boolean) {
     this.lyrics = lyrics
     this.sync = sync
   }

@@ -48,7 +48,7 @@
       const txt = songLyrics.data.lyrics?.textAfterKeyword(durationToTime(currentDuration))?.textAfterKeyword(']')?.textBeforeKeyword('[') ?? ''
 
       if (songLyrics.data.lyrics?.includes(durationToTime(currentDuration)) == true) {
-        if(middleLyricsText != txt) firstLyricsText = middleLyricsText
+        if (middleLyricsText != txt) firstLyricsText = middleLyricsText
         middleLyricsText = txt
         lastLyricsText = songLyrics.data.lyrics?.textAfterKeyword(durationToTime(currentDuration))?.textAfterKeyword(']')?.textAfterKeyword(']')?.textBeforeKeyword('[') ?? ''
       } else if (middleLyricsText == '') {
@@ -69,8 +69,18 @@
       <p class="mt-3 px-2 text-white urbanist-semibold w-full text-center text-xl">{middleLyricsText}</p>
       <p class="mt-3 px-2 text-gray-500 urbanist-semibold w-full text-center text-sm">{lastLyricsText}</p>
       <div class="mt-3 px-2 text-white urbanist-regular"></div>
+    {:else if songLyrics.data.lyrics == null}
+      <p class="mt-3 px-2 text-white urbanist-semibold w-full text-center text-sm">No Lyrics Found...</p>
     {:else}
-      <h3>nijyjbh</h3>
+      {#each songLyrics.data.lyrics.split('//bb//') as l}
+        {#if l.trim() != '.'}
+          {#if l.trim().includes(']') && l.trim().includes('[')}
+            <br />
+            {:else}
+            <p class="mt-3 px-2 text-white urbanist-semibold w-full text-start text-sm">{l.trim()}</p>
+          {/if}
+        {/if}
+      {/each}
     {/if}
   </div>
 {:else if songLyrics.type == ResponseDataEnum.LOADING}

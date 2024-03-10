@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
-import { bing_news_api, google_news_api, rent_an_advise_lyrics_find, rent_an_advise_lyrics_search } from '../../utils/utils'
+import { bing_news_api, genius_search, google_news_api, rent_an_advise_lyrics_find, rent_an_advise_lyrics_search } from '../../utils/utils'
 import { parseRelativeTimeString } from '../yt/YtUtils'
 import { FeedData, FeedType } from '../../../../domain/local/entities/FeedData'
 import type { MusicData } from '../../../../domain/local/entities/MusicData'
@@ -16,11 +16,11 @@ export class LyricsImpl {
 
       response.window.document.querySelector("#tablecontainer")?.querySelectorAll("td").forEach(e => {
         if (e.textContent?.toLowerCase()?.includes(q?.artists?.textBeforeKeyword(",")?.textBeforeKeyword("&")?.toLowerCase() ?? "---") && e.textContent?.toLowerCase()?.includes(q?.name?.toLowerCase() ?? "---")) {
-          if(link == null) link = e.querySelector("a")?.getAttribute("href") ?? null
-        } 
+          if (link == null) link = e.querySelector("a")?.getAttribute("href") ?? null
+        }
       })
 
-      if(link == null) return null
+      if (link == null) return null
 
       const rLyrics = await axios.get(`${rent_an_advise_lyrics_find}${link}`)
       const responseLyrics = new JSDOM(await rLyrics.data as string)
@@ -32,7 +32,43 @@ export class LyricsImpl {
     } catch (error) {
       return null
     }
+  }
 
-    return ""
+
+
+  async geniusLyrics(q: MusicData | null): Promise<string | null> {
+    try {
+      const r = await axios.get(genius_search, { params: { q: `${q?.artists} - ${q?.name}` } })
+      const response = new JSDOM(await r.data as string)
+
+      let link: string | null = null
+
+      response.window.document.querySelectorAll("meta").forEach(e => {
+        if (e.outerHTML.toString().includes("Search Results")) {
+          const data = e.outerHTML.toString().textAfterKeyword(`content="`).textBeforeKeyword(`" itemprop="page_data">`)?.replaceAll("&quot;", `"`)?.trim()
+          const json = JSON.parse(data ?? "")
+          json.hot_songs_preview.forEach((e: any) => {
+            if (e.url.replaceAll("-", " ")?.toLowerCase()?.includes(q?.artists?.textBeforeKeyword(",")?.textBeforeKeyword("&")?.toLowerCase() ?? "---") && e.title?.toLowerCase()?.includes(q?.name?.toLowerCase() ?? "---")) {
+              if (link == null) link = e.url
+            }
+          })
+        }
+      })
+
+      if (link == null) return null
+
+      const lyrics = await axios.get(link)
+      const responseLyrics = new JSDOM((await lyrics.data as string).replaceAll("<br/>", ". //bb//"))
+
+      let txt = ""
+
+      responseLyrics.window.document.querySelectorAll(".Lyrics__Container-sc-1ynbvzw-1")?.forEach(element => {
+        txt += element.textContent
+      })
+      return txt
+
+    } catch (error) {
+      return null
+    }
   }
 }
