@@ -5,7 +5,7 @@
   import type { SongsYouMayLike } from '../../../../domain/local/entities/SongsYouMayLike'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
   import { wait } from '$lib/utils/indexd'
-  import { MusicDataList } from '../../../../domain/local/entities/MusicData'
+  import { MusicData, MusicDataList } from '../../../../domain/local/entities/MusicData'
   import GridFullCardItem from '$lib/components/global-view/items/GridFullCardItem.svelte'
   import { getSuggestRelatedSongId, setSuggestRelatedSongId } from '$lib/utils/pid'
   import { ResponseDataEnum, type ResponseData } from '../../../../domain/RequestEnumClass'
@@ -14,10 +14,14 @@
   export let scrollMusicToTop: () => void
 
   let songs: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
+  let tempSongs: MusicDataList = new MusicDataList([])
 
   async function s() {
-    const l = songs.type == ResponseDataEnum.SUCCESS ? getSuggestRelatedSongId(musicData?.m.songId ?? '', songs.data) : null
+    await wait(500)
+    const l = getSuggestRelatedSongId(musicData?.m.songId ?? '', tempSongs)
     if (l != null) {
+      if (tempSongs == (l.results ?? [])) return
+      tempSongs.results = l.results ?? []
       songs = { type: ResponseDataEnum.SUCCESS, data: l }
       return
     }
@@ -25,22 +29,21 @@
     try {
       const res = await axios.post(env.PUBLIC_S_Y_M_L_P, [musicData?.m.songId], { timeout: 60000 })
       const data = (await res.data) as SongsYouMayLike
-      songs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList([...data.like, ...data.listen, ...data.explore]) }
-      setSuggestRelatedSongId(musicData?.m.songId ?? '', songs.data)
-    } catch (error) {  
+      const songsLists = new MusicDataList([...data.like, ...data.listen, ...data.explore])
+      songs = { type: ResponseDataEnum.SUCCESS, data: songsLists}
+      tempSongs = songsLists
+      setSuggestRelatedSongId(musicData?.m.songId ?? '', songsLists)
+    } catch (error) {
       songs = { type: ResponseDataEnum.ERROR }
     }
   }
 
+  $: musicData?.m.songId, s()
+
   onMount(async () => {
     document.addEventListener('playsongid', async (event: Event) => {
       scrollMusicToTop()
-      await wait(1000)
-      s()
     })
-    
-    await wait(1000)
-    s()
   })
 </script>
 

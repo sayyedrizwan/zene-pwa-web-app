@@ -7,6 +7,7 @@
   import type { LyricsResponseData } from '../../../../domain/local/entities/LyricsResponseData'
   import { wait } from '$lib/utils/indexd'
   import { durationToTime } from '$lib/utils/f'
+  import { onMount } from 'svelte'
 
   export let musicData: MusicPlayerData | null
   export let currentDuration: number
@@ -17,24 +18,25 @@
 
   let songLyrics: ResponseData<LyricsResponseData> = { type: ResponseDataEnum.EMPTY }
 
-  let isEverRunned = false
+  let lyrics = ''
 
   async function loadSongLyrics() {
     await wait(500)
-    if (isEverRunned == true) return
     if (musicData?.m?.songId == undefined) return
     const v = getMusicLyrics(musicData?.m?.songId ?? '')
     if (v != null) {
+      if(v.lyrics == lyrics) return
+      lyrics = v.lyrics ?? ""
       songLyrics = { type: ResponseDataEnum.SUCCESS, data: v }
       return
     }
 
-    isEverRunned = true
     try {
       songLyrics = { type: ResponseDataEnum.LOADING }
-    const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId })
+      const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId })
       const response = (await res.data) as LyricsResponseData
       songLyrics = { type: ResponseDataEnum.SUCCESS, data: response }
+      lyrics = response.lyrics ?? ""
       setMusicLyrics(musicData?.m?.songId ?? '', response)
     } catch (error) {
       songLyrics = { type: ResponseDataEnum.ERROR }
@@ -57,7 +59,7 @@
     }
   }
 
-  $: musicData, loadSongLyrics()
+  $: musicData?.m.songId, loadSongLyrics()
   $: currentDuration, songSync()
 </script>
 
@@ -76,7 +78,7 @@
         {#if l.trim() != '.'}
           {#if l.trim().includes(']') && l.trim().includes('[')}
             <br />
-            {:else}
+          {:else}
             <p class="mt-3 px-2 text-white urbanist-semibold w-full text-start text-sm">{l.trim()}</p>
           {/if}
         {/if}

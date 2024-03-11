@@ -13,7 +13,7 @@ export function setSuggestRelatedSongId(id: string, data: MusicDataList | null) 
 }
 
 export function getSuggestRelatedSongId(id: string, oldList: MusicDataList): MusicDataList | null {
-  if (suggestRelatedSongSyncId == id && (oldList.results?.length ?? 0) == 0) {
+  if (suggestRelatedSongSyncId == id && (oldList.results?.length ?? 0) > 0) {
     if (suggestRelatedSongSyncData != null) return suggestRelatedSongSyncData
   }
   return null
