@@ -14,5 +14,13 @@
 
 <div class="relative mx-auto px-6 pt-20 text-center pb-24 text-white">
   <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl w-full text-start">Settings</h1>
-  
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10">
+    <div class="w-full bg-gray-900 rounded-md">
+      <p class="text-white urbanist-semibold text-xl m-4 md:m-7 text-start mb-4">Audio Quality</p>
+      <p class="text-white urbanist-regular text-sm text-start m-5 md:m-9 mt-0 md:mt-2 cursor-pointer">Low Quality</p>
+      <p class="text-white urbanist-regular text-sm text-start m-5 md:m-9 mt-0 md:mt-2 cursor-pointer">High Quality</p>
+    </div>
+  </div>
+
 </div>
