@@ -21,6 +21,7 @@ export function ipBaseUrl(ip: string) {
 export const rent_an_advise_lyrics_search =  `https://www.rentanadviser.com/subtitles/subtitles4songs.aspx`
 export const rent_an_advise_lyrics_find =  `https://www.rentanadviser.com/subtitles/`
 export const genius_search =  `https://genius.com/search`
+export const genius_multi_search =  `https://genius.com/api/search/multi`
 
 export const google_news_api = 'https://news.google.com/rss/search'
 

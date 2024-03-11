@@ -1,9 +1,8 @@
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
-import { bing_news_api, genius_search, google_news_api, rent_an_advise_lyrics_find, rent_an_advise_lyrics_search } from '../../utils/utils'
-import { parseRelativeTimeString } from '../yt/YtUtils'
-import { FeedData, FeedType } from '../../../../domain/local/entities/FeedData'
+import { genius_multi_search, genius_search, rent_an_advise_lyrics_find, rent_an_advise_lyrics_search } from '../../utils/utils'
 import type { MusicData } from '../../../../domain/local/entities/MusicData'
+import type { LyricsGeniusMultiSearch } from './model/LyricsGeniusMultiSearch'
 
 export class LyricsImpl {
 
@@ -54,6 +53,22 @@ export class LyricsImpl {
           })
         }
       })
+
+      if (link == null) {
+        const res = await axios.get(genius_multi_search, { params: { per_page: 5, q: `${q?.artists} - ${q?.name}` } })
+        const response = await res.data as LyricsGeniusMultiSearch
+
+        response.response.sections.forEach(songs => {
+          if (songs.type == "song") {
+            songs.hits.forEach(items => {
+             if (q?.artists?.toLowerCase()?.includes(items.result.artist_names.toLowerCase()) && (items.result.title.toLowerCase().includes(q?.name?.toLowerCase() ?? "--"))) {
+              if (link == null) link = items.result.url
+              }
+            })
+          }
+        })
+
+      }
 
       if (link == null) return null
 

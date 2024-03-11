@@ -122,7 +122,7 @@ export class YtMusicAPIImpl {
     const response = (await r.json()) as YtMusicSongsInfoData
 
     const name = response?.videoDetails?.title
-    const artists = response?.videoDetails?.author?.replaceAll('and', '&')
+    const artists = response?.videoDetails?.author?.replaceAll(' and ', '&')
     const songId = response?.videoDetails?.videoId
     const thumbnail = response?.videoDetails?.thumbnail?.thumbnails?.findLast((t) => t.height == 544)?.url
 
