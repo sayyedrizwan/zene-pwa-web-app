@@ -32,7 +32,7 @@
     isEverRunned = true
     try {
       songLyrics = { type: ResponseDataEnum.LOADING }
-      const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId })
+    const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId })
       const response = (await res.data) as LyricsResponseData
       songLyrics = { type: ResponseDataEnum.SUCCESS, data: response }
       setMusicLyrics(musicData?.m?.songId ?? '', response)

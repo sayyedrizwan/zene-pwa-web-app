@@ -4,11 +4,10 @@ import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskR
 import ytdl from 'ytdl-core'
 import axios, { type AxiosResponse } from 'axios'
 
-// https://wsnd.io/po9R9bHq/videoplayback.mp4
-
 export class YTDownloaderImpl {
-  async videoURL(videoId: string, isSameServer: Boolean) {
-    // return 'https://wsnd.io/5u5UeCKi/videoplayback.mp4'
+  async videoURL(videoId: string, isSameServer: Boolean) { 
+    return 'https://wsnd.io/5u5UeCKi/videoplayback.mp4'
+   
     const path = await this.videoYTDownloader(videoId, isSameServer)
     if (path != null) return path
 
@@ -57,7 +56,7 @@ export class YTDownloaderImpl {
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
 
-      // if (isSameServer === true) return url ?? null
+      if (isSameServer === true) return url ?? null
 
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)

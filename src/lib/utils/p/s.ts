@@ -142,8 +142,6 @@ export class APManager implements AudioPlayer {
     this.sourceElementMPEG!.src = url.trim()
     this.sourceElementOGG!.src = url.trim()
     this.audioElement!.load()
-
-    // this.audioElement!.muted = true
   }
 
   startBuffering(): void {
