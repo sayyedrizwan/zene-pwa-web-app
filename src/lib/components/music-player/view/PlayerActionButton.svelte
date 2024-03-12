@@ -27,7 +27,7 @@
     if (getCookie('should_loop') == 'should') isLoop = true
     else isLoop = false
 
-    if (getCookie('autoplay_next_song') == '') autoplaySong = true
+    if (getCookie('autoplay_next_song').trim() == '') autoplaySong = true
     else autoplaySong = false
   })
 
