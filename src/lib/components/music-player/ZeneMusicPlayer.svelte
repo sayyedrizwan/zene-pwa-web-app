@@ -93,7 +93,7 @@
       <MusicRecordsLists bind:musicData bind:musicPlayerPlayingStatus />
       <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
       <PlayerActionButton bind:musicData bind:musicPlayerPlayingStatus {toMusicFunction} />
-      <SongLyricsView bind:musicData bind:currentDuration/>
+      <SongLyricsView bind:musicData bind:currentDuration />
       <MusicRelatedSongs bind:musicData {scrollMusicToTop} />
     </div>
 

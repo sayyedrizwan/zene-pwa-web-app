@@ -20,6 +20,7 @@ interface AudioPlayer {
   previousSong(): void
   songDuration(): number
   changeSongDuration(v: number): void
+  playbackSpeed(): void
 }
 
 export function getDuration(event: any) {
@@ -142,6 +143,12 @@ export class APManager implements AudioPlayer {
     this.sourceElementMPEG!.src = url.trim()
     this.sourceElementOGG!.src = url.trim()
     this.audioElement!.load()
+    this.playbackSpeed()
+  }
+
+  playbackSpeed(): void {
+    const songSpeed = getCookie('song_speed') == '0.25x' ? 0.25 : getCookie('song_speed') == '0.5x' ? 0.5 : getCookie('song_speed') == '0.75x' ? 0.75 : getCookie('song_speed') == '1.25x' ? 1.25 : getCookie('song_speed') == '1.5x' ? 1.5 : getCookie('song_speed') == '1.75x' ? 1.75 : getCookie('song_speed') == '2.0x' ? 2.0 : 1.0
+    this.audioElement!.playbackRate = songSpeed
   }
 
   startBuffering(): void {

@@ -46,6 +46,12 @@
       songPlayer = (event as CustomEvent).detail.value as Boolean
     })
 
+
+    document.addEventListener('changeplaybackspeed', async (event: Event) => {
+      await wait(1000)
+      audioPlayer.playbackSpeed()
+    })
+
     document.addEventListener('notificationalert', async (event: Event) => {
       const notification = (event as CustomEvent).detail.value as NotificationAlertsData
       if (notification?.title == notificationAlert?.title && notification?.desc == notificationAlert?.desc && notification?.desc == notificationAlert?.desc) return
