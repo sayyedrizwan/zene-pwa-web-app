@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { deepListCompare } from '$lib/utils/Utils'
+  import { deepListCompare } from '$lib/utils/Utils'
   import { artistsSplitToHTMLString } from '$lib/utils/f'
-  import type { MusicData } from '../../../../domain/local/entities/MusicData'
+  import { MusicType, type MusicData } from '../../../../domain/local/entities/MusicData'
   import { MusicPlayerPlayingStatus, type MusicPlayerData, type ResponseMusicPlayerPlayingStatus } from '../../../../domain/local/entities/MusicPlayerData'
 
   export let musicData: MusicPlayerData | null
@@ -10,7 +10,7 @@
   let tempMusicDataList: MusicData[] = []
 
   function listsChanges() {
-    if (deepListCompare(tempMusicDataList, (musicData?.lists ?? []))) return
+    if (deepListCompare(tempMusicDataList, musicData?.lists ?? [])) return
     tempMusicDataList = musicData?.lists ?? []
 
     musicData?.lists.forEach((s) => {
@@ -52,7 +52,11 @@
     <h2 class="text-white urbanist-bold text-base md:text-xl mt-5">{musicData?.m.name}</h2>
 
     <div class="flex flex-wrap justify-center items-center w-full">
-      {@html artistsSplitToHTMLString(musicData?.m?.artists ?? '')}
+      {#if musicData?.m?.type == MusicType.RADIO}
+      <h2 class="text-white urbanist-regular text-base md:text-xl mt-1">RADIO</h2>
+      {:else}
+        {@html artistsSplitToHTMLString(musicData?.m?.artists ?? '')}
+      {/if}
     </div>
   </center>
 </div>

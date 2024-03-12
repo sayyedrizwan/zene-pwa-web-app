@@ -114,7 +114,7 @@ export class APManager implements AudioPlayer {
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
     const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp4` : path.u?.trim() ?? ``
-    
+
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'
@@ -188,15 +188,22 @@ export class APManager implements AudioPlayer {
   }
 
   pause(): void {
+    this.videoElement?.pause()
     this.audioElement?.pause()
   }
 
   playOrPause(): void {
+    if (this.music?.type == MusicType.RADIO) {
+      if (!this.videoElement?.paused) this.videoElement?.pause()
+      else this.videoElement?.play()
+    }
+
     if (this.isPlaying()) this.audioElement?.pause()
     else this.audioElement?.play()
   }
 
   play(): void {
+    this.videoElement?.play()
     this.audioElement?.play()
   }
 

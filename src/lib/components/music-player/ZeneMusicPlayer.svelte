@@ -12,6 +12,7 @@
   import PlayerActionButton from './view/PlayerActionButton.svelte'
   import MusicRelatedSongs from './view/MusicRelatedSongs.svelte'
   import SongLyricsView from './view/SongLyricsView.svelte'
+  import { MusicType } from '../../../domain/local/entities/MusicData'
 
   export let songPlayer: Boolean
   export let audioPlayer: APManager
@@ -91,10 +92,13 @@
     <div class="absolute top-0 left-0 h-full w-full bg-maincolor overflow-auto" id="scrollmusic">
       <div class="mt-20" />
       <MusicRecordsLists bind:musicData bind:musicPlayerPlayingStatus />
-      <PlayinSongsDurationAction bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
-      <PlayerActionButton bind:musicData bind:musicPlayerPlayingStatus {toMusicFunction} />
-      <SongLyricsView bind:musicData bind:currentDuration />
-      <MusicRelatedSongs bind:musicData {scrollMusicToTop} />
+      <PlayinSongsDurationAction bind:musicData bind:currentDuration bind:totalDuration bind:audioPlayer bind:isPlaying bind:isBuffering />
+
+      {#if musicData?.type == MusicType.MUSIC}
+        <PlayerActionButton bind:musicData bind:musicPlayerPlayingStatus {toMusicFunction} />
+        <SongLyricsView bind:musicData bind:currentDuration />
+        <MusicRelatedSongs bind:musicData {scrollMusicToTop} />
+      {/if}
     </div>
 
     <div class="relative bg-maincolor w-full">
