@@ -1,4 +1,4 @@
-import { MusicType, type MusicData } from '../../domain/local/entities/MusicData'
+import { MusicType, MusicData } from '../../domain/local/entities/MusicData'
 import { MusicPlayerData } from '../../domain/local/entities/MusicPlayerData'
 import { NotificationAlertsData } from '../../domain/local/entities/NotificationAlertsData'
 import { DataIndexDS, indexDB, musicPlayerInfoCache } from './indexd'
@@ -67,6 +67,25 @@ export function artistsSplitToHTMLString(artists: string): string {
     `
   })
   return html
+}
+
+export function artistsSplitToString(names: MusicData[]) {
+  const data: MusicData[] = []
+
+  if (names.length <= 1) return names
+
+  names.forEach((item, index) => {
+    if (item.name?.trim() == '') return
+
+    if ((index + 1) == names.length) {
+      data.push(new MusicData('&', '&', '', '', MusicType.TEMP))
+      data.push(item)
+    } else {
+      data.push(item)
+      if(index < (names.length - 3)) data.push(new MusicData(',', ',', '', '', MusicType.TEMP))
+    }
+  })
+  return data
 }
 
 export function durationToTime(d: number) {
