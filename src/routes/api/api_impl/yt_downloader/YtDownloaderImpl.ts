@@ -5,7 +5,7 @@ import ytdl from 'ytdl-core'
 import axios, { type AxiosResponse } from 'axios'
 
 export class YTDownloaderImpl {
-  async videoURL(videoId: string, isSameServer: Boolean) { 
+  async videoURL(videoId: string, isSameServer: Boolean) {
     const path = await this.videoYTDownloader(videoId, isSameServer)
     if (path != null) return path
 
@@ -54,8 +54,6 @@ export class YTDownloaderImpl {
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
 
-      if (isSameServer === true) return url ?? null
-
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const blob = new Blob(chucks, { type: 'audio/mp4' })
@@ -66,7 +64,7 @@ export class YTDownloaderImpl {
       const uid = await responseUid.text()
 
       const formData = new FormData()
-      formData.append('filehandle', blob, "videoplayback.mp4")
+      formData.append('filehandle', blob, "videoplayback.mp3")
       formData.append('uid', uid)
       const request = await fetch('https://wsend.net/upload_cli', { method: 'POST', headers: {}, body: formData })
       const response = await request.text()
@@ -77,6 +75,7 @@ export class YTDownloaderImpl {
   }
 }
 
+
 async function getFileSize(url: string): Promise<number | null> {
   try {
     const response = await axios.head(url)
@@ -86,6 +85,7 @@ async function getFileSize(url: string): Promise<number | null> {
     return null
   }
 }
+
 
 async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: number): Promise<Uint8Array[]> {
   const chunks: Uint8Array[] = []
@@ -113,3 +113,5 @@ async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: nu
   }
   return chunks
 }
+
+

@@ -26,8 +26,6 @@
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
 
-  let url: string
-
   let audioPlayer: APManager
 
   let songMenuDialog: MusicData | null = null
@@ -72,8 +70,6 @@
       try {
         audioPlayer.startBuffering()
         const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000, withCredentials: true })
-        url = (response.data as DURLResponse).type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${(response.data as DURLResponse)?.u}` : (response.data as DURLResponse).type == 1 ? `https://wsnd.io/${(response.data as DURLResponse)?.u?.trim()}/videoplayback.mp4` : (response.data as DURLResponse).u?.trim() ?? ``
-
         audioPlayer.playMusic(response.data as DURLResponse, song)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
@@ -105,7 +101,6 @@
   <slot />
 {:else}
   <LogoWithBrand showOnlyLogo={false} />
-  <a class="text-white" href={url}>{url}</a>
   <slot />
   <MusicPlaySmallView {audioPlayer} />
 

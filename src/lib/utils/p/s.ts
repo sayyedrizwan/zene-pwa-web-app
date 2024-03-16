@@ -29,7 +29,7 @@ export function getDuration(event: any) {
 }
 
 export class APManager implements AudioPlayer {
-  private audioElement: HTMLAudioElement | undefined
+  private audioElement: HTMLVideoElement | undefined
   private sourceElementOGG: HTMLSourceElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
   private videoElement: HTMLVideoElement | undefined
@@ -45,14 +45,14 @@ export class APManager implements AudioPlayer {
     }
 
     const videoe = document.createElement('video') as HTMLVideoElement
-    const audioe = document.createElement('audio') as HTMLAudioElement
+    const audioe = document.createElement('audio') as HTMLVideoElement
 
     const oggsource = document.createElement('source') as HTMLSourceElement
     oggsource.type = 'audio/ogg'
     audioe.appendChild(oggsource)
 
     const mpegsource = document.createElement('source') as HTMLSourceElement
-    mpegsource.type = 'audio/mp3'
+    mpegsource.type = 'audio/mpeg'
     audioe.appendChild(mpegsource)
 
     this.videoElement = videoe
@@ -113,8 +113,9 @@ export class APManager implements AudioPlayer {
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
-    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp4` : path.u?.trim() ?? ``
-
+   
+    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp3` : path.u?.trim() ?? ``
+    
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'
@@ -126,6 +127,7 @@ export class APManager implements AudioPlayer {
           var hls = new Hls()
           hls.loadSource(url)
           hls.attachMedia(this.videoElement!)
+          return
         } else if (this.videoElement!.canPlayType('application/vnd.apple.mpegurl')) {
           this.videoElement!.autoplay = true
           this.videoElement!.src = url

@@ -71,7 +71,7 @@
             <img src={SeachIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">Search</p>
           </a>
-          <a href="/" class="flex justify-center flex-col items-center">
+          <a href="/mymusic" class="flex justify-center flex-col items-center">
             <img src={MusicIcon} class="size-5" alt="home" />
             <p class="urbanist-light text-[11px] text-white">My Music</p>
           </a>

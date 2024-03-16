@@ -32,7 +32,7 @@ export const GET = async (req: RequestEvent) => {
       urlPoint = url.textAfterKeyword('srvcdn7.2convert.me/dl?hash=') ?? ''
       type = 0
     } else if (url.includes('wsnd.io/')) {
-      urlPoint = url.textAfterKeyword('wsnd.io/')?.replaceAll('/videoplayback.mp4', '') ?? ''
+      urlPoint = url.textAfterKeyword('wsnd.io/')?.replaceAll('/videoplayback.mp3', '') ?? ''
       type = 1
     } else {
       urlPoint = url
