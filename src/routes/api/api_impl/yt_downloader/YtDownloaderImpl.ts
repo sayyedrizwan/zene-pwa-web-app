@@ -61,7 +61,7 @@ export class YTDownloaderImpl {
 
       if (isSafari) {
         const path = await convertedMP3(blob)
-        if (path != null) return path
+        if (path != null) return path.trim()
       }
 
       const responseUid = await fetch("https://wsend.net/createunreg", {
@@ -94,6 +94,8 @@ async function convertedMP3(blob: Blob): Promise<string | null> {
 
     await fetch(`https://ca3.converter.app/mp4-to-mp3/process.php?jobid=${response.jobid}`, { method: "POST" })
     await waitServer(1500)
+
+    console.log(`https://ca3.converter.app/download.php?jobid=${response.jobid}`)
 
     return `https://ca3.converter.app/download.php?jobid=${response.jobid}`
 
