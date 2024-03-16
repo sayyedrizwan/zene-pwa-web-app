@@ -4,7 +4,7 @@
   import '$lib/firebase/firebase'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
-  import { onBrowser, setServerIpAddress } from '$lib/utils/Utils'
+  import { isIOSBrowser, onBrowser, setServerIpAddress } from '$lib/utils/Utils'
   import LogoWithBrand from '$lib/components/global-view/LogoWithBrand.svelte'
   import { onMount } from 'svelte'
   import axios from 'axios'
@@ -46,7 +46,6 @@
       songPlayer = (event as CustomEvent).detail.value as Boolean
     })
 
-
     document.addEventListener('changeplaybackspeed', async (event: Event) => {
       await wait(1000)
       audioPlayer.playbackSpeed()
@@ -69,7 +68,7 @@
       audioPlayer.stop()
       try {
         audioPlayer.startBuffering()
-        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000, withCredentials: true })
+        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000, withCredentials: true, headers: { isSafari: isIOSBrowser() ? '1' : '0' } })
         audioPlayer.playMusic(response.data as DURLResponse, song)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
@@ -112,7 +111,7 @@
     <ZeneMusicPlayer bind:songPlayer bind:audioPlayer />
   {/if}
 
-  <RightClickMenu bind:audioPlayer/>
+  <RightClickMenu bind:audioPlayer />
 {/if}
 
 <NoInternetDialog />

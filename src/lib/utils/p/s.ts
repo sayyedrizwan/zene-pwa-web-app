@@ -109,13 +109,14 @@ export class APManager implements AudioPlayer {
     this.videoElement.addEventListener('loadedmetadata', () => {
       this.updatemetadata(this.music!)
     })
+
   }
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     stop()
    
-    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp3` : path.u?.trim() ?? ``
-    
+    const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp4` : path.type == 2 ? `https://ca3.converter.app/download.php?jobid=${path?.u?.trim()}` : path.u?.trim() ?? ``
+
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'

@@ -102,3 +102,7 @@ export async function setServerIpAddress() {
     null
   }
 }
+
+export function isIOSBrowser(): Boolean {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+}

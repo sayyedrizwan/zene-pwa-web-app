@@ -7,6 +7,7 @@ import { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 import { isSameServerIp } from '../utils/utils'
 
 export const GET = async (req: RequestEvent) => {
+  const isSafari = req.request.headers.get("isSafari") == '1' ? true : false
   const video_url = new URL(req.url).searchParams.get('id') ?? ''
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
   const isSameServer = await isSameServerIp(req.cookies.get('i') ?? ``)
@@ -22,7 +23,7 @@ export const GET = async (req: RequestEvent) => {
     }
 
     const ytDownloader = new YTDownloaderImpl()
-    const url = await ytDownloader.videoURL(videoId, isSameServer)
+    const url = await ytDownloader.videoURL(videoId, isSameServer, isSafari)
 
     if (url === '') return json({})
     let urlPoint = ''
@@ -32,8 +33,11 @@ export const GET = async (req: RequestEvent) => {
       urlPoint = url.textAfterKeyword('srvcdn7.2convert.me/dl?hash=') ?? ''
       type = 0
     } else if (url.includes('wsnd.io/')) {
-      urlPoint = url.textAfterKeyword('wsnd.io/')?.replaceAll('/videoplayback.mp3', '') ?? ''
+      urlPoint = url.textAfterKeyword('wsnd.io/')?.replaceAll('/videoplayback.mp4', '') ?? ''
       type = 1
+    } else if (url.includes('ca3.converter.app/')) {
+      urlPoint = url.textAfterKeyword('jobid=')
+      type = 2
     } else {
       urlPoint = url
       type = 3
