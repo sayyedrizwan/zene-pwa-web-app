@@ -32,7 +32,6 @@
       const songsLists = new MusicDataList([...data.like, ...data.listen, ...data.explore])
       songs = { type: ResponseDataEnum.SUCCESS, data: songsLists}
       tempSongs = songsLists
-      console.log(songsLists)
       setSuggestRelatedSongId(musicData?.m.songId ?? '', songsLists)
     } catch (error) {
       songs = { type: ResponseDataEnum.ERROR }
