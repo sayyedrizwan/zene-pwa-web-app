@@ -69,7 +69,7 @@
       try {
         audioPlayer.startBuffering()
         const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000, withCredentials: true, headers: { isSafari: isIOSBrowser() ? '1' : '0' } })
-        audioPlayer.playMusic(response.data as DURLResponse, song)
+        audioPlayer.playMusic(await response.data as DURLResponse, song)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }
@@ -99,14 +99,6 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
-
-<audio controls id="videoSrc">
-  <source src="" type="audio/ogg" id="videoSrcOgg">
-  <source src="" type="audio/mpeg"  id="videoSrcMpeg">
-    <track kind="captions">
-Your browser does not support the audio element.
-</audio>
-
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />

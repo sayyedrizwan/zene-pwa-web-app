@@ -13,7 +13,8 @@
   import MusicRelatedSongs from './view/MusicRelatedSongs.svelte'
   import SongLyricsView from './view/SongLyricsView.svelte'
   import { MusicType } from '../../../domain/local/entities/MusicData'
-    import { isIOSBrowser } from '$lib/utils/Utils'
+  import { isIOSBrowser } from '$lib/utils/Utils'
+    import { notificationAlertListener, playSongZene } from '$lib/utils/f'
 
   export let songPlayer: Boolean
   export let audioPlayer: APManager
@@ -44,11 +45,9 @@
   }
 
   async function loadMusicUrl() {
-    await wait(1000)
+    await wait(1600)
     if ((musicData?.m?.songId ?? '') == '') return
-    audioPlayer.startBuffering()
-    const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${musicData?.m?.songId ?? ''}`, { timeout: 120000, headers: { isSafari: isIOSBrowser() ? '1' : '0' } })
-    audioPlayer.playMusic(response.data as DURLResponse, musicData?.m!)
+    playSongZene(musicData?.m!, null)
   }
 
   async function checkFunction() {

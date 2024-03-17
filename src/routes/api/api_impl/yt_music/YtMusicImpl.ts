@@ -268,7 +268,7 @@ export class YtMusicAPIImpl {
           const artists = items.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0].text?.replaceAll('and', '&')
           const id = items.playlistPanelVideoRenderer?.videoId
 
-          if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? '', btoa(id).replaceLastChar('=', ''), thumbnail ?? '', MusicType.ALBUM))
+          if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? '', btoa(id).replaceLastChar('=', ''), thumbnail ?? '', MusicType.MUSIC))
         })
       }
     })

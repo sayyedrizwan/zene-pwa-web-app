@@ -42,7 +42,7 @@ export const GET = async (req: RequestEvent) => {
       urlPoint = url
       type = 3
     }
-
+    
     return json(new DURLResponse(urlPoint, type))
   } catch (error) {
     return json({})

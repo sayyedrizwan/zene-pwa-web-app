@@ -3,6 +3,8 @@ import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 import { insertMusicHistory } from './shistory'
 import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 import { getCookie } from '../c'
+import { wait } from '../indexd'
+import { isIOSBrowser } from '../Utils'
 
 interface AudioPlayer {
   init(): void
@@ -29,39 +31,32 @@ export function getDuration(event: any) {
 }
 
 export class APManager implements AudioPlayer {
-  private audioElement: HTMLAudioElement | undefined
+  private audioElement: HTMLVideoElement | undefined
   private sourceElementOGG: HTMLSourceElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
-  private videoElement: HTMLVideoElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
 
   init(): void {
     if (this.audioElement != undefined) {
-      this.stop()
+        this.stop()
     }
-    if (this.videoElement != undefined) {
-      this.stop()
-    }
+    
+    const audioe = document.createElement('audio') as HTMLVideoElement
 
-    const videoe = document.createElement('video') as HTMLVideoElement
-    // const audioe = document.createElement('audio') as HTMLVideoElement
+    const oggsource = document.createElement('source') as HTMLSourceElement
+    oggsource.type = 'audio/ogg'
+    audioe.appendChild(oggsource)
 
-    // const oggsource = document.createElement('source') as HTMLSourceElement
-    // oggsource.type = 'audio/ogg'
-    // audioe.appendChild(oggsource)
+    const mpegsource = document.createElement('source') as HTMLSourceElement
+    mpegsource.type = 'audio/mpeg'
+    audioe.appendChild(mpegsource)
 
-    // const mpegsource = document.createElement('source') as HTMLSourceElement
-    // mpegsource.type = 'audio/mpeg'
-    // audioe.appendChild(mpegsource)
-
-    this.videoElement = videoe
-    this.sourceElementOGG = document.getElementById('videoSrcOgg') as HTMLSourceElement
-    this.sourceElementMPEG = document.getElementById('videoSrcMpeg') as HTMLSourceElement
-    this.audioElement = document.getElementById('videoSrc') as HTMLAudioElement
+    this.sourceElementOGG = oggsource
+    this.sourceElementMPEG = mpegsource
+    this.audioElement = audioe
 
     this.audioElement.onplay = () => (this.buffering = false)
-    this.videoElement.onplay = () => (this.buffering = false)
 
     this.audioElement.onended = () => {
       if (getCookie('should_loop') == 'should') {
@@ -75,8 +70,7 @@ export class APManager implements AudioPlayer {
       }
     }
 
-    this.audioElement.oncanplaythrough = () => {
-      alert('can play through')
+    this.audioElement.oncanplaythrough = async () => {
       this.audioElement!.play()
 
       if (this.music != undefined) insertMusicHistory(this.music, window)
@@ -97,50 +91,25 @@ export class APManager implements AudioPlayer {
         this.audioElement?.addEventListener('timeupdate', getDuration)
       }
     })
-
-    this.videoElement.oncanplaythrough = () => {
-      this.videoElement!.play()
-      if (this.videoElement?.paused) {
-        const event = new Event('click')
-        this.videoElement.dispatchEvent(event)
-        this.videoElement.play()
-      }
-    }
-
-    this.videoElement.addEventListener('loadedmetadata', () => {
-      this.updatemetadata(this.music!)
-    })
-
   }
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
-    stop()
+    this.stop()
    
     const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp4` : path.type == 2 ? `https://ca3.converter.app/download.php?jobid=${path?.u?.trim()}` : path.u?.trim() ?? ``
-    
+   
+  
     this.music = music
     this.audioElement!.preload = 'auto'
-    this.videoElement!.preload = 'auto'
     this.buffering = true
 
     if (music.type == MusicType.RADIO) {
-      if (url.includes('.m3u8') === true) {
-        if (Hls.isSupported()) {
+      if (url.includes('.m3u8') === true && Hls.isSupported()) {
           var hls = new Hls()
           hls.loadSource(url)
-          hls.attachMedia(this.videoElement!)
+          hls.attachMedia(this.audioElement!)
           return
-        } else if (this.videoElement!.canPlayType('application/vnd.apple.mpegurl')) {
-          this.videoElement!.autoplay = true
-          this.videoElement!.src = url
-          this.videoElement!.load()
-        }
-      } else {
-        this.videoElement!.autoplay = true
-        this.videoElement!.src = url
-        this.videoElement!.load()
       }
-      return
     }
 
     this.audioElement!.autoplay = true
@@ -192,22 +161,15 @@ export class APManager implements AudioPlayer {
   }
 
   pause(): void {
-    this.videoElement?.pause()
     this.audioElement?.pause()
   }
 
   playOrPause(): void {
-    if (this.music?.type == MusicType.RADIO) {
-      if (!this.videoElement?.paused) this.videoElement?.pause()
-      else this.videoElement?.play()
-    }
-
     if (this.isPlaying()) this.audioElement?.pause()
     else this.audioElement?.play()
   }
 
   play(): void {
-    this.videoElement?.play()
     this.audioElement?.play()
   }
 
@@ -224,13 +186,11 @@ export class APManager implements AudioPlayer {
   previousSong(): void { }
 
   isPlaying(): boolean {
-    if (this.music?.type == MusicType.RADIO) {
-      return !this.videoElement?.paused
-    }
     return !this.audioElement?.paused
   }
 
   isBuffering(): boolean | undefined {
+    // if(isIOSBrowser()) return false
     if (this.audioElement!.currentTime > 0) return false
     if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
@@ -254,13 +214,6 @@ export class APManager implements AudioPlayer {
   }
 
   stop(): void {
-    try {
-      this.videoElement?.pause()
-      this.videoElement!.currentTime = 0
-    } catch (error) {
-      error
-    }
-
     try {
       this.audioElement?.pause()
       this.audioElement!.currentTime = 0
