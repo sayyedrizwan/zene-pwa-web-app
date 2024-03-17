@@ -99,6 +99,14 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
+
+<audio controls id="videoSrc">
+  <source src="" type="audio/ogg" id="videoSrcOgg">
+  <source src="" type="audio/mpeg"  id="videoSrcMpeg">
+    <track kind="captions">
+Your browser does not support the audio element.
+</audio>
+
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />

@@ -55,11 +55,15 @@ export class YTDownloaderImpl {
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
 
+      // audioFormats.forEach(element => {
+      //   console.log(element)
+      // })
+
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const blob = new Blob(chucks, { type: 'audio/mp4' })
 
-      if (isSafari) {
+      if (true) {
         const path = await convertedMP3(blob)
         if (path != null) return path.trim()
       }
@@ -82,6 +86,7 @@ export class YTDownloaderImpl {
 }
 
 async function convertedMP3(blob: Blob): Promise<string | null> {
+  return `https://ca3.converter.app/download.php?jobid=65f6a18af119d`
   try {
     const formdata = new FormData()
     formdata.append("files[]", blob, `${generateRandomString(20)}_${generateRandomString(20)}.mp4`)
@@ -93,7 +98,8 @@ async function convertedMP3(blob: Blob): Promise<string | null> {
     const response = await convertor.json() as CA3ConvertorResponse
 
     await fetch(`https://ca3.converter.app/mp4-to-mp3/process.php?jobid=${response.jobid}`, { method: "POST" })
-    await waitServer(1500)
+    await waitServer(3000)
+
 
     console.log(`https://ca3.converter.app/download.php?jobid=${response.jobid}`)
 

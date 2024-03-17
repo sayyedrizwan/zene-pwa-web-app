@@ -29,7 +29,7 @@ export function getDuration(event: any) {
 }
 
 export class APManager implements AudioPlayer {
-  private audioElement: HTMLVideoElement | undefined
+  private audioElement: HTMLAudioElement | undefined
   private sourceElementOGG: HTMLSourceElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
   private videoElement: HTMLVideoElement | undefined
@@ -45,20 +45,20 @@ export class APManager implements AudioPlayer {
     }
 
     const videoe = document.createElement('video') as HTMLVideoElement
-    const audioe = document.createElement('audio') as HTMLVideoElement
+    // const audioe = document.createElement('audio') as HTMLVideoElement
 
-    const oggsource = document.createElement('source') as HTMLSourceElement
-    oggsource.type = 'audio/ogg'
-    audioe.appendChild(oggsource)
+    // const oggsource = document.createElement('source') as HTMLSourceElement
+    // oggsource.type = 'audio/ogg'
+    // audioe.appendChild(oggsource)
 
-    const mpegsource = document.createElement('source') as HTMLSourceElement
-    mpegsource.type = 'audio/mpeg'
-    audioe.appendChild(mpegsource)
+    // const mpegsource = document.createElement('source') as HTMLSourceElement
+    // mpegsource.type = 'audio/mpeg'
+    // audioe.appendChild(mpegsource)
 
     this.videoElement = videoe
-    this.audioElement = audioe
-    this.sourceElementOGG = oggsource
-    this.sourceElementMPEG = mpegsource
+    this.sourceElementOGG = document.getElementById('videoSrcOgg') as HTMLSourceElement
+    this.sourceElementMPEG = document.getElementById('videoSrcMpeg') as HTMLSourceElement
+    this.audioElement = document.getElementById('videoSrc') as HTMLAudioElement
 
     this.audioElement.onplay = () => (this.buffering = false)
     this.videoElement.onplay = () => (this.buffering = false)
@@ -76,6 +76,7 @@ export class APManager implements AudioPlayer {
     }
 
     this.audioElement.oncanplaythrough = () => {
+      alert('can play through')
       this.audioElement!.play()
 
       if (this.music != undefined) insertMusicHistory(this.music, window)
@@ -116,7 +117,7 @@ export class APManager implements AudioPlayer {
     stop()
    
     const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp4` : path.type == 2 ? `https://ca3.converter.app/download.php?jobid=${path?.u?.trim()}` : path.u?.trim() ?? ``
-
+    
     this.music = music
     this.audioElement!.preload = 'auto'
     this.videoElement!.preload = 'auto'
