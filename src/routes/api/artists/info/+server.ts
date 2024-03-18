@@ -17,7 +17,7 @@ export async function POST(events: RequestEvent) {
 
   try {
     const pinterest = new PinterestImpl()
-    const artistsTempImg = await pinterest.searchImage(name)
+    const artistsTempImg = await pinterest.searchImage(`${name} photoshoot`)
     const img = getRandomItem(artistsTempImg.length > 4 ? artistsTempImg.slice(0, 4) : artistsTempImg)
 
     const searchInfo = await axios.get(searchLastFM(name))
