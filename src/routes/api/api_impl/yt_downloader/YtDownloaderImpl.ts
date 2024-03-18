@@ -53,6 +53,7 @@ export class YTDownloaderImpl {
     try {
       let info = await ytdl.getInfo(videoId)
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
+      console.log(audioFormats)
       let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
       
       return url ?? null

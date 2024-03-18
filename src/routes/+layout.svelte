@@ -71,15 +71,17 @@
         // const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { timeout: 120000, withCredentials: true, headers: { isSafari: isIOSBrowser() ? '1' : '0' } })
         // audioPlayer.playMusic(await response.data as DURLResponse, song)
         
-        const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { responseType: 'blob' })
+        // const response = await axios.get(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, { responseType: 'blob' })
         // var file = new Blob([response.data], { type: 'audio/mpeg' })
         // var fileURL = URL.createObjectURL(file)
 
-        const fileURL = URL.createObjectURL(response.data);
+        // const fileURL = URL.createObjectURL(response.data);
 
-        const audio = new Audio()
-        audio.src = fileURL
-        audio.play()
+        audioPlayer.playMusic(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, song)
+
+        // const audio = new Audio()
+        // audio.src = fileURL
+        // audio.play()
         // const file = new File([response.data], fileName)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
