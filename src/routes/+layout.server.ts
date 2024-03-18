@@ -1,9 +1,12 @@
+import { env } from '$env/dynamic/private'
+import { btoa } from 'buffer'
 import { serverLoadFunction } from './api/utils/serverpage.js'
 
 export const load = async ({ fetch, cookies, getClientAddress }) => {
   const clientAddress = getClientAddress()
   const data = serverLoadFunction(fetch, cookies, clientAddress)
-  return { data: btoa((await data).keyData), ip: JSON.stringify((await data).ip) }
+  const currentTime = new Date().getTime()
+  return { data: btoa((await data).keyData), ip: JSON.stringify((await data).ip), t: currentTime, a: btoa(env.SECRET_TOKEN_LITE).replaceAll("==", "") }
 }
 
 // for tauri app

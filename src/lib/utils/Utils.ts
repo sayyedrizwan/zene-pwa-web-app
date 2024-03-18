@@ -4,6 +4,17 @@ import type { IpJsonResponse } from '../../routes/api/radiolist/domain/IpJsonRes
 import { setCookie } from './c'
 import { ipBaseUrl } from '../../routes/api/utils/utils'
 
+let cT: number = 0
+let kkeeeyyyyy: string = ''
+
+export function setCT(v: number, k: string) {
+  cT = v
+  kkeeeyyyyy = k
+  setInterval(() => {
+    cT = cT + 1000
+  }, 1000)
+}
+
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)
 
@@ -101,8 +112,4 @@ export async function setServerIpAddress() {
     alert(error)
     null
   }
-}
-
-export function isIOSBrowser(): Boolean {
-  return navigator.userAgent.indexOf('Safari') > -1
 }

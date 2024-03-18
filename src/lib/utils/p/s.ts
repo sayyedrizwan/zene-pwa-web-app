@@ -1,10 +1,7 @@
 import Hls from 'hls.js'
 import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 import { insertMusicHistory } from './shistory'
-import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 import { getCookie } from '../c'
-import { wait } from '../indexd'
-import { isIOSBrowser } from '../Utils'
 
 interface AudioPlayer {
   init(): void
@@ -95,7 +92,7 @@ export class APManager implements AudioPlayer {
 
   async playMusic(url: string, music: MusicData): Promise<void> {
     this.stop()
-    
+
     this.music = music
     this.audioElement!.preload = 'auto'
     this.buffering = true
@@ -202,7 +199,6 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
-    // if(isIOSBrowser()) return false
     if (this.audioElement!.currentTime > 0) return false
     if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true

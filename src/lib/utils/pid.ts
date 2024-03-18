@@ -41,3 +41,8 @@ export function getMusicLyrics(id: string): LyricsResponseData | null {
 export function setMusicLyrics(id: string, lyrics: LyricsResponseData) {
   musicLyrics = [id, lyrics]
 }
+
+
+export function pSongEData() {
+
+}

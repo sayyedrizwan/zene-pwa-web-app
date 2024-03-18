@@ -107,7 +107,7 @@ export function decryptData(value: string): string {
   }
 }
 
-const key = Buffer.from(env.ALGORITHM_ENCR_SECRET_KEY.padEnd(16, '\0'), 'binary')
+const key = Buffer.from(env.SECRET_TOKEN_KEY.padEnd(16, '\0'), 'binary')
 
 export function decryptAppSharedData(value: string): string {
   const v = value.replaceAll('__', '/')

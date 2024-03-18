@@ -13,7 +13,6 @@
   import MusicRelatedSongs from './view/MusicRelatedSongs.svelte'
   import SongLyricsView from './view/SongLyricsView.svelte'
   import { MusicType } from '../../../domain/local/entities/MusicData'
-  import { isIOSBrowser } from '$lib/utils/Utils'
     import { notificationAlertListener, playSongZene } from '$lib/utils/f'
 
   export let songPlayer: Boolean

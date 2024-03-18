@@ -4,10 +4,9 @@
   import '$lib/firebase/firebase'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
-  import { isIOSBrowser, onBrowser, setServerIpAddress } from '$lib/utils/Utils'
+  import { onBrowser, setCT, setServerIpAddress } from '$lib/utils/Utils'
   import LogoWithBrand from '$lib/components/global-view/LogoWithBrand.svelte'
   import { onMount } from 'svelte'
-  import axios from 'axios'
   import type { MusicData } from '../domain/local/entities/MusicData'
   import { APManager } from '../lib/utils/p/s'
   import { env } from '$env/dynamic/public'
@@ -16,12 +15,13 @@
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
   import ZeneMusicPlayer from '$lib/components/music-player/ZeneMusicPlayer.svelte'
   import { setUpForegroundFCM } from '$lib/firebase/firebase'
-  import type { DURLResponse } from '../domain/local/entities/DURLResponse'
   import AlertDialog from '$lib/components/global-view/AlertDialog.svelte'
   import type { NotificationAlertsData } from '../domain/local/entities/NotificationAlertsData'
   import { wait } from '$lib/utils/indexd'
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
+
+  export let data: any
 
   $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
@@ -38,7 +38,10 @@
     if ('__TAURI__' in window) setServerIpAddress()
   }
 
+
   onMount(async () => {
+    setCT(data.t as number, data.a as string)
+
     audioPlayer = new APManager()
     audioPlayer.init()
 
