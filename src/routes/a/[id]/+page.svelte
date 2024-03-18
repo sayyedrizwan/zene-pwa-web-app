@@ -28,7 +28,7 @@
   <meta name="description" content={artistsInfo?.description?.length ?? 0 > 140 ? `${artistsInfo?.description?.substring(0, 139)}....` : artistsInfo?.description} />
   <meta name="og:description" content={artistsInfo?.description?.length ?? 0 > 140 ? `${artistsInfo?.description?.substring(0, 139)}....` : artistsInfo?.description} />
   <meta property="og:title" content="{artistsInfo?.name} on Zene" />
-  <meta property="og:image" content={artistsInfo?.image} />
+  <meta property="og:image" content={artistsInfo?.artistsImage} />
   <meta property="og:image:alt" content={`${artistsInfo?.name} on Zene`} />
   <link rel="canonical" href={`https://zenemusic.co/a/${data.url}`} />
 </svelte:head>

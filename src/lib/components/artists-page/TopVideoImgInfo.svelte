@@ -105,11 +105,11 @@
       </div>
       <div class="absolute top-0 left-0 w-screen h-[100vh] bg-gray-950 bg-opacity-50 cursor-pointer"></div>
     {:else}
-      <img class="object-cover w-screen h-[80vh]" src={artistsInfo.image} alt={artistsInfo.name} />
+      <img class="object-cover w-screen h-[80vh]" src={artistsInfo.artistsImage} alt={artistsInfo.name} />
       <div class="absolute top-0 left-0 w-screen h-[80vh] bg-gray-950 bg-opacity-50 cursor-pointer"></div>
     {/if}
   {:else}
-    <img class="object-cover w-screen h-[80vh]" src={artistsInfo.image} alt={artistsInfo.name} />
+    <img class="object-cover w-screen h-[80vh]" src={artistsInfo.artistsImage} alt={artistsInfo.name} />
     <div class="absolute top-0 left-0 w-screen h-[80vh] bg-gray-950 bg-opacity-50 cursor-pointer"></div>
   {/if}
   <h3 class="text-white urbanist-semibold text-4xl md:text-6xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{artistsInfo.name}</h3>

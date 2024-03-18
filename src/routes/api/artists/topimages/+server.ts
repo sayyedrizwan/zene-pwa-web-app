@@ -20,10 +20,10 @@ export async function POST(events: RequestEvent) {
     await Promise.all(
       searchLists.map(async (e) => {
         const search = await pImpl.searchImage(e)
-        search?.resource_response?.data?.results?.forEach((i) => {
-          if (i.images?.orig?.url != undefined) imageList.push(i.images?.orig?.url)
+        search.forEach(i => {
+          imageList.push(i)
         })
-      }),
+      })
     )
 
     return json(shuffleList(imageList))
