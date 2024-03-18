@@ -104,5 +104,5 @@ export async function setServerIpAddress() {
 }
 
 export function isIOSBrowser(): Boolean {
-  return navigator.userAgent.indexOf("Safari") > -1
+  return navigator.userAgent.indexOf('Safari') > -1
 }

@@ -18,10 +18,10 @@ export function ipBaseUrl(ip: string) {
   return `http://ip-api.com/json/${ip}`
 }
 
-export const rent_an_advise_lyrics_search =  `https://www.rentanadviser.com/subtitles/subtitles4songs.aspx`
-export const rent_an_advise_lyrics_find =  `https://www.rentanadviser.com/subtitles/`
-export const genius_search =  `https://genius.com/search`
-export const genius_multi_search =  `https://genius.com/api/search/multi`
+export const rent_an_advise_lyrics_search = `https://www.rentanadviser.com/subtitles/subtitles4songs.aspx`
+export const rent_an_advise_lyrics_find = `https://www.rentanadviser.com/subtitles/`
+export const genius_search = `https://genius.com/search`
+export const genius_multi_search = `https://genius.com/api/search/multi`
 
 export const google_news_api = 'https://news.google.com/rss/search'
 
@@ -180,7 +180,6 @@ export function shuffleList<T>(array: T[]): T[] {
   while (currentIndex !== 0) {
     const randomIndex = Math.floor(Math.random() * currentIndex)
     currentIndex -= 1
-
     ;[shuffledArray[currentIndex], shuffledArray[randomIndex]] = [shuffledArray[randomIndex], shuffledArray[currentIndex]]
   }
 

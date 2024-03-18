@@ -55,6 +55,8 @@ export class YTDownloaderImpl {
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
 
+      if (isSameServer == true && (url ?? null != null)) return url ?? ''
+
       const fileSize = await getFileSize(url!)
       const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
       const blob = new Blob(chucks, { type: 'audio/mp4' })
@@ -64,13 +66,15 @@ export class YTDownloaderImpl {
         if (convert != null) return convert.trim()
       }
 
-      const responseUid = await fetch("https://wsend.net/createunreg", {
-        method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" }, body: "start=1"
+      const responseUid = await fetch('https://wsend.net/createunreg', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+        body: 'start=1',
       })
       const uid = await responseUid.text()
 
       const formData = new FormData()
-      formData.append('filehandle', blob, "videoplayback.mp4")
+      formData.append('filehandle', blob, 'videoplayback.mp4')
       formData.append('uid', uid)
       const request = await fetch('https://wsend.net/upload_cli', { method: 'POST', headers: {}, body: formData })
       const response = await request.text()
@@ -84,37 +88,35 @@ export class YTDownloaderImpl {
 async function convertedMP3(blob: Blob): Promise<string | null> {
   try {
     const formdata = new FormData()
-    formdata.append("files[]", blob, `${generateRandomString(20)}_${generateRandomString(20)}.mp4`)
-    formdata.append("target", "djvu")
-    formdata.append("ajax", "1")
-    formdata.append("ajax", "1")
+    formdata.append('files[]', blob, `${generateRandomString(20)}_${generateRandomString(20)}.mp4`)
+    formdata.append('target', 'djvu')
+    formdata.append('ajax', '1')
+    formdata.append('ajax', '1')
 
-    const convertor = await fetch("https://ca3.converter.app/mp4-to-mp3/uploader.php", { method: "POST", body: formdata })
-    const response = await convertor.json() as CA3ConvertorResponse
+    const convertor = await fetch('https://ca3.converter.app/mp4-to-mp3/uploader.php', { method: 'POST', body: formdata })
+    const response = (await convertor.json()) as CA3ConvertorResponse
 
-    await fetch(`https://ca3.converter.app/mp4-to-mp3/process.php?jobid=${response.jobid}`, { method: "POST" })
+    await fetch(`https://ca3.converter.app/mp4-to-mp3/process.php?jobid=${response.jobid}`, { method: 'POST' })
     let isConvertorRunning = true
 
     setTimeout(() => {
       isConvertorRunning = false
     }, 2000)
 
-    while(isConvertorRunning) {
+    while (isConvertorRunning) {
       await waitServer(600)
-      const responseConverter = await fetch(`https://ca3.converter.app/mp4-to-mp3/display.php?jobid=${response.jobid}`, { method: "POST" })
-      if((await responseConverter.text()).trim() == "100") isConvertorRunning = false
+      const responseConverter = await fetch(`https://ca3.converter.app/mp4-to-mp3/display.php?jobid=${response.jobid}`, { method: 'POST' })
+      if ((await responseConverter.text()).trim() == '100') isConvertorRunning = false
     }
 
     await waitServer(1000)
-    
-    return `https://ca3.converter.app/download.php?jobid=${response.jobid}`
 
+    return `https://ca3.converter.app/download.php?jobid=${response.jobid}`
   } catch (error) {
     console.log(error)
     return null
   }
 }
-
 
 async function getFileSize(url: string): Promise<number | null> {
   try {
@@ -125,7 +127,6 @@ async function getFileSize(url: string): Promise<number | null> {
     return null
   }
 }
-
 
 async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: number): Promise<Uint8Array[]> {
   const chunks: Uint8Array[] = []
@@ -153,5 +154,3 @@ async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: nu
   }
   return chunks
 }
-
-

@@ -7,7 +7,7 @@ import { DURLResponse } from '../../../domain/local/entities/DURLResponse'
 import { isSameServerIp } from '../utils/utils'
 
 export const GET = async (req: RequestEvent) => {
-  const isSafari = req.request.headers.get("isSafari") == '1' ? true : false
+  const isSafari = req.request.headers.get('isSafari') == '1' ? true : false
   const video_url = new URL(req.url).searchParams.get('id') ?? ''
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
   const isSameServer = await isSameServerIp(req.cookies.get('i') ?? ``)
@@ -42,7 +42,7 @@ export const GET = async (req: RequestEvent) => {
       urlPoint = url
       type = 3
     }
-    
+
     return json(new DURLResponse(urlPoint, type))
   } catch (error) {
     return json({})

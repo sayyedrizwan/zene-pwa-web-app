@@ -77,12 +77,12 @@ export function artistsSplitToString(names: MusicData[]) {
   names.forEach((item, index) => {
     if (item.name?.trim() == '') return
 
-    if ((index + 1) == names.length) {
+    if (index + 1 == names.length) {
       data.push(new MusicData('&', '&', '', '', MusicType.TEMP))
       data.push(item)
     } else {
       data.push(item)
-      if(index < (names.length - 3)) data.push(new MusicData(',', ',', '', '', MusicType.TEMP))
+      if (index < names.length - 3) data.push(new MusicData(',', ',', '', '', MusicType.TEMP))
     }
   })
   return data

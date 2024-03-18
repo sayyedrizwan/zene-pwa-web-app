@@ -12,15 +12,19 @@ export const load = async ({ params, fetch, cookies, getClientAddress }) => {
 
   const artistsNameWithId: MusicData[] = []
 
-  if (response?.artists?.includes(",") || response?.artists?.includes("&")) {
-    response?.artists?.split("&").join(",").split(",").forEach(name => {
-      const a = new MusicData(name, name, encryptAppSharedData(name), '', MusicType.ARTISTS)
-      artistsNameWithId.push(a)
-    })
+  if (response?.artists?.includes(',') || response?.artists?.includes('&')) {
+    response?.artists
+      ?.split('&')
+      .join(',')
+      .split(',')
+      .forEach((name) => {
+        const a = new MusicData(name, name, encryptAppSharedData(name), '', MusicType.ARTISTS)
+        artistsNameWithId.push(a)
+      })
   } else if ((response?.artists ?? null) != null) {
-      const a = new MusicData(response?.artists!, response?.artists!, encryptAppSharedData(response?.artists!), '', MusicType.ARTISTS)
-      artistsNameWithId.push(a)
+    const a = new MusicData(response?.artists!, response?.artists!, encryptAppSharedData(response?.artists!), '', MusicType.ARTISTS)
+    artistsNameWithId.push(a)
   }
-  
-  return { data: btoa(data.keyData), ip: JSON.stringify(data.ip), info: response, url: params.id, artistsLists: JSON.stringify(artistsNameWithId)}
+
+  return { data: btoa(data.keyData), ip: JSON.stringify(data.ip), info: response, url: params.id, artistsLists: JSON.stringify(artistsNameWithId) }
 }

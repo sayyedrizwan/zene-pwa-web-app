@@ -4,7 +4,8 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
     "devPath": "http://localhost:3419",
-    "distDir": "../build"
+    "distDir": "../build",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "Zene",
@@ -13,6 +14,11 @@
   "tauri": {
     "macOSPrivateApi": true,
     "allowlist": {
+      "http": {
+        "all": true, 
+        "request": true,
+        "scope": ["http://localhost/*"]
+      },
       "all": true,
       "window": {
         "all": true,

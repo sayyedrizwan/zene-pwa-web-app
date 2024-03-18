@@ -11,18 +11,18 @@ export const POST = async (events: RequestEvent) => {
 
   const list = await events.request.json()
   if (list.length <= 0) return json({})
-  
+
   const lyrics = new LyricsImpl()
   const ytMusic = new YtMusicAPIImpl()
 
   const songinfo = await ytMusic.songInfo(atob(list.id))
   const rendAdvertiser = await lyrics.rentanadvertiser(songinfo)
 
-  if(rendAdvertiser != null) return json(new LyricsResponseData(rendAdvertiser ?? "", true))
+  if (rendAdvertiser != null) return json(new LyricsResponseData(rendAdvertiser ?? '', true))
 
   const ge = await lyrics.geniusLyrics(songinfo)
 
-  if(ge != null) return json(new LyricsResponseData(ge, false))
+  if (ge != null) return json(new LyricsResponseData(ge, false))
 
   return json(new LyricsResponseData(null, false))
 }

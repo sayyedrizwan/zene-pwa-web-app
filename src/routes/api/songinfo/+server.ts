@@ -5,7 +5,7 @@ import { apiError, authKeyError } from '../utils/utils'
 import { YtMusicAPIImpl } from '../api_impl/yt_music/YtMusicImpl'
 
 export const GET = async (req: RequestEvent) => {
-  const id = req.request.headers.get("id")
+  const id = req.request.headers.get('id')
 
   if (id == undefined) return json(apiError)
   if (id === '') return json(apiError)

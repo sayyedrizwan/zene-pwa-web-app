@@ -38,7 +38,6 @@ export function getMusicLyrics(id: string): LyricsResponseData | null {
   return musicLyrics[1]
 }
 
-
 export function setMusicLyrics(id: string, lyrics: LyricsResponseData) {
   musicLyrics = [id, lyrics]
 }

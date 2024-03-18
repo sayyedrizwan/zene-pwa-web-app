@@ -39,9 +39,9 @@ export class APManager implements AudioPlayer {
 
   init(): void {
     if (this.audioElement != undefined) {
-        this.stop()
+      this.stop()
     }
-    
+
     const audioe = document.createElement('audio') as HTMLVideoElement
 
     const oggsource = document.createElement('source') as HTMLSourceElement
@@ -95,20 +95,19 @@ export class APManager implements AudioPlayer {
 
   async playMusic(path: DURLResponse, music: MusicData): Promise<void> {
     this.stop()
-   
+
     const url = path.type == 0 ? `https://srvcdn7.2convert.me/dl?hash=${path?.u}` : path.type == 1 ? `https://wsnd.io/${path?.u?.trim()}/videoplayback.mp4` : path.type == 2 ? `https://ca3.converter.app/download.php?jobid=${path?.u?.trim()}` : path.u?.trim() ?? ``
-   
-  
+
     this.music = music
     this.audioElement!.preload = 'auto'
     this.buffering = true
 
     if (music.type == MusicType.RADIO) {
       if (url.includes('.m3u8') === true && Hls.isSupported()) {
-          var hls = new Hls()
-          hls.loadSource(url)
-          hls.attachMedia(this.audioElement!)
-          return
+        var hls = new Hls()
+        hls.loadSource(url)
+        hls.attachMedia(this.audioElement!)
+        return
       }
     }
 
@@ -120,7 +119,22 @@ export class APManager implements AudioPlayer {
   }
 
   playbackSpeed(): void {
-    const songSpeed = getCookie('song_speed') == '0.25x' ? 0.25 : getCookie('song_speed') == '0.5x' ? 0.5 : getCookie('song_speed') == '0.75x' ? 0.75 : getCookie('song_speed') == '1.25x' ? 1.25 : getCookie('song_speed') == '1.5x' ? 1.5 : getCookie('song_speed') == '1.75x' ? 1.75 : getCookie('song_speed') == '2.0x' ? 2.0 : 1.0
+    const songSpeed =
+      getCookie('song_speed') == '0.25x'
+        ? 0.25
+        : getCookie('song_speed') == '0.5x'
+          ? 0.5
+          : getCookie('song_speed') == '0.75x'
+            ? 0.75
+            : getCookie('song_speed') == '1.25x'
+              ? 1.25
+              : getCookie('song_speed') == '1.5x'
+                ? 1.5
+                : getCookie('song_speed') == '1.75x'
+                  ? 1.75
+                  : getCookie('song_speed') == '2.0x'
+                    ? 2.0
+                    : 1.0
     this.audioElement!.playbackRate = songSpeed
   }
 
@@ -156,8 +170,8 @@ export class APManager implements AudioPlayer {
       this.seekForward(5)
     })
 
-    setActionHandler('previoustrack', function () { })
-    setActionHandler('nexttrack', function () { })
+    setActionHandler('previoustrack', function () {})
+    setActionHandler('nexttrack', function () {})
   }
 
   pause(): void {
@@ -181,9 +195,9 @@ export class APManager implements AudioPlayer {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
-  nextSong(): void { }
+  nextSong(): void {}
 
-  previousSong(): void { }
+  previousSong(): void {}
 
   isPlaying(): boolean {
     return !this.audioElement?.paused
