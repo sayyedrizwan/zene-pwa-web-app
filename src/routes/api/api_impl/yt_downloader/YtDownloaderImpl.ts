@@ -54,31 +54,34 @@ export class YTDownloaderImpl {
       let info = await ytdl.getInfo(videoId)
       let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
       let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
+      
+      return url ?? null
 
-      if (isSameServer == true && (url ?? null != null)) return url ?? ''
+      // if (isSameServer == true && (url ?? null != null)) return url ?? ''
 
-      const fileSize = await getFileSize(url!)
-      const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
-      const blob = new Blob(chucks, { type: 'audio/mp4' })
+      // const fileSize = await getFileSize(url!)
+      // const chucks = await downloadBlobInChunks(url!, 1000000, fileSize!)
+      // const blob = new Blob(chucks, { type: 'audio/mp4' })
 
-      if (isSafari) {
-        const convert = await convertedMP3(blob)
-        if (convert != null) return convert.trim()
-      }
+      // return blob
+      // if (isSafari) {
+      //   const convert = await convertedMP3(blob)
+      //   if (convert != null) return convert.trim()
+      // }
 
-      const responseUid = await fetch('https://wsend.net/createunreg', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-        body: 'start=1',
-      })
-      const uid = await responseUid.text()
+      // const responseUid = await fetch('https://wsend.net/createunreg', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+      //   body: 'start=1',
+      // })
+      // const uid = await responseUid.text()
 
-      const formData = new FormData()
-      formData.append('filehandle', blob, 'videoplayback.mp4')
-      formData.append('uid', uid)
-      const request = await fetch('https://wsend.net/upload_cli', { method: 'POST', headers: {}, body: formData })
-      const response = await request.text()
-      return response.trim()
+      // const formData = new FormData()
+      // formData.append('filehandle', blob, 'videoplayback.mp4')
+      // formData.append('uid', uid)
+      // const request = await fetch('https://wsend.net/upload_cli', { method: 'POST', headers: {}, body: formData })
+      // const response = await request.text()
+      // return response.trim()
     } catch (error) {
       return null
     }
@@ -118,7 +121,7 @@ async function convertedMP3(blob: Blob): Promise<string | null> {
   }
 }
 
-async function getFileSize(url: string): Promise<number | null> {
+export async function getFileSize(url: string): Promise<number | null> {
   try {
     const response = await axios.head(url)
     const contentLength = response.headers['content-length']
@@ -128,7 +131,7 @@ async function getFileSize(url: string): Promise<number | null> {
   }
 }
 
-async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: number): Promise<Uint8Array[]> {
+export async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: number): Promise<Uint8Array[]> {
   const chunks: Uint8Array[] = []
   let start = 0
 
