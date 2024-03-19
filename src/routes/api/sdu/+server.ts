@@ -35,5 +35,6 @@ export const GET = async (req: RequestEvent) => {
     header[i] = responseInfo.headers[i]
   })
 
+  console.log(header)
   return new Response(blob, { status: 200, headers: header })
 }
