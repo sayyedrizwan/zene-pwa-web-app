@@ -68,6 +68,7 @@ export class APManager implements AudioPlayer {
     this.audioElement.oncanplaythrough = async () => {
       if (this.music != undefined) insertMusicHistory(this.music, window)
       this.forcePlaySong()
+    
       if(this.isPlaying()) clearInterval(this.interval!)
     }
 
@@ -99,9 +100,11 @@ export class APManager implements AudioPlayer {
         return
       }
     }
-
+    (document.getElementById("songPaths") as HTMLElement).setAttribute('href', url.trim())
+    
     this.interval = setInterval(() => this.isPlaying() ? clearInterval(this.interval!) : this.forcePlaySong(), 900)
 
+    
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.audioElement!.load()

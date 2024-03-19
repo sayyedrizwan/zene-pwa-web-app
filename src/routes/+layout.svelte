@@ -103,7 +103,7 @@
 
 
 <video width="320" height="240" controls id="videoMain">
-  <source src="" type="video/mpeg" id="videoSource">
+  <source src="" type="audio/mpeg" id="videoSource">
     <track kind="captions">
 </video>
 
