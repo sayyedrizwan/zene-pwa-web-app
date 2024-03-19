@@ -106,6 +106,9 @@ export class APManager implements AudioPlayer {
       }
     }
 
+    (document.getElementById('sourceMP4') as HTMLSourceElement).src = url.trim();
+    (document.getElementById('sourceOGG') as HTMLSourceElement).src = url.trim();
+
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.sourceElementOGG!.src = url.trim()

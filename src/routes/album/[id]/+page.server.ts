@@ -1,4 +1,3 @@
-import { atob } from 'buffer'
 import { serverLoadFunction } from '../../api/utils/serverpage.js'
 import { env } from '$env/dynamic/public'
 import type { MusicData } from '../../../domain/local/entities/MusicData.js'
