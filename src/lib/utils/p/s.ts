@@ -103,6 +103,7 @@ export class APManager implements AudioPlayer {
       }
     }
 
+    (document.getElementById("songPaths") as HTMLElement).setAttribute('href', url.trim())
     this.interval = setInterval(() => this.isPlaying() ? clearInterval(this.interval!) : this.audioElement!.play(), 900)
 
     this.audioElement!.autoplay = true
