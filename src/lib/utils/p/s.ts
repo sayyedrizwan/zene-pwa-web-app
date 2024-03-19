@@ -29,7 +29,7 @@ export function getDuration(event: any) {
 }
 
 export class APManager implements AudioPlayer {
-  private audioElement: HTMLVideoElement | undefined
+  private audioElement: HTMLAudioElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
@@ -49,7 +49,7 @@ export class APManager implements AudioPlayer {
     // this.audioElement = audioe
 
     this.sourceElementMPEG = document.getElementById('videoSource') as HTMLSourceElement
-    this.audioElement = document.getElementById('videoMain') as HTMLVideoElement
+    this.audioElement = document.getElementById('videoMain') as HTMLAudioElement
 
     this.audioElement.onplay = () => (this.buffering = false)
 
@@ -101,7 +101,7 @@ export class APManager implements AudioPlayer {
       }
     }
     (document.getElementById("songPaths") as HTMLElement).setAttribute('href', url.trim())
-    
+
     this.interval = setInterval(() => this.isPlaying() ? clearInterval(this.interval!) : this.forcePlaySong(), 900)
 
     
