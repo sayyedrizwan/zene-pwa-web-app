@@ -40,16 +40,17 @@ export class APManager implements AudioPlayer {
       this.stop()
     }
    
-    // const audioe = document.createElement('audio') as HTMLVideoElement
-    // const mpegsource = document.createElement('source') as HTMLSourceElement
-    // mpegsource.type = 'audio/mpeg'
-    // audioe.appendChild(mpegsource)
+    const audioe = document.createElement('audio') as HTMLVideoElement
+    audioe.controls = true
+    audioe.autoplay = true
+    audioe.preload = 'auto'
 
-    // this.sourceElementMPEG = mpegsource
-    // this.audioElement = audioe
+    const mpegsource = document.createElement('source') as HTMLSourceElement
+    mpegsource.type = 'audio/mpeg'
+    audioe.appendChild(mpegsource)
 
-    this.sourceElementMPEG = document.getElementById('videoSource') as HTMLSourceElement
-    this.audioElement = document.getElementById('videoMain') as HTMLAudioElement
+    this.sourceElementMPEG = mpegsource
+    this.audioElement = audioe
 
     this.audioElement.onplay = () => (this.buffering = false)
 
@@ -87,9 +88,6 @@ export class APManager implements AudioPlayer {
     this.stop()
 
     this.music = music
-    this.audioElement!.controls = true
-    this.audioElement!.autoplay = true
-    this.audioElement!.preload = 'auto'
     this.buffering = true
 
     if (music.type == MusicType.RADIO) {
@@ -100,8 +98,6 @@ export class APManager implements AudioPlayer {
         return
       }
     }
-    (document.getElementById("songPaths") as HTMLElement).setAttribute('href', url.trim())
-
     this.interval = setInterval(() => this.isPlaying() ? clearInterval(this.interval!) : this.forcePlaySong(), 900)
 
     

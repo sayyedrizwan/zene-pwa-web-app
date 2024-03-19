@@ -101,12 +101,6 @@
   <slot />
 {:else}
 
-
-<audio loop autoplay controls id="videoMain">
-  <source src="" type="audio/mpeg" id="videoSource">
-    <track kind="captions">
-</audio>
-
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />

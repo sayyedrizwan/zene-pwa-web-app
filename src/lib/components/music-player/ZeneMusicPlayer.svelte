@@ -95,7 +95,6 @@
 
       {#if musicData?.type == MusicType.MUSIC}
         <PlayerActionButton bind:musicData bind:musicPlayerPlayingStatus {toMusicFunction} />
-        <a href="#" id="songPaths" target="_blank">Song Path</a>
         <SongLyricsView bind:musicData bind:currentDuration />
         <MusicRelatedSongs bind:musicData {scrollMusicToTop} />
       {/if}
