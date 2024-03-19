@@ -1,12 +1,12 @@
 {
-	"name": "BTC Map",
-	"short_name": "BTC Map",
-	"description": "Easily find places to spend sats anywhere on the planet.",
+	"name": "Zene: A Free Muic App",
+	"short_name": "Zene",
+	"description": "Discover the top music streaming platforms to find your favorite artists, albums, and playlists.",
 	"scope": "/",
-	"start_url": "/map",
+	"start_url": "/",
 	"display": "standalone",
-	"theme_color": "#E4EBEC",
-	"background_color": "#E4EBEC",
+	"theme_color": "#100E09",
+	"background_color": "#100E09",
 	"orientation": "portrait-primary",
 	"dir": "ltr",
 	"lang": "en",
@@ -24,24 +24,34 @@
 	"prefer_related_applications": false,
 	"related_applications": [
 		{
-			"platform": "f-droid",
+			"platform": "Amazon App Store",
 			"url": "https://f-droid.org/en/packages/org.btcmap/",
 			"id": ""
 		},
 		{
-			"platform": "play",
-			"url": "https://play.google.com/store/apps/details?id=org.btcmap.app",
+			"platform": "Play Store",
+			"url": "https://play.google.com/store/apps/details?id=com.rizwansayyed.zene",
+			"id": "com.rizwansayyed.zene"
+		},
+		{
+			"platform": "App Store",
+			"url": "https://apps.apple.com/app/btc-world-map/id6443604345",
 			"id": ""
 		},
 		{
-			"platform": "itunes",
+			"platform": "Mac OS",
+			"url": "https://apps.apple.com/app/btc-world-map/id6443604345",
+			"id": ""
+		},
+		{
+			"platform": "Windows Desktop",
 			"url": "https://apps.apple.com/app/btc-world-map/id6443604345",
 			"id": ""
 		}
 	],
 	"developer": {
-		"name": "secondl1ght",
-		"url": "https://secondl1ght.site"
+		"name": "Rizwan Sayyed",
+		"url": "https://rizwansayyed.tk"
 	},
 	"icons": [
 		{
