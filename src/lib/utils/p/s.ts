@@ -87,6 +87,8 @@ export class APManager implements AudioPlayer {
     this.stop()
 
     this.music = music
+    this.audioElement!.controls = true
+    this.audioElement!.autoplay = true
     this.audioElement!.preload = 'auto'
     this.buffering = true
 
@@ -99,7 +101,6 @@ export class APManager implements AudioPlayer {
       }
     }
 
-    window.open(url.trim(),'_blank')
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.audioElement!.load()
