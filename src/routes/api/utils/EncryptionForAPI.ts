@@ -42,7 +42,7 @@ export function decryptAPIKeyAndIsValidOfSong(events: RequestEvent, key: string,
     if (dev) return true
     return false
   }
-
+  
   if(!events.request.headers.get('host')?.includes('zenemusic.co')){
     if (dev) return true
     return false
