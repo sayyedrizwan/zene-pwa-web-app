@@ -100,12 +100,6 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
-  <video width="320" height="240" controls>
-    <source src="" type="audio/mpeg" id="sourceMP4" />
-    <source src="" type="audio/ogg" id="sourceOGG" />
-    <track kind="captions" />
-    Your browser does not support the video tag.
-  </video>
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />
