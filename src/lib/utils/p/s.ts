@@ -15,6 +15,7 @@ interface AudioPlayer {
   seekBackward(v: number): void
   isPlaying(): boolean | undefined
   isBuffering(): boolean | undefined
+  forcePlaySong(): void
   nextSong(): void
   previousSong(): void
   songDuration(): number
@@ -62,15 +63,8 @@ export class APManager implements AudioPlayer {
     }
 
     this.audioElement.oncanplaythrough = async () => {
-      this.audioElement!.play()
-
       if (this.music != undefined) insertMusicHistory(this.music, window)
-
-      if (this.audioElement?.paused) {
-        const event = new Event('click')
-        this.audioElement.dispatchEvent(event)
-        this.audioElement.play()
-      }
+      this.forcePlaySong()
       if(this.isPlaying()) clearInterval(this.interval!)
     }
 
@@ -104,12 +98,22 @@ export class APManager implements AudioPlayer {
     }
 
     (document.getElementById("songPaths") as HTMLElement).setAttribute('href', url.trim())
-    this.interval = setInterval(() => this.isPlaying() ? clearInterval(this.interval!) : this.audioElement!.play(), 900)
+    this.interval = setInterval(() => this.isPlaying() ? clearInterval(this.interval!) : this.forcePlaySong(), 900)
 
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.audioElement!.load()
     this.playbackSpeed()
+  }
+
+  forcePlaySong(): void{
+    this.audioElement!.play()
+
+    if (this.audioElement?.paused) {
+      const event = new Event('click')
+      this.audioElement.dispatchEvent(event)
+      this.audioElement.play()
+    }
   }
 
   playbackSpeed(): void {
