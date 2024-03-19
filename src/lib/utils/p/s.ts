@@ -98,6 +98,8 @@ export class APManager implements AudioPlayer {
         return
       }
     }
+
+    window.open(url.trim(),'_blank')
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.audioElement!.load()
