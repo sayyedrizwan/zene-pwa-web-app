@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { pwaInfo } from 'virtual:pwa-info'
   import './tailwind.svelte'
   import '$lib/firebase/firebase'
   import { page } from '$app/stores'
@@ -23,7 +22,6 @@
 
   export let data: any
 
-  $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
   $: browser ? onBrowser() : ''
 
   let audioPlayer: APManager
@@ -91,10 +89,6 @@
     }, 2000)
   })
 </script>
-
-<svelte:head>
-  {@html webManifest}
-</svelte:head>
 
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
   <LogoWithBrand showOnlyLogo={true} />
