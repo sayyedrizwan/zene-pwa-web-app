@@ -9,7 +9,6 @@
   import { onMount } from 'svelte'
   import type { MusicData } from '../domain/local/entities/MusicData'
   import { APManager } from '../lib/utils/p/s'
-  import { env } from '$env/dynamic/public'
   import NoInternetDialog from '$lib/components/global-view/NoInternetDialog.svelte'
   import MusicPlaySmallView from '$lib/components/global-view/MusicPlaySmallView.svelte'
   import SongInfoSheet from '$lib/components/global-view/SongInfoSheet.svelte'
@@ -38,6 +37,7 @@
   if (browser) {
     if ('__TAURI__' in window) setServerIpAddress()
     setCT(data.t as number, data.a as string)
+
   }
 
   onMount(async () => {
@@ -101,7 +101,9 @@
   <slot />
 {:else}
   <LogoWithBrand showOnlyLogo={false} />
-  <slot />
+  <main>
+    <slot />
+  </main>
   <MusicPlaySmallView {audioPlayer} />
 
   {#if songMenuDialog != null}
@@ -120,3 +122,4 @@
 {#if notificationAlert != null}
   <AlertDialog bind:notificationAlert />
 {/if}
+

@@ -50,7 +50,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          {deviceType == 0 ? 'Install iPhone' : deviceType == 1 ? 'Install iPad' : deviceType == 2 ? 'Go to Play Store' : deviceType == 3 ? 'Download for Mac' : deviceType == 4 ? 'Download for Windows' : deviceType == 5 ? 'Go to Play Store' : 'Device'}</button
+          {deviceType == 0 ? 'Install on iPhone' : deviceType == 1 ? 'Install on iPad' : deviceType == 2 ? 'Go to Play Store' : deviceType == 3 ? 'Download for Mac' : deviceType == 4 ? 'Get on Windows' : deviceType == 5 ? 'Go to Play Store' : 'Device'}</button
         >
       </div>
     </div>
