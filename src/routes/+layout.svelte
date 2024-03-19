@@ -20,7 +20,7 @@
   import { wait } from '$lib/utils/indexd'
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
-    import { pppllaaayyyPatthh } from '$lib/utils/pid'
+  import { pppllaaayyyPatthh } from '$lib/utils/pid'
 
   export let data: any
 
@@ -39,7 +39,6 @@
     if ('__TAURI__' in window) setServerIpAddress()
     setCT(data.t as number, data.a as string)
   }
-
 
   onMount(async () => {
     audioPlayer = new APManager()
@@ -101,12 +100,12 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
-<video width="320" height="240" controls>
-  <source src="" type="audio/mpeg" id="sourceMP4">
-  <source src="" type="audio/ogg" id="sourceOGG">
-  <track kind="captions" />
-Your browser does not support the video tag.
-</video>
+  <video width="320" height="240" controls>
+    <source src="" type="audio/mpeg" id="sourceMP4" />
+    <source src="" type="audio/ogg" id="sourceOGG" />
+    <track kind="captions" />
+    Your browser does not support the video tag.
+  </video>
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />
