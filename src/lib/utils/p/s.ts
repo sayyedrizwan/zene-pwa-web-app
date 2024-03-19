@@ -28,8 +28,8 @@ export function getDuration(event: any) {
 }
 
 export class APManager implements AudioPlayer {
-  private audioElement: HTMLAudioElement | undefined
-  private sourceElementOGG: HTMLSourceElement | undefined
+  private audioElement: HTMLVideoElement | undefined
+  // private sourceElementOGG: HTMLSourceElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
@@ -39,17 +39,17 @@ export class APManager implements AudioPlayer {
       this.stop()
     }
 
-    const audioe = document.createElement('audio') as HTMLAudioElement
+    const audioe = document.createElement('audio') as HTMLVideoElement
 
-    const oggsource = document.createElement('source') as HTMLSourceElement
-    oggsource.type = 'audio/ogg'
-    audioe.appendChild(oggsource)
+    // const oggsource = document.createElement('source') as HTMLSourceElement
+    // oggsource.type = 'audio/ogg'
+    // audioe.appendChild(oggsource)
 
     const mpegsource = document.createElement('source') as HTMLSourceElement
     mpegsource.type = 'audio/mpeg'
     audioe.appendChild(mpegsource)
 
-    this.sourceElementOGG = oggsource
+    // this.sourceElementOGG = oggsource
     this.sourceElementMPEG = mpegsource
     this.audioElement = audioe
 
@@ -111,7 +111,7 @@ export class APManager implements AudioPlayer {
 
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
-    this.sourceElementOGG!.src = url.trim()
+    // this.sourceElementOGG!.src = url.trim()
     this.audioElement!.load()
     this.playbackSpeed()
   }
