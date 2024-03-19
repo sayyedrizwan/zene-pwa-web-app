@@ -10,6 +10,7 @@
   import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
   import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
   import ArtistsCards from '../global-view/items/ArtistsCards.svelte'
+  import { pSongEData } from '$lib/utils/pid'
 
   export let searchParam: string
 
@@ -21,10 +22,11 @@
 
   onMount(async () => {
     searchSuggestion = { type: ResponseDataEnum.LOADING }
+  
     try {
-      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, data: { q: searchParam.trim() } })
+      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, data: { q: searchParam.trim() }, headers: { AuthorizationKey: pSongEData() } })
       const response = (await res.data) as SearchMusicData
-
+      
       searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }
     } catch (error) {
       searchSuggestion = { type: ResponseDataEnum.ERROR }
@@ -95,7 +97,7 @@
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg">
           {#each searchSuggestion.data.songs as musicData}
-            <CardWithTopMenuIcon {musicData} list={searchSuggestion.data.songs}/>
+            <CardWithTopMenuIcon {musicData} list={searchSuggestion.data.songs} />
           {/each}
         </div>
       {:else}

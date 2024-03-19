@@ -7,6 +7,7 @@
   import SEARCH from '$lib/assets/img/ic_search.svg'
   import ARROW_UP_RIGHT from '$lib/assets/img/ic_arrow_up_right.svg'
   import { notificationAlertListener } from '$lib/utils/f'
+  import { pSongEData } from '$lib/utils/pid'
 
   export let searchParam: string
   let voiceSearchTranscript = ''
@@ -25,8 +26,9 @@
   async function searchSuggestions() {
     searchSuggestion = { type: ResponseDataEnum.LOADING }
     const searchValue = document.getElementById('voice-search') as HTMLInputElement
+
     try {
-      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_KEYWORDS, data: { q: searchValue.value.trim() } })
+      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_KEYWORDS, data: { q: searchValue.value.trim() }, headers: { AuthorizationKey: pSongEData() } })
       const response = (await res.data) as string[]
       searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }
     } catch (error) {

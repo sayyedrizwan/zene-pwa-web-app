@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getMusicLyrics, setMusicLyrics } from '$lib/utils/pid'
+  import { getMusicLyrics, pSongEData, setMusicLyrics } from '$lib/utils/pid'
   import { ResponseDataEnum, type ResponseData } from '../../../../domain/RequestEnumClass'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
   import axios from 'axios'
@@ -7,7 +7,6 @@
   import type { LyricsResponseData } from '../../../../domain/local/entities/LyricsResponseData'
   import { wait } from '$lib/utils/indexd'
   import { durationToTime } from '$lib/utils/f'
-  import { onMount } from 'svelte'
 
   export let musicData: MusicPlayerData | null
   export let currentDuration: number
@@ -21,22 +20,22 @@
   let lyrics = ''
 
   async function loadSongLyrics() {
-    await wait(500)
+    await wait(900)
     if (musicData?.m?.songId == undefined) return
     const v = getMusicLyrics(musicData?.m?.songId ?? '')
     if (v != null) {
-      if(v.lyrics == lyrics) return
-      lyrics = v.lyrics ?? ""
+      if (v.lyrics == lyrics) return
+      lyrics = v.lyrics ?? ''
       songLyrics = { type: ResponseDataEnum.SUCCESS, data: v }
       return
     }
 
     try {
       songLyrics = { type: ResponseDataEnum.LOADING }
-      const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId })
+      const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: pSongEData() } })
       const response = (await res.data) as LyricsResponseData
       songLyrics = { type: ResponseDataEnum.SUCCESS, data: response }
-      lyrics = response.lyrics ?? ""
+      lyrics = response.lyrics ?? ''
       setMusicLyrics(musicData?.m?.songId ?? '', response)
     } catch (error) {
       songLyrics = { type: ResponseDataEnum.ERROR }

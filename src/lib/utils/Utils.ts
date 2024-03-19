@@ -5,14 +5,19 @@ import { setCookie } from './c'
 import { ipBaseUrl } from '../../routes/api/utils/utils'
 
 let cT: number = 0
-let kkeeeyyyyy: string = ''
+let kkeeeyyyyy: string = `53`
 
 export function setCT(v: number, k: string) {
   cT = v
-  kkeeeyyyyy = k
+  kkeeeyyyyy = window.atob(k)
   setInterval(() => {
     cT = cT + 1000
   }, 1000)
+}
+
+
+export function gCT(): [number, number] {
+  return [cT, parseInt(kkeeeyyyyy)]
 }
 
 export function onBrowser() {

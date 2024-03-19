@@ -1,16 +1,16 @@
-import { decryptAPIKeyAndIsValid, isFromZeneOrigin } from '../../utils/EncryptionForAPI'
+import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { apiError, authKeyError } from '../../utils/utils'
+import { apiError } from '../../utils/utils'
 import { RadioBrowserImpl } from '../../api_impl/radio/RadioBrowserImpl'
 import { MusicData, MusicType, SearchMusicData } from '../../../../domain/local/entities/MusicData'
 import { YtMusicAPIImpl } from '../../api_impl/yt_music/YtMusicImpl'
 
 export async function POST(events: RequestEvent) {
-  if (isFromZeneOrigin(events) === false) return json({})
+  if (decryptAPIKeyAndIsValid(events) === false) return json({})
 
   const body = await events.request.json()
   const q = body.q
-
+  
   const radioBrowserImpl = new RadioBrowserImpl()
   const ytMusicImpl = new YtMusicAPIImpl()
 

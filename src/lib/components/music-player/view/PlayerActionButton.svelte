@@ -11,7 +11,7 @@
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import type { MusicPlayerVideos } from '../../../../domain/local/entities/MusicPlayerVideos'
-  import { getMusicVideoIdData, setMusicVideoIdData } from '$lib/utils/pid'
+  import { getMusicVideoIdData, pSongEData, setMusicVideoIdData } from '$lib/utils/pid'
   import { notificationAlertListener, shareATxt } from '$lib/utils/f'
   import { onMount } from 'svelte'
   import { getCookie, setCookie } from '$lib/utils/c'
@@ -38,7 +38,8 @@
       return
     }
     notificationAlertListener('Loading please wait.', 'Getting video of this song.', musicData?.m?.thumbnail ?? null)
-    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId })
+   
+    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: pSongEData() } })
     const response = res.data as MusicPlayerVideos
     setMusicVideoIdData(response)
     musicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.VIDEO, data: response.video }
@@ -51,7 +52,8 @@
       return
     }
     notificationAlertListener('Loading please wait.', 'Getting lyrics video of this song.', musicData?.m?.thumbnail ?? null)
-    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId })
+   
+    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: pSongEData() } })
     const response = res.data as MusicPlayerVideos
     setMusicVideoIdData(response)
     musicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.LYRICS_VIDEO, data: response.lyrics }

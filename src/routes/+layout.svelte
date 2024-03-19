@@ -20,6 +20,7 @@
   import { wait } from '$lib/utils/indexd'
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
+    import { pppllaaayyyPatthh } from '$lib/utils/pid'
 
   export let data: any
 
@@ -36,12 +37,11 @@
 
   if (browser) {
     if ('__TAURI__' in window) setServerIpAddress()
+    setCT(data.t as number, data.a as string)
   }
 
 
   onMount(async () => {
-    setCT(data.t as number, data.a as string)
-
     audioPlayer = new APManager()
     audioPlayer.init()
 
@@ -71,7 +71,7 @@
       audioPlayer.stop()
       try {
         audioPlayer.startBuffering()
-        audioPlayer.playMusic(`${env.PUBLIC_DOWNLOAD_URL}?id=${song.songId ?? ''}`, song)
+        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p), song)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }

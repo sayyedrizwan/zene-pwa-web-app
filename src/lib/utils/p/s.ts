@@ -114,22 +114,17 @@ export class APManager implements AudioPlayer {
   }
 
   playbackSpeed(): void {
-    const songSpeed =
-      getCookie('song_speed') == '0.25x'
-        ? 0.25
-        : getCookie('song_speed') == '0.5x'
-          ? 0.5
-          : getCookie('song_speed') == '0.75x'
-            ? 0.75
-            : getCookie('song_speed') == '1.25x'
-              ? 1.25
-              : getCookie('song_speed') == '1.5x'
-                ? 1.5
-                : getCookie('song_speed') == '1.75x'
-                  ? 1.75
-                  : getCookie('song_speed') == '2.0x'
-                    ? 2.0
-                    : 1.0
+    let songSpeed = 1.0
+
+    if (getCookie('song_speed') == '0.25x') songSpeed = 0.25
+    else if (getCookie('song_speed') == '0.5x') songSpeed = 0.5
+    else if (getCookie('song_speed') == '0.75x') songSpeed = 0.75
+    else if (getCookie('song_speed') == '1.25x') songSpeed = 1.25
+    else if (getCookie('song_speed') == '1.5x') songSpeed = 1.5
+    else if (getCookie('song_speed') == '1.75x') songSpeed = 1.75
+    else if (getCookie('song_speed') == '2.0x') songSpeed = 2.0
+    else songSpeed = 1.0
+
     this.audioElement!.playbackRate = songSpeed
   }
 
@@ -165,8 +160,8 @@ export class APManager implements AudioPlayer {
       this.seekForward(5)
     })
 
-    setActionHandler('previoustrack', function () {})
-    setActionHandler('nexttrack', function () {})
+    setActionHandler('previoustrack', function () { })
+    setActionHandler('nexttrack', function () { })
   }
 
   pause(): void {
@@ -190,9 +185,9 @@ export class APManager implements AudioPlayer {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
-  nextSong(): void {}
+  nextSong(): void { }
 
-  previousSong(): void {}
+  previousSong(): void { }
 
   isPlaying(): boolean {
     return !this.audioElement?.paused

@@ -1,14 +1,17 @@
-import { json, type RequestEvent } from '@sveltejs/kit'
+import { type RequestEvent } from '@sveltejs/kit'
 import { atob } from 'buffer'
 import { RadioBrowserImpl } from '../api_impl/radio/RadioBrowserImpl'
-import { downloadBlobInChunks, getFileSize, YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'
-import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
-import { DURLResponse } from '../../../domain/local/entities/DURLResponse'
-import { isSameServerIp } from '../utils/utils'
+import { downloadBlobInChunks, YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'
+import { decryptAPIKeyAndIsValidOfSong } from '../utils/EncryptionForAPI'
 import axios from 'axios'
 
 export const GET = async (req: RequestEvent) => {
   const video_url = new URL(req.url).searchParams.get('id') ?? ''
+  const key = new URL(req.url).searchParams.get('k') ?? ''
+  const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
+
+  if(!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
+
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
 
   if (videoId.length > 20 && videoId.split('-').length > 3) {

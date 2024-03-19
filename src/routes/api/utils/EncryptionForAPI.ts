@@ -3,6 +3,7 @@ import type { RequestEvent } from '@sveltejs/kit'
 import { atob, btoa } from 'buffer'
 import * as crypto from 'crypto'
 import { dev } from '$app/environment'
+import { getIpAddress } from './utils'
 
 export function generateAPIKey(): string {
   const timestamp = new Date().getTime()
@@ -22,6 +23,34 @@ export function isFromZeneOrigin(events: RequestEvent): Boolean {
   }
 }
 
+export function decryptAPIKeyAndIsValidOfSong(events: RequestEvent, key: string, ip: string): Boolean {
+  if (isFromZeneOrigin(events) === false) return false
+  console.log()
+
+  const timestamp = new Date().getTime()
+  const decryptValue = decryptTempKey(key?.replace('qS-1Z.oWEkQ', '') ?? '')
+  const v = decryptValue?.match(RegExp(`${`@@#####`}(.*?)${`>>#####`}`))
+  const en = v ? v[1] : null
+
+  if (en == undefined) return false
+
+  const difference = timestamp - parseInt(en.trim())
+  const differenceinSeconds = Math.floor(difference / 1000)
+  if (differenceinSeconds > 7 || difference < 0) return false
+
+  if ((decryptData(ip.trim()).trim() != getIpAddress(events).trim()) && (events.cookies.get('i')?.trim() != getIpAddress(events).trim())) {
+    if (dev) return true
+    return false
+  }
+
+  if(!events.request.headers.get('host')?.includes('zenemusic.co')){
+    if (dev) return true
+    return false
+  }
+
+  return true
+}
+
 export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
   if (isFromZeneOrigin(events) === false) return false
 
@@ -29,22 +58,48 @@ export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
     const headers = events.request.headers
     const authKey = headers.get('AuthorizationKey')
 
+    if ((authKey?.length ?? 0) < 5) return false
+
     const timestamp = new Date().getTime()
-    const decryptValue = decryptData(authKey?.toString()!)
-    const v = decryptValue.match(RegExp(`${`->`}(.*?)${`<-`}`))
-    const ev = v ? v[1] : undefined
-    if (ev == undefined) {
-      return false
+    let en: string | null = null
+
+    if (authKey?.includes('qS-1Z.oWEkQ')) {
+      const decryptValue = decryptTempKey(authKey?.replace('qS-1Z.oWEkQ', '') ?? '')
+
+      const v = decryptValue?.match(RegExp(`${`@@#####`}(.*?)${`>>#####`}`))
+      en = v ? v[1] : null
+    } else {
+      const decryptValue = decryptData(authKey?.toString()!)
+      const v = decryptValue.match(RegExp(`${`->`}(.*?)${`<-`}`))
+      en = v ? v[1] : null
     }
-    const difference = timestamp - parseInt(ev.trim())
+
+    if (en == undefined) return false
+
+    const difference = timestamp - parseInt(en.trim())
     const differenceinSeconds = Math.floor(difference / 1000)
-    if (differenceinSeconds > 20) return false
+    if (differenceinSeconds > 20 || difference < 0) return false
 
     return true
   } catch (error) {
     return false
   }
 }
+
+
+export function decryptTempKey(encryptedText: string) {
+  let secretKey = env.SECRET_TOKEN_LITE.toString();
+  const textToChars = (text: any) => text.split("").map((c: any) => c.charCodeAt(0));
+  const applySaltToChar = (code: any) => textToChars(secretKey).reduce((a: any, b: any) => a ^ b, code)
+
+  return encryptedText
+    ?.match(/.{1,2}/g)
+    ?.map((hex) => parseInt(hex, 16))
+    .map(applySaltToChar)
+    .map((charCode) => String.fromCharCode(charCode))
+    .join("");
+}
+
 
 export function decryptAPIKeyAndIsValidLong(events: RequestEvent): boolean {
   try {
@@ -68,7 +123,7 @@ export function decryptAPIKeyAndIsValidLong(events: RequestEvent): boolean {
   }
 }
 
-function generateTemp5DigitWord(): string {
+export function generateTemp5DigitWord(): string {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   const charactersLength = characters.length
   let result = ''

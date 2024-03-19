@@ -1,6 +1,6 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { isFromZeneOrigin } from '../utils/EncryptionForAPI'
-import { authKeyError, getIpAddress, ipBaseUrl, shuffleList } from '../utils/utils'
+import { decryptAPIKeyAndIsValid } from '../utils/EncryptionForAPI'
+import { authKeyError, getIpAddress, ipBaseUrl } from '../utils/utils'
 import { atob } from 'buffer'
 import { YtMusicAPIImpl } from '../api_impl/yt_music/YtMusicImpl'
 import type { MusicData } from '../../../domain/local/entities/MusicData'
@@ -9,7 +9,8 @@ import type { IpJsonResponse } from '../radiolist/domain/IpJsonResponse'
 import { SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
 
 export const POST = async (events: RequestEvent) => {
-  if (!isFromZeneOrigin(events)) return json(authKeyError)
+  if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
+  
   const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
   const ipData = (await responseIp.data) as IpJsonResponse
   const list = await events.request.json()
