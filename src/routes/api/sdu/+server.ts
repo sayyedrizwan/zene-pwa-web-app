@@ -32,7 +32,7 @@ export const GET = async (req: RequestEvent) => {
   let header: any = {}
 
   Object.keys(responseInfo.headers).forEach(i => {
-    header[i] = responseInfo.headers[i]
+    if(i == "content-type" || i == "cache-control" || i == "accept-ranges" || i == "content-length") header[i] = responseInfo.headers[i]
   })
 
   console.log(header)
