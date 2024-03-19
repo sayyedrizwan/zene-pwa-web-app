@@ -61,6 +61,7 @@ export class APManager implements AudioPlayer {
     }
 
     this.audioElement.oncanplaythrough = async () => {
+      alert('playyedd')
       this.audioElement!.play()
 
       if (this.music != undefined) insertMusicHistory(this.music, window)
@@ -104,6 +105,7 @@ export class APManager implements AudioPlayer {
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.audioElement!.load()
+    this.audioElement!.play()
     this.playbackSpeed()
   }
 

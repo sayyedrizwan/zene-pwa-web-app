@@ -95,7 +95,7 @@ export function pppllaaayyyPatthh(songId: string, ap: string): string {
     const params = new URLSearchParams({
       id: songId,
       k: pSongEData(),
-      pp: ap
+      pp: ap.replace("=", "")
     })
 
     const queryString = params.toString()
