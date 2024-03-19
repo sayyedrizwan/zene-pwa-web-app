@@ -100,7 +100,6 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
-
   <LogoWithBrand showOnlyLogo={false} />
   <slot />
   <MusicPlaySmallView {audioPlayer} />
