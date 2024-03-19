@@ -25,7 +25,6 @@ export function isFromZeneOrigin(events: RequestEvent): Boolean {
 
 export function decryptAPIKeyAndIsValidOfSong(events: RequestEvent, key: string, ip: string): Boolean {
   if (isFromZeneOrigin(events) === false) return false
-  console.log()
 
   const timestamp = new Date().getTime()
   const decryptValue = decryptTempKey(key?.replace('qS-1Z.oWEkQ', '') ?? '')
@@ -42,7 +41,7 @@ export function decryptAPIKeyAndIsValidOfSong(events: RequestEvent, key: string,
     if (dev) return true
     return false
   }
-  
+
   if(!events.request.headers.get('host')?.includes('zenemusic.co')){
     if (dev) return true
     return false

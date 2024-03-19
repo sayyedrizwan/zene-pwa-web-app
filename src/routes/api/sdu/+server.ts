@@ -34,7 +34,5 @@ export const GET = async (req: RequestEvent) => {
   Object.keys(responseInfo.headers).forEach(i => {
     header[i] = responseInfo.headers[i]
   })
-
-  console.log(header)
   return new Response(blob, { status: 200, headers: header })
 }
