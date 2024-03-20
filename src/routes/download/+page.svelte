@@ -25,18 +25,24 @@
     window.open("https://play.google.com/store/apps/details?id=com.rizwansayyed.zene", "_blank")
   }
 
-  async function installPWA() {
-    if(deviceType == 2 || deviceType == 5){
-      redirectToPlayStore()
-      return
-    }
-    if (deviceType == 3) {
-      const anchor = document.createElement('a')
+  function startDownloadingForMacOS() {
+    const anchor = document.createElement('a')
       anchor.href = 'https://zenemusic.co/download/Zene_MacOS.dmg'
       anchor.download = 'Zene_MacOS.dmg'
       document.body.appendChild(anchor)
       anchor.click()
       document.body.removeChild(anchor)
+  }
+
+  async function installPWA() {
+    if(deviceType == 2 || deviceType == 5) {
+      redirectToPlayStore()
+      return
+    }
+    
+    if(deviceType == 3){
+      startDownloadingForMacOS()
+      return
     }
   }
 </script>
@@ -107,7 +113,7 @@
 <div class="container mx-auto py-10 w-full mt-12">
       <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
         <img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/>
-        <img src="/badges/get_on_macos.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
+        <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer"/></button>
         <img src="/badges/windows.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
       </div>
 </div>
