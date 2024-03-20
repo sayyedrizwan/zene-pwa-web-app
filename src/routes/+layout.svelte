@@ -39,10 +39,6 @@
   }
 
   onMount(async () => {
-
-    setTimeout(()=> {
-      alert(window.location.href)
-    }, 2000)
     audioPlayer = new APManager()
     audioPlayer.init()
 
