@@ -17,17 +17,19 @@
     else if (/Windows/.test(userAgent)) deviceType = 4
     else if (/Android/.test(userAgent) && /tablet/.test(userAgent)) deviceType = 5
     else deviceType = 6
+
+    deviceType = 0
   })
 
-  let installPrompt: any = null
-
-  if (browser)
-    window.addEventListener('beforeinstallprompt', (event) => {
-      event.preventDefault()
-      installPrompt = event
-    })
+  function redirectToPlayStore() {
+    window.open("https://play.google.com/store/apps/details?id=com.rizwansayyed.zene", "_blank")
+  }
 
   async function installPWA() {
+    if(deviceType == 2 || deviceType == 5){
+      redirectToPlayStore()
+      return
+    }
     if (deviceType == 3) {
       const anchor = document.createElement('a')
       anchor.href = 'https://zenemusic.co/download/Zene_MacOS.dmg'
@@ -36,12 +38,6 @@
       anchor.click()
       document.body.removeChild(anchor)
     }
-    if (!installPrompt) {
-      alert('nopee')
-      return
-    }
-    const result = await installPrompt.prompt()
-    console.log(`Install prompt was: ${result.outcome}`)
   }
 </script>
 
@@ -90,5 +86,38 @@
     <div class="h-full w-1/3 bg-gradient-to-b from-maincolor to-[#C4C4C400]"></div>
   </div>
 </section>
+
+<div class="container mx-auto py-10 w-full mt-24">
+      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
+        <button on:click={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/></button>
+        <img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/aptoide.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/f_droid.png" alt="Get Zene on F-Droid" class="w-24 cursor-pointer"/>
+      </div>
+      
+      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9 mt-6">
+        <img src="/badges/apkmirror.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/one_store.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/app_gallery.png" alt="Get Zene on App Gallery" class="w-32 cursor-pointer"/>
+      </div>
+</div>
+
+
+<div class="container mx-auto py-10 w-full mt-12">
+      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
+        <img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/get_on_macos.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/windows.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
+      </div>
+</div>
+
+
+<div class="container mx-auto py-10 w-full mt-12">
+      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
+        <img src="/badges/chrome_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/>
+        <img src="/badges/firefox.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
+      </div>
+</div>
 
 <Footer />
