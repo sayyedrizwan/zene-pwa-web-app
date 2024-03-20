@@ -29,7 +29,7 @@ export function playSongZene(song: MusicData | null, list: MusicData[] | null | 
 
 export function notificationAlertListener(title: string, desc: string, img: string | null) {
   const customEvent = new CustomEvent('notificationalert', {
-    detail: { value: new NotificationAlertsData(title, desc, img ?? '/logo512.png') },
+    detail: { value: new NotificationAlertsData(title, desc, img ?? '/logo820.png') },
   })
   document.dispatchEvent(customEvent)
 }

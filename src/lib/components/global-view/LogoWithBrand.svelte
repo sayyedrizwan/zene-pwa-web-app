@@ -13,7 +13,7 @@
     <div class="mx-2 md:mx-4 flex flex-wrap items-center justify-between px-2 md:px-5">
       <a href="/" class="relative flex items-center py-[2.125rem]">
         <div class="absolute inset-x-0 bottom-0 h-px bg-slate-900/5"></div>
-        <img src="/logo120.png" alt="zene" class="w-14" />
+        <img src="/logo820.png" alt="zene" class="w-14" />
         <div class="ml-auto flex items-center ms-4">
           <p class="text-white urbanist-bold text-xl">Zene <span class="urbanist-thin">(Beta)</span></p>
         </div>

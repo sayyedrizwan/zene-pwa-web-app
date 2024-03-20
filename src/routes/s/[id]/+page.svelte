@@ -16,13 +16,13 @@
   <meta name="description" content={songInfo?.artists == null ? 'No Found' : songInfo?.artists} />
   <meta name="og:description" content={songInfo?.artists == null ? 'No Found' : songInfo?.artists} />
   <meta property="og:title" content={songInfo?.name == null ? 'No Song Found On Zene' : `${songInfo?.name} on Zene: A free music app`} />
-  <meta property="og:image" content={songInfo?.thumbnail == null ? '/logo120.png' : songInfo?.thumbnail} />
+  <meta property="og:image" content={songInfo?.thumbnail == null ? '/logo820.png' : songInfo?.thumbnail} />
   <meta property="og:image:alt" content={`${songInfo?.name ?? ''} on Zene`} />
   <link rel="canonical" href={`https://zenemusic.co/s/${data.url}`} />
 </svelte:head>
 
 <div class="w-screen flex flex-col justify-center items-center">
-  <img class="size-11/12 lg:size-1/3 object-contain rounded-lg" src={songInfo?.thumbnail == null ? '/logo512.png' : songInfo?.thumbnail} alt={songInfo?.name == null ? 'No Song Found' : songInfo?.name} />
+  <img class="size-11/12 lg:size-1/3 object-contain rounded-lg" src={songInfo?.thumbnail == null ? '/logo820.png' : songInfo?.thumbnail} alt={songInfo?.name == null ? 'No Song Found' : songInfo?.name} />
   <h1 class="text-white urbanist-bold text-start text-2xl lg:text-5xl mt-11">{songInfo?.name == null ? 'No Song Found On Zene' : songInfo?.name}</h1>
   <div class="w-screen flex flex-wrap justify-center mt-3">
     {#each artistsSplitToString(artistsInfo) as artists}

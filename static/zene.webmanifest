@@ -357,66 +357,6 @@
 			"sizes": "256x256"
 		},
 		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-16.png",
-			"sizes": "16x16"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-20.png",
-			"sizes": "20x20"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-24.png",
-			"sizes": "24x24"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-30.png",
-			"sizes": "30x30"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-32.png",
-			"sizes": "32x32"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-36.png",
-			"sizes": "36x36"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-40.png",
-			"sizes": "40x40"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-44.png",
-			"sizes": "44x44"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-48.png",
-			"sizes": "48x48"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-60.png",
-			"sizes": "60x60"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-64.png",
-			"sizes": "64x64"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-72.png",
-			"sizes": "72x72"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-80.png",
-			"sizes": "80x80"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-96.png",
-			"sizes": "96x96"
-		},
-		{
-			"src": "/icons/pwa/windows11/Square44x44Logo.altform-lightunplated_targetsize-256.png",
-			"sizes": "256x256"
-		},
-		{
 			"src": "/icons/pwa/android/android-launchericon-512-512.png",
 			"sizes": "512x512"
 		},
@@ -547,13 +487,13 @@
 	],
 	"shortcuts": [
 		{
-			"name": "Map",
-			"short_name": "Map",
-			"description": "Bitcoin merchant locations",
-			"url": "/map",
+			"name": "Home",
+			"short_name": "Home",
+			"description": "Zene Homepage",
+			"url": "/",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/logo_png.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -561,13 +501,13 @@
 			]
 		},
 		{
-			"name": "Add location",
-			"short_name": "Add",
-			"description": "Add a locaion to OSM",
-			"url": "/add-location",
+			"name": "Feed",
+			"short_name": "Feed",
+			"description": "Artists feed.",
+			"url": "/feed",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/ic_feed.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -575,13 +515,13 @@
 			]
 		},
 		{
-			"name": "Verify location",
-			"short_name": "Verify",
-			"description": "Verify a location's information",
-			"url": "/verify-location",
+			"name": "Search",
+			"short_name": "Search",
+			"description": "Find your favourite song, album, artists.",
+			"url": "/search",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/ic_search.png.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -589,13 +529,13 @@
 			]
 		},
 		{
-			"name": "Dashboard",
-			"short_name": "Dash",
-			"description": "Map stats and charts",
+			"name": "My Music",
+			"short_name": "My Music",
+			"description": "Get your saved music and music hitory.",
 			"url": "/dashboard",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/ic_my_music.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -603,13 +543,13 @@
 			]
 		},
 		{
-			"name": "Activity",
-			"short_name": "Activity",
-			"description": "Latest Supertaggers",
-			"url": "/activity",
+			"name": "Settings",
+			"short_name": "Settings",
+			"description": "Config zene as per you need.",
+			"url": "/settings",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/ic_settings.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -617,13 +557,13 @@
 			]
 		},
 		{
-			"name": "Leaderboard",
-			"short_name": "Leaderboard",
-			"description": "Top Supertaggers",
-			"url": "/leaderboard",
+			"name": "App Download",
+			"short_name": "App Download",
+			"description": "Bring your free music to your device",
+			"url": "/download",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/ic_downloads.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -631,13 +571,13 @@
 			]
 		},
 		{
-			"name": "Communities",
-			"short_name": "Communities",
-			"description": "Local bitcoin communities",
-			"url": "/communities",
+			"name": "Zene Instagram",
+			"short_name": "Zene Instagram",
+			"description": "Follow Zene on Instagram",
+			"url": "https://www.instagram.com/zene__music/",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/ic_instagram.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -645,13 +585,13 @@
 			]
 		},
 		{
-			"name": "Countries",
-			"short_name": "Countries",
-			"description": "Bitcoin adoption by countries",
+			"name": "FAQ",
+			"short_name": "FAQ",
+			"description": "View frequently asked question on Zene",
 			"url": "/countries",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/ic_faq_info.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -659,13 +599,13 @@
 			]
 		},
 		{
-			"name": "Support Us",
-			"short_name": "Support",
-			"description": "Support BTC Map development",
-			"url": "/support-us",
+			"name": "About Us",
+			"short_name": "About Us",
+			"description": "Info about Zene",
+			"url": "/home",
 			"icons": [
 				{
-					"src": "/icons/pwa/maskable/maskable_icon_x96.png",
+					"src": "/icons/pwa/widgets/logo_png.png",
 					"sizes": "96x96",
 					"type": "image/png",
 					"purpose": "maskable"
@@ -675,83 +615,83 @@
 	],
 	"screenshots": [
 		{
-			"src": "/images/screenshots/0.png",
+			"src": "/icons/screenshots/0.png",
 			"sizes": "1280x800",
 			"type": "image/png",
 			"form_factor": "wide"
 		},
 		{
-			"src": "/images/screenshots/1.png",
+			"src": "/icons/screenshots/1.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/2.png",
+			"src": "/icons/screenshots/2.png",
 			"sizes": "1280x800",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/3.png",
+			"src": "/icons/screenshots/3.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/4.png",
+			"src": "/icons/screenshots/4.png",
 			"sizes": "1280x800",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/5.png",
+			"src": "/icons/screenshots/5.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/6.png",
+			"src": "/icons/screenshots/6.png",
 			"sizes": "1280x800",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/7.png",
+			"src": "/icons/screenshots/7.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/8.png",
+			"src": "/icons/screenshots/8.png",
 			"sizes": "1280x800",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/9.png",
+			"src": "/icons/screenshots/9.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/10.png",
+			"src": "/icons/screenshots/10.png",
 			"sizes": "1280x800",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/11.png",
+			"src": "/icons/screenshots/11.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/12.png",
+			"src": "/icons/screenshots/12.png",
 			"sizes": "1280x800",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/13.png",
+			"src": "/icons/screenshots/13.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/14.png",
+			"src": "/icons/screenshots/14.png",
 			"sizes": "1280x800",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/screenshots/15.png",
+			"src": "/icons/screenshots/15.png",
 			"sizes": "750x1334",
 			"type": "image/png"
 		}
