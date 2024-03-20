@@ -35,7 +35,6 @@
   if (browser) {
     if ('__TAURI__' in window) setServerIpAddress()
     setCT(data.t as number, data.a as string)
-
   }
 
   onMount(async () => {
