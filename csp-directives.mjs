@@ -7,7 +7,7 @@ const cspDirectives = {
   'img-src': ["'self'", 'data:', '*'],
   'font-src': ["'self'", 'data:', 'https://*.cloudflare.com'],
   'form-action': ["'self'"],
-  'frame-ancestors': ["'self'", 'http://localhost:3419/'],
+  'frame-ancestors': ["'self'", 'http://localhost:3419/', 'https://www.zenemusic.co/'],
   'frame-src': ["'self'", 'https://www.youtube.com/', 'http://localhost:3419/', 'https://www.zenemusic.co/'],
   'manifest-src': ["'self'"],
   'media-src': ["'self'", 'data:', '*'],
