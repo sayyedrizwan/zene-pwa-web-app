@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from '$app/environment'
   import Footer from '$lib/components/global-view/Footer.svelte'
   import PhoneMusicImg from '$lib/assets/img/download/phone_music_clipart.svg'
   import MacMusicImg from '$lib/assets/img/download/macbook_music_clipart.svg'
@@ -17,6 +18,31 @@
     else if (/Android/.test(userAgent) && /tablet/.test(userAgent)) deviceType = 5
     else deviceType = 6
   })
+
+  let installPrompt: any = null
+
+  if (browser)
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault()
+      installPrompt = event
+    })
+
+  async function installPWA() {
+    if (deviceType == 3) {
+      const anchor = document.createElement('a')
+      anchor.href = 'https://zenemusic.co/download/Zene_MacOS.dmg'
+      anchor.download = 'Zene_MacOS.dmg'
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+    }
+    if (!installPrompt) {
+      alert('nopee')
+      return
+    }
+    const result = await installPrompt.prompt()
+    console.log(`Install prompt was: ${result.outcome}`)
+  }
 </script>
 
 <svelte:head>
@@ -38,7 +64,7 @@
         <p class="mb-8 text-lg text-white urbanist-light">
           Bring your free music to your {deviceType == 0 ? 'iPhone' : deviceType == 1 ? 'iPad' : deviceType == 2 ? 'Android Smartphone' : deviceType == 3 ? 'Mac/Macbook' : deviceType == 4 ? 'Windows Desktop' : deviceType == 5 ? 'Android Tablet' : 'Device'}.
         </p>
-        <button class="font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md hover:bg-gray-800 flex items-center gap-3 urbanist-regular" type="button">
+        <button on:click={installPWA} class="font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md hover:bg-gray-800 flex items-center gap-3 urbanist-regular" type="button">
           <svg class=" size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M22 20.8201C15.426 22.392 8.574 22.392 2 20.8201" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M11.9492 2V16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
