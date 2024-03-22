@@ -223,3 +223,80 @@ input[type='range']::-webkit-slider-thumb {
   height: 4rem;
   padding: 0px 10px;
 }
+
+
+@keyframes quiet {
+  25%{
+    transform: scaleY(.6);
+  }
+  50%{
+    transform: scaleY(.4);
+  }
+  75%{
+    transform: scaleY(.8);
+  }
+}
+
+@keyframes normal {
+  25%{
+    transform: scaleY(1);
+  }
+  50%{
+    transform: scaleY(.4);
+  }
+  75%{
+    transform: scaleY(.6);
+  }
+}
+@keyframes loud {
+  25%{
+    transform: scaleY(1);
+  }
+  50%{
+    transform: scaleY(.4);
+  }
+  75%{
+    transform: scaleY(1.2);
+  }
+}
+
+.wave .boxContainer{
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  margin-top: 10px;
+  --boxSize: 8px;
+  --gutter: 4px;
+  width: calc((var(--boxSize) + var(--gutter)) * 5);
+}
+
+.wave .box{
+  transform: scaleY(.4);
+  height: 100%;
+  width: var(--boxSize);
+  background: whitesmoke;
+  animation-duration: 1.2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  border-radius: 8px;
+}
+
+.wave .box1{
+  animation-name: quiet;
+}
+
+.wave .box2{
+  animation-name: normal;
+}
+
+.wave .box3{
+  animation-name: quiet;
+}
+
+.wave .box4{
+  animation-name: loud;
+}
+
+.wave .box5{
+  animation-name: quiet;
+}

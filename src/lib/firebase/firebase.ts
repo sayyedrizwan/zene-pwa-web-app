@@ -28,9 +28,9 @@ if (browser) {
 }
 
 export async function setUpForegroundFCM() {
-  await Notification.requestPermission()
-
   try {
+    await Notification.requestPermission()
+
     getToken(firebaseMessaging!, { vapidKey: 'BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M' })
 
     onMessage(firebaseMessaging!, (payload) => {

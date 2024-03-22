@@ -82,7 +82,7 @@
   function scrollMusicToTop() {
     audioPlayer.startBuffering()
     const id = document.getElementById('scrollmusic') as HTMLElement
-    if (id != null) id.scroll({ top: 0, behavior: 'smooth' })
+    if (id != null) id.scroll({ top: 0, behavior: 'smooth' }) 
   }
 </script>
 
