@@ -46,7 +46,7 @@ export class APManager implements AudioPlayer {
     audioe.preload = 'auto'
 
     const mpegsource = document.createElement('source') as HTMLSourceElement
-    mpegsource.type = 'audio/mpeg'
+    mpegsource.type = 'audio/mp4'
     audioe.appendChild(mpegsource)
 
     this.sourceElementMPEG = mpegsource

@@ -25,6 +25,11 @@
     window.open("https://play.google.com/store/apps/details?id=com.rizwansayyed.zene", "_blank")
   }
 
+  function underReview(){
+    alert('App is under view.')
+  }
+
+
   function startDownloadingForMacOS() {
     const anchor = document.createElement('a')
       anchor.href = 'https://zenemusic.co/download/Zene_MacOS.dmg'
@@ -96,15 +101,14 @@
 <div class="container mx-auto py-10 w-full mt-24">
       <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
         <button on:click={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/></button>
-        <img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
-        <img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer"/>
-        <img src="/badges/aptoide.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/>
-        <img src="/badges/f_droid.png" alt="Get Zene on F-Droid" class="w-24 cursor-pointer"/>
+        <a href="https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/" target="_blank"><img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/></a>
+        <button on:click={underReview}><img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer"/></button>
+       <img src="/badges/indusappstore.png" alt="Get Zene on F-Droid" class="w-32 cursor-pointer"/>
       </div>
       
       <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9 mt-6">
-        <img src="/badges/apkmirror.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/>
-        <img src="/badges/one_store.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/>
+        <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/aptoide.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/></a>
+        <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/apkmirror.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/></a>
         <img src="/badges/app_gallery.png" alt="Get Zene on App Gallery" class="w-32 cursor-pointer"/>
       </div>
 </div>

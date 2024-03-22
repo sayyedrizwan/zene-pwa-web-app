@@ -45,6 +45,10 @@
     musicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.VIDEO, data: response.video }
   }
 
+  async function offlineDownload() {
+   notificationAlertListener(`Offline Download not avaliable`, `Some Browser dosen't Offline Download. We are working to resolve this issue.`, musicData?.m?.thumbnail ?? null) 
+  }
+
   async function loadLyricsVideo() {
     const v = getMusicVideoIdData(musicData?.m?.songId ?? '')
     if (v?.video != null) {
@@ -93,7 +97,7 @@
   <RoundCardsIconsButton img={RepeatIcon} title={isLoop ? 'Playing in Loop' : 'Play in Loop'} functions={changeLoop} />
   <RoundCardsIconsButton img={LoopIcon} title={autoplaySong ? 'Autoplay is on' : 'Autoplay next song is Off'} functions={autoplayNextSong} />
   <RoundCardsIconsButton img={ShareIcon} title={'Share'} functions={shareSong} />
-  <RoundCardsIconsButton img={DownloadIcon} title={'Offline Download'} functions={loadVideo} />
+  <RoundCardsIconsButton img={DownloadIcon} title={'Offline Download'} functions={offlineDownload} />
 </div>
 
 <!-- // switch to video
