@@ -29,7 +29,7 @@ export function getDuration(event: any) {
 }
 
 export class APManager implements AudioPlayer {
-  private audioElement: HTMLAudioElement | undefined
+  private audioElement: HTMLVideoElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
@@ -39,7 +39,7 @@ export class APManager implements AudioPlayer {
       this.stop()
     }
    
-    const audioe = document.createElement('audio') as HTMLAudioElement
+    const audioe = document.createElement('audio') as HTMLVideoElement
     audioe.controls = true
     audioe.autoplay = true
     audioe.preload = 'auto'
