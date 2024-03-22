@@ -33,14 +33,13 @@ export class APManager implements AudioPlayer {
   private sourceElementMPEG: HTMLSourceElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
-  private interval: NodeJS.Timeout | null = null
 
   init(): void {
     if (this.audioElement != undefined) {
       this.stop()
     }
    
-    const audioe = document.createElement('audio') as HTMLVideoElement
+    const audioe = document.createElement('audio') as HTMLAudioElement
     audioe.controls = true
     audioe.autoplay = true
     audioe.preload = 'auto'
@@ -69,8 +68,6 @@ export class APManager implements AudioPlayer {
     this.audioElement.oncanplaythrough = async () => {
       if (this.music != undefined) insertMusicHistory(this.music, window)
       this.forcePlaySong()
-    
-      if(this.isPlaying()) clearInterval(this.interval!)
     }
 
     this.audioElement.addEventListener('loadedmetadata', () => {
@@ -98,9 +95,7 @@ export class APManager implements AudioPlayer {
         return
       }
     }
-    this.interval = setInterval(() => this.isPlaying() ? clearInterval(this.interval!) : this.forcePlaySong(), 900)
-
-    
+ 
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.audioElement!.load()
