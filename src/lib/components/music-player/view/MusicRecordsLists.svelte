@@ -1,6 +1,7 @@
 <script lang="ts">
   import { deepListCompare } from '$lib/utils/Utils'
-  import { artistsSplitToHTMLString } from '$lib/utils/f'
+  import { artistsSplitToHTMLString, notificationAlertListener, playSongZene } from '$lib/utils/f'
+  import { wait } from '$lib/utils/indexd'
   import { MusicType, type MusicData } from '../../../../domain/local/entities/MusicData'
   import { MusicPlayerPlayingStatus, type MusicPlayerData, type ResponseMusicPlayerPlayingStatus } from '../../../../domain/local/entities/MusicPlayerData'
 
@@ -17,6 +18,16 @@
     musicData?.lists?.forEach((item, i) => {
       if (item.songId == musicData?.m.songId) currentSongPostion = i
     })
+  }
+
+  async function playSong(m: MusicData) {
+    try {
+      playSongZene(m, [])
+      await wait(500)
+      playSongZene(m, musicData?.lists)
+    } catch (error) {
+      notificationAlertListener('Error playing song.', 'Try again later..', null)
+    }
   }
 
   $: musicData?.lists, listsChanges()
@@ -65,7 +76,7 @@
 {#if (musicData?.lists ?? []).length > 1}
   <div class="overflow-x-auto flex mt-5 scrollbar-hide">
     {#each musicData?.lists ?? [] as list, i}
-      <div class="flex-none py-6 px-3 first:pl-6 last:pr-6 cursor-pointer">
+      <button class="flex-none py-6 px-3 first:pl-6 last:pr-6 cursor-pointer" on:click={() => (list.songId != musicData?.m?.songId ? playSong(list) : null)}>
         <div class="flex flex-col items-center justify-center">
           <div class="container mx-auto size-28 relative">
             <img class="size-28 rounded-md" src={list.thumbnail} alt={list.name} />
@@ -91,7 +102,7 @@
             <p class="urbanist-thin w-28 text-sm text-center text-white line-clamp-1">{list.artists}</p>
           {/if}
         </div>
-      </div>
+      </button>
     {/each}
   </div>
 {/if}
