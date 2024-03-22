@@ -51,16 +51,17 @@ export class YTDownloaderImpl {
 
   async videoYTDownloader(videoId: string, isSameServer: Boolean): Promise<string | null> {
     try {
+      let url = ``
       let info = await ytdl.getInfo(videoId)
       info.formats.forEach(element => {
-        if(element.hasAudio === true) console.log(element)
+        if(element.hasAudio === true && element.mimeType == `video/mp4; codecs="avc1.42001E, mp4a.40.2"` && element.qualityLabel == '360p') url = element.url
       })
-      let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
-      let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
+      // let audioFormats = ytdl.filterFormats(info.formats, 'audioonly')
+      // let url = audioFormats.findLast((a) => a.mimeType?.includes('audio/mp4; codecs='))?.url
       
-      return `https://rr1---sn-w2gqpbpu5a-cvhl.googlevideo.com/videoplayback?expire=1711141162&ei=ypz9ZcShMfD0z7sP4NiK0Ac&ip=183.87.181.87&id=o-ADvDWOLtPjw-U_PmGAm7u6_MLe3shk1AdyMZPlHwgpL5&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=io&mm=31%2C29&mn=sn-w2gqpbpu5a-cvhl%2Csn-cvh7knzd&ms=au%2Crdu&mv=m&mvi=1&pl=24&gcr=in&initcwndbps=953750&spc=UWF9f0fAANrrCUv8wS44PYNmc3gSqxBdyeQdjj4dCw48os0&vprv=1&svpuc=1&mime=video%2Fmp4&ns=7PQF7S3Z-XTo4GJIZbGXIgcQ&gir=yes&clen=4435491&ratebypass=yes&dur=261.758&lmt=1698925686880649&mt=1711119176&fvip=3&c=WEB&sefc=1&txp=2318224&n=vDGUenO1THNWAQ&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=ALClDIEwRAIgU0vHRbekY3nmbydEi4h6k2Egs3b0Eej52fr9TWZ_OTwCICM8M5vK4JQLAoRofDDJWzVDPrqg18VFq_Dghy6ycg4L&sig=AJfQdSswRQIgT8fLvpMH69pG9lXFEcntV87wei23Kxonw7g5oX5O5iICIQCkbFyK89edu9mSKL9j7Z-gRIMyV-dxXq-fHmoYb4PbOg%3D%3D`
+      // return `https://rr1---sn-w2gqpbpu5a-cvhl.googlevideo.com/videoplayback?expire=1711141162&ei=ypz9ZcShMfD0z7sP4NiK0Ac&ip=183.87.181.87&id=o-ADvDWOLtPjw-U_PmGAm7u6_MLe3shk1AdyMZPlHwgpL5&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=io&mm=31%2C29&mn=sn-w2gqpbpu5a-cvhl%2Csn-cvh7knzd&ms=au%2Crdu&mv=m&mvi=1&pl=24&gcr=in&initcwndbps=953750&spc=UWF9f0fAANrrCUv8wS44PYNmc3gSqxBdyeQdjj4dCw48os0&vprv=1&svpuc=1&mime=video%2Fmp4&ns=7PQF7S3Z-XTo4GJIZbGXIgcQ&gir=yes&clen=4435491&ratebypass=yes&dur=261.758&lmt=1698925686880649&mt=1711119176&fvip=3&c=WEB&sefc=1&txp=2318224&n=vDGUenO1THNWAQ&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=ALClDIEwRAIgU0vHRbekY3nmbydEi4h6k2Egs3b0Eej52fr9TWZ_OTwCICM8M5vK4JQLAoRofDDJWzVDPrqg18VFq_Dghy6ycg4L&sig=AJfQdSswRQIgT8fLvpMH69pG9lXFEcntV87wei23Kxonw7g5oX5O5iICIQCkbFyK89edu9mSKL9j7Z-gRIMyV-dxXq-fHmoYb4PbOg%3D%3D`
 
-      // return url ?? null
+      return url ?? null
     } catch (error) {
       return null
     }
