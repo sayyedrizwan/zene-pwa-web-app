@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { durationToTime } from '$lib/utils/f'
+  import { durationToTime, notificationAlertListener, playSongZene } from '$lib/utils/f'
   import type { APManager } from '$lib/utils/p/s'
   import PLAY_ICON from '$lib/assets/img/ic_play.svg'
   import PAUSE_ICON from '$lib/assets/img/ic_pause.svg'
@@ -7,6 +7,7 @@
   import PREVIOUS_ICON from '$lib/assets/img/ic_previous.svg'
   import { MusicType } from '../../../../domain/local/entities/MusicData'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
+    import { wait } from '$lib/utils/indexd'
 
   export let musicData: MusicPlayerData | null
   export let audioPlayer: APManager
@@ -30,6 +31,30 @@
   function seekForward() {
     audioPlayer.seekForward(5)
   }
+
+  async function goToNextSong() {
+    const musicDataItem = musicData?.lists.findIndex(v => musicData?.m.songId == v.songId)
+    
+    try {
+      playSongZene(musicData?.lists[musicDataItem! + 1]!, [])
+      await wait(500)
+      playSongZene(musicData?.lists[musicDataItem! + 1]!, musicData?.lists)
+    } catch (error) {
+      notificationAlertListener('No Song', 'No Next Song Found in List.', null)
+    }
+  }
+
+  async function goToPreviousSong() {
+    const musicDataItem = musicData?.lists.findIndex(v => musicData?.m.songId == v.songId)
+    
+    try {
+      playSongZene(musicData?.lists[musicDataItem! - 1]!, [])
+      await wait(500)
+      playSongZene(musicData?.lists[musicDataItem! - 1]!, musicData?.lists)
+    } catch (error) {
+      notificationAlertListener('No Song', 'No Previous Song Found in List.', null)
+    }
+  }
 </script>
 
 <div>
@@ -49,7 +74,7 @@
   <div class="flex justify-center mt-6 w-full px-2 md:px-8 items-center">
     <div class="w-9/12 md:w-2/4 flex {musicData?.m?.type == MusicType.MUSIC ? 'justify-between' : 'justify-center'}">
       {#if musicData?.m?.type == MusicType.MUSIC}
-        <button on:click={seekBack}><img src={PREVIOUS_ICON} alt="PREVIOUS" class="size-7" /></button>
+        <button on:click={goToPreviousSong}><img src={PREVIOUS_ICON} alt="PREVIOUS" class="size-7" /></button>
         <button on:click={seekBack}><img src="/src/lib/assets/img/go-backward-5sec.svg" alt="PREVIOUS" class="size-8" /></button>
       {/if}
 
@@ -65,7 +90,7 @@
       {#if musicData?.m?.type == MusicType.MUSIC}
         <button on:click={seekForward}> <img src="/src/lib/assets/img/go-forward-5sec.svg" alt="PREVIOUS" class="size-8" /></button>
 
-        <button on:click={seekForward}><img src={NEXT_ICON} alt="PREVIOUS" class="size-7" /></button>
+        <button on:click={goToNextSong}><img src={NEXT_ICON} alt="PREVIOUS" class="size-7" /></button>
       {/if}
     </div>
   </div>

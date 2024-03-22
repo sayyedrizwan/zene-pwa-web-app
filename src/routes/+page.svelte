@@ -62,7 +62,7 @@
     </div>
   {/if}
 
-  {#if (youMayLike?.explore.length ?? 0) > 0}
+  {#if (youMayLike?.explore?.length ?? 0) > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs</h3>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg">
