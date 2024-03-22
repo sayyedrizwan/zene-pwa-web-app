@@ -44,26 +44,23 @@ export function setMusicLyrics(id: string, lyrics: LyricsResponseData) {
   musicLyrics = [id, lyrics]
 }
 
-
 export function pSongEData(): string {
   const t = gCT()[0]
   const k = gCT()[1]
-  
+
   const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
-  const d = `${en_ars4sfrb(s, k.toString())}${"qKS-.1Z.oPWEkQ".replace('K', '').replace('.', '').replace('P', '')}`
+  const d = `${en_ars4sfrb(s, k.toString())}${'qKS-.1Z.oPWEkQ'.replace('K', '').replace('.', '').replace('P', '')}`
   return d
 }
-
 
 export function pSongEDatas(): string {
   const t = gCT()[0]
   const k = gCT()[1]
-  
+
   const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
   const d = `${en_ars4sfrb(s, k.toString())}`
   return d
 }
-
 
 export function g(): string {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -78,16 +75,11 @@ export function g(): string {
 }
 
 function en_ars4sfrb(text: string, salt: string) {
-  const textToChars = (text: any) => text.split("").map((c: any) => c.charCodeAt(0));
-  const byteHex = (n: any) => ("0" + Number(n).toString(16)).substr(-2);
-  const applySaltToChar = (code: any) => textToChars(salt).reduce((a: any, b: any) => a ^ b, code);
+  const textToChars = (text: any) => text.split('').map((c: any) => c.charCodeAt(0))
+  const byteHex = (n: any) => ('0' + Number(n).toString(16)).substr(-2)
+  const applySaltToChar = (code: any) => textToChars(salt).reduce((a: any, b: any) => a ^ b, code)
 
-  return text
-    .split("")
-    .map(textToChars)
-    .map(applySaltToChar)
-    .map(byteHex)
-    .join("");
+  return text.split('').map(textToChars).map(applySaltToChar).map(byteHex).join('')
 }
 
 export function pppllaaayyyPatthh(songId: string, ap: string): string {
@@ -95,11 +87,11 @@ export function pppllaaayyyPatthh(songId: string, ap: string): string {
     const params = new URLSearchParams({
       id: songId,
       k: pSongEData(),
-      pp: ap.replace("=", "")
+      pp: ap.replace('=', ''),
     })
 
     const queryString = params.toString()
-    return `${env.PUBLIC_DOWNLOAD_URL}${queryString ? `?${queryString}` : ""}`.trim()
+    return `${env.PUBLIC_DOWNLOAD_URL}${queryString ? `?${queryString}` : ''}`.trim()
   } catch (error) {
     return ''
   }

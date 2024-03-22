@@ -224,43 +224,42 @@ input[type='range']::-webkit-slider-thumb {
   padding: 0px 10px;
 }
 
-
 @keyframes quiet {
-  25%{
-    transform: scaleY(.6);
+  25% {
+    transform: scaleY(0.6);
   }
-  50%{
-    transform: scaleY(.4);
+  50% {
+    transform: scaleY(0.4);
   }
-  75%{
-    transform: scaleY(.8);
+  75% {
+    transform: scaleY(0.8);
   }
 }
 
 @keyframes normal {
-  25%{
+  25% {
     transform: scaleY(1);
   }
-  50%{
-    transform: scaleY(.4);
+  50% {
+    transform: scaleY(0.4);
   }
-  75%{
-    transform: scaleY(.6);
+  75% {
+    transform: scaleY(0.6);
   }
 }
 @keyframes loud {
-  25%{
+  25% {
     transform: scaleY(1);
   }
-  50%{
-    transform: scaleY(.4);
+  50% {
+    transform: scaleY(0.4);
   }
-  75%{
+  75% {
     transform: scaleY(1.2);
   }
 }
 
-.wave .boxContainer{
+.wave .boxContainer {
   display: flex;
   justify-content: space-between;
   height: 35px;
@@ -270,8 +269,8 @@ input[type='range']::-webkit-slider-thumb {
   width: calc((var(--boxSize) + var(--gutter)) * 5);
 }
 
-.wave .box{
-  transform: scaleY(.4);
+.wave .box {
+  transform: scaleY(0.4);
   height: 100%;
   width: var(--boxSize);
   background: whitesmoke;
@@ -281,22 +280,22 @@ input[type='range']::-webkit-slider-thumb {
   border-radius: 8px;
 }
 
-.wave .box1{
+.wave .box1 {
   animation-name: quiet;
 }
 
-.wave .box2{
+.wave .box2 {
   animation-name: normal;
 }
 
-.wave .box3{
+.wave .box3 {
   animation-name: quiet;
 }
 
-.wave .box4{
+.wave .box4 {
   animation-name: loud;
 }
 
-.wave .box5{
+.wave .box5 {
   animation-name: quiet;
 }

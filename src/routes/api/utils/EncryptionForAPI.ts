@@ -37,12 +37,12 @@ export function decryptAPIKeyAndIsValidOfSong(events: RequestEvent, key: string,
   const differenceinSeconds = Math.floor(difference / 1000)
   if (differenceinSeconds > 7 || difference < 0) return false
 
-  if ((decryptData(ip.trim()).trim() != getIpAddress(events).trim()) && (events.cookies.get('i')?.trim() != getIpAddress(events).trim())) {
+  if (decryptData(ip.trim()).trim() != getIpAddress(events).trim() && events.cookies.get('i')?.trim() != getIpAddress(events).trim()) {
     if (dev) return true
     return false
   }
 
-  if(!events.request.headers.get('host')?.includes('zenemusic.co')){
+  if (!events.request.headers.get('host')?.includes('zenemusic.co')) {
     if (dev) return true
     return false
   }
@@ -85,10 +85,9 @@ export function decryptAPIKeyAndIsValid(events: RequestEvent): boolean {
   }
 }
 
-
 export function decryptTempKey(encryptedText: string) {
-  let secretKey = env.SECRET_TOKEN_LITE.toString();
-  const textToChars = (text: any) => text.split("").map((c: any) => c.charCodeAt(0));
+  let secretKey = env.SECRET_TOKEN_LITE.toString()
+  const textToChars = (text: any) => text.split('').map((c: any) => c.charCodeAt(0))
   const applySaltToChar = (code: any) => textToChars(secretKey).reduce((a: any, b: any) => a ^ b, code)
 
   return encryptedText
@@ -96,9 +95,8 @@ export function decryptTempKey(encryptedText: string) {
     ?.map((hex) => parseInt(hex, 16))
     .map(applySaltToChar)
     .map((charCode) => String.fromCharCode(charCode))
-    .join("");
+    .join('')
 }
-
 
 export function decryptAPIKeyAndIsValidLong(events: RequestEvent): boolean {
   try {

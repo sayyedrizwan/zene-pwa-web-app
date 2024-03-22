@@ -16,7 +16,7 @@ const config = {
     },
     serviceWorker: {
       register: false,
-    }
-  }
+    },
+  },
 }
 export default config

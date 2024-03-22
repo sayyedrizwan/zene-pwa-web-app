@@ -38,7 +38,7 @@ export class APManager implements AudioPlayer {
     if (this.audioElement != undefined) {
       this.stop()
     }
-   
+
     const audioe = document.createElement('audio') as HTMLVideoElement
     audioe.controls = true
     audioe.autoplay = true
@@ -95,7 +95,7 @@ export class APManager implements AudioPlayer {
         return
       }
     }
- 
+
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
     this.audioElement!.load()
@@ -103,7 +103,7 @@ export class APManager implements AudioPlayer {
     this.playbackSpeed()
   }
 
-  forcePlaySong(): void{
+  forcePlaySong(): void {
     this.audioElement!.play()
 
     if (this.audioElement?.paused) {
@@ -160,8 +160,8 @@ export class APManager implements AudioPlayer {
       this.seekForward(5)
     })
 
-    setActionHandler('previoustrack', function () { })
-    setActionHandler('nexttrack', function () { })
+    setActionHandler('previoustrack', function () {})
+    setActionHandler('nexttrack', function () {})
   }
 
   pause(): void {
@@ -185,9 +185,9 @@ export class APManager implements AudioPlayer {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
-  nextSong(): void { }
+  nextSong(): void {}
 
-  previousSong(): void { }
+  previousSong(): void {}
 
   isPlaying(): boolean {
     return !this.audioElement?.paused

@@ -53,7 +53,7 @@ export class YTDownloaderImpl {
     try {
       let url = ``
       let info = await ytdl.getInfo(videoId)
-      info.formats.forEach(element => {
+      info.formats.forEach((element) => {
         if (element.hasAudio === true && element.container === `mp4` && element.qualityLabel == '360p' && element.projectionType == 'RECTANGULAR') {
           if (url == ``) url = element.url
         }

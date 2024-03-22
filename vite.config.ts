@@ -23,7 +23,5 @@ export default defineConfig({
     strictPort: false,
   },
 
-  plugins: [
-    sveltekit()
-  ]
+  plugins: [sveltekit()],
 })

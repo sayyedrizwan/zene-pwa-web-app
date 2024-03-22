@@ -10,7 +10,7 @@ export const GET = async (req: RequestEvent) => {
   const key = new URL(req.url).searchParams.get('k') ?? ''
   const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
 
-  if(!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
+  if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
 
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
 
@@ -31,7 +31,7 @@ export const GET = async (req: RequestEvent) => {
 
   let header: any = {}
 
-  Object.keys(responseInfo.headers).forEach(i => {
+  Object.keys(responseInfo.headers).forEach((i) => {
     header[i] = responseInfo.headers[i]
   })
   return new Response(blob, { status: 200, headers: header })

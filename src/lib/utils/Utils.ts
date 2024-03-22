@@ -15,7 +15,6 @@ export function setCT(v: number, k: string) {
   }, 1000)
 }
 
-
 export function gCT(): [number, number] {
   return [cT, parseInt(kkeeeyyyyy)]
 }

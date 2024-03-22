@@ -10,7 +10,7 @@ import { SongsYouMayLike } from '../../../domain/local/entities/SongsYouMayLike'
 
 export const POST = async (events: RequestEvent) => {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
-  
+
   const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
   const ipData = (await responseIp.data) as IpJsonResponse
   const list = await events.request.json()

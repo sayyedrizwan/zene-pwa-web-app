@@ -10,7 +10,7 @@ export async function POST(events: RequestEvent) {
 
   const body = await events.request.json()
   const q = body.q
-  
+
   const radioBrowserImpl = new RadioBrowserImpl()
   const ytMusicImpl = new YtMusicAPIImpl()
 
