@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { browser } from '$app/environment'
   import Footer from '$lib/components/global-view/Footer.svelte'
   import PhoneMusicImg from '$lib/assets/img/download/phone_music_clipart.svg'
   import MacMusicImg from '$lib/assets/img/download/macbook_music_clipart.svg'
   import DesktopMusicImg from '$lib/assets/img/download/desktop_clipart.svg'
   import { onMount } from 'svelte'
+  import IospwaDialog from '$lib/components/dialog/IOSPWADialog.svelte'
 
   let deviceType = 0
+  let showIOSDialog = false
 
   onMount(() => {
     const userAgent = navigator.userAgent
@@ -22,31 +23,35 @@
   })
 
   function redirectToPlayStore() {
-    window.open("https://play.google.com/store/apps/details?id=com.rizwansayyed.zene", "_blank")
+    window.open('https://play.google.com/store/apps/details?id=com.rizwansayyed.zene', '_blank')
   }
 
-  function underReview(){
+  function underReview() {
     alert('App is under view.')
   }
 
-
   function startDownloadingForMacOS() {
     const anchor = document.createElement('a')
-      anchor.href = 'https://zenemusic.co/download/Zene_MacOS.dmg'
-      anchor.download = 'Zene_MacOS.dmg'
-      document.body.appendChild(anchor)
-      anchor.click()
-      document.body.removeChild(anchor)
+    anchor.href = 'https://zenemusic.co/download/Zene_MacOS.dmg'
+    anchor.download = 'Zene_MacOS.dmg'
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
   }
 
   async function installPWA() {
-    if(deviceType == 2 || deviceType == 5) {
+    if (deviceType == 2 || deviceType == 5) {
       redirectToPlayStore()
       return
     }
-    
-    if(deviceType == 3){
+
+    if (deviceType == 3) {
       startDownloadingForMacOS()
+      return
+    }
+
+    if (deviceType == 0 || deviceType == 1) {
+      showIOSDialog = true
       return
     }
   }
@@ -99,35 +104,35 @@
 </section>
 
 <div class="container mx-auto py-10 w-full mt-24">
-      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-        <button on:click={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/></button>
-        <a href="https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/" target="_blank"><img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/></a>
-        <button on:click={underReview}><img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer"/></button>
-       <img src="/badges/indusappstore.png" alt="Get Zene on F-Droid" class="w-32 cursor-pointer"/>
-      </div>
-      
-      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9 mt-6">
-        <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/aptoide.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/></a>
-        <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/apkmirror.png" alt="Get Zene on One Store" class="w-32 cursor-pointer"/></a>
-        <img src="/badges/app_gallery.png" alt="Get Zene on App Gallery" class="w-32 cursor-pointer"/>
-      </div>
-</div>
+  <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
+    <button on:click={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
+    <a href="https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/" target="_blank"><img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" /></a>
+    <button on:click={underReview}><img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer" /></button>
+    <img src="/badges/indusappstore.png" alt="Get Zene on F-Droid" class="w-32 cursor-pointer" />
+  </div>
 
+  <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9 mt-6">
+    <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/aptoide.png" alt="Get Zene on One Store" class="w-32 cursor-pointer" /></a>
+    <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/apkmirror.png" alt="Get Zene on One Store" class="w-32 cursor-pointer" /></a>
+    <img src="/badges/app_gallery.png" alt="Get Zene on App Gallery" class="w-32 cursor-pointer" />
+  </div>
+</div>
 
 <div class="container mx-auto py-10 w-full mt-12">
-      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-        <img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/>
-        <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer"/></button>
-        <img src="/badges/windows.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
-      </div>
+  <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
+    <img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" />
+    <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer" /></button>
+    <img src="/badges/windows.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" />
+  </div>
 </div>
-
 
 <div class="container mx-auto py-10 w-full mt-12">
-      <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-        <img src="/badges/chrome_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer"/>
-        <img src="/badges/firefox.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer"/>
-      </div>
+  <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
+    <img src="/badges/chrome_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" />
+    <img src="/badges/firefox.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" />
+  </div>
 </div>
+
+<IospwaDialog />
 
 <Footer />
