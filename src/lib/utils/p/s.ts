@@ -79,7 +79,7 @@ export class APManager implements AudioPlayer {
         this.audioElement?.addEventListener('timeupdate', getDuration)
       }
 
-      await wait(700)
+      await wait(900)
 
       this.updatemetadata(this.music!)
     })
@@ -102,7 +102,7 @@ export class APManager implements AudioPlayer {
 
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
-    // this.audioElement!.muted = true
+    this.audioElement!.muted = true
     this.updatemetadata(this.music!)
     this.audioElement!.load()
     this.playbackSpeed()

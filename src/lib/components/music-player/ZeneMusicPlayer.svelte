@@ -6,14 +6,11 @@
   import MusicRecordsLists from './view/MusicRecordsLists.svelte'
   import PlayinSongsDurationAction from './view/PlayingSongsDurationAction.svelte'
   import type { APManager } from '$lib/utils/p/s'
-  import axios from 'axios'
-  import { env } from '$env/dynamic/public'
-  import type { DURLResponse } from '../../../domain/local/entities/DURLResponse'
   import PlayerActionButton from './view/PlayerActionButton.svelte'
   import MusicRelatedSongs from './view/MusicRelatedSongs.svelte'
   import SongLyricsView from './view/SongLyricsView.svelte'
   import { MusicType } from '../../../domain/local/entities/MusicData'
-    import { notificationAlertListener, playSongZene } from '$lib/utils/f'
+  import { playSongZene } from '$lib/utils/f'
 
   export let songPlayer: Boolean
   export let audioPlayer: APManager
@@ -82,7 +79,7 @@
   function scrollMusicToTop() {
     audioPlayer.startBuffering()
     const id = document.getElementById('scrollmusic') as HTMLElement
-    if (id != null) id.scroll({ top: 0, behavior: 'smooth' }) 
+    if (id != null) id.scroll({ top: 0, behavior: 'smooth' })
   }
 </script>
 

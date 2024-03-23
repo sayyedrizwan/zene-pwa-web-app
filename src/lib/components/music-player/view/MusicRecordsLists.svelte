@@ -4,6 +4,7 @@
   import { wait } from '$lib/utils/indexd'
   import { MusicType, type MusicData } from '../../../../domain/local/entities/MusicData'
   import { MusicPlayerPlayingStatus, type MusicPlayerData, type ResponseMusicPlayerPlayingStatus } from '../../../../domain/local/entities/MusicPlayerData'
+  import NextIcon from '$lib/assets/img/ic_next.svg'
 
   export let musicData: MusicPlayerData | null
   export let musicPlayerPlayingStatus: ResponseMusicPlayerPlayingStatus
@@ -81,9 +82,9 @@
           <div class="container mx-auto size-28 relative">
             <img class="size-28 rounded-md" src={list.thumbnail} alt={list.name} />
             {#if currentSongPostion - 1 == i}
-              <img src="/src/lib/assets/img/ic_next.svg" alt="PREVIOUS" class="bg-gray-600 rounded-md p-1.5 size-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-180" />
+              <img src={NextIcon} alt="PREVIOUS" class="bg-gray-600 rounded-md p-1.5 size-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-180" />
             {:else if currentSongPostion + 1 == i}
-              <img src="/src/lib/assets/img/ic_next.svg" alt="PREVIOUS" class="bg-gray-600 rounded-md p-1.5 size-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+              <img src={NextIcon} alt="NEXT" class="bg-gray-600 rounded-md p-1.5 size-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             {/if}
           </div>
 

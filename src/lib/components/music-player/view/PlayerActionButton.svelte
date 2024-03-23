@@ -99,12 +99,3 @@
   <RoundCardsIconsButton img={ShareIcon} title={'Share'} functions={shareSong} />
   <RoundCardsIconsButton img={DownloadIcon} title={'Offline Download'} functions={offlineDownload} />
 </div>
-
-<!-- // switch to video
-//switch to lyrics video
-//play in loop
-//autoplay is on/off
-//share
-//add to playlist
-//offline download
-// -->

@@ -5,6 +5,8 @@
   import PAUSE_ICON from '$lib/assets/img/ic_pause.svg'
   import NEXT_ICON from '$lib/assets/img/ic_next.svg'
   import PREVIOUS_ICON from '$lib/assets/img/ic_previous.svg'
+  import DURATION_FORWARD_ICON from '$lib/assets/img/go-forward-5sec.svg'
+  import DURATION_BACKWORDS_ICON from '$lib/assets/img/go-backward-5sec.svg'
   import { MusicType } from '../../../../domain/local/entities/MusicData'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
     import { wait } from '$lib/utils/indexd'
@@ -75,7 +77,7 @@
     <div class="w-9/12 md:w-2/4 flex {musicData?.m?.type == MusicType.MUSIC ? 'justify-between' : 'justify-center'}">
       {#if musicData?.m?.type == MusicType.MUSIC}
         <button on:click={goToPreviousSong}><img src={PREVIOUS_ICON} alt="PREVIOUS" class="size-7" /></button>
-        <button on:click={seekBack}><img src="/src/lib/assets/img/go-backward-5sec.svg" alt="PREVIOUS" class="size-8" /></button>
+        <button on:click={seekBack}><img src={DURATION_BACKWORDS_ICON} alt="PREVIOUS DURATION" class="size-8" /></button>
       {/if}
 
       {#if isBuffering === true}
@@ -88,7 +90,7 @@
       {/if}
 
       {#if musicData?.m?.type == MusicType.MUSIC}
-        <button on:click={seekForward}> <img src="/src/lib/assets/img/go-forward-5sec.svg" alt="PREVIOUS" class="size-8" /></button>
+        <button on:click={seekForward}> <img src={DURATION_FORWARD_ICON} alt="FORWARDS DURATION" class="size-8" /></button>
 
         <button on:click={goToNextSong}><img src={NEXT_ICON} alt="PREVIOUS" class="size-7" /></button>
       {/if}
