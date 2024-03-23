@@ -19,6 +19,7 @@
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
   import { pppllaaayyyPatthh } from '$lib/utils/pid'
+  // import MyWorker from '$lib/assets/worker/ap'
   import axios from 'axios'
 
   axios.defaults.timeout = 20000
