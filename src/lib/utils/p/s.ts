@@ -102,7 +102,6 @@ export class APManager implements AudioPlayer {
 
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
-    this.audioElement!.muted = true
     this.updatemetadata(this.music!)
     this.audioElement!.load()
     this.playbackSpeed()
