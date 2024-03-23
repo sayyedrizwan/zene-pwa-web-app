@@ -42,6 +42,7 @@
   }
 
   onMount(async () => {
+    navigator.serviceWorker.register('./service-worker.js');
     audioPlayer = new APManager()
     audioPlayer.init()
 

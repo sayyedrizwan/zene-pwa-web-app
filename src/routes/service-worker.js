@@ -12,5 +12,6 @@ self.addEventListener('install', (event) => {
         const cache = await caches.open(CACHE)
         await cache.addAll(ASSETS)
     }
+    // @ts-ignore
     event.waitUntil(addFilesToCache())
 }) 
