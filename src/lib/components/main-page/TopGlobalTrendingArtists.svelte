@@ -27,7 +27,7 @@
           }
         }
 
-      const res = await axios.post(env.PUBLIC_TOP_ARTISTS_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
+      const res = await axios.post(env.PUBLIC_TOP_ARTISTS_LIST, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicData[]
       response = { type: ResponseDataEnum.SUCCESS, data: splitArrayIntoChunks<MusicData>(data, 2) }
       localStorage.setItem(`t_a_l`, Date.now().toString())

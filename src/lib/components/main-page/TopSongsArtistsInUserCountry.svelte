@@ -33,7 +33,7 @@
             return
           }
         }
-      const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
+      const res = await axios.post(env.PUBLIC_TOP_SONGS_IN_COUNTRY, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
 
       responseSongs = { type: ResponseDataEnum.SUCCESS, data: new MusicDataList(data.resultOne ?? []) }

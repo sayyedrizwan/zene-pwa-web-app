@@ -21,22 +21,25 @@ export class RadioBrowserImpl {
   }
 
   async countryRadios(countryName: string): Promise<RadioListResponse> {
+    axios.defaults.timeout = 20000
     const radioBaseURL = await this.getLiveURL()
-    const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_country}${String(countryName).toLowerCase()}`, { timeout: 120000 })
+    const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_country}${String(countryName).toLowerCase()}`)
 
     return (await responseRadio.data) as RadioListResponse
   }
 
   async radioSearch(q: string) {
+    axios.defaults.timeout = 20000
     const radioBaseURL = await this.getLiveURL()
-    const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_name}${q.replaceAll(' ', '+')}`, { timeout: 120000 })
+    const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_name}${q.replaceAll(' ', '+')}`)
 
     return (await responseRadio.data) as RadioListResponse
   }
 
   async radioPlayURL(uuid: string) {
+    axios.defaults.timeout = 20000
     const radioBaseURL = await this.getLiveURL()
-    const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_search_by_uuid}${uuid}`, { timeout: 120000 })
+    const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_search_by_uuid}${uuid}`)
 
     return (await responseRadio.data) as RadioListResponse
   }

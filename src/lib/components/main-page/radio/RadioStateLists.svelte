@@ -29,7 +29,7 @@
           }
         }
 
-      const res = await axios.post(env.PUBLIC_RADIO_LIST, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
+      const res = await axios.post(env.PUBLIC_RADIO_LIST, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`r_i_l`, Date.now().toString())

@@ -31,7 +31,7 @@
           }
         }
 
-      const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { timeout: 120000, headers: { AuthorizationKey: authKey } })
+      const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicDataList
       topSongsCountry = data?.results ?? []
       response = { type: ResponseDataEnum.SUCCESS, data: data?.results ?? []}

@@ -30,7 +30,7 @@
           }
         }
 
-      const res = await axios.post(env.PUBLIC_TOP_LISITING_SONGS, {}, { timeout: 60000, headers: { AuthorizationKey: authKey } })
+      const res = await axios.post(env.PUBLIC_TOP_LISITING_SONGS, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as TopSongsMusicResults
       response = { type: ResponseDataEnum.SUCCESS, data: data }
       localStorage.setItem(`t_l_s_t`, Date.now().toString())

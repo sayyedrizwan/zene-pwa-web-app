@@ -32,7 +32,7 @@
         }
       }
 
-      const res = await axios.post(env.PUBLIC_ALBUMS_YOU_MAY_LIKE, music, { timeout: 60000, headers: { AuthorizationKey: authKey } })
+      const res = await axios.post(env.PUBLIC_ALBUMS_YOU_MAY_LIKE, music, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicDataList
       response = { type: ResponseDataEnum.SUCCESS, data: data }
 

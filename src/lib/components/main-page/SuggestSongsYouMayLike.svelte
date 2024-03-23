@@ -38,7 +38,7 @@
       }
 
       response = { type: ResponseDataEnum.LOADING }
-      const res = await axios.post(env.PUBLIC_S_Y_M_L, list, { timeout: 60000, headers: { AuthorizationKey: authKey } })
+      const res = await axios.post(env.PUBLIC_S_Y_M_L, list, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as SongsYouMayLike
       youMayLike = data
       response = { type: ResponseDataEnum.SUCCESS, data: data }

@@ -19,6 +19,9 @@
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
   import { pppllaaayyyPatthh } from '$lib/utils/pid'
+  import axios from 'axios'
+
+  axios.defaults.timeout = 20000
 
   export let data: any
 
@@ -115,4 +118,3 @@
 {#if notificationAlert != null}
   <AlertDialog bind:notificationAlert />
 {/if}
-
