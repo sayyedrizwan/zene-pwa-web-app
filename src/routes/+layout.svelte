@@ -70,7 +70,7 @@
       audioPlayer.stop()
       try {
         audioPlayer.startBuffering()
-        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p), song)
+        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p), song, data.p)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }

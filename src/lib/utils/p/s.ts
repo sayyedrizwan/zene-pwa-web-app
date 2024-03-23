@@ -2,11 +2,15 @@ import Hls from 'hls.js'
 import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 import { insertMusicHistory } from './shistory'
 import { getCookie } from '../c'
-import { wait } from '../indexd'
+import { DataIndexDS, indexDB, musicPlayerInfoCache, wait } from '../indexd'
+import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
+import { pppllaaayyyPatthh } from '../pid'
+import { playSongZene } from '../f'
 
 interface AudioPlayer {
+  goToNextSong(): Promise<void>
   init(): void
-  playMusic(url: string, music: MusicData): Promise<void>
+  playMusic(url: string, music: MusicData, ap: string): Promise<void>
   updatemetadata(music: MusicData): void
   pause(): void
   play(): void
@@ -34,6 +38,30 @@ export class APManager implements AudioPlayer {
   private sourceElementMPEG: HTMLSourceElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
+  private k: string = ``
+
+
+  async goToNextSong() : Promise<void> {
+    const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
+    const records: any = await cacheDB.retrieveFromIndexedDB()
+
+    let musicData = (records.length > 0) ? records[0] as MusicPlayerData : null
+    if(musicData == null) return
+    
+    const musicDataItem = musicData?.lists.findIndex(v => musicData?.m.songId == v.songId)
+    
+    this.stop()
+    this.startBuffering()
+    try {
+      const data = musicData?.lists[musicDataItem! + 1]!
+      playSongZene(data, [])
+      await wait(500)
+      playSongZene(data, musicData?.lists)
+      this.playMusic(pppllaaayyyPatthh(data.songId!, this.k), data, this.k)
+    } catch (error) {
+      error
+    } 
+  }
 
   init(): void {
     if (this.audioElement != undefined) {
@@ -63,6 +91,8 @@ export class APManager implements AudioPlayer {
         } catch (error) {
           error
         }
+      } else if (getCookie('autoplay_next_song') == '') {
+        this.goToNextSong()
       }
     }
 
@@ -85,9 +115,10 @@ export class APManager implements AudioPlayer {
     })
   }
 
-  async playMusic(url: string, music: MusicData): Promise<void> {
+  async playMusic(url: string, music: MusicData, ap: string): Promise<void> {
     this.stop()
 
+    this.k = ap
     this.music = music
     this.buffering = true
 
