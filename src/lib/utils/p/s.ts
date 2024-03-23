@@ -2,6 +2,7 @@ import Hls from 'hls.js'
 import { MusicData, MusicType } from '../../../domain/local/entities/MusicData'
 import { insertMusicHistory } from './shistory'
 import { getCookie } from '../c'
+import { wait } from '../indexd'
 
 interface AudioPlayer {
   init(): void
@@ -54,14 +55,6 @@ export class APManager implements AudioPlayer {
     this.audioElement.onplay = () => (this.buffering = false)
 
     this.audioElement.onended = () => {
-      const ms = window.navigator.mediaSession
-      ms.metadata = new window.MediaMetadata({
-        title: `It's endedddd`,
-        artist: `Donnnnee`,
-        album: 'Zene',
-        artwork: [{ src: 'https://lh3.googleusercontent.com/c5ch6QJJlvP9Tfq8ilg3CAd9urVovm5pOOmkEuSHILyGmtBg0Tt1C3K_erLUFC3SR2YtOdgz0Id9ENrd=w512-h512-l90-rj', sizes: '512x512', type: 'image/png' }],
-      })
-
       if (getCookie('should_loop') == 'should') {
         try {
           this.audioElement?.pause()
@@ -78,14 +71,17 @@ export class APManager implements AudioPlayer {
       this.forcePlaySong()
     }
 
-    this.audioElement.addEventListener('loadedmetadata', () => {
+    this.audioElement.addEventListener('loadedmetadata', async () => {
       this.audioElement!.title = ''
-      this.updatemetadata(this.music!)
 
       if (this.audioElement?.duration === Infinity || isNaN(Number(this.audioElement?.duration))) {
         this.audioElement!.currentTime = 1e101
         this.audioElement?.addEventListener('timeupdate', getDuration)
       }
+
+      await wait(700)
+
+      this.updatemetadata(this.music!)
     })
   }
 
