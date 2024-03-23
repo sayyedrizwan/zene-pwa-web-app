@@ -43,7 +43,7 @@
   async function loadMusicUrl() {
     await wait(1600)
     if ((musicData?.m?.songId ?? '') == '') return
-    playSongZene(musicData?.m!, null)
+    playSongZene(musicData?.m!, musicData?.lists)
   }
 
   async function checkFunction() {
