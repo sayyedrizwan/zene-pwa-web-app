@@ -36,15 +36,10 @@
 
   let notificationAlert: NotificationAlertsData | null = null
 
-  let serviceWorker: ServiceWorkerRegistration | null = null
-
   if (browser) {
     if ('__TAURI__' in window) setServerIpAddress()
     setCT(data.t as number, data.a as string)
-    navigator.serviceWorker.register('./service-worker.ts').then((v) => {
-      serviceWorker = v
-      // v.active?.postMessage({ message: 'Hello from the frontend!' })
-    })
+    navigator.serviceWorker.register('./service-worker.ts')
   }
 
   onMount(async () => {
@@ -73,15 +68,14 @@
 
     document.addEventListener('playsongid', async (event: Event) => {
       const song = (event as CustomEvent).detail.value as MusicData
-      serviceWorker?.active?.postMessage({ id: song.songId, p: data.p })
-      // audioPlayer.startBuffering()
-      // audioPlayer.stop()
-      // try {
-      //   audioPlayer.startBuffering()
-      //   audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p), song, data.p)
-      // } catch (error) {
-      //   notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
-      // }
+      audioPlayer.startBuffering()
+      audioPlayer.stop()
+      try {
+        audioPlayer.startBuffering()
+        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p), song, data.p)
+      } catch (error) {
+        notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
+      }
     })
 
     document.addEventListener('songdialog', (event: Event) => {
