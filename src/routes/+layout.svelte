@@ -39,10 +39,10 @@
   if (browser) {
     if ('__TAURI__' in window) setServerIpAddress()
     setCT(data.t as number, data.a as string)
+    navigator.serviceWorker.register('./service-worker.js')
   }
 
   onMount(async () => {
-    navigator.serviceWorker.register('./service-worker.js');
     audioPlayer = new APManager()
     audioPlayer.init()
 

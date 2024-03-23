@@ -15,3 +15,13 @@ self.addEventListener('install', (event) => {
     // @ts-ignore
     event.waitUntil(addFilesToCache())
 }) 
+
+self.addEventListener('activate', (event) => {
+	async function deleteOldCaches() {
+		for (const key of await caches.keys()) {
+			if (key !== CACHE) await caches.delete(key)
+		}
+	}
+    // @ts-ignore
+	event.waitUntil(deleteOldCaches())
+})
