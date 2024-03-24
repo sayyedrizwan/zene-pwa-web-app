@@ -3,6 +3,7 @@
   import ImportMyMusic from '$lib/components/mymusic-page/ImportMyMusic.svelte'
   import { onMount } from 'svelte'
   import SettingsIcon from '$lib/assets/img/ic_setting.svg'
+    import Footer from '$lib/components/global-view/Footer.svelte'
 
   onMount(async () => {
     // window.performance.getEntries().map(e => console.log(e.name) )
@@ -37,3 +38,5 @@
 <ImportMyMusic />
 
 <div class="h-64" />
+
+<Footer />
