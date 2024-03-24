@@ -37,6 +37,7 @@
     document.body.appendChild(anchor)
     anchor.click()
     document.body.removeChild(anchor)
+    alert('Download started... Please install the dmg file on your MacOS.')
   }
 
   async function installPWA() {
@@ -120,7 +121,7 @@
 
 <div class="container mx-auto py-10 w-full mt-12">
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-    <img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" />
+    <button on:click={()=> showIOSDialog = true}><img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer" /></button>
     <img src="/badges/windows.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" />
   </div>
@@ -133,6 +134,8 @@
   </div>
 </div>
 
-<IospwaDialog />
+{#if showIOSDialog}
+  <IospwaDialog close={() => (showIOSDialog = false)} />
+{/if}
 
 <Footer />
