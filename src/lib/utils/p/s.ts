@@ -54,9 +54,9 @@ export class APManager implements AudioPlayer {
     this.startBuffering()
     try {
       const data = musicData?.lists[musicDataItem! + 1]!
-      playSongZene(data, [])
+      playSongZene(data, [], false)
       await wait(500)
-      playSongZene(data, musicData?.lists)
+      playSongZene(data, musicData?.lists, false)
       this.playMusic(pppllaaayyyPatthh(data.songId!, this.k), data, this.k)
     } catch (error) {
       error

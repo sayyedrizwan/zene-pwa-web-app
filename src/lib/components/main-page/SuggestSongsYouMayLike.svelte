@@ -83,7 +83,7 @@
     {/each}
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
-  {#if response.data.like.length > 0}
+  {#if (response?.data?.like ?? []).length > 0}
     <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16">Songs you may like</h3>
 
     <div class="flex overflow-x-auto w-full scrollbar-hide">

@@ -12,7 +12,7 @@ export function openSongDialog(musicInfo: MusicData | null) {
   document.dispatchEvent(customEvent)
 }
 
-export function playSongZene(song: MusicData | null, list: MusicData[] | null | undefined) {
+export function playSongZene(song: MusicData | null, list: MusicData[] | null | undefined, open: Boolean = true) {
   if (song == null) return
   const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
   cacheDB.deleteAllRecords()
@@ -20,11 +20,11 @@ export function playSongZene(song: MusicData | null, list: MusicData[] | null | 
   cacheDB.saveToIndexedDB(m)
 
   const customEvent = new CustomEvent('playsongid', {
-    detail: { value: song },
+    detail: { value: song},
   })
   document.dispatchEvent(customEvent)
 
-  showMusicPlayer(true)
+  if(open) showMusicPlayer(true)
 }
 
 export function notificationAlertListener(title: string, desc: string, img: string | null) {
