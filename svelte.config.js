@@ -1,6 +1,6 @@
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import adapter from '@sveltejs/adapter-auto'
-// import cspDirectives from './csp-directives.mjs'
+import cspDirectives from './csp-directives.mjs'
 
 const config = {
   preprocess: vitePreprocess(),
@@ -12,7 +12,7 @@ const config = {
     adapter: adapter(),
     csp: {
       mode: 'hash',
-      // directives: cspDirectives,
+      directives: cspDirectives,
     },
     serviceWorker: {
       register: false,
