@@ -6,6 +6,7 @@
     "devrun": "vite dev",
     "tauri": "tauri",
     "tauridev": "tauri dev",
+    "tauriinfo": "tauri info",
     "dev": "npm run devrun -- --host --port 3419",
     "build": "vite build",
     "buildpreview": "npm run build && npm run preview",
