@@ -40,6 +40,22 @@
     alert('Download started... Please install the dmg file on your MacOS.')
   }
 
+  let deferredPrompt: any
+  window.addEventListener('beforeinstallprompt', (e) => {
+    deferredPrompt = e
+  })
+  async function installPwaPrompt() {
+    if (deferredPrompt !== null) {
+      deferredPrompt.prompt()
+      const { outcome } = await deferredPrompt.userChoice
+      if (outcome === 'accepted') {
+        deferredPrompt = null
+      }
+    } else {
+      alert('Error Installing. Please click on top install button in your browser..')
+    }
+  }
+
   async function installPWA() {
     if (deviceType == 2 || deviceType == 5) {
       redirectToPlayStore()
@@ -53,6 +69,11 @@
 
     if (deviceType == 0 || deviceType == 1) {
       showIOSDialog = true
+      return
+    }
+
+    if (deviceType == 4) {
+      installPwaPrompt()
       return
     }
   }
@@ -109,28 +130,28 @@
     <button on:click={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <a href="https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/" target="_blank"><img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" /></a>
     <button on:click={underReview}><img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer" /></button>
-    <img src="/badges/indusappstore.png" alt="Get Zene on F-Droid" class="w-32 cursor-pointer" />
+    <img src="/badges/indusappstore.png" alt="Get Zene on Indus App store" class="w-32 cursor-pointer" />
   </div>
 
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9 mt-6">
-    <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/aptoide.png" alt="Get Zene on One Store" class="w-32 cursor-pointer" /></a>
-    <a href="https://apkpure.com/zene-a-music-app/com.rizwansayyed.zene" target="_blank"><img src="/badges/apkpure.png" alt="Get Zene on One Store" class="w-32 cursor-pointer" /></a>
+    <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/aptoide.png" alt="Get Zene on Aptoide" class="w-32 cursor-pointer" /></a>
+    <a href="https://apkpure.com/zene-a-music-app/com.rizwansayyed.zene" target="_blank"><img src="/badges/apkpure.png" alt="Get Zene on APKpure" class="w-32 cursor-pointer" /></a>
     <img src="/badges/app_gallery.png" alt="Get Zene on App Gallery" class="w-32 cursor-pointer" />
   </div>
 </div>
 
 <div class="container mx-auto py-10 w-full mt-12">
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-    <button on:click={()=> showIOSDialog = true}><img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
+    <button on:click={() => (showIOSDialog = true)}><img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer" /></button>
-    <img src="/badges/windows.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" />
+    <button on:click={installPwaPrompt}><img src="/badges/windows.png" alt="Get Zene on Windows" class="w-32 cursor-pointer" /></button>
   </div>
 </div>
 
 <div class="container mx-auto py-10 w-full mt-12">
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-    <img src="/badges/chrome_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" />
-    <img src="/badges/firefox.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" />
+    <img src="/badges/chrome_store.png" alt="Get Zene on Chrome Store" class="w-32 cursor-pointer" />
+    <img src="/badges/firefox.png" alt="Get Zene on Add On Firefox" class="w-32 cursor-pointer" />
   </div>
 </div>
 
