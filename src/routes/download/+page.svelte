@@ -114,7 +114,7 @@
 
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9 mt-6">
     <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/aptoide.png" alt="Get Zene on One Store" class="w-32 cursor-pointer" /></a>
-    <a href="https://zene.en.aptoide.com/?store_name=zenemusic&app_id=67306113" target="_blank"><img src="/badges/apkmirror.png" alt="Get Zene on One Store" class="w-32 cursor-pointer" /></a>
+    <a href="https://apkpure.com/zene-a-music-app/com.rizwansayyed.zene" target="_blank"><img src="/badges/apkpure.png" alt="Get Zene on One Store" class="w-32 cursor-pointer" /></a>
     <img src="/badges/app_gallery.png" alt="Get Zene on App Gallery" class="w-32 cursor-pointer" />
   </div>
 </div>
