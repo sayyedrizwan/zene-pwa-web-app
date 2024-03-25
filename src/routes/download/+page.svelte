@@ -5,6 +5,7 @@
   import DesktopMusicImg from '$lib/assets/img/download/desktop_clipart.svg'
   import { onMount } from 'svelte'
   import IospwaDialog from '$lib/components/dialog/IOSPWADialog.svelte'
+  import { browser } from '$app/environment'
 
   let deviceType = 0
   let showIOSDialog = false
@@ -40,10 +41,12 @@
     alert('Download started... Please install the dmg file on your MacOS.')
   }
 
-  let deferredPrompt: any
-  window.addEventListener('beforeinstallprompt', (e) => {
-    deferredPrompt = e
-  })
+  let deferredPrompt: any | null = null
+  if (browser) {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      deferredPrompt = e
+    })
+  }
   async function installPwaPrompt() {
     if (deferredPrompt !== null) {
       deferredPrompt.prompt()
