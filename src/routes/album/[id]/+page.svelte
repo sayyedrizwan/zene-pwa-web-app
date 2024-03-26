@@ -1,6 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/environment'
-  import AlbumsListsInfo from '$lib/components/album-page/AlbumsListsInfo.svelte'
+    import AlbumsListsInfo from '$lib/components/album-page/AlbumsListsInfo.svelte'
   import AlbumsMusicsLists from '$lib/components/album-page/AlbumsMusicsLists.svelte'
   import TopAlbumsInfo from '$lib/components/album-page/TopAlbumsInfo.svelte'
   import type { IpDetails } from '../../../domain/local/entities/IpDetails'
