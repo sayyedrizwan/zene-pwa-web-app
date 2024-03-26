@@ -62,7 +62,7 @@ export function artistsSplitToHTMLString(artists: string): string {
   lists.forEach((n, i) => {
     html += ` 
       <p class="text-white urbanist-thin text-sm md:text-base mt-1">${lists.length - 1 == i && lists.length > 1 ? `&nbsp;&&nbsp;` : ``}</p>
-      <a href=${n} class="text-white urbanist-thin text-sm md:text-base mt-1">${n}</a>
+      <a href='/aa/${n}' class="text-white urbanist-thin text-sm md:text-base mt-1">${n}</a>
       <p class="text-white urbanist-thin text-sm md:text-base mt-1">${lists.length - 2 > i ? `,&nbsp;&nbsp;` : ``}</p>
     `
   })

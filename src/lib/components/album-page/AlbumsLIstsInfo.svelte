@@ -4,7 +4,6 @@
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
-  import { onMount } from 'svelte'
 
   export let key: string
   export let name: string

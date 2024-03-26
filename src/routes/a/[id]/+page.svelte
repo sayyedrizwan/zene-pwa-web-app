@@ -7,6 +7,7 @@
   import ArtistsTopSongs from '$lib/components/artists-page/ArtistsTopSongs.svelte'
   import AlbumsAndTopSongs from '$lib/components/artists-page/AlbumsAndTopSongs.svelte'
   import ArtistsTopNews from '$lib/components/artists-page/ArtistsTopNews.svelte'
+    import { showMusicPlayer } from '$lib/utils/f'
 
   export let data: any
 
@@ -17,6 +18,7 @@
   let url: string | null
 
   if (browser) {
+    showMusicPlayer(false)
     url = data.url
     key = window.atob(data.data)
     if (data.ip != undefined) ip = JSON.parse(data.ip)

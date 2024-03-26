@@ -4,7 +4,6 @@
   onMount(() => {
     window.location.href = '/'
   })
-
 </script>
 
 <svelte:head>
