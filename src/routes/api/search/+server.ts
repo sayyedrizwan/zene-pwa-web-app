@@ -4,7 +4,7 @@ import { apiError } from '../utils/utils'
 import { YtMusicAPIImpl } from '../api_impl/yt_music/YtMusicImpl'
 
 export async function POST(events: RequestEvent) {
-  if (decryptAPIKeyAndIsValid(events) === false) return json({})
+  if (!decryptAPIKeyAndIsValid(events)) return json({})
 
   const body = await events.request.json()
 

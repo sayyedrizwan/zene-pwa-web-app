@@ -31,6 +31,9 @@ export const check_ip_aws = 'http://checkip.amazonaws.com/'
 
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
+export const giphy_search = 'https://api.giphy.com/v1/gifs/search'
+export const giphy_key = 'Gc7131jiJuvI7IdN0HZ1D7nh0ow5BU6g'
+
 export const radio_browser_url = '_api._tcp.radio-browser.info'
 export const radio_browser_country = '/json/stations/bycountry/'
 export const radio_browser_name = '/json/stations/search?name='

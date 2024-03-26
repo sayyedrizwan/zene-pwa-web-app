@@ -7,7 +7,7 @@ import { atob } from 'buffer'
 import { LyricsResponseData } from '../../../domain/local/entities/LyricsResponseData'
 
 export const POST = async (events: RequestEvent) => {
-  if (decryptAPIKeyAndIsValid(events) === false) return json(authKeyError)
+  if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
 
   const list = await events.request.json()
   if (list.length <= 0) return json({})
