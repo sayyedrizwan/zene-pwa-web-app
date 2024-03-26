@@ -15,6 +15,21 @@ export function setCT(v: number, k: string) {
   }, 1000)
 }
 
+export const moodsList: string[] = [
+  '\uD83D\uDE0A Happy',
+  '\uD83D\uDE24 Angry',
+  '\uD83E\uDD18 Rock',
+  '\uD83D\uDE2C Stressed',
+  '\uD83C\uDF8A Pop',
+  '\uD83C\uDFAF Focused',
+  '\uD83C\uDFCB️ Workout',
+  '\uD83D\uDE29 Sleepy',
+  '\uD83D\uDE0C Feel Good',
+  '\uD83C\uDFB7 Jazz',
+  '\uD83E\uDD70 Romance',
+  '\uD83D\uDE14 Sad',
+]
+
 export function gCT(): [number, number] {
   return [cT, parseInt(kkeeeyyyyy)]
 }
