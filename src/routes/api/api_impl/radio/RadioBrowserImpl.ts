@@ -6,6 +6,7 @@ import type { RadioListResponse } from './domain/RadioListResponse'
 
 export class RadioBrowserImpl {
   private async getLiveURL(): Promise<string> {
+    return `https://de1.api.radio-browser.info`
     const resolveSrv = util.promisify(dns.resolveSrv)
     const host = resolveSrv(radio_browser_url).then((hosts: any[]) => {
       hosts.sort()
@@ -40,7 +41,6 @@ export class RadioBrowserImpl {
     axios.defaults.timeout = 20000
     const radioBaseURL = await this.getLiveURL()
     const responseRadio = await axios.get(`${radioBaseURL}${radio_browser_search_by_uuid}${uuid}`)
-
     return (await responseRadio.data) as RadioListResponse
   }
 }

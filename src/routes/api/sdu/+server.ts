@@ -3,6 +3,7 @@ import { atob } from 'buffer'
 import { RadioBrowserImpl } from '../api_impl/radio/RadioBrowserImpl'
 import { downloadBlobInChunks, YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'
 import { decryptAPIKeyAndIsValidOfSong } from '../utils/EncryptionForAPI'
+import { redirect } from '@sveltejs/kit';
 import axios from 'axios'
 
 export const GET = async (req: RequestEvent) => {
@@ -10,7 +11,7 @@ export const GET = async (req: RequestEvent) => {
   const key = new URL(req.url).searchParams.get('k') ?? ''
   const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
 
-  if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
+  // if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
 
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
 
@@ -18,8 +19,7 @@ export const GET = async (req: RequestEvent) => {
     const radio = new RadioBrowserImpl()
     const response = await radio.radioPlayURL(videoId)
     const url = response[0].url_resolved == null ? response[0].url : response[0].url_resolved
-    // const blob = new Blob(url, { type: 'audio/mpeg' })
-    // return new Response(blob, { status: 200, headers: header })
+    throw redirect(302, url!)
   }
 
   const ytDownloader = new YTDownloaderImpl()

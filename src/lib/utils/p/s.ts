@@ -36,20 +36,21 @@ export function getDuration(event: any) {
 export class APManager implements AudioPlayer {
   private audioElement: HTMLVideoElement | undefined
   private sourceElementMPEG: HTMLSourceElement | undefined
+  private sourceElementMP4: HTMLSourceElement | undefined
   private music: MusicData | undefined
   private buffering: Boolean = false
   private k: string = ``
 
 
-  async goToNextSong() : Promise<void> {
+  async goToNextSong(): Promise<void> {
     const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
     const records: any = await cacheDB.retrieveFromIndexedDB()
 
     let musicData = (records.length > 0) ? records[0] as MusicPlayerData : null
-    if(musicData == null) return
-    
+    if (musicData == null) return
+
     const musicDataItem = musicData?.lists.findIndex(v => musicData?.m.songId == v.songId)
-    
+
     this.stop()
     this.startBuffering()
     try {
@@ -60,7 +61,7 @@ export class APManager implements AudioPlayer {
       this.playMusic(pppllaaayyyPatthh(data.songId!, this.k), data, this.k)
     } catch (error) {
       error
-    } 
+    }
   }
 
   init(): void {
@@ -73,10 +74,15 @@ export class APManager implements AudioPlayer {
     audioe.autoplay = true
     audioe.preload = 'auto'
 
+    const mp4source = document.createElement('source') as HTMLSourceElement
+    mp4source.type = 'audio/mp4'
+    audioe.appendChild(mp4source)
+
     const mpegsource = document.createElement('source') as HTMLSourceElement
-    mpegsource.type = 'audio/mp4'
+    mpegsource.type = 'audio/mpeg'
     audioe.appendChild(mpegsource)
 
+    this.sourceElementMP4 = mp4source
     this.sourceElementMPEG = mpegsource
     this.audioElement = audioe
 
@@ -133,6 +139,7 @@ export class APManager implements AudioPlayer {
 
     this.audioElement!.autoplay = true
     this.sourceElementMPEG!.src = url.trim()
+    this.sourceElementMP4!.src = url.trim()
     this.updatemetadata(this.music!)
     this.audioElement!.load()
     this.playbackSpeed()
@@ -195,8 +202,8 @@ export class APManager implements AudioPlayer {
       this.seekForward(5)
     })
 
-    setActionHandler('previoustrack', function () {})
-    setActionHandler('nexttrack', function () {})
+    setActionHandler('previoustrack', function () { })
+    setActionHandler('nexttrack', function () { })
   }
 
   pause(): void {
@@ -220,9 +227,9 @@ export class APManager implements AudioPlayer {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
-  nextSong(): void {}
+  nextSong(): void { }
 
-  previousSong(): void {}
+  previousSong(): void { }
 
   isPlaying(): boolean {
     return !this.audioElement?.paused
@@ -238,13 +245,21 @@ export class APManager implements AudioPlayer {
   }
 
   songDuration(): number {
-    if (isNaN(this.audioElement!.duration)) return 0
-    return this.audioElement!.duration
+    try {
+      if (isNaN(this.audioElement!.duration)) return 0
+      return this.audioElement!.duration
+    } catch (error) {
+      return 0
+    }
   }
 
   songCurrentDuration(): number {
-    if (isNaN(this.audioElement!.currentTime)) return 0
-    return this.audioElement!.currentTime
+    try {
+      if (isNaN(this.audioElement!.currentTime)) return 0
+      return this.audioElement!.currentTime
+    } catch (error) {
+      return 0
+    }
   }
 
   async changeSongDuration(v: number) {

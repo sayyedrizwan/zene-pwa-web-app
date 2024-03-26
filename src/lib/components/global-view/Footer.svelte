@@ -1,4 +1,6 @@
 <script>
+    import { support_mail_server } from "../../../routes/api/utils/utils"
+
   $: d = new Date()
 </script>
 
@@ -17,6 +19,7 @@
         <div class="px-5 py-2"><a href="/home">About</a></div>
         <div class="px-5 py-2"><a href="/faq">FAQ</a></div>
         <div class="px-5 py-2"><a href="/download">Download</a></div>
+        <div class="px-5 py-2"><a href="mailto:{support_mail_server}?subject=Feedback">Feedback</a></div>
       </nav>
       <nav class="flex flex-wrap justify-center mt-5">
         <a href="https://www.instagram.com/zene__music/" target="_blank"><i class="fa fa-instagram text-white hover:text-peach hover-animation" style="font-size: 24px"></i></a>

@@ -19,7 +19,6 @@
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
   import { pppllaaayyyPatthh } from '$lib/utils/pid'
-  // import MyWorker from '$lib/assets/worker/ap'
   import axios from 'axios'
 
   axios.defaults.timeout = 20000
@@ -98,6 +97,7 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
+<video controls autoplay={true}><source src="https://stream-146.zeno.fm/rqqps6cbe3quv?zs=loHp_DNyRPiAxC52AL95hg" type="audio/mpeg"></video>
   <LogoWithBrand showOnlyLogo={false} />
   <main>
     <slot />
