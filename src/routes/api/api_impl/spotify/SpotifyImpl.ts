@@ -7,8 +7,6 @@ import type { SpotifyPlaylistsSongsResponse } from './domain/SpotifyPlaylistsSon
 import type { SpotifyPlaylistsResponse } from './domain/SpotifyPlaylistsResponse'
 import type { SpotifyUserPlaylistsResponse } from './domain/SpotifyUserPlaylistsResponse'
 import type { SpotifyPlaylistsUserSongsResponse } from './domain/SpotifyPlaylistsUserSongsResponse'
-import type { MusicData } from '../../../../domain/local/entities/MusicData'
-import { YtMusicAPIImpl } from '../yt_music/YtMusicImpl'
 
 export class SpotifyImpl {
   private async getTokens(): Promise<string> {

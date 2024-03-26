@@ -18,7 +18,7 @@
     response = { type: ResponseDataEnum.LOADING }
 
     const cacheDB = new DataIndexDS<MusicDataList>(globalTrendingSongsArtists, indexDB)
-      const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+    const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
       if (cacheRecords.length > 0)
@@ -34,7 +34,7 @@
       const res = await axios.post(env.PUBLIC_TOP_GLOBAL_SONGS, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as MusicDataList
       topSongsCountry = data?.results ?? []
-      response = { type: ResponseDataEnum.SUCCESS, data: data?.results ?? []}
+      response = { type: ResponseDataEnum.SUCCESS, data: data?.results ?? [] }
       localStorage.setItem(`t_s_l`, Date.now().toString())
       cacheDB.deleteAllRecords()
       cacheDB.saveToIndexedDB(data)

@@ -265,7 +265,7 @@ export class YtMusicAPIImpl {
         tabs.tabRenderer.content?.musicQueueRenderer?.content?.playlistPanelRenderer?.contents?.forEach((items) => {
           const name = items.playlistPanelVideoRenderer?.title?.runs?.[0].text
           const thumbnail = items?.playlistPanelVideoRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
-          const artists = items.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0].text?.replaceAll('and', '&')
+          const artists = items.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0].text?.replaceAll(' and ', '&')
           const id = items.playlistPanelVideoRenderer?.videoId
 
           if (name != undefined && id != undefined) musicData.push(new MusicData(name, artists ?? '', btoa(id).replaceLastChar('=', ''), thumbnail ?? '', MusicType.MUSIC))
