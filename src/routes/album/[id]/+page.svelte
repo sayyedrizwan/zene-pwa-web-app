@@ -1,7 +1,7 @@
 <script lang="ts">
   import { browser } from '$app/environment'
-    import AlbumsListsInfo from '$lib/components/album-page/AlbumsListsInfo.svelte'
   import AlbumsMusicsLists from '$lib/components/album-page/AlbumsMusicsLists.svelte'
+  import AlbumsSimilarAlbums from '$lib/components/album-page/AlbumsSimilarAlbums.svelte'
   import TopAlbumsInfo from '$lib/components/album-page/TopAlbumsInfo.svelte'
   import type { IpDetails } from '../../../domain/local/entities/IpDetails'
   import type { MusicData } from '../../../domain/local/entities/MusicData'
@@ -35,7 +35,7 @@
   <div class="w-full">
     <TopAlbumsInfo {albumInfo} />
 
-    <AlbumsListsInfo {key} name={`${albumInfo?.name} - ${albumInfo.artists}`} />
+    <AlbumsSimilarAlbums {key} name={`${albumInfo?.name} - ${albumInfo.artists}`} />
 
     <AlbumsMusicsLists {key} {url} />
   </div>
