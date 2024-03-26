@@ -15,7 +15,5 @@ export const POST = async (events: RequestEvent) => {
   const giphy = new GiphyImpl()
   const moodGif = await giphy.searchGiphyRandomOne(`cute ${headers}`)
 
-  console.log(moodGif)
-
   return json({})
 }

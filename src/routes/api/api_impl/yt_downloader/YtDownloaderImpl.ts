@@ -3,10 +3,9 @@ import { generateRandomString, waitServer } from '../../utils/utils'
 import type { YT2MateInfoResponse, YT2MateInfoTaskJsonResponse, YT2MateInfoTaskResponse } from './domain/YT2MateInfoResponse'
 import ytdl from 'ytdl-core'
 import axios, { type AxiosResponse } from 'axios'
-import type { CA3ConvertorResponse } from './domain/CA3ConvertorResponse'
 
 export class YTDownloaderImpl {
-  async videoURL(videoId: string, isSameServer: Boolean) {
+  async videoURL(videoId: string, isSameServer: Boolean): Promise<string> {
     const path = await this.videoYTDownloader(videoId, isSameServer)
     if (path != null) return path
 
@@ -76,6 +75,8 @@ export async function getFileSize(url: string): Promise<number | null> {
   }
 }
 
+
+
 export async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: number): Promise<Uint8Array[]> {
   const chunks: Uint8Array[] = []
   let start = 0
@@ -84,16 +85,18 @@ export async function downloadBlobInChunks(url: string, chunkSize: number, fileS
 
   setTimeout(() => {
     status = false
-  }, 5 * 1000)
-
+  }, 8 * 1000)
+  console.log('started')
   while (status) {
     const end = Math.min(start + chunkSize - 1, fileSize - 1)
     const headers = { Range: `bytes=${start}-${end}` }
+    console.log(headers)
     try {
       const response: AxiosResponse<ArrayBuffer> = await axios.get(url, { responseType: 'arraybuffer', headers })
 
       const chunk = new Uint8Array(response.data)
       chunks.push(chunk)
+      console.log(chunk)
       if (end === fileSize - 1) break
       start = end + 1
     } catch (error) {

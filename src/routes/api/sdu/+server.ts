@@ -11,7 +11,7 @@ export const GET = async (req: RequestEvent) => {
   const key = new URL(req.url).searchParams.get('k') ?? ''
   const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
 
-  // if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
+  if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
 
   if (videoId.length > 20 && videoId.split('-').length > 3) {
@@ -25,7 +25,7 @@ export const GET = async (req: RequestEvent) => {
   const url = await ytDownloader.videoURL(videoId, false)
   const responseInfo = await axios.head(url!)
 
-  const response = await downloadBlobInChunks(url!, 12000000, responseInfo.headers['content-length'])
+  const response = await downloadBlobInChunks(url!, 58000000, responseInfo.headers['content-length'])
   const blob = new Blob(response, { type: 'audio/mpeg' })
 
   let header: any = {}
@@ -33,5 +33,6 @@ export const GET = async (req: RequestEvent) => {
   Object.keys(responseInfo.headers).forEach((i) => {
     header[i] = responseInfo.headers[i]
   })
+
   return new Response(blob, { status: 200, headers: header })
 }
