@@ -1,26 +1,22 @@
 <script lang="ts">
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
-  import { SearchMusicData } from '../../../domain/local/entities/MusicData'
+  import { MusicData, SearchMusicData } from '../../../domain/local/entities/MusicData'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
+  import { onMount } from 'svelte'
 
   export let key: string
   export let name: string
 
-  let searchSuggestion: ResponseData<SearchMusicData> = { type: ResponseDataEnum.EMPTY }
+  let searchSuggestion: ResponseData<MusicData[]> = { type: ResponseDataEnum.EMPTY }
 
   async function mount() {
     searchSuggestion = { type: ResponseDataEnum.LOADING }
     try {
       const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, headers: { AuthorizationKey: key }, data: { q: name.trim() } })
-      let response = (await res.data) as SearchMusicData
-
-      if (response.album.length > 1) {
-        response = new SearchMusicData([], [], response.album.slice(1), [])
-      }
-
-      searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }
+      const response = (await res.data) as SearchMusicData
+      searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response.album }
     } catch (error) {
       searchSuggestion = { type: ResponseDataEnum.ERROR }
     }
@@ -31,8 +27,9 @@
 
 {#if searchSuggestion.type == ResponseDataEnum.SUCCESS}
   <div class="mt-28">
-    {#if searchSuggestion.data.album.length > 0}
-      <CardAlbumsItems albums={searchSuggestion.data.album} />
+    {#if searchSuggestion.data.length > 0}
+      <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 text-start">Similar Albums</h3>
+      <CardAlbumsItems albums={searchSuggestion.data} />
     {/if}
   </div>
 {:else if searchSuggestion.type == ResponseDataEnum.LOADING}

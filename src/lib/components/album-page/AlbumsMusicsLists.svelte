@@ -14,7 +14,7 @@
   async function mount() {
     response = { type: ResponseDataEnum.LOADING }
     try {
-      const res = await axios.post(env.PUBLIC_ARTISTS_ALBUMS_SONGS, { headers: { AuthorizationKey: key, id: url } })
+      const res = await axios({ method: 'post', url: env.PUBLIC_ARTISTS_ALBUMS_SONGS, headers: { AuthorizationKey: key, id: url } })
       let data = (await res.data) as MusicData[]
       response = { type: ResponseDataEnum.SUCCESS, data: data }
     } catch (error) {

@@ -15,9 +15,6 @@ export async function POST(events: RequestEvent) {
     const lists: MusicData[] = []
 
     const songs = await billboardImpl.topSongs()
-    
-    console.log(songs.length)
-
     await Promise.all(
       songs.map(async (m) => {
         const music = await ytImpl.musicSearchSingle(m, false)

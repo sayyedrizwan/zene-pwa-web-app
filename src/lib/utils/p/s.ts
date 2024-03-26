@@ -123,7 +123,7 @@ export class APManager implements AudioPlayer {
 
   async playMusic(url: string, music: MusicData, ap: string): Promise<void> {
     this.stop()
-
+    
     this.k = ap
     this.music = music
     this.buffering = true

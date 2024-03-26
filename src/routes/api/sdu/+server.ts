@@ -11,7 +11,7 @@ export const GET = async (req: RequestEvent) => {
   const key = new URL(req.url).searchParams.get('k') ?? ''
   const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
 
-  // if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
+  if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
 
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
 

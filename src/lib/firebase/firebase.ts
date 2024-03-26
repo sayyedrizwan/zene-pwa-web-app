@@ -32,7 +32,7 @@ export async function setUpForegroundFCM() {
   try {
     await Notification.requestPermission()
 
-    getToken(firebaseMessaging!, { vapidKey: 'BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M' })
+    await getToken(firebaseMessaging!, { vapidKey: 'BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M' })
  
     onMessage(firebaseMessaging!, (payload) => {
       console.log('Message received. ', payload)
