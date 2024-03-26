@@ -26,6 +26,8 @@
   })
 </script>
 
+
+
 <svelte:head>
   <title>{mood} Mood | Zene: A Free Muic App</title>
   <meta name="description" content="Discover the top music streaming platforms to find your favorite artists, albums, and playlists." />
