@@ -97,7 +97,6 @@
   <LogoWithBrand showOnlyLogo={true} />
   <slot />
 {:else}
-<video controls autoplay={true}><source src="https://stream-146.zeno.fm/rqqps6cbe3quv?zs=loHp_DNyRPiAxC52AL95hg" type="audio/mpeg"></video>
   <LogoWithBrand showOnlyLogo={false} />
   <main>
     <slot />
