@@ -14,9 +14,11 @@ export const ytHeader = {
 
 const userAgent = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36,gzip(gfe)'
 const clientName = 'WEB'
-const clientVersion = '2.20240126.01.00'
+const clientVersion = '2.20240326.01.00'
 
 export const yt_video_search = `https://www.youtube.com/youtubei/v1/search?key=${YT_KEY}&prettyPrint=false`
+
+export const yt_playlist_search_params = `EgIQAw%3D%3D`
 
 export function ytBodyWithQuery(q: string): string {
   return `{
@@ -28,6 +30,35 @@ export function ytBodyWithQuery(q: string): string {
                 }
             },
             "query": "${q}"
+        }
+        `
+}
+
+export function ytBodyWithQueryParams(q: string, params: string): string {
+  return `{
+            "context": {
+                "client": {
+                    "userAgent": "${userAgent}",
+                    "clientName": "${clientName}",
+                    "clientVersion": "${clientVersion}"
+                }
+            },
+            "query": "${q}",
+            "params": "EgIQAw%3D%3D"
+        }
+        `
+}
+
+export function ytBodyWithPlaylist(q: string): string {
+  return `{
+            "context": {
+                "client": {
+                    "userAgent": "${userAgent}",
+                    "clientName": "${clientName}",
+                    "clientVersion": "${clientVersion}"
+                }
+            },
+            "playlistId": "${q}"
         }
         `
 }

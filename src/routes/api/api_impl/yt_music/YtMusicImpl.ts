@@ -130,7 +130,6 @@ export class YtMusicAPIImpl {
   }
 
   async newReleaseSearch(ip: IpJsonResponse): Promise<MusicDataList> {
-    const lists: string[] = []
     const listsNew: MusicData[] = []
     let releasedId = 'RDCLAK5uy_k5n4srrEB1wgvIjPNTXS9G1ufE9WQxhnA'
 
@@ -147,7 +146,20 @@ export class YtMusicAPIImpl {
       }
     })
 
-    const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(ip, releasedId) })
+    const lists = await this.searchPlaylists(ip, releasedId)
+
+    await Promise.all(
+      lists.map(async (m) => {
+        const music = await this.musicSearchSingle(m, false)
+        if (music.songId != null) listsNew.push(music)
+      }),
+    )
+    return new MusicDataList(listsNew)
+  }
+
+  async searchPlaylists(ip: IpJsonResponse, id: string): Promise<string[]> {
+    const lists: string[] = []
+    const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(ip, id) })
     const musics = (await musicr.json()) as YtMusicBrowsePlaylists
 
     musics?.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach((element) => {
@@ -166,13 +178,7 @@ export class YtMusicAPIImpl {
       })
     })
 
-    await Promise.all(
-      lists.map(async (m) => {
-        const music = await this.musicSearchSingle(m, false)
-        if (music.songId != null) listsNew.push(music)
-      }),
-    )
-    return new MusicDataList(listsNew)
+    return lists
   }
 
   async browseSongsId(ip: IpJsonResponse, id: string): Promise<[MusicData[], MusicData[]]> {

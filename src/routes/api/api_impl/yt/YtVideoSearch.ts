@@ -1,6 +1,6 @@
 import { FeedData, FeedType } from '../../../../domain/local/entities/FeedData'
 import { MusicData, MusicType } from '../../../../domain/local/entities/MusicData'
-import { bingYtChannelSearch, parseRelativeTimeString, ytBodyWithQuery, ytHeader, yt_video_search } from './YtUtils'
+import { bingYtChannelSearch, parseRelativeTimeString, ytBodyWithQuery, ytBodyWithQueryParams, ytHeader, yt_playlist_search_params, yt_video_search } from './YtUtils'
 import type { YtChannelVideosResponse } from './domain/YtChannelVideosResponse'
 import type { YtSearchVideoResponse } from './domain/YtSearchVideoResponse'
 import { JSDOM } from 'jsdom'
@@ -21,6 +21,20 @@ export class YtAPIImpl {
       })
     })
     return list
+  }
+
+
+  async getSearchPlaylists(search: string): Promise<string[]> {
+    const r = await fetch(yt_video_search, { method: 'POST', headers: ytHeader, body: ytBodyWithQueryParams(search, yt_playlist_search_params) })
+    const response = (await r.json()) as YtSearchVideoResponse
+    const pList: string[] = []
+
+    response.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents.forEach((contents) => {
+      contents.itemSectionRenderer?.contents.forEach((video, i) => {
+        if (i <= 3) pList.push(`VL${video.playlistRenderer?.playlistId}`)
+      })
+    })
+    return pList
   }
 
   async searchArtistsChannelsVideos(search: string): Promise<FeedData[]> {
