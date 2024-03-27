@@ -12,7 +12,7 @@ export async function POST(events: RequestEvent) {
   try {
     const list: TopSongsMusic[] = []
     const ytMusicAPI = new YtMusicAPIImpl()
-    const response = await axios.get(lastfm_top_playing_songs, { params: { type: 'artist', tracks: '1', nr: '10', format: 'json' } })
+    const response = await axios.get(lastfm_top_playing_songs, { params: { type: 'artist', tracks: 1, nr: 10, format: 'json' } })
     const data = (await response.data) as LastFmTopSongsResponse
 
     await Promise.all(
