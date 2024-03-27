@@ -13,8 +13,8 @@ const cspDirectives = {
   'media-src': ["'self'", 'data:', '*'],
   'object-src': ["'none'"],
   'style-src': ["'self'", "'unsafe-inline'", 'https://*.cloudflare.com'],
-  'default-src': ['self', ...(rootDomain ? [rootDomain, `ws://${rootDomain}`] : [])],
-  'script-src': ['self', 'unsafe-inline', 'unsafe-eval', 'sha256-/+QATIB1962kNiZkZgIIgvGUbjR8HiSvIEtNTgBAZOY=', 'https://www.googletagmanager.com', 'https://browser.sentry-cdn.com'],
+  'default-src': ["'self'", ...(rootDomain ? [rootDomain, `ws://${rootDomain}`] : [])],
+  'script-src': ["'self'", 'https://*', "'*'"],
   'worker-src': ["'self'"],
   'report-to': ["'csp-endpoint'"],
   // 'report-uri': [

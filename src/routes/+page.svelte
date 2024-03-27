@@ -28,6 +28,10 @@
   if (browser) {
     authKey = window.atob(data.data)
     if (data.ip != undefined) ipDetails = JSON.parse(data.ip)
+
+    setTimeout(() => {
+      throw new Error('Test Errors');
+    }, 300)
   }
 </script>
 

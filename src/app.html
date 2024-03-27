@@ -40,7 +40,7 @@
     <script src="https://browser.sentry-cdn.com/7.93.0/bundle.tracing.min.js" integrity="sha384-SPq2en7EMouQY/MGYLYA/shBLhoyYScgNTU8crQBLY4Aa8evvIXgmB6gSnUIAd/n" crossorigin="anonymous"></script>
 
     <script>
-      if (window.location.hostname !== 'localhost') {
+      // if (window.location.hostname !== 'localhost') {
         Sentry.init({
           dsn: 'https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896',
           release: 'zene@0.0.1',
@@ -50,7 +50,7 @@
           replaysSessionSampleRate: 0.1,
           replaysOnErrorSampleRate: 1.0,
         })
-      }
+      // }
     </script>
   </head>
 
