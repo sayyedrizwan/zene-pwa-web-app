@@ -6,4 +6,5 @@ export const load = async ({ fetch, cookies, getClientAddress }) => {
   const data = serverLoadFunction(fetch, cookies, clientAddress)
 
   return { data: btoa((await data).keyData), ip: JSON.stringify((await data).ip) }
+  
 }
