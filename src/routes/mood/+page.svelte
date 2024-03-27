@@ -8,6 +8,8 @@
   import { moodsList } from '$lib/utils/Utils'
   import type { MoodDataResponse } from '../../domain/local/entities/MoodDataResponse'
   import { ResponseDataEnum, type ResponseData } from '../../domain/RequestEnumClass'
+    import GridFullCardItem from '$lib/components/global-view/items/GridFullCardItem.svelte'
+    import { MusicDataList } from '../../domain/local/entities/MusicData'
 
   export let data: any
 
@@ -54,6 +56,13 @@
           <h3 class="text-white urbanist-semibold text-2xl md:text-3xl mt-7 w-full text-center">{moodFull}</h3>
         </div>
       </div>
+
+      <div class="h-11" />
+      {#if response.data.tracks?.length ?? 0 > 0}
+        <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-2 md:ms-4 mt-16 mb-5">Top Songs for this mood</h3>
+
+        <GridFullCardItem results={new MusicDataList(response.data?.tracks ?? [])} bg={'bg-maincolor'} />
+      {/if}
     </div>
   {:else if response.type == ResponseDataEnum.LOADING}
     <div role="status" class="flex w-full justify-center">
@@ -72,4 +81,4 @@
   {/if}
 </div>
 
-<div class="h-44"/>
+<div class="h-44" />

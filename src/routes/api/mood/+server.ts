@@ -7,9 +7,10 @@ import { atob } from 'buffer'
 import { MusicPlayerVideos } from '../../../domain/local/entities/MusicPlayerVideos'
 import { GiphyImpl } from '../api_impl/giphy/GiphyImpl'
 import { MoodDataResponse } from '../../../domain/local/entities/MoodDataResponse'
-import { NinjasFactsImpl } from '../api_impl/ninjas-facts/NinjasFactsImpl'
+import { UselessFactsImpl } from '../api_impl/uselessfacts/UselessFactsImpl'
 import axios from 'axios'
 import type { IpJsonResponse } from '../radiolist/domain/IpJsonResponse'
+import type { MusicData } from '../../../domain/local/entities/MusicData'
 
 export const POST = async (events: RequestEvent) => {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
@@ -22,23 +23,29 @@ export const POST = async (events: RequestEvent) => {
   const giphy = new GiphyImpl()
   const moodGif = await giphy.searchGiphyRandomOne(`cute ${m}`)
 
-  const ninjasfacts = new NinjasFactsImpl()
-  const fact = await ninjasfacts.getARandomFacts()
-
+  const uselessfacts = new UselessFactsImpl()
+  const facts = await uselessfacts.getARandomFacts()
 
   const yt = new YtAPIImpl()
   const ytMusic = new YtMusicAPIImpl()
   const lists = await yt.getSearchPlaylists(`${m} mood songs ${ipData.country}`)
 
-  
+  const songs: string[] = []
+  const musicList: MusicData[] = []
+
   await Promise.all(
     lists.map(async (m) => {
       const music = await ytMusic.searchPlaylists(ipData, m)
-      music.forEach(element => {
-        console.log(element)
-      })
+      music.forEach(item => songs.push(item))
     })
   )
 
-  return json(new MoodDataResponse(moodGif, fact))
+  await Promise.all(
+    songs.map(async (m) => {
+      const s = await ytMusic.musicSearchSingle(m, false)
+      if (!musicList.some(i => i.songId == s.songId) && s.songId != null) musicList.push(s)
+    })
+  )
+
+  return json(new MoodDataResponse(moodGif, facts, musicList))
 }
