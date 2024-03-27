@@ -45,17 +45,16 @@
     crossorigin="anonymous"></script>
 
   <script>
-    if (window.location.hostname !== 'localhost') {
-      Sentry.init({
-        dsn: 'https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896',
-        release: 'zene@0.0.1',
-        integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
-        tracesSampleRate: 1.0,
-        tracePropagationTargets: ['zenemusic.co'],
-        replaysSessionSampleRate: 0.1,
-        replaysOnErrorSampleRate: 1.0,
-      })
-    }
+    Sentry.init({
+      dsn: 'https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896',
+      release: 'zene@0.0.1',
+      integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
+      tracesSampleRate: 1.0,
+      tracePropagationTargets: ['zenemusic.co'],
+      replaysSessionSampleRate: 0.1,
+      replaysOnErrorSampleRate: 1.0,
+    })
+
   </script>
 </head>
 
