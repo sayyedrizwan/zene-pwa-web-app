@@ -12,7 +12,7 @@ export const apiError = {
 }
 
 // API URL
-export const lastfm_top_playing_songs = 'https://kerve.last.fm/kerve/charts?type=track&nr=6&format=json'
+export const lastfm_top_playing_songs = 'https://kerve.last.fm/kerve/charts'
 
 export function ipBaseUrl(ip: string) {
   return `http://ip-api.com/json/${ip}`

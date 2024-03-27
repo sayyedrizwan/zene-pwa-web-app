@@ -12,19 +12,25 @@ export async function POST(events: RequestEvent) {
   try {
     const list: TopSongsMusic[] = []
     const ytMusicAPI = new YtMusicAPIImpl()
-    const response = await axios.get(lastfm_top_playing_songs)
+    const response = await axios.get(lastfm_top_playing_songs, { params: { type: 'artist', tracks: '1', nr: '10', format: 'json' } })
     const data = (await response.data) as LastFmTopSongsResponse
 
     await Promise.all(
-      data.results.track.map(async (e) => {
-        const musicName = `${e.name} - ${e.artist}`
-        const music = await ytMusicAPI.musicSearchSingle(musicName, true)
-        if (music.name != null && music.songId != null) {
-          list.push(new TopSongsMusic(e.image.replace('174s/', ''), formatNumberString(e.listeners), music))
+      (data.results?.artist ?? []).map(async (e) => {
+        const trackInfo = (e.tracks?.length ?? 0) > 0 ? e.tracks?.[0] : null
+        if (trackInfo != null) {
+          const musicName = `${trackInfo?.name} - ${trackInfo?.artist}`
+          const music = await ytMusicAPI.musicSearchSingle(musicName, true)
+          if (music.name != null && music.songId != null) {
+            list.push(new TopSongsMusic(e?.image?.replace('174s/', '') ?? '', formatNumberString(e.listeners ?? '0'), music))
+          }
         }
-      }),
+      })
     )
-    return json(new TopSongsMusicResults(list))
+
+    const sorted = list.sort((a, b) => parseInt(b?.listeners?.replaceAll(",", "").trim() ?? '0') - parseInt(a?.listeners?.replaceAll(",", "").trim() ?? '0'))
+    
+    return json(new TopSongsMusicResults(sorted))
   } catch (error) {
     return json(apiError)
   }
