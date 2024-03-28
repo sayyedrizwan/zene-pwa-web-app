@@ -86,17 +86,16 @@ export async function downloadBlobInChunks(url: string, chunkSize: number, fileS
   setTimeout(() => {
     status = false
   }, 8 * 1000)
-  console.log('started')
+  
   while (status) {
     const end = Math.min(start + chunkSize - 1, fileSize - 1)
     const headers = { Range: `bytes=${start}-${end}` }
-    console.log(headers)
     try {
       const response: AxiosResponse<ArrayBuffer> = await axios.get(url, { responseType: 'arraybuffer', headers })
 
       const chunk = new Uint8Array(response.data)
       chunks.push(chunk)
-      console.log(chunk)
+      
       if (end === fileSize - 1) break
       start = end + 1
     } catch (error) {

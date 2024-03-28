@@ -29,7 +29,6 @@
       const res = await axios.post(env.PUBLIC_MOOD_INFO, {}, { headers: { AuthorizationKey: authKey, mood: mood } })
       const responseMood = (await res.data) as MoodDataResponse
       response = { type: ResponseDataEnum.SUCCESS, data: responseMood }
-      console.log(response)
     } else {
       goto('/')
     }

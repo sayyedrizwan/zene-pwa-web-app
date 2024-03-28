@@ -1,9 +1,10 @@
 import { type RequestEvent } from '@sveltejs/kit'
+import fs from 'node:fs'
 import { atob } from 'buffer'
 import { RadioBrowserImpl } from '../api_impl/radio/RadioBrowserImpl'
 import { downloadBlobInChunks, YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'
 import { decryptAPIKeyAndIsValidOfSong } from '../utils/EncryptionForAPI'
-import { redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit'
 import axios from 'axios'
 
 export const GET = async (req: RequestEvent) => {
@@ -11,7 +12,14 @@ export const GET = async (req: RequestEvent) => {
   const key = new URL(req.url).searchParams.get('k') ?? ''
   const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
 
-  if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) return new Response(null, { status: 200, headers: {} })
+  if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) {
+    // const response = await downloadBlobInChunks('https://www.zenemusic.co/download/videoplayback.mp4', 400, responseInfo.headers['content-length'])
+
+    // const data = await fs.promises.readFile('./download/videoplayback.mp4', 'utf8');
+    // const blob = new Blob([data], { type: 'audio/mp4' })
+    // return new Response(blob, { status: 200, headers: getTempHeader() })
+  }
+
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
 
   if (videoId.length > 20 && videoId.split('-').length > 3) {
@@ -35,4 +43,35 @@ export const GET = async (req: RequestEvent) => {
   })
 
   return new Response(blob, { status: 200, headers: header })
+}
+
+function getTempHeader() {
+  const today = new Date()
+  const pastDate = new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000)
+
+  const options: any = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'GMT'
+  }
+
+  return {
+    'last-modified': pastDate.toLocaleDateString('en-US', options),
+    'content-type': 'video/mp4',
+    date: today.toLocaleDateString('en-US', options),
+    expires: today.toLocaleDateString('en-US', options),
+    'cache-control': 'private, max-age=21297',
+    'accept-ranges': 'bytes',
+    'content-length': '29000',
+    connection: 'close',
+    vary: 'Origin',
+    'cross-origin-resource-policy': 'cross-origin',
+    'x-content-type-options': 'nosniff',
+    server: 'gvs 1.0'
+  }
 }
