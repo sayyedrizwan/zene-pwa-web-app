@@ -19,8 +19,6 @@
     else if (/Windows/.test(userAgent)) deviceType = 4
     else if (/Android/.test(userAgent) && /tablet/.test(userAgent)) deviceType = 5
     else deviceType = 6
-
-    deviceType = 0
   })
 
   function redirectToPlayStore() {
