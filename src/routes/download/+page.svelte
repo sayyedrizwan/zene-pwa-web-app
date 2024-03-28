@@ -6,9 +6,11 @@
   import { onMount } from 'svelte'
   import IospwaDialog from '$lib/components/dialog/IOSPWADialog.svelte'
   import { browser } from '$app/environment'
+    import WindowsDownloadDialog from '$lib/components/dialog/WindowsDownloadDialog.svelte'
 
   let deviceType = 0
   let showIOSDialog = false
+  let showWindowsDialog = false
 
   onMount(() => {
     const userAgent = navigator.userAgent
@@ -74,7 +76,7 @@
     }
 
     if (deviceType == 4) {
-      installPwaPrompt()
+      showWindowsDialog = true
       return
     }
   }
@@ -145,7 +147,7 @@
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
     <button on:click={() => (showIOSDialog = true)}><img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer" /></button>
-    <button on:click={installPwaPrompt}><img src="/badges/windows.png" alt="Get Zene on Windows" class="w-32 cursor-pointer" /></button>
+    <button on:click={() => showWindowsDialog = true}><img src="/badges/windows.png" alt="Get Zene on Windows" class="w-32 cursor-pointer" /></button>
   </div>
 </div>
 
@@ -158,6 +160,10 @@
 
 {#if showIOSDialog}
   <IospwaDialog close={() => (showIOSDialog = false)} />
+{/if}
+
+{#if showWindowsDialog}
+  <WindowsDownloadDialog close={() => (showWindowsDialog = false)} />
 {/if}
 
 <Footer />
