@@ -6,11 +6,13 @@
   import { onMount } from 'svelte'
   import IospwaDialog from '$lib/components/dialog/IOSPWADialog.svelte'
   import { browser } from '$app/environment'
-    import WindowsDownloadDialog from '$lib/components/dialog/WindowsDownloadDialog.svelte'
+  import WindowsDownloadDialog from '$lib/components/dialog/WindowsDownloadDialog.svelte'
+  import LinuxDownloadDialog from '$lib/components/dialog/LinuxDownloadDialog.svelte'
 
   let deviceType = 0
   let showIOSDialog = false
   let showWindowsDialog = false
+  let showLinuxDialog = false
 
   onMount(() => {
     const userAgent = navigator.userAgent
@@ -20,7 +22,10 @@
     else if (/Macintosh/.test(userAgent)) deviceType = 3
     else if (/Windows/.test(userAgent)) deviceType = 4
     else if (/Android/.test(userAgent) && /tablet/.test(userAgent)) deviceType = 5
-    else deviceType = 6
+    else if (/Linux/.test(userAgent)) deviceType = 6
+    else deviceType = 7
+
+    deviceType = 7
   })
 
   function redirectToPlayStore() {
@@ -33,7 +38,7 @@
 
   function startDownloadingForMacOS() {
     const anchor = document.createElement('a')
-    anchor.href = 'https://zenemusic.co/download/Zene_MacOS.dmg'
+    anchor.href = '/download/Zene_MacOS.dmg'
     anchor.download = 'Zene_MacOS.dmg'
     document.body.appendChild(anchor)
     anchor.click()
@@ -47,6 +52,7 @@
       deferredPrompt = e
     })
   }
+
   async function installPwaPrompt() {
     if (deferredPrompt !== null) {
       deferredPrompt.prompt()
@@ -79,6 +85,13 @@
       showWindowsDialog = true
       return
     }
+
+    if (deviceType == 6) {
+      showLinuxDialog = true
+      return
+    }
+
+    ;(document.getElementById('items') as HTMLElement).scrollIntoView()
   }
 </script>
 
@@ -99,7 +112,21 @@
         <img class="mb-2" src={deviceType == 4 ? DesktopMusicImg : deviceType == 3 ? MacMusicImg : PhoneMusicImg} alt="clipart" />
         <h4 class="mb-3 text-[22px] font-semibold leading-tight text-white mt-6 urbanist-bold">Download Zene</h4>
         <p class="mb-8 text-lg text-white urbanist-light">
-          Bring your free music to your {deviceType == 0 ? 'iPhone' : deviceType == 1 ? 'iPad' : deviceType == 2 ? 'Android Smartphone' : deviceType == 3 ? 'Mac/Macbook' : deviceType == 4 ? 'Windows Desktop' : deviceType == 5 ? 'Android Tablet' : 'Device'}.
+          Bring your free music to your {deviceType == 0
+            ? 'iPhone'
+            : deviceType == 1
+              ? 'iPad'
+              : deviceType == 2
+                ? 'Android Smartphone'
+                : deviceType == 3
+                  ? 'Mac/Macbook'
+                  : deviceType == 4
+                    ? 'Windows Desktop'
+                    : deviceType == 5
+                      ? 'Android Tablet'
+                      : deviceType == 6
+                        ? 'Linux OS'
+                        : 'Device'}.
         </p>
         <button on:click={installPWA} class="font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md hover:bg-gray-800 flex items-center gap-3 urbanist-regular" type="button">
           <svg class=" size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -113,7 +140,21 @@
               stroke-linejoin="round"
             />
           </svg>
-          {deviceType == 0 ? 'Install on iPhone' : deviceType == 1 ? 'Install on iPad' : deviceType == 2 ? 'Go to Play Store' : deviceType == 3 ? 'Download for Mac' : deviceType == 4 ? 'Get on Windows' : deviceType == 5 ? 'Go to Play Store' : 'Device'}</button
+          {deviceType == 0
+            ? 'Install on iPhone'
+            : deviceType == 1
+              ? 'Install on iPad'
+              : deviceType == 2
+                ? 'Go to Play Store'
+                : deviceType == 3
+                  ? 'Download for Mac'
+                  : deviceType == 4
+                    ? 'Get on Windows'
+                    : deviceType == 5
+                      ? 'Go to Play Store'
+                      : deviceType == 6
+                        ? 'Download for Linux'
+                        : 'Device'}</button
         >
       </div>
     </div>
@@ -128,7 +169,7 @@
   </div>
 </section>
 
-<div class="container mx-auto py-10 w-full mt-24">
+<div class="container mx-auto py-10 w-full mt-24" id="items">
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
     <button on:click={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <a href="https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/" target="_blank"><img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" /></a>
@@ -147,7 +188,8 @@
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
     <button on:click={() => (showIOSDialog = true)}><img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer" /></button>
-    <button on:click={() => showWindowsDialog = true}><img src="/badges/windows.png" alt="Get Zene on Windows" class="w-32 cursor-pointer" /></button>
+    <button on:click={() => (showWindowsDialog = true)}><img src="/badges/windows.png" alt="Get Zene on Windows" class="w-32 cursor-pointer" /></button>
+    <button on:click={() => (showLinuxDialog = true)}><img src="/badges/get_it_for_linux.png" alt="Get Zene for Linux" class="w-32 cursor-pointer" /></button>
   </div>
 </div>
 
@@ -164,6 +206,10 @@
 
 {#if showWindowsDialog}
   <WindowsDownloadDialog close={() => (showWindowsDialog = false)} />
+{/if}
+
+{#if showLinuxDialog}
+  <LinuxDownloadDialog close={() => (showLinuxDialog = false)} />
 {/if}
 
 <Footer />

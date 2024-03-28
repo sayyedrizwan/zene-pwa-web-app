@@ -3,7 +3,7 @@
 
   function downloadForWindows(file: string) {
     const anchor = document.createElement('a')
-    anchor.href = `https://zenemusic.co/download/Zene_windows.${file}`
+    anchor.href = `/download/Zene_windows.${file}`
     anchor.download = `Zene_windows.${file}`
     document.body.appendChild(anchor)
     anchor.click()
