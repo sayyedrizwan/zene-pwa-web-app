@@ -25,7 +25,7 @@ export const GET = async (req: RequestEvent) => {
   const url = await ytDownloader.videoURL(videoId, false)
   const responseInfo = await axios.head(url!)
 
-  const response = await downloadBlobInChunks(url!, 58000000, responseInfo.headers['content-length'])
+  const response = await downloadBlobInChunks(url!, 2000000, responseInfo.headers['content-length'])
   const blob = new Blob(response, { type: 'audio/mpeg' })
 
   let header: any = {}
