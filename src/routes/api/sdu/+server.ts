@@ -26,7 +26,7 @@ export const GET = async (req: RequestEvent) => {
   const responseInfo = await axios.head(url!)
 
   const response = await downloadBlobInChunks(url!, 2000000, responseInfo.headers['content-length'])
-  const blob = new Blob(response, { type: 'audio/mpeg' })
+  const blob = new Blob(response, { type: 'audio/mp4' })
 
   let header: any = {}
 
