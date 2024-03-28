@@ -35,9 +35,6 @@ export function decryptAPIKeyAndIsValidOfSong(events: RequestEvent, key: string,
 
   const difference = timestamp - parseInt(en.trim())
   const differenceinSeconds = Math.floor(difference / 1000)
-
-  console.log(differenceinSeconds)
-
   if (differenceinSeconds > 7 || difference < 0) return false
 
   if (decryptData(ip.trim()).trim() != getIpAddress(events).trim() && events.cookies.get('i')?.trim() != getIpAddress(events).trim()) {

@@ -13,11 +13,10 @@ export const GET = async (req: RequestEvent) => {
   const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
 
   if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) {
-    // const response = await downloadBlobInChunks('https://www.zenemusic.co/download/videoplayback.mp4', 400, responseInfo.headers['content-length'])
-
-    // const data = await fs.promises.readFile('./download/videoplayback.mp4', 'utf8');
-    // const blob = new Blob([data], { type: 'audio/mp4' })
-    // return new Response(blob, { status: 200, headers: getTempHeader() })
+    throw redirect(302, 'https://www.zenemusic.co/download/videoplayback.mp4')
+    const response = await downloadBlobInChunks('https://www.zenemusic.co/download/videoplayback.mp4', 400, 29000)
+    const blob = new Blob(response, { type: 'audio/mp4' })
+    return new Response(blob, { status: 200, headers: getTempHeader() })
   }
 
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
