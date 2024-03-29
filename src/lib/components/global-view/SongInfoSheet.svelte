@@ -56,7 +56,7 @@
     const newRecords: MusicData[] = []
     records?.lists?.forEach((m, i) => {
       newRecords.push(m)
-      if (records.lists.length == (i + 1) && songMenuDialog != null) newRecords.push(songMenuDialog)
+      if (records.lists.length == i + 1 && songMenuDialog != null) newRecords.push(songMenuDialog)
     })
 
     if (songMenuDialog != null && records?.m != null) {
@@ -79,8 +79,10 @@
     <div class="absolute left-3 bottom-7 right-3 md:left-1/2 md:bottom-7 md:transform md:-translate-x-1/2 h-40 md:h-52 w-auto md:w-2/4 bg-maincolor rounded-xl overflow-x-auto flex items-center">
       <div class="overflow-x-auto flex scrollbar-hide">
         <InfoButtonItems title="Play" img={PlayIcon} click={play} />
-        <InfoButtonItems title="Play next" img={PlayNextIcon} click={addSongToNext} />
-        <InfoButtonItems title={`Add in queue`} img={PlayQueueIcon} click={addSongToLastQueue} />
+        {#if songMenuDialog?.type == MusicType.MUSIC}
+          <InfoButtonItems title="Play next" img={PlayNextIcon} click={addSongToNext} />
+          <InfoButtonItems title={`Add in queue`} img={PlayQueueIcon} click={addSongToLastQueue} />
+        {/if}
         <InfoButtonItems title="Share" img={ShareIcon} click={share} />
         <InfoButtonItems title="Close" img={CloseIcon} click={close} />
       </div>
