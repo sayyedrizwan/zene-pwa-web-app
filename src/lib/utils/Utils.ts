@@ -42,6 +42,7 @@ export const moodsList: string[] = [
   '\uD83D\uDE14 Sad',
 ]
 
+
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)
 

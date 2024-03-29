@@ -47,6 +47,7 @@
     "npm": "^10.5.0",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "util.promisify": "^1.1.2",
+    "workbox-precaching": "^7.0.0",
     "ytdl-core": "^4.11.5"
   }
 }

@@ -65,11 +65,7 @@ export function en_ars4sfrb(text: string, salt: string) {
 
 export function pppllaaayyyPatthh(songId: string, ap: string, k: string): string {
   try {
-    const params = new URLSearchParams({
-      id: songId,
-      k: k,
-      pp: ap.replace('=', ''),
-    })
+    const params = new URLSearchParams({ id: songId, k: k, pp: ap.replace('=', '') })
 
     const queryString = params.toString()
     return `${env.PUBLIC_DOWNLOAD_URL}${queryString ? `?${queryString}` : ''}`.trim()
