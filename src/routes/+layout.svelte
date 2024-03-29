@@ -37,7 +37,6 @@
 
   if (browser) {
     if ('__TAURI__' in window) setServerIpAddress()
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js')
   }
 
   onMount(async () => {
