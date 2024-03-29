@@ -2,10 +2,7 @@ import type { LyricsResponseData } from '../../domain/local/entities/LyricsRespo
 import type { MusicDataList } from '../../domain/local/entities/MusicData'
 import type { MusicPlayerVideos } from '../../domain/local/entities/MusicPlayerVideos'
 import { env } from '$env/dynamic/public'
-
-export function pSongEData() {
-  return ''
-}
+import type { APManager } from './p/s'
 
 let suggestRelatedSongSyncId: string = ''
 let suggestRelatedSongSyncData: MusicDataList | null = null
@@ -79,4 +76,14 @@ export function pppllaaayyyPatthh(songId: string, ap: string, k: string): string
   } catch (error) {
     return ''
   }
+}
+
+let ap : APManager | null = null
+
+export function setGAP(a: APManager){
+  ap = a
+}
+
+export function pSongEData() {
+  return ap?.ctId()
 }

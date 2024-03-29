@@ -18,7 +18,7 @@
   import { wait } from '$lib/utils/indexd'
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
-  import { pppllaaayyyPatthh } from '$lib/utils/pid'
+  import { pppllaaayyyPatthh, setGAP } from '$lib/utils/pid'
   import axios from 'axios'
 
   axios.defaults.timeout = 20000
@@ -42,6 +42,8 @@
   onMount(async () => {
     setK(data.a as string)
     audioPlayer = new APManager()
+    setGAP(audioPlayer)
+    
     audioPlayer.init()
     audioPlayer.ct(data.t as number, data.a as string)
 

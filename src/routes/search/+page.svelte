@@ -1,17 +1,8 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { wait } from '$lib/utils/indexd'
   import SearchTopBar from '$lib/components/seach-page/SearchTopBar.svelte'
   import SearchResults from '$lib/components/seach-page/SearchResults.svelte'
-  import type { APManager } from '$lib/utils/p/s'
 
-  export let audioPlayer: APManager
   export let searchParam = ''
-
-  onMount(async () => {
-    await wait(1000)
-    console.log(audioPlayer.ctId())
-  })
 </script>
 
 <svelte:head>
