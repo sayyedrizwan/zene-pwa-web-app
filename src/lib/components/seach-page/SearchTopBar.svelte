@@ -10,6 +10,7 @@
   import { pSongEData } from '$lib/utils/pid'
 
   export let searchParam: string
+  
   let voiceSearchTranscript = ''
   let isListening = false
 

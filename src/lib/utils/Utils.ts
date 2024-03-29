@@ -4,21 +4,16 @@ import type { IpJsonResponse } from '../../routes/api/radiolist/domain/IpJsonRes
 import { setCookie } from './c'
 import { ipBaseUrl } from '../../routes/api/utils/utils'
 
-let cT: number = 0
-let kkeeeyyyyy: string = `53`
+let kkeeeyyyyyzzz: string = `53`
 
-export function setCT(v: number, k: string) {
-  cT = v
-  kkeeeyyyyy = window.atob(k)
-  setInterval(() => {
-    cT = cT + 1000
-  }, 1000)
+export function setK(v: string) {
+  kkeeeyyyyyzzz = window.atob(v)
 }
 
 export async function llg_in(e: string): Promise<string | null> {
   let encryptedText = ""
   for (let i = 0; i < e.length; i++) {
-    encryptedText += String.fromCharCode(e.charCodeAt(i) ^ kkeeeyyyyy.charCodeAt(i % kkeeeyyyyy.length));
+    encryptedText += String.fromCharCode(e.charCodeAt(i) ^ kkeeeyyyyyzzz.charCodeAt(i % kkeeeyyyyyzzz.length));
   }
   return encryptedText;
 }
@@ -26,8 +21,8 @@ export async function llg_in(e: string): Promise<string | null> {
 export async function gllg_in(e: string): Promise<string | null> {
   const v = await llg_in(e)
   const count = ((v?.match(/_/g)?.length ?? 4) - (v?.replaceAll("_", "").length ?? 3))
-  
-  if(count <= 2 && count > 0) return v?.replaceAll("_", "") ?? null
+
+  if (count <= 2 && count > 0) return v?.replaceAll("_", "") ?? null
 
   return null
 }
@@ -46,10 +41,6 @@ export const moodsList: string[] = [
   '\uD83E\uDD70 Romance',
   '\uD83D\uDE14 Sad',
 ]
-
-export function gCT(): [number, number] {
-  return [cT, parseInt(kkeeeyyyyy)]
-}
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)

@@ -1,8 +1,11 @@
 import type { LyricsResponseData } from '../../domain/local/entities/LyricsResponseData'
 import type { MusicDataList } from '../../domain/local/entities/MusicData'
 import type { MusicPlayerVideos } from '../../domain/local/entities/MusicPlayerVideos'
-import { gCT } from './Utils'
 import { env } from '$env/dynamic/public'
+
+export function pSongEData() {
+  return ''
+}
 
 let suggestRelatedSongSyncId: string = ''
 let suggestRelatedSongSyncData: MusicDataList | null = null
@@ -44,24 +47,6 @@ export function setMusicLyrics(id: string, lyrics: LyricsResponseData) {
   musicLyrics = [id, lyrics]
 }
 
-export function pSongEData(): string {
-  const t = gCT()[0]
-  const k = gCT()[1]
-
-  const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
-  const d = `${en_ars4sfrb(s, k.toString())}${'qKS-.1Z.oPWEkQ'.replace('K', '').replace('.', '').replace('P', '')}`
-  return d
-}
-
-export function pSongEDatas(): string {
-  const t = gCT()[0]
-  const k = gCT()[1]
-
-  const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
-  const d = `${en_ars4sfrb(s, k.toString())}`
-  return d
-}
-
 export function g(): string {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   const charactersLength = characters.length
@@ -81,11 +66,11 @@ export function en_ars4sfrb(text: string, salt: string) {
   return text.split('').map(textToChars).map(applySaltToChar).map(byteHex).join('')
 }
 
-export function pppllaaayyyPatthh(songId: string, ap: string): string {
+export function pppllaaayyyPatthh(songId: string, ap: string, k: string): string {
   try {
     const params = new URLSearchParams({
       id: songId,
-      k: pSongEData(),
+      k: k,
       pp: ap.replace('=', ''),
     })
 

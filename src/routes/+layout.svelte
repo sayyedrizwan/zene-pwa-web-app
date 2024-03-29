@@ -3,7 +3,7 @@
   import '$lib/firebase/firebase'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
-  import { onBrowser, setCT, setServerIpAddress } from '$lib/utils/Utils'
+  import { onBrowser, setK, setServerIpAddress } from '$lib/utils/Utils'
   import LogoWithBrand from '$lib/components/global-view/LogoWithBrand.svelte'
   import { onMount } from 'svelte'
   import type { MusicData } from '../domain/local/entities/MusicData'
@@ -41,9 +41,10 @@
   }
 
   onMount(async () => {
-    setCT(data.t as number, data.a as string)
+    setK(data.a as string)
     audioPlayer = new APManager()
     audioPlayer.init()
+    audioPlayer.ct(data.t as number, data.a as string)
 
     document.addEventListener('songplayer', async (event: Event) => {
       songPlayer = (event as CustomEvent).detail.value as Boolean
@@ -71,7 +72,7 @@
       audioPlayer.stop()
       try {
         audioPlayer.startBuffering()
-        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p), song, data.p)
+        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p, audioPlayer.ctId()), song, data.p)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }
