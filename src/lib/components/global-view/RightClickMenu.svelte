@@ -49,19 +49,23 @@
         contextMenu.style.top = e.pageY + 'px'
       }
     }
+
+    window.onscroll = () => {
+      hideMenu()
+    }
   })
 </script>
 
 <div class="absolute z-[3000]" id="contextMenu" style="display:none">
   <div class="bg-white w-60 border border-gray-300 rounded-lg flex flex-col text-sm py-4 px-2 text-gray-500 shadow-lg">
-    <RightClickItems text={''} click={() => {}}/>
-    <RightClickItems text={'Settings'} click={() => goto('/settings')}/>
-    <RightClickItems text={'Refresh'} click={() =>  window.location.reload()}/>
+    <RightClickItems text={''} click={() => {}} />
+    <RightClickItems text={'Settings'} click={() => goto('/settings')} />
+    <RightClickItems text={'Refresh'} click={() => window.location.reload()} />
 
     <hr class="my-3 border-gray-300" />
 
-    <RightClickItems text={'Feed'} click={() => goto('/feed')}/>
-    <RightClickItems text={'Search'} click={() => goto('/search')}/>
-    <RightClickItems text={'My Music'} click={() => goto('/mymusic')}/>
+    <RightClickItems text={'Feed'} click={() => goto('/feed')} />
+    <RightClickItems text={'Search'} click={() => goto('/search')} />
+    <RightClickItems text={'My Music'} click={() => goto('/mymusic')} />
   </div>
 </div>
