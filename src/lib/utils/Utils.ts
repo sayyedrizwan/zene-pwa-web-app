@@ -15,6 +15,23 @@ export function setCT(v: number, k: string) {
   }, 1000)
 }
 
+export async function llg_in(e: string): Promise<string | null> {
+  let encryptedText = ""
+  for (let i = 0; i < e.length; i++) {
+    encryptedText += String.fromCharCode(e.charCodeAt(i) ^ kkeeeyyyyy.charCodeAt(i % kkeeeyyyyy.length));
+  }
+  return encryptedText;
+}
+
+export async function gllg_in(e: string): Promise<string | null> {
+  const v = await llg_in(e)
+  const count = ((v?.match(/_/g)?.length ?? 4) - (v?.replaceAll("_", "").length ?? 3))
+  
+  if(count <= 2 && count > 0) return v?.replaceAll("_", "") ?? null
+
+  return null
+}
+
 export const moodsList: string[] = [
   '\uD83D\uDE0A Happy',
   '\uD83D\uDE24 Angry',
@@ -37,9 +54,8 @@ export function gCT(): [number, number] {
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)
 
-  if (isRunOnPWA()) {
-    registerFirebaseEvents(AnalyticsEvents.OPEN_WEB_AS_APP)
-  }
+  if (isRunOnPWA()) registerFirebaseEvents(AnalyticsEvents.OPEN_WEB_AS_APP)
+
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {

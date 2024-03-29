@@ -70,11 +70,10 @@ export function g(): string {
   for (let i = 0; i < 8; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
-
   return result
 }
 
-function en_ars4sfrb(text: string, salt: string) {
+export function en_ars4sfrb(text: string, salt: string) {
   const textToChars = (text: any) => text.split('').map((c: any) => c.charCodeAt(0))
   const byteHex = (n: any) => ('0' + Number(n).toString(16)).substr(-2)
   const applySaltToChar = (code: any) => textToChars(salt).reduce((a: any, b: any) => a ^ b, code)
