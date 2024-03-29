@@ -1,28 +1,28 @@
-/// <reference types="@sveltejs/kit" />
-import { build, files, version } from '$service-worker'
+// /// <reference types="@sveltejs/kit" />
+// import { build, files, version } from '$service-worker'
 
-const CACHE = `cache-${version}`;
+// const CACHE = `cache-${version}`;
 
-const ASSETS = [ ...build, ...files ]
+// const ASSETS = [ ...build, ...files ]
 
-self.addEventListener('install', (event) => {
-    async function addFilesToCache() {
-        const cache = await caches.open(CACHE)
-        await cache.addAll(ASSETS)
-    }
-    // @ts-ignore
-    event.waitUntil(addFilesToCache())
-})
+// self.addEventListener('install', (event) => {
+//     async function addFilesToCache() {
+//         const cache = await caches.open(CACHE)
+//         await cache.addAll(ASSETS)
+//     }
+//     // @ts-ignore
+//     event.waitUntil(addFilesToCache())
+// })
 
-self.addEventListener('activate', (event) => {
-    async function deleteOldCaches() {
-        for (const key of await caches.keys()) {
-            if (key !== CACHE) await caches.delete(key)
-        }
-    }
-    // @ts-ignore
-    event.waitUntil(deleteOldCaches())
-})
+// self.addEventListener('activate', (event) => {
+//     async function deleteOldCaches() {
+//         for (const key of await caches.keys()) {
+//             if (key !== CACHE) await caches.delete(key)
+//         }
+//     }
+//     // @ts-ignore
+//     event.waitUntil(deleteOldCaches())
+// })
 
 // import { build, files, prerendered, version } from "$service-worker"
 // import { precacheAndRoute } from "workbox-precaching"
@@ -40,76 +40,51 @@ self.addEventListener('activate', (event) => {
 // precacheAndRoute(precache_list)
 
 
-// const OFFLINE_VERSION = 1;
-// const CACHE_NAME = "offline";
-// // Customize this with a different URL if needed.
-// const OFFLINE_URL = "/mymusic"
+const OFFLINE_VERSION = 1;
+const CACHE_NAME = "offline"
+const OFFLINE_URL = "/mymusic"
 
-// self.addEventListener("install", (event) => {
-//   event.waitUntil(
-//     (async () => {
-//       const cache = await caches.open(CACHE_NAME);
-//       // Setting {cache: 'reload'} in the new request ensures that the
-//       // response isn't fulfilled from the HTTP cache; i.e., it will be
-//       // from the network.
-//       await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
-//     })()
-//   );
-//   // Force the waiting service worker to become the active service worker.
-//   self.skipWaiting();
-// });
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
 
-// self.addEventListener("activate", (event) => {
-//   event.waitUntil(
-//     (async () => {
-//       // Enable navigation preload if it's supported.
-//       // See https://developers.google.com/web/updates/2017/02/navigation-preload
-//       if ("navigationPreload" in self.registration) {
-//         await self.registration.navigationPreload.enable();
-//       }
-//     })()
-//   );
+      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+    })()
+  )
+  self.skipWaiting();
+});
 
-//   // Tell the active service worker to take control of the page immediately.
-//   self.clients.claim();
-// });
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    (async () => {
+      if ("navigationPreload" in self.registration) {
+        await self.registration.navigationPreload.enable()
+      }
+    })()
+  )
 
-// self.addEventListener("fetch", (event) => {
-//   // Only call event.respondWith() if this is a navigation request
-//   // for an HTML page.
-//   if (event.request.mode === "navigate") {
-//     event.respondWith(
-//       (async () => {
-//         try {
-//           // First, try to use the navigation preload response if it's
-//           // supported.
-//           const preloadResponse = await event.preloadResponse;
-//           if (preloadResponse) {
-//             return preloadResponse;
-//           }
+  self.clients.claim()
+})
 
-//           // Always try the network first.
-//           const networkResponse = await fetch(event.request);
-//           return networkResponse;
-//         } catch (error) {
-//           // catch is only triggered if an exception is thrown, which is
-//           // likely due to a network error.
-//           // If fetch() returns a valid HTTP response with a response code in
-//           // the 4xx or 5xx range, the catch() will NOT be called.
-//           console.log("Fetch failed; returning offline page instead.", error);
+self.addEventListener("fetch", (event) => {
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      (async () => {
+        try {
+          const preloadResponse = await event.preloadResponse;
+          if (preloadResponse) {
+            return preloadResponse;
+          }
 
-//           const cache = await caches.open(CACHE_NAME);
-//           const cachedResponse = await cache.match(OFFLINE_URL);
-//           return cachedResponse;
-//         }
-//       })()
-//     );
-//   }
-
-//   // If our if() condition is false, then this fetch handler won't
-//   // intercept the request. If there are any other fetch handlers
-//   // registered, they will get a chance to call event.respondWith().
-//   // If no fetch handlers call event.respondWith(), the request
-//   // will be handled by the browser as if there were no service
-//   // worker involvement.
-// });
+          const networkResponse = await fetch(event.request)
+          return networkResponse;
+        } catch (error) {
+          const cache = await caches.open(CACHE_NAME)
+          const cachedResponse = await cache.match(OFFLINE_URL)
+          return cachedResponse
+        }
+      })()
+    )
+  }
+})
