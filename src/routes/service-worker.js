@@ -1,5 +1,4 @@
 /// <reference types="@sveltejs/kit" />
-import { env } from '$env/dynamic/public';
 import { build, files, version } from '$service-worker'
 
 const CACHE = `cache-${version}`;
