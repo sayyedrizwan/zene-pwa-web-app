@@ -43,7 +43,7 @@
 </script>
 
 {#if thumbnail != null}
-  <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer bg-maincolor rounded-lg" on:click={() => showMusicPlayer(true)}>
+  <button class="z-[49] fixed bottom-24 md:bottom-2 right-2 cursor-pointer bg-maincolor rounded-lg" on:click|stopPropagation={() => showMusicPlayer(true)}>
     <img src={thumbnail} alt="music thumbnail" id="s-img" class="size-14 md:size-28" on:error={errorImage} />
 
     {#if isBuffering === true}

@@ -75,7 +75,7 @@
 {#if lists.length > 0}
   <div class="overflow-x-auto flex scrollbar-hide w-full mt-5">
     {#each lists as playlists}
-      <button class="flex-none py-6 px-1 first:pl-7 last:pr-6 me-5" on:click={() => updateNewLists(playlists.id ?? '')}>
+      <button class="flex-none py-6 px-1 first:pl-7 last:pr-6 me-5" on:click|stopPropagation={() => updateNewLists(playlists.id ?? '')}>
         <img class="size-[13rem] md:size-[15rem] object-contain rounded-lg" src={playlists.thumbnail} alt={playlists.name} referrerpolicy="no-referrer" />
         <p class="w-[13rem] md:w-[15rem] text-start text-white urbanist-semibold mt-2 mx-1 text-base">{playlists.name}</p>
         <p class="w-[13rem] md:w-[15rem] text-start text-white urbanist-regular mt-0 mx-1 text-sm">{playlists.artists}</p>

@@ -119,20 +119,20 @@
 
 {#if artistsInfo.description?.length ?? 0 > 4}
   <center>
-    <button on:click={() => (showFullDesc = !showFullDesc)}><img src={ArrowLeft} alt="arrow" class={`size-8 mt-2 ${showFullDesc === true ? 'rotate-180' : 'rotate-0'}`} /></button>
+    <button on:click|stopPropagation={() => (showFullDesc = !showFullDesc)}><img src={ArrowLeft} alt="arrow" class={`size-8 mt-2 ${showFullDesc === true ? 'rotate-180' : 'rotate-0'}`} /></button>
   </center>
 {/if}
 
 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 leading-6 rounded-lg p-3 mt-7">
-  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer" on:click={() => addRmPin(true)}>
+  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer" on:click|stopPropagation={() => addRmPin(true)}>
     <img src={isPinned === true ? UnPinIcon : PinIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">{isPinned === true ? `Unpin` : `Pin`}</p>
   </button>
-  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer" on:click={startPlayingRadio}>
+  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer" on:click|stopPropagation={startPlayingRadio}>
     <img src={AirdropIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Radio</p>
   </button>
-  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto" on:click={shareArtists}>
+  <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto" on:click|stopPropagation={shareArtists}>
     <img src={ShareIcon} alt="pin" class="size-5" />
     <p class="text-white urbanist-semibold text-base ms-1">Share</p>
   </button>

@@ -76,8 +76,8 @@
   <div class="flex justify-center mt-6 w-full px-2 md:px-8 items-center">
     <div class="w-9/12 md:w-2/4 flex {musicData?.m?.type == MusicType.MUSIC ? 'justify-between' : 'justify-center'}">
       {#if musicData?.m?.type == MusicType.MUSIC}
-        <button on:click={goToPreviousSong}><img src={PREVIOUS_ICON} alt="PREVIOUS" class="size-7" /></button>
-        <button on:click={seekBack}><img src={DURATION_BACKWORDS_ICON} alt="PREVIOUS DURATION" class="size-8" /></button>
+        <button on:click|stopPropagation={goToPreviousSong}><img src={PREVIOUS_ICON} alt="PREVIOUS" class="size-7" /></button>
+        <button on:click|stopPropagation={seekBack}><img src={DURATION_BACKWORDS_ICON} alt="PREVIOUS DURATION" class="size-8" /></button>
       {/if}
 
       {#if isBuffering === true}
@@ -86,13 +86,13 @@
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
       {:else}
-        <button on:click={playPause}><img src={isPlaying ? PAUSE_ICON : PLAY_ICON} alt="state" class="size-10" /> </button>
+        <button on:click|stopPropagation={playPause}><img src={isPlaying ? PAUSE_ICON : PLAY_ICON} alt="state" class="size-10" /> </button>
       {/if}
 
       {#if musicData?.m?.type == MusicType.MUSIC}
-        <button on:click={seekForward}> <img src={DURATION_FORWARD_ICON} alt="FORWARDS DURATION" class="size-8" /></button>
+        <button on:click|stopPropagation={seekForward}> <img src={DURATION_FORWARD_ICON} alt="FORWARDS DURATION" class="size-8" /></button>
 
-        <button on:click={goToNextSong}><img src={NEXT_ICON} alt="PREVIOUS" class="size-7" /></button>
+        <button on:click|stopPropagation={goToNextSong}><img src={NEXT_ICON} alt="PREVIOUS" class="size-7" /></button>
       {/if}
     </div>
   </div>

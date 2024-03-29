@@ -98,7 +98,7 @@
     </div>
 
     <div class="relative bg-maincolor w-full">
-      <button on:click={closePlayer}>
+      <button on:click|stopPropagation={closePlayer}>
         <img src={ARROW_DOWN} alt="mic" class="size-6 md:size-8 m-5 translate-y-1" />
       </button>
 

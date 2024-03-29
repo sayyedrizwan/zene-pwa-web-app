@@ -37,7 +37,7 @@
   </div>
 
   {#if songInfo?.songId != null}
-    <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto mt-8" on:click={playSong}>
+    <button class="p-4 rounded-lg shadow-lg bg-maincolor flex justify-center cursor-pointer col-span-full md:col-auto mt-8" on:click|stopPropagation={playSong}>
       <p class="text-white urbanist-semibold text-base mx-5">Play Song</p>
     </button>
   {/if}

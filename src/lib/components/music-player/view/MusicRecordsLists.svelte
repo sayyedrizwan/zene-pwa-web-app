@@ -77,7 +77,7 @@
 {#if (musicData?.lists ?? []).length > 1}
   <div class="overflow-x-auto flex mt-5 scrollbar-hide">
     {#each musicData?.lists ?? [] as list, i}
-      <button class="flex-none py-6 px-3 first:pl-6 last:pr-6 cursor-pointer" on:click={() => (list.songId != musicData?.m?.songId ? playSong(list) : null)}>
+      <button class="flex-none py-6 px-3 first:pl-6 last:pr-6 cursor-pointer" on:click|stopPropagation={() => (list.songId != musicData?.m?.songId ? playSong(list) : null)}>
         <div class="flex flex-col items-center justify-center">
           <div class="container mx-auto size-28 relative">
             <img class="size-28 rounded-md" src={list.thumbnail} alt={list.name} />

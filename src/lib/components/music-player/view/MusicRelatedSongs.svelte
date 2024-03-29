@@ -1,7 +1,7 @@
 <script lang="ts">
   import { env } from '$env/dynamic/public'
   import axios from 'axios'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import type { SongsYouMayLike } from '../../../../domain/local/entities/SongsYouMayLike'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
   import { wait } from '$lib/utils/indexd'
@@ -12,6 +12,9 @@
 
   export let musicData: MusicPlayerData | null
   export let scrollMusicToTop: () => void
+
+  let lastSyncId = ''
+  let lastSyncIdTimeout: NodeJS.Timeout
 
   let songs: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
   let tempSongs: MusicDataList = new MusicDataList([])
@@ -30,7 +33,7 @@
       const res = await axios.post(env.PUBLIC_S_Y_M_L_P, [musicData?.m.songId], { headers: { AuthorizationKey: pSongEData() } })
       const data = (await res.data) as SongsYouMayLike
       const songsLists = new MusicDataList([...data.like, ...data.listen, ...data.explore])
-      songs = { type: ResponseDataEnum.SUCCESS, data: songsLists}
+      songs = { type: ResponseDataEnum.SUCCESS, data: songsLists }
       tempSongs = songsLists
       setSuggestRelatedSongId(musicData?.m.songId ?? '', songsLists)
     } catch (error) {
@@ -38,14 +41,22 @@
     }
   }
 
-  $: musicData?.m.songId, s()
-
   onMount(async () => {
+    lastSyncIdTimeout = setInterval(() => {
+      if (musicData?.m.songId != lastSyncId) {
+        s()
+        lastSyncId = musicData?.m.songId ?? ''
+      }
+    }, 1000)
+
     document.addEventListener('playsongid', async (event: Event) => {
       scrollMusicToTop()
     })
   })
 
+  onDestroy(() => {
+    clearInterval(lastSyncIdTimeout)
+  })
 </script>
 
 <h3 class="text-white urbanist-semibold text-lg md:text-xl ms-4 md:ms-6 mt-16 mb-3">Related Songs</h3>

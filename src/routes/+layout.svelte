@@ -103,12 +103,12 @@
   </main>
   <MusicPlaySmallView {audioPlayer} />
 
-  {#if songMenuDialog != null}
-    <SongInfoSheet bind:songMenuDialog />
-  {/if}
-
   {#if songPlayer === true}
     <ZeneMusicPlayer bind:songPlayer bind:audioPlayer />
+  {/if}
+
+  {#if songMenuDialog != null}
+    <SongInfoSheet bind:songMenuDialog />
   {/if}
 
   <RightClickMenu bind:audioPlayer />

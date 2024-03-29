@@ -7,6 +7,7 @@
   import type { LyricsResponseData } from '../../../../domain/local/entities/LyricsResponseData'
   import { wait } from '$lib/utils/indexd'
   import { durationToTime } from '$lib/utils/f'
+  import { onDestroy, onMount } from 'svelte'
 
   export let musicData: MusicPlayerData | null
   export let currentDuration: number
@@ -14,6 +15,9 @@
   let firstLyricsText = '🎶 🎶 🎶'
   let middleLyricsText = ''
   let lastLyricsText = '🎶 🎶 🎶'
+
+  let lastSyncId = ''
+  let lastSyncIdTimeout: NodeJS.Timeout
 
   let songLyrics: ResponseData<LyricsResponseData> = { type: ResponseDataEnum.EMPTY }
 
@@ -58,7 +62,19 @@
     }
   }
 
-  $: musicData?.m.songId, loadSongLyrics()
+  onMount(() => {
+    lastSyncIdTimeout = setInterval(() => {
+      if(musicData?.m.songId != lastSyncId) {
+        loadSongLyrics()
+        lastSyncId = musicData?.m.songId ?? ''
+      }
+    }, 1000)
+  })
+
+  onDestroy(() => {
+    clearInterval(lastSyncIdTimeout)
+  })
+
   $: currentDuration, songSync()
 </script>
 

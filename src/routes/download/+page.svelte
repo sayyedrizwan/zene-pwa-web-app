@@ -128,7 +128,7 @@
                         ? 'Linux OS'
                         : 'Device'}.
         </p>
-        <button on:click={installPWA} class="font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md hover:bg-gray-800 flex items-center gap-3 urbanist-regular" type="button">
+        <button on:click|stopPropagation={installPWA} class="font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md hover:bg-gray-800 flex items-center gap-3 urbanist-regular" type="button">
           <svg class=" size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M22 20.8201C15.426 22.392 8.574 22.392 2 20.8201" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M11.9492 2V16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -171,9 +171,9 @@
 
 <div class="container mx-auto py-10 w-full mt-24" id="items">
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-    <button on:click={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
+    <button on:click|stopPropagation={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <a href="https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/" target="_blank"><img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" /></a>
-    <button on:click={underReview}><img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer" /></button>
+    <button on:click|stopPropagation={underReview}><img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer" /></button>
     <img src="/badges/indusappstore.png" alt="Get Zene on Indus App store" class="w-32 cursor-pointer" />
   </div>
 
@@ -186,10 +186,10 @@
 
 <div class="container mx-auto py-10 w-full mt-12">
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-    <button on:click={() => (showIOSDialog = true)}><img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
-    <button on:click={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer" /></button>
-    <button on:click={() => (showWindowsDialog = true)}><img src="/badges/windows.png" alt="Get Zene on Windows" class="w-32 cursor-pointer" /></button>
-    <button on:click={() => (showLinuxDialog = true)}><img src="/badges/get_it_for_linux.png" alt="Get Zene for Linux" class="w-32 cursor-pointer" /></button>
+    <button on:click|stopPropagation={() => (showIOSDialog = true)}><img src="/badges/app_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
+    <button on:click|stopPropagation={startDownloadingForMacOS}><img src="/badges/get_on_macos.png" alt="Get Zene for MacOS" class="w-32 cursor-pointer" /></button>
+    <button on:click|stopPropagation={() => (showWindowsDialog = true)}><img src="/badges/windows.png" alt="Get Zene on Windows" class="w-32 cursor-pointer" /></button>
+    <button on:click|stopPropagation={() => (showLinuxDialog = true)}><img src="/badges/get_it_for_linux.png" alt="Get Zene for Linux" class="w-32 cursor-pointer" /></button>
   </div>
 </div>
 
