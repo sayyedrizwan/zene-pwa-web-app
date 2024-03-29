@@ -80,7 +80,7 @@ export function pppllaaayyyPatthh(songId: string, ap: string, k: string): string
 
 let ap : APManager | null = null
 
-export function setGAP(a: APManager){
+export function setGAP(a: APManager) {
   ap = a
 }
 

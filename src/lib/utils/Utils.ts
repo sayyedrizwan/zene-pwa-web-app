@@ -59,7 +59,7 @@ export function onBrowser() {
 function lastSyncTimeCheck() {
   const ts = document.cookie.match('(^|;)\\s*' + 'last_sync_ts' + '\\s*=\\s*([^;]+)')?.pop() || ''
   const timeDifferenceInMinutes: number = Math.floor((Date.now() - parseInt(ts)) / (1000 * 60))
-  if (timeDifferenceInMinutes > 10) window.location.reload()
+  if (timeDifferenceInMinutes > 180) window.location.reload()
 }
 
 export function isRunOnPWA(): Boolean {
