@@ -35,6 +35,7 @@
         name = user.displayName
       }
     } catch (error) {
+      console.log(error)
       alert('Error trying to login. Please try again....')
     }
   }
