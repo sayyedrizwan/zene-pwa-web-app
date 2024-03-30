@@ -13,11 +13,11 @@
   onMount(async () => {
     await wait(900)
     email = localStorage.getItem('usm') != null ? await gllg_in(localStorage.getItem('usm')!) : null
-   
   })
 
   async function googleSignIn() {
     if (email != null) {
+      startPartyPrompt()
       return
     }
     const provider = new GoogleAuthProvider()
@@ -28,15 +28,23 @@
       const enc = await llg_in(user.email?.trim()?.replaceAll('', '_')!)
       if (enc ?? null != null) {
         localStorage.setItem('usm', enc!)
-        if(user.displayName) localStorage.setItem('zene-name', user.displayName)
-        if(user.photoURL) localStorage.setItem('zene-img', user.photoURL)
-        email = enc
+        if (user.displayName) localStorage.setItem('zene-name', user.displayName)
+        if (user.photoURL) localStorage.setItem('zene-img', user.photoURL)
+        email = user.email?.trim() ?? null
         img = user.photoURL
         name = user.displayName
       }
     } catch (error) {
       console.log(error)
       alert('Error trying to login. Please try again....')
+    }
+  }
+
+  function startPartyPrompt() {
+    if (confirm('Start a new Party 🎉 \n\nCreate an unforgettable music experience with your friends! Start a sync-enabled song party, where everyone can seamlessly join, enjoy, and watch music videos together in perfect harmony. \n\nSharing the party link can make anyone join the party and can make changes in the songs.')) {
+      
+    } else {
+      console.log('cancelled')
     }
   }
 </script>
