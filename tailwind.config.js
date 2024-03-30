@@ -11,6 +11,7 @@ export const theme = {
     black: '#000000',
     peach: '#EEA47F',
     lightblue: '#96a0e3',
+    blue: '#0000FF',
     lightblack: '#2e2e2e',
     transparent: '#ffffff00',
   },

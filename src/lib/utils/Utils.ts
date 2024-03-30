@@ -24,6 +24,7 @@ export async function gllg_in(e: string): Promise<string | null> {
 
   if (count <= 2 && count > 0) return v?.replaceAll("_", "") ?? null
 
+  localStorage.removeItem(e)
   return null
 }
 

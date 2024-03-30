@@ -32,6 +32,9 @@ export const check_ip_aws = 'http://checkip.amazonaws.com/'
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
 
+export const imgbb_json = 'https://imgbb.com/json'
+
+
 export const api_useless_facts = 'https://uselessfacts.jsph.pl/api/v2/facts/random'
 
 export const giphy_search = 'https://api.giphy.com/v1/gifs/search'

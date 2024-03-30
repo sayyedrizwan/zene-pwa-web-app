@@ -1,5 +1,5 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
-import { apiError, authKeyError, getRandomItem, shuffleList } from '../../utils/utils'
+import { apiError, authKeyError, shuffleList } from '../../utils/utils'
 import { decryptAPIKeyAndIsValid } from '../../utils/EncryptionForAPI'
 import { PinterestImpl } from '../../api_impl/pinterest/PinterestImpl'
 
