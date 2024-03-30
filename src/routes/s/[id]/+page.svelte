@@ -12,10 +12,10 @@
 </script>
 
 <svelte:head>
-  <title>{songInfo?.name == null ? 'No Song Found On Zene' : `${songInfo?.name} on Zene: A free music app`}</title>
+  <title>{songInfo?.name == null ? 'No Song Found On Zene' : `${songInfo?.name} on Zene: A music app`}</title>
   <meta name="description" content={songInfo?.artists == null ? 'No Found' : songInfo?.artists} />
   <meta name="og:description" content={songInfo?.artists == null ? 'No Found' : songInfo?.artists} />
-  <meta property="og:title" content={songInfo?.name == null ? 'No Song Found On Zene' : `${songInfo?.name} on Zene: A free music app`} />
+  <meta property="og:title" content={songInfo?.name == null ? 'No Song Found On Zene' : `${songInfo?.name} on Zene: A music app`} />
   <meta property="og:image" content={songInfo?.thumbnail == null ? '/logo820.png' : songInfo?.thumbnail} />
   <meta property="og:image:alt" content={`${songInfo?.name ?? ''} on Zene`} />
   <link rel="canonical" href={`https://zenemusic.co/s/${data.url}`} />

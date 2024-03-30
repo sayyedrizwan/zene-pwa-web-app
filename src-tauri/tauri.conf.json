@@ -76,7 +76,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "Introducing Zene a free music app, the ultimate music experience that redefines the way you listen to your favorite tunes. Dive into a world of limitless music with our free app, offering ad-free access to over 1 billion songs, albums, playlists, podcasts, covers, remixes, and more.",
+      "shortDescription": "Introducing Zene A music app, the ultimate music experience that redefines the way you listen to your favorite tunes. Dive into a world of limitless music with our free app, offering ad-free access to over 1 billion songs, albums, playlists, podcasts, covers, remixes, and more.",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
@@ -96,7 +96,7 @@
         "fullscreen": true,
         "height": 600,
         "resizable": true,
-        "title": "Zene: A Free Music App",
+        "title": "Zene: A music app",
         "width": 800
       }
     ]

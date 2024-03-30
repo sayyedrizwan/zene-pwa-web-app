@@ -22,7 +22,7 @@
 </script>
 
 <svelte:head>
-  <title>{albumInfo?.name ?? 'Album'} Album on Zene: A free music app</title>
+  <title>{albumInfo?.name ?? 'Album'} Album on Zene: A music app</title>
   <meta name="description" content={albumInfo?.songId?.length ?? 0 > 140 ? `${albumInfo?.songId?.substring(0, 139)}....` : albumInfo?.songId} />
   <meta name="og:description" content={albumInfo?.songId?.length ?? 0 > 140 ? `${albumInfo?.songId?.substring(0, 139)}....` : albumInfo?.songId} />
   <meta property="og:title" content="{albumInfo?.name ?? 'Album'} Album on Zene" />
