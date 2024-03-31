@@ -12,24 +12,28 @@
   onMount(async () => {
     await wait(1500)
     let socket = io('wss://rtc1.free4.chat', {
+      // cert
       path: '/socket/websocket',
       query: {
         vsn: '2.0.0',
       },
       withCredentials: false,
       transports: ['websocket'],
-      rejectUnauthorized: false,
+      reconnectionAttempts: 5,
       extraHeaders: {
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Expose-Headers': '*',
         'Access-Control-Allow-Credentials': 'true',
-      },
+      }
     })
 
     socket.on('connect', () => {
       console.log('Connected to WebSocket')
     })
+    socket.on("connect_error", (err) => {
+  console.log(`connect_error due to ${err.message}`);
+});
 
     socket.on('message', (data) => {
       console.log('Received message:', data)
