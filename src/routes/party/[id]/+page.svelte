@@ -1,11 +1,40 @@
 <script lang="ts">
   import { browser } from '$app/environment'
-
+  import { onMount } from 'svelte'
+  import io from 'socket.io-client'
+  import { wait } from '$lib/utils/indexd'
   export let data: any
 
-  let partyEmail: string | null = null
+  let partyId: string | null = null
 
-  if (browser) partyEmail = data.urlid
+  if (browser) partyId = data.urlid
+
+  onMount(async () => {
+    await wait(1500)
+    let socket = io('wss://rtc1.free4.chat', {
+      path: '/socket/websocket',
+      query: {
+        vsn: '2.0.0',
+      },
+      withCredentials: false,
+      transports: ['websocket'],
+      rejectUnauthorized: false,
+      extraHeaders: {
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Expose-Headers': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+    })
+
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket')
+    })
+
+    socket.on('message', (data) => {
+      console.log('Received message:', data)
+    })
+  })
 </script>
 
 <svelte:head>
