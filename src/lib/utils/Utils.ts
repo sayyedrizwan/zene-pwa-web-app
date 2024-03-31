@@ -5,23 +5,6 @@ import { setCookie } from './c'
 import { ipBaseUrl } from '../../routes/api/utils/utils'
 import { en_ars4sfrb, g } from './pid'
 
-let kkeeeyyyyyzzz: string = `53`
-let cT: number = 0
-
-export function setK(v: string, c: number) {
-  kkeeeyyyyyzzz = window.atob(v)
-  cT = c
-}
-
-export function gK(): string {
-  const t = cT
-  const k = parseInt(kkeeeyyyyyzzz)
-
-  const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
-  const d = `${en_ars4sfrb(s, k.toString())}${'qKS-.1Z.oPWEkQ'.replace('K', '').replace('.', '').replace('P', '')}`
-  return d
-}
-
 export async function llg_in(e: string): Promise<string | null> {
   let encryptedText = ""
   for (let i = 0; i < e.length; i++) {
@@ -119,6 +102,24 @@ export function formatRelativeTime(dateString: string): string {
       month: 'short',
       day: 'numeric',
     })
+}
+
+
+let kke: string = `53`
+let cT: number = 0
+
+export function setK(v: string, c: number) {
+  kke = window.atob(v)
+  cT = c
+}
+
+export function gK(): string {
+  const t = cT
+  const k = parseInt(kke)
+
+  const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
+  const d = `${en_ars4sfrb(s, k.toString())}${'qKS-.1Z.oPWEkQ'.replace('K', '').replace('.', '').replace('P', '')}`
+  return d
 }
 
 export function getFavIcon(url: String): string {
