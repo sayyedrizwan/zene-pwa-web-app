@@ -193,7 +193,7 @@
 
 <div class="container mx-auto py-10 w-full mt-12">
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9">
-    <img src="/badges/chrome_store.png" alt="Get Zene on Chrome Store" class="w-32 cursor-pointer" />
+    <a href="https://chromewebstore.google.com/detail/zene-a-free-muic-app/ildeafnifeblpmjieojkcfbnbgfmnaop" target="_blank"><img src="/badges/chrome_store.png" alt="Get Zene on Chrome Store" class="w-32 cursor-pointer" /></a>
     <a href="https://addons.mozilla.org/en-US/firefox/addon/zene-a-free-muic-app" target="_blank"><img src="/badges/firefox.png" alt="Get Zene on Add On Firefox" class="w-32 cursor-pointer" /></a>
   </div>
 </div>
