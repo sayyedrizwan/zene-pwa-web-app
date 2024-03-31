@@ -11,10 +11,11 @@
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import type { MusicPlayerVideos } from '../../../../domain/local/entities/MusicPlayerVideos'
-  import { getMusicVideoIdData, pSongEData, setMusicVideoIdData } from '$lib/utils/pid'
+  import { getMusicVideoIdData, setMusicVideoIdData } from '$lib/utils/pid'
   import { notificationAlertListener, shareATxt } from '$lib/utils/f'
   import { onMount } from 'svelte'
   import { getCookie, setCookie } from '$lib/utils/c'
+  import { gK } from '$lib/utils/Utils'
 
   export let musicData: MusicPlayerData | null
   export let musicPlayerPlayingStatus: ResponseMusicPlayerPlayingStatus
@@ -38,15 +39,15 @@
       return
     }
     notificationAlertListener('Loading please wait.', 'Getting video of this song.', musicData?.m?.thumbnail ?? null)
-   
-    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: pSongEData() } })
+
+    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: gK() } })
     const response = res.data as MusicPlayerVideos
     setMusicVideoIdData(response)
     musicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.VIDEO, data: response.video }
   }
 
   async function offlineDownload() {
-   notificationAlertListener(`Offline Download not avaliable`, `Some Browser dosen't Offline Download. We are working to resolve this issue.`, musicData?.m?.thumbnail ?? null) 
+    notificationAlertListener(`Offline Download not avaliable`, `Some Browser dosen't Offline Download. We are working to resolve this issue.`, musicData?.m?.thumbnail ?? null)
   }
 
   async function loadLyricsVideo() {
@@ -56,8 +57,8 @@
       return
     }
     notificationAlertListener('Loading please wait.', 'Getting lyrics video of this song.', musicData?.m?.thumbnail ?? null)
-   
-    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: pSongEData() } })
+
+    const res = await axios.post(env.PUBLIC_MUSIC_VIDEO, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: gK() } })
     const response = res.data as MusicPlayerVideos
     setMusicVideoIdData(response)
     musicPlayerPlayingStatus = { type: MusicPlayerPlayingStatus.LYRICS_VIDEO, data: response.lyrics }

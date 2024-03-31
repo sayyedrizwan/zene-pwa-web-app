@@ -73,13 +73,3 @@ export function pppllaaayyyPatthh(songId: string, ap: string, k: string): string
     return ''
   }
 }
-
-let ap : APManager | null = null
-
-export function setGAP(a: APManager) {
-  ap = a
-}
-
-export function pSongEData() {
-  return ap?.ctId()
-}

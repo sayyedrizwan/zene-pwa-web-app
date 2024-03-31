@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getMusicLyrics, pSongEData, setMusicLyrics } from '$lib/utils/pid'
+  import { getMusicLyrics, setMusicLyrics } from '$lib/utils/pid'
   import { ResponseDataEnum, type ResponseData } from '../../../../domain/RequestEnumClass'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
   import axios from 'axios'
@@ -8,6 +8,7 @@
   import { wait } from '$lib/utils/indexd'
   import { durationToTime } from '$lib/utils/f'
   import { onDestroy, onMount } from 'svelte'
+    import { gK } from '$lib/utils/Utils'
 
   export let musicData: MusicPlayerData | null
   export let currentDuration: number
@@ -36,7 +37,7 @@
 
     try {
       songLyrics = { type: ResponseDataEnum.LOADING }
-      const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: pSongEData() } })
+      const res = await axios.post(env.PUBLIC_LYRICS, { id: musicData?.m?.songId }, { headers: { AuthorizationKey: gK() } })
       const response = (await res.data) as LyricsResponseData
       songLyrics = { type: ResponseDataEnum.SUCCESS, data: response }
       lyrics = response.lyrics ?? ''

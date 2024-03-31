@@ -1,7 +1,7 @@
 <script lang="ts">
   import { env } from '$env/dynamic/public'
   import ArrowLeft from '$lib/assets/img/ic_arrow_left.svg'
-  import { capitalizeFirstLetterOfEveryWords } from '$lib/utils/Utils'
+  import { capitalizeFirstLetterOfEveryWords, gK } from '$lib/utils/Utils'
   import { onMount } from 'svelte'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass'
   import axios from 'axios'
@@ -10,7 +10,6 @@
   import CardWithTopMenuIcon from '../global-view/items/CardWithTopMenuIcon.svelte'
   import CardAlbumsItems from '../global-view/items/CardAlbumsItems.svelte'
   import ArtistsCards from '../global-view/items/ArtistsCards.svelte'
-  import { pSongEData } from '$lib/utils/pid'
 
   export let searchParam: string
 
@@ -24,7 +23,7 @@
     searchSuggestion = { type: ResponseDataEnum.LOADING }
   
     try {
-      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, data: { q: searchParam.trim() }, headers: { AuthorizationKey: pSongEData() } })
+      const res = await axios({ method: 'post', url: env.PUBLIC_SEARCH_QUERY, data: { q: searchParam.trim() }, headers: { AuthorizationKey: gK() } })
       const response = (await res.data) as SearchMusicData
       
       searchSuggestion = { type: ResponseDataEnum.SUCCESS, data: response }

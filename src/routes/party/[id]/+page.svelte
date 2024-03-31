@@ -3,6 +3,8 @@
   import { onMount } from 'svelte'
   import io from 'socket.io-client'
   import { wait } from '$lib/utils/indexd'
+
+   
   export let data: any
 
   let partyId: string | null = null
@@ -10,7 +12,8 @@
   if (browser) partyId = data.urlid
 
   onMount(async () => {
-    await wait(1500)
+    await wait(2500)
+    const url = 'wss://rtc1.free4.chat/socket/websocket?vsn=2.0.0'
     let socket = io('wss://rtc1.free4.chat', {
       // cert
       path: '/socket/websocket',
@@ -21,8 +24,9 @@
       transports: ['websocket'],
       reconnectionAttempts: 5,
       extraHeaders: {
-        'Access-Control-Allow-Headers': '*',
+        'Origin': 'https://www.free4.chat',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
         'Access-Control-Expose-Headers': '*',
         'Access-Control-Allow-Credentials': 'true',
       }
@@ -31,9 +35,9 @@
     socket.on('connect', () => {
       console.log('Connected to WebSocket')
     })
-    socket.on("connect_error", (err) => {
-  console.log(`connect_error due to ${err.message}`);
-});
+    socket.on('connect_error', (err) => {
+      console.log(`connect_error due to ${err.message}`)
+    })
 
     socket.on('message', (data) => {
       console.log('Received message:', data)

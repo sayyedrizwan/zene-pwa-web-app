@@ -3,11 +3,23 @@ import axios from 'axios'
 import type { IpJsonResponse } from '../../routes/api/radiolist/domain/IpJsonResponse'
 import { setCookie } from './c'
 import { ipBaseUrl } from '../../routes/api/utils/utils'
+import { en_ars4sfrb, g } from './pid'
 
 let kkeeeyyyyyzzz: string = `53`
+let cT: number = 0
 
-export function setK(v: string) {
+export function setK(v: string, c: number) {
   kkeeeyyyyyzzz = window.atob(v)
+  cT = c
+}
+
+export function gK(): string {
+  const t = cT
+  const k = parseInt(kkeeeyyyyyzzz)
+
+  const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
+  const d = `${en_ars4sfrb(s, k.toString())}${'qKS-.1Z.oPWEkQ'.replace('K', '').replace('.', '').replace('P', '')}`
+  return d
 }
 
 export async function llg_in(e: string): Promise<string | null> {

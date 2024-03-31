@@ -22,6 +22,5 @@ export default defineConfig({
     port: 3419,
     strictPort: false,
   },
-
   plugins: [sveltekit()]
 })

@@ -2,8 +2,8 @@
   import { wait } from '$lib/utils/indexd'
   import { onMount } from 'svelte'
   import MusicPersonIcon from '$lib/assets/img/ic_music_listener.png'
-  import { pSongEData } from '$lib/utils/pid'
   import { env } from '$env/dynamic/public'
+    import { gK } from '$lib/utils/Utils'
 
   export let close: () => void
   export let email: string | null
@@ -39,7 +39,7 @@
       try {
         const formData = new FormData()
         formData.append('image', e.target.files[0])
-        const r = await fetch(env.PUBLIC_UPLOAD_IMG, { method: 'POST', body: formData, headers: { AuthorizationKey: `${pSongEData()}` } })
+        const r = await fetch(env.PUBLIC_UPLOAD_IMG, { method: 'POST', body: formData, headers: { AuthorizationKey: gK() } })
         const response = (await r.json()) as any
         if(response.status){
             img = response.path

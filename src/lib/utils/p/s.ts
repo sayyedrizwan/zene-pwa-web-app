@@ -6,6 +6,7 @@ import { DataIndexDS, indexDB, musicPlayerInfoCache, wait } from '../indexd'
 import type { MusicPlayerData } from '../../../domain/local/entities/MusicPlayerData'
 import { en_ars4sfrb, g, pppllaaayyyPatthh } from '../pid'
 import { playSongZene } from '../f'
+import { gK } from '../Utils'
 
 interface AudioPlayer {
   goToNextSong(): Promise<void>
@@ -26,8 +27,6 @@ interface AudioPlayer {
   songDuration(): number
   changeSongDuration(v: number): void
   playbackSpeed(): void
-  ct(v: number, k: string): void
-  ctId(): string
 }
 
 export function getDuration(event: any) {
@@ -42,8 +41,6 @@ export class APManager implements AudioPlayer {
   private music: MusicData | undefined
   private buffering: Boolean = false
   private k: string = ``
-  private cT: number = 0
-  private kkeeeyyyyy: string = `53`
 
   async goToNextSong(): Promise<void> {
     const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
@@ -61,26 +58,10 @@ export class APManager implements AudioPlayer {
       playSongZene(data, [], false)
       await wait(500)
       playSongZene(data, musicData?.lists, false)
-      this.playMusic(pppllaaayyyPatthh(data.songId!, this.k, this.ctId()), data, this.k)
+      this.playMusic(pppllaaayyyPatthh(data.songId!, this.k, gK()), data, this.k)
     } catch (error) {
       error
     }
-  }
-
-  ct(v: number, k: string): void {
-    this.cT = v
-    this.kkeeeyyyyy = window.atob(k)
-    setInterval(() => this.cT = this.cT + 1000, 1000)
-  }
-  
-  ctId(): string {
-    const t = this.cT
-    const k = parseInt(this.kkeeeyyyyy)
-  
-    const s = `${g()}_${g()}_${g()}_${g()}@@#####${t}>>#####${g()}_${g()}_${g()}_${g()}`
-    const d = `${en_ars4sfrb(s, k.toString())}${'qKS-.1Z.oPWEkQ'.replace('K', '').replace('.', '').replace('P', '')}`
-
-    return d
   }
 
   init(): void {

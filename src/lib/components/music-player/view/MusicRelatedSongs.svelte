@@ -5,10 +5,11 @@
   import type { SongsYouMayLike } from '../../../../domain/local/entities/SongsYouMayLike'
   import type { MusicPlayerData } from '../../../../domain/local/entities/MusicPlayerData'
   import { wait } from '$lib/utils/indexd'
-  import { MusicData, MusicDataList } from '../../../../domain/local/entities/MusicData'
+  import { MusicDataList } from '../../../../domain/local/entities/MusicData'
   import GridFullCardItem from '$lib/components/global-view/items/GridFullCardItem.svelte'
-  import { getSuggestRelatedSongId, pSongEData, setSuggestRelatedSongId } from '$lib/utils/pid'
+  import { getSuggestRelatedSongId, setSuggestRelatedSongId } from '$lib/utils/pid'
   import { ResponseDataEnum, type ResponseData } from '../../../../domain/RequestEnumClass'
+    import { gK } from '$lib/utils/Utils'
 
   export let musicData: MusicPlayerData | null
   export let scrollMusicToTop: () => void
@@ -30,7 +31,7 @@
     }
     songs = { type: ResponseDataEnum.LOADING }
     try {
-      const res = await axios.post(env.PUBLIC_S_Y_M_L_P, [musicData?.m.songId], { headers: { AuthorizationKey: pSongEData() } })
+      const res = await axios.post(env.PUBLIC_S_Y_M_L_P, [musicData?.m.songId], { headers: { AuthorizationKey: gK() } })
       const data = (await res.data) as SongsYouMayLike
       const songsLists = new MusicDataList([...data.like, ...data.listen, ...data.explore])
       songs = { type: ResponseDataEnum.SUCCESS, data: songsLists }

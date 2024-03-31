@@ -3,7 +3,7 @@
   import '$lib/firebase/firebase'
   import { page } from '$app/stores'
   import { browser } from '$app/environment'
-  import { onBrowser, setK, setServerIpAddress } from '$lib/utils/Utils'
+  import { gK, onBrowser, setK, setServerIpAddress } from '$lib/utils/Utils'
   import LogoWithBrand from '$lib/components/global-view/LogoWithBrand.svelte'
   import { onMount } from 'svelte'
   import type { MusicData } from '../domain/local/entities/MusicData'
@@ -18,7 +18,7 @@
   import { wait } from '$lib/utils/indexd'
   import { notificationAlertListener } from '$lib/utils/f'
   import RightClickMenu from '$lib/components/global-view/RightClickMenu.svelte'
-  import { pppllaaayyyPatthh, setGAP } from '$lib/utils/pid'
+  import { pppllaaayyyPatthh } from '$lib/utils/pid'
   import axios from 'axios'
   import { dev } from '$app/environment'
 
@@ -41,14 +41,11 @@
   }
 
   onMount(async () => {
-    setK(data.a as string)
+    setK(data.a as string, data.t as number)
     navigator.serviceWorker.register('/service-worker.js', { type: dev ? 'module' : 'classic' })
 
     audioPlayer = new APManager()
-    setGAP(audioPlayer)
-
     audioPlayer.init()
-    audioPlayer.ct(data.t as number, data.a as string)
 
     document.addEventListener('songplayer', async (event: Event) => {
       songPlayer = (event as CustomEvent).detail.value as Boolean
@@ -76,7 +73,7 @@
       audioPlayer.stop()
       try {
         audioPlayer.startBuffering()
-        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p, audioPlayer.ctId()), song, data.p)
+        audioPlayer.playMusic(pppllaaayyyPatthh(song.songId ?? '', data.p, gK()), song, data.p)
       } catch (error) {
         notificationAlertListener('Error while loading song.', 'Please try again or check your internet connection.', song.thumbnail ?? null)
       }
