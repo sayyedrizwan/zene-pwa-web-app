@@ -24,8 +24,6 @@
     else if (/Android/.test(userAgent) && /tablet/.test(userAgent)) deviceType = 5
     else if (/Linux/.test(userAgent)) deviceType = 6
     else deviceType = 7
-
-    deviceType = 7
   })
 
   function redirectToPlayStore() {
