@@ -1,7 +1,6 @@
 <script lang="ts">
   import Footer from '$lib/components/global-view/Footer.svelte'
   import { wait } from '$lib/utils/indexd'
-  import { onMount } from 'svelte'
 
   async function openNew() {
     await wait(1000)
