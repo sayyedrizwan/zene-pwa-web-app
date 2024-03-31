@@ -41,8 +41,12 @@
   }
 
   function startPartyPrompt() {
-    if (confirm('Start a new Party 🎉 \n\nCreate an unforgettable music experience with your friends! Start a sync-enabled song party, where everyone can seamlessly join, enjoy, and watch music videos together in perfect harmony. \n\nSharing the party link can make anyone join the party and can make changes in the songs.')) {
-      
+    if (
+      confirm(
+        'Start a new Party 🎉 \n\nCreate an unforgettable music experience with your friends! Start a sync-enabled song party, where everyone can seamlessly join, enjoy, and watch music videos together in perfect harmony. \n\nSharing the party link can make anyone join the party and can make changes in the songs.',
+      )
+    ) {
+      alert('We are so sorry to say.... \n\nParty is just supported on Android app.. \n\nAnd we are really working around to implement all party features on Zene Web App.')
     } else {
       console.log('cancelled')
     }

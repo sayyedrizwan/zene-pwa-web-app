@@ -8,7 +8,7 @@ import { en_ars4sfrb, g } from './pid'
 export async function llg_in(e: string): Promise<string | null> {
   let encryptedText = ""
   for (let i = 0; i < e.length; i++) {
-    encryptedText += String.fromCharCode(e.charCodeAt(i) ^ kkeeeyyyyyzzz.charCodeAt(i % kkeeeyyyyyzzz.length));
+    encryptedText += String.fromCharCode(e.charCodeAt(i) ^ kke.charCodeAt(i % kke.length));
   }
   return encryptedText;
 }
