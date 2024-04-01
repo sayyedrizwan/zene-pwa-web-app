@@ -1,5 +1,5 @@
 <script>
-    import { support_mail_server } from "../../../routes/api/utils/utils"
+  import { support_mail_server } from '../../../routes/api/utils/utils'
 
   $: d = new Date()
 </script>
@@ -9,10 +9,7 @@
     <h2 class="font-bold text-3xl xl:text-4xl leading-snug">
       Are you Ready?<br />To Dive into some fresh tunes.
     </h2>
-    <a
-      class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white"
-      href="/">Open Zene Web Player</a
-    >
+    <a class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white" href="/">Open Zene Web Player</a>
     <div class="mt-14 xl:mt-20">
       <nav class="flex flex-wrap justify-center text-lg font-medium">
         <div class="px-5 py-2"><a href="/privacy-policy">Policy</a></div>
@@ -20,6 +17,7 @@
         <div class="px-5 py-2"><a href="/faq">FAQ</a></div>
         <div class="px-5 py-2"><a href="/download">Download</a></div>
         <div class="px-5 py-2"><a href="mailto:{support_mail_server}?subject=Feedback">Feedback</a></div>
+        <div class="px-5 py-2"><a href="/adswithus">Advertise With Us</a></div>
       </nav>
       <nav class="flex flex-wrap justify-center mt-5">
         <a href="https://www.instagram.com/zene__music/" target="_blank"><i class="fa fa-instagram text-white hover:text-peach hover-animation" style="font-size: 24px"></i></a>

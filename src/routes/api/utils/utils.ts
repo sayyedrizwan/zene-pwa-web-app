@@ -2,6 +2,7 @@ import type { RequestEvent } from '@sveltejs/kit'
 import type { IpJsonResponse } from '../radiolist/domain/IpJsonResponse'
 
 export const support_mail_server = 'knocknock@zenemusic.co'
+export const ads_mail_server = 'ads@zenemusic.co'
 
 export const authKeyError = {
   error: `auth key is expired. please try auth or contact us '${support_mail_server}'`,
