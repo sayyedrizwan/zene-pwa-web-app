@@ -8,7 +8,7 @@
 
   let i = 0
   const txtToWrite = `Don't Just Advertise, Sell your Stories...`
-  const speed = 70
+  const speed = 1 //70
 
   function typeWriter() {
     if (i < txtToWrite.length) {
@@ -44,9 +44,9 @@
       >Contact Us on ads@zenemusic.co</a
     >
 
-    <h1 class="text-3xl urbanist-semibold tracking-tight text-slate-900 mt-40">What are you interested in? Get More 👇</h1>
+    <h1 class="text-3xl urbanist-semibold tracking-tight text-slate-900 mt-56">What are you interested in? Get More 👇</h1>
 
-    <div class="flex flex-wrap mt-9">
+    <div class="flex flex-wrap mt-6">
       <div class="text-white bg-maincolor rounded-xl px-12 py-3 hover:px-5 hover-animation m-3 urbanist-semibold text-lg"><span class="text-xl">🛒</span> &nbsp; Online Sales</div>
 
       <div class="text-white bg-maincolor rounded-xl px-12 py-3 hover:px-5 hover-animation m-3 urbanist-semibold text-lg"><span class="text-xl">📈</span> &nbsp; Brand Recognition</div>
@@ -75,6 +75,8 @@
 
       <div class="text-white bg-maincolor rounded-xl px-12 py-3 hover:px-5 hover-animation m-3 urbanist-semibold text-lg"><span class="text-xl">🌈💰🍀</span> &nbsp; and many many more</div>
     </div>
+
+    <div class="h-48" />
   {:else}
     <div class="h-96" />
   {/if}
