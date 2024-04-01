@@ -54,8 +54,8 @@
   <FreshAddedSong {authKey} />
   <GlobalTopTrendingSongs {authKey} bind:topSongsCountry />
   <TopSongsInUserCountry {authKey} {ipDetails} />
-  <SuggestSongsYouMayLike {authKey} bind:topSongsCountry bind:youMayLike />
   <AlbumsForYou {authKey} />
+  <SuggestSongsYouMayLike {authKey} bind:topSongsCountry bind:youMayLike />
   <SongsYouMayLinkToListen bind:youMayLike />
 
   {#if (youMayLike?.artists?.length ?? 0) > 0}
