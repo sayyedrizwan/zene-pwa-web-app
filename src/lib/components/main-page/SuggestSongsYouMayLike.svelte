@@ -20,14 +20,14 @@
 
   async function intervalLike(music: string[]) {
     if (topSongsCountry.length == 0) return
-    clearInterval(interval!)
-
+    if(interval != null) clearInterval(interval)
+    response = { type: ResponseDataEnum.LOADING }
+     
     const cacheDB = new DataIndexDS<SongsYouMayLikeCache<SongsYouMayLike>>(songMayLikeSuggestionCache, indexDB)
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
-      response = { type: ResponseDataEnum.LOADING }
-      const list = music.length > 0 ? music : topSongsCountry.length > 8 ? topSongsCountry.slice(0, 8).map((m) => m.songId!) : topSongsCountry.map((m) => m.songId!) ?? []
+     const list = music.length > 0 ? music : topSongsCountry.length > 8 ? topSongsCountry.slice(0, 8).map((m) => m.songId!) : topSongsCountry.map((m) => m.songId!) ?? []
 
       if (cacheRecords.length > 0) {
         const records = cacheRecords[0] as SongsYouMayLikeCache<SongsYouMayLike>
