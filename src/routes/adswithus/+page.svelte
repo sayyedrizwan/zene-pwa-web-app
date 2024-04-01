@@ -8,7 +8,7 @@
 
   let i = 0
   const txtToWrite = `Don't Just Advertise, Sell your Stories...`
-  const speed = 1 //70
+  const speed = 70
 
   function typeWriter() {
     if (i < txtToWrite.length) {
