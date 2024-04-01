@@ -16,7 +16,7 @@
   import ArtistsCards from '$lib/components/global-view/items/ArtistsCards.svelte'
   import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
   import SuggestSongsYouMayLike from '$lib/components/main-page/SuggestSongsYouMayLike.svelte'
-  
+
   export let data: any
 
   let authKey: string | null = null
@@ -43,6 +43,11 @@
 
 {#if authKey != null}
   <TopListeningSongs {authKey} />
+
+  <amp-ad width="100vw" height="320" type="adsense" data-ad-client="ca-pub-2941808068005217" data-ad-slot="5350541122" data-auto-format="mcrspv" data-full-width="">
+    <div></div>
+  </amp-ad>
+
   <RadioStateLists {authKey} {ipDetails} />
   <TopGlobalTrendingArtists {authKey} />
   <TopMood />
