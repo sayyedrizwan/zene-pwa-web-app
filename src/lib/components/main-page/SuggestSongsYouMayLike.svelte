@@ -26,6 +26,7 @@
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
+      response = { type: ResponseDataEnum.LOADING }
       const list = music.length > 0 ? music : topSongsCountry.length > 8 ? topSongsCountry.slice(0, 8).map((m) => m.songId!) : topSongsCountry.map((m) => m.songId!) ?? []
 
       if (cacheRecords.length > 0) {
@@ -36,8 +37,6 @@
           return
         }
       }
-
-      response = { type: ResponseDataEnum.LOADING }
       const res = await axios.post(env.PUBLIC_S_Y_M_L, list, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as SongsYouMayLike
       youMayLike = data

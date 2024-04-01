@@ -13,6 +13,7 @@
   let response: ResponseData<MusicDataList> = { type: ResponseDataEnum.EMPTY }
 
   async function readMusic(music: string[]) {
+    response = { type: ResponseDataEnum.LOADING }
     const cacheDB = new DataIndexDS<SongsYouMayLikeCache<MusicDataList>>(albumsForYouCache, indexDB)
     const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
@@ -22,8 +23,6 @@
     }
 
     try {
-      response = { type: ResponseDataEnum.LOADING }
-
       if (cacheRecords.length > 0) {
         const records = cacheRecords[0] as SongsYouMayLikeCache<MusicDataList>
         if (JSON.stringify(records.cache) == JSON.stringify(music) && (records.response?.results?.length ?? 0) > 0) {
