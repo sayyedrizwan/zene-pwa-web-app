@@ -14,8 +14,8 @@
     <button on:click|stopPropagation={() => openSongDialog(item)} class="absolute top-2 right-2 size-6 cursor-pointer"><img src={MenuIcon} alt="menu" /></button>
 
     <div class="absolute bottom-2 left-2">
-      <p class="text-white urbanist-semibold text-base ms-1.5 truncate text-left w-[12rem] md:w-[14rem]">{item.name}</p>
-      <p class="text-white urbanist-thin text-base ms-1.5 truncate text-left w-[12rem] md:w-[14rem]">{item.artists}</p>
+      <p class="text-white urbanist-semibold text-base ms-1.5 truncate text-left w-[12rem] md:w-[14rem] line-clamp-2">{item.name}</p>
+      <p class="text-white urbanist-thin text-base ms-1.5 truncate text-left w-[12rem] md:w-[14rem] line-clamp-2">{item.artists}</p>
     </div>
   </div>
 </button>

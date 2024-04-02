@@ -38,8 +38,8 @@
       <img class="size-12 rounded-full" src={notificationAlert?.img} alt="notification" />
     </div>
     <div class="ms-3">
-      <p class="urbanist-semibold text-base text-start text-black line-clamp-1">{notificationAlert?.title}</p>
-      <p class="urbanist-regular text-sm text-start text-black line-clamp-3">{notificationAlert?.desc}</p>
+      <p class="urbanist-semibold text-base text-start text-black truncate line-clamp-1">{notificationAlert?.title}</p>
+      <p class="urbanist-regular text-sm text-start text-black truncate line-clamp-3">{notificationAlert?.desc}</p>
     </div>
   </div>
 </div>

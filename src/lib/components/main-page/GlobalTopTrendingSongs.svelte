@@ -69,8 +69,8 @@
               <div class="w-80 h-[8rem] rounded-xl bg-lightblack flex justify-center items-center">
                 <img src={songs?.thumbnail} alt={songs?.name} class="size-[7rem] ps-3 py-3" referrerpolicy="no-referrer" />
                 <div class="w-full m-3">
-                  <p class="text-white urbanist-semibold text-base text-start">{songs?.name}</p>
-                  <p class="text-white urbanist-thin text-base text-start">{songs?.artists}</p>
+                  <p class="text-white urbanist-semibold text-base text-start line-clamp-2">{songs?.name}</p>
+                  <p class="text-white urbanist-thin text-base text-start line-clamp-2">{songs?.artists}</p>
                 </div>
                 <div class="p-2">
                   <button on:click|stopPropagation={() => openSongDialog(songs)}><img src={MenuIcon} class="size-9" alt="menu" /> </button>

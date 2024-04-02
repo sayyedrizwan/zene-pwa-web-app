@@ -115,7 +115,7 @@
   <h3 class="text-white urbanist-semibold text-4xl md:text-6xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{artistsInfo.name}</h3>
 </div>
 
-<p class={`text-white urbanist-semibold mt-28 mx-3 ${showFullDesc === true ? 'line-clamp-none' : 'line-clamp-4'} hover-animation`}>{artistsInfo.description}</p>
+<p class={`text-white urbanist-semibold mt-28 mx-3 truncate ${showFullDesc === true ? 'line-clamp-none' : 'line-clamp-4'} hover-animation`}>{artistsInfo.description}</p>
 
 {#if artistsInfo.description?.length ?? 0 > 4}
   <center>

@@ -19,7 +19,7 @@
     <div class="mt-11 lg:mt-0">
       <h2 class="text-white urbanist-semibold text-3xl lg:text-6xl">{albumInfo.name}</h2>
       <h4 class="text-white urbanist-semibold text-xl mt-2">{albumInfo.artists}</h4>
-      <h6 class={`text-white urbanist-thin text-base mt-4 ${isDescriptionFull === true ? `line-clamp-4` : ``}`}>{albumInfo.songId}</h6>
+      <h6 class={`text-white urbanist-thin text-base mt-4 truncate ${isDescriptionFull === true ? `line-clamp-4` : ``}`}>{albumInfo.songId}</h6>
       <div class="w-full flex justify-center items-center">
         {#if (albumInfo?.songId?.length ?? 0) > 4 === true}
           <button on:click|stopPropagation={() => (isDescriptionFull = !isDescriptionFull)} class={`${isDescriptionFull === true ? `rotate-0` : `rotate-180`}`}>

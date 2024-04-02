@@ -81,8 +81,8 @@
               {/if}
             </div>
             <div class="ms-3">
-              <h1 class="text-white urbanist-bold line-clamp-2 text-start">{items.title}</h1>
-              <h1 class="text-white urbanist-light line-clamp-4 mt-2 text-sm text-start">{items.desc}</h1>
+              <h1 class="text-white urbanist-bold line-clamp-2 truncate text-start">{items.title}</h1>
+              <h1 class="text-white urbanist-light line-clamp-4 truncate mt-2 text-sm text-start">{items.desc}</h1>
             </div>
           </div>
 

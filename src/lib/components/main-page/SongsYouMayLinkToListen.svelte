@@ -19,8 +19,8 @@
             <div class="absolute top-0 left-0 w-full h-full rounded-lg bg-gradient-to-bl from-maincolor to-transparent"></div>
             <button on:click|stopPropagation={() => openSongDialog(musicData)} class="absolute top-2 right-2 size-6 cursor-pointer"><img src={MenuIcon} alt="menu" /></button>
           </div>
-          <p class="text-white urbanist-semibold mt-2 ms-3 text-base text-start w-full truncate">{musicData.name}</p>
-          <p class="text-white urbanist-thin mt-1 ms-3 text-base text-start w-full truncate">{musicData.artists}</p>
+          <p class="text-white urbanist-semibold mt-2 ms-3 text-base text-start w-full truncate line-clamp-2">{musicData.name}</p>
+          <p class="text-white urbanist-thin mt-1 ms-3 text-base text-start w-full truncate line-clamp-2">{musicData.artists}</p>
         </button>
       {/each}
     </div>
