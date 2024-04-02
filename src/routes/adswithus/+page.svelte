@@ -76,7 +76,7 @@
 
       <div class="flex flex-col justify-center items-center">
         <p class="text-lg text-white urbanist-regular mb-4">Zene Ads on Desktop, MacOS, Linux, Chrome extension</p>
-        <video controls={true} muted={true} autoplay={true} loop={true}>
+        <video controls={true} muted={true} autoplay={true} loop={true} playsinline>
           <track kind="captions" />
           <source src="/ad/web-ads.mp4" type="video/mp4" />
         Your browser does not support the video tag.
@@ -84,7 +84,7 @@
       </div>
       
       <div class="flex flex-col justify-center items-center">
-        <video controls={true} muted={true} autoplay={true} loop={true}>
+        <video controls={true} muted={true} autoplay={true} loop={true} playsinline>
           <track kind="captions" />
           <source src="/ad/web-ads.mp4" type="video/mp4" />
         Your browser does not support the video tag.

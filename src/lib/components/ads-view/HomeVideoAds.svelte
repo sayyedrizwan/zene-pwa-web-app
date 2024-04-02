@@ -7,7 +7,7 @@
 <div class="mt-20 mb-20">
   <p class="text-white urbanist-regular text-sm ms-1">Sponsor</p>
   <button class="w-full flex justify-center items-center" on:click={() => window.open(ads.homeMiddleView.link, '_blank')} >
-    <video class="w-full md:w-4/5" controls={false} muted={true} autoplay={true} loop={true}>
+    <video class="w-full md:w-4/5" controls={false} muted={true} autoplay={true} loop={true} playsinline>
       <track kind="captions" />
       <source src={ads.homeMiddleView.img} type="video/mp4" />
       <source src={ads.homeMiddleView.img} type="video/ogg" />
