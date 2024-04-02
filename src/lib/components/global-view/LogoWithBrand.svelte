@@ -22,12 +22,12 @@
       {#if !showOnlyLogo}
         <div class="hidden md:block w-auto">
           <ul class="font-medium flex items-center p-0 mt-4 flex-row fill-white">
-            <li class="group hover-animation pt-5 me-4">
+            <!-- <li class="group hover-animation pt-5 me-4">
               <center>
                 <img src={NotificationIcon} class="size-6 group-hover:size-8 fill-white hover-animation cursor-pointer" alt="notification" />
                 <h1 class="text-white text-sm urbanist-thin hover-animation block invisible group-hover:visible">notification</h1>
               </center>
-            </li>
+            </li> -->
 
             <li class="group hover-animation pt-5 me-4">
               <center>
