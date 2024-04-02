@@ -3,6 +3,9 @@ import { getAnalytics, type Analytics } from 'firebase/analytics'
 import { browser } from '$app/environment'
 import { type Messaging, onMessage, getToken } from 'firebase/messaging'
 import { getMessaging } from 'firebase/messaging'
+import { fetchAndActivate, getRemoteConfig, getValue, type RemoteConfig } from 'firebase/remote-config'
+import type { ZeneAdsListsData } from '../../domain/local/entities/ZeneAdsListsData'
+import { wait } from '$lib/utils/indexd'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC6dhNuFEKeoClW69Rwl5v7sjWXVjtfF1Y',
@@ -17,12 +20,14 @@ const firebaseConfig = {
 let app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
 let firebaseAnalytics: Analytics | undefined
 let firebaseMessaging: Messaging | undefined
+let firebaseRemoteConfig: RemoteConfig | undefined
 
 if (browser) {
   try {
     firebaseAnalytics = getAnalytics(app)
     firebaseMessaging = getMessaging(app)
-  
+    firebaseRemoteConfig = getRemoteConfig(app)
+    firebaseRemoteConfig.settings.minimumFetchIntervalMillis = 30000
   } catch (error) {
     error
   }
@@ -33,7 +38,7 @@ export async function setUpForegroundFCM() {
     await Notification.requestPermission()
 
     await getToken(firebaseMessaging!, { vapidKey: 'BIwL93F9wFcoIVTYnGhs7iMackQlDbFYKEVbrtCSxRQljWLNFoVQbMOHccBGOG9HZbE7AhZuvBHdgUIu31GBG9M' })
- 
+
     onMessage(firebaseMessaging!, (payload) => {
       console.log('Message received. ', payload)
       alert('Notificacion')
@@ -43,4 +48,16 @@ export async function setUpForegroundFCM() {
   }
 }
 
-export { firebaseAnalytics, firebaseMessaging }
+
+export async function getZAds(): Promise<ZeneAdsListsData | null> {
+  await wait(1000)
+  try {
+      await fetchAndActivate(firebaseRemoteConfig!)
+      const val = JSON.parse(getValue(firebaseRemoteConfig!, "zene_ads_list").asString()) as ZeneAdsListsData
+      return val
+  } catch (error) {
+     return null
+  }
+}
+
+export { firebaseAnalytics, firebaseMessaging, firebaseRemoteConfig }

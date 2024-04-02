@@ -16,11 +16,18 @@
   import ArtistsCards from '$lib/components/global-view/items/ArtistsCards.svelte'
   import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
   import SuggestSongsYouMayLike from '$lib/components/main-page/SuggestSongsYouMayLike.svelte'
+  import { onMount } from 'svelte'
+  import type { ZeneAdsListsData } from '../domain/local/entities/ZeneAdsListsData'
+  import { getZAds } from '$lib/firebase/firebase'
+  import HomePageAds from '$lib/components/ads-view/HomePageAds.svelte'
+  import HomeVideoAds from '$lib/components/ads-view/HomeVideoAds.svelte'
 
   export let data: any
 
   let authKey: string | null = null
   let ipDetails: IpDetails | null
+
+  let ads: ZeneAdsListsData | null = null
 
   let youMayLike: SongsYouMayLike | null = null
   let topSongsCountry: MusicData[] = []
@@ -29,6 +36,10 @@
     authKey = window.atob(data.data)
     if (data.ip != undefined) ipDetails = JSON.parse(data.ip)
   }
+
+  onMount(async () => {
+    ads = await getZAds()
+  })
 </script>
 
 <svelte:head>
@@ -44,13 +55,22 @@
 {#if authKey != null}
   <TopListeningSongs {authKey} />
 
-  <amp-ad width="100vw" height="320" type="adsense" data-ad-client="ca-pub-2941808068005217" data-ad-slot="5350541122" data-auto-format="mcrspv" data-full-width="">
-    <div></div>
-  </amp-ad>
+  {#if ads != null && ads.doShow}
+    <HomePageAds bind:ads />
+  {:else}
+    <amp-ad width="100vw" height="320" type="adsense" data-ad-client="ca-pub-2941808068005217" data-ad-slot="5350541122" data-auto-format="mcrspv" data-full-width="">
+      <div></div>
+    </amp-ad>
+  {/if}
 
   <RadioStateLists {authKey} {ipDetails} />
   <TopGlobalTrendingArtists {authKey} />
   <TopMood />
+
+  {#if ads != null && ads.doShow}
+    <HomeVideoAds bind:ads />
+  {/if}
+
   <FreshAddedSong {authKey} />
   <GlobalTopTrendingSongs {authKey} bind:topSongsCountry />
   <TopSongsInUserCountry {authKey} {ipDetails} />
