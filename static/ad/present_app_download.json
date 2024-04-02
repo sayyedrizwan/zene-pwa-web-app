@@ -1,9 +1,57 @@
 {
-    "text": "Also Get it On",
+    "text": " Also Get it On",
     "lists": [
         {
-            "img": "https://www.zenemusic.co/badges/get_on_play_store.png",
-            "link": "https://play.google.com/store/apps/details?id=com.rizwansayyed.zene"
+            "img": "https://www.zenemusic.co/badges/app_store.png",
+            "link": "https://www.zenemusic.co/download"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/badges/get_on_macos.png",
+            "link": "https://www.zenemusic.co/download"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/badges/windows.png",
+            "link": "https://www.zenemusic.co/download"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/chrome_store.png",
+            "link": "https://chromewebstore.google.com/detail/zene-a-muic-app/ildeafnifeblpmjieojkcfbnbgfmnaop"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/get_it_for_linux.png",
+            "link": "https://www.zenemusic.co/download"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/firefox.png",
+            "link": "https://www.zenemusic.co/download"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/amazon_app_store.png",
+            "link": "https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/firefox.png",
+            "link": "https://addons.mozilla.org/en-US/firefox/addon/zene-a-free-muic-app/"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/firefox.png",
+            "link": "https://addons.mozilla.org/en-US/firefox/addon/zene-a-free-muic-app/"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/galaxy_store.png",
+            "link": "https://www.zenemusic.co/download"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/indusappstore.png",
+            "link": "https://www.zenemusic.co/download"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/apkpure.png",
+            "link": "https://apkpure.com/zene-a-music-app/com.rizwansayyed.zene"
+        },
+        {
+            "img": "https://www.zenemusic.co/badges/app_gallery.png",
+            "link": "https://www.zenemusic.co/download"
         }
     ]
 }
