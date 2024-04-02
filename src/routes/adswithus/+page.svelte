@@ -2,27 +2,11 @@
   import Footer from '$lib/components/global-view/Footer.svelte'
   import { onMount } from 'svelte'
   import { ads_mail_server } from '../api/utils/utils'
+    import SellPoints from './view/SellPoints.svelte'
+    import AdsPlatformVideo from './view/AdsPlatformVideo.svelte'
 
   let txt = ``
   let showOther = false
-
-  const pointsLists = [
-    '🛒 Online Sales',
-    '📈 Brand Recognition',
-    '📲 App Downloads',
-    '🙋🏻‍♂️ Customer Engagement',
-    '🚀 Audience Reach',
-    '🤳 Social Media Engagement',
-    '🚦 Website Traffic',
-    '🚦 Website Traffic',
-    '🎯 Lead Generation',
-    '📊 Business Growth',
-    '👨🏻‍💻 Online Presence',
-    '📦 Product Visibility',
-    '📋 Customer Feedback & Insights',
-    '📤 Content Sharing',
-    '🌈💰🍀 and many many more',
-  ]
 
   let i = 0
   const txtToWrite = `Don't Just Advertise, Sell your Stories...`
@@ -62,35 +46,9 @@
       >Contact Us on ads@zenemusic.co</a
     >
 
-    <h1 class="text-3xl urbanist-semibold tracking-tight text-slate-900 mt-56">What are you interested in? Get More 👇</h1>
-
-    <div class="flex flex-wrap mt-6">
-      {#each pointsLists as item}
-        <div class="text-white bg-maincolor rounded-xl px-12 py-3 hover:px-5 hover-animation m-3 urbanist-semibold text-lg"><span class="text-xl">{item.textBeforeKeyword(' ')}</span> &nbsp; {item.textAfterKeyword(' ')}</div>
-      {/each}
-    </div>
-
-    <h1 class="text-3xl urbanist-semibold tracking-tight text-slate-900 mt-56">Make Zene Platform all About <u>Your Brand story</u></h1>
-
-    <div class="flex flex-col md:flex-row justify-center items-center my-20 gap-4">
-
-      <div class="flex flex-col justify-center items-center">
-        <p class="text-lg text-white urbanist-regular mb-4">Zene Ads on Desktop, MacOS, Linux, Chrome extension</p>
-        <video controls={true} muted={true} autoplay={true} loop={true} playsinline>
-          <track kind="captions" />
-          <source src="/ad/web-ads.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-        </video>
-      </div>
-      
-      <div class="flex flex-col justify-center items-center">
-        <video controls={true} muted={true} autoplay={true} loop={true} playsinline>
-          <track kind="captions" />
-          <source src="/ad/web-ads.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
+    <SellPoints />
+    <AdsPlatformVideo />
+   
     
 
     <div class="h-48" />

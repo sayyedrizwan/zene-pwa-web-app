@@ -27,7 +27,7 @@ if (browser) {
     firebaseAnalytics = getAnalytics(app)
     firebaseMessaging = getMessaging(app)
     firebaseRemoteConfig = getRemoteConfig(app)
-    firebaseRemoteConfig.settings.minimumFetchIntervalMillis = 30000
+    firebaseRemoteConfig.settings.minimumFetchIntervalMillis = 600000
   } catch (error) {
     error
   }
