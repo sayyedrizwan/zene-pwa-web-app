@@ -34,10 +34,6 @@
 </div>
 
 <br/><br/><br/><br/><br/>
-<p class=" text-white urbanist-regular text-center text-xl m-1">✔️ Promote one Brand At a Time.</p>
-<p class=" text-white urbanist-thin text-center text-xl m-3">Unlike mainstream ad platforms where countless brands clamor for attention, we're dedicated to showcasing in the spotlight at a time across all our platforms. We believe in building trust through storytelling, crafting a unique narrative for each brand we promote. Step into a world where your brand takes center stage, leaving a lasting impression on your audience.</p>
-<br/><br/><br/><br/><br/><br/><br/><br/>
-
-<p class=" text-white urbanist-regular text-center text-xl m-1">✔️ Promote one Brand At a Time.</p>
+<p class=" text-white urbanist-regular text-center text-xl m-1">✔️ We Promote one Brand At a Time.</p>
 <p class=" text-white urbanist-thin text-center text-xl m-3">Unlike mainstream ad platforms where countless brands clamor for attention, we're dedicated to showcasing in the spotlight at a time across all our platforms. We believe in building trust through storytelling, crafting a unique narrative for each brand we promote. Step into a world where your brand takes center stage, leaving a lasting impression on your audience.</p>
 <br/><br/><br/><br/><br/><br/><br/><br/>

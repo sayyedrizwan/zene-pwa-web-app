@@ -1,0 +1,30 @@
+{
+    "doShow": false,
+    "title": "End of the month offer on Philips LED lamps! Show Now!!",
+    "homeGridTop": [
+        {
+            "img": "https://i.ibb.co/Vt0Yhs4/Frame-8.png",
+            "link": "https://www.nike.com/"
+        },
+        {
+            "img": "https://i.ibb.co/J34qZ0Y/Frame-7.png",
+            "link": "https://www.nike.com/in/launch/t/air-force-1-mid-chocolate"
+        },
+        {
+            "img": "https://i.ibb.co/6tGMmPR/Frame-6.png",
+            "link": "https://www.nike.com/"
+        },
+        {
+            "img": "https://i.ibb.co/Z2kXPp5/Frame-7.png",
+            "link": "https://www.nike.com/"
+        },
+        {
+            "img": "https://i.ibb.co/y5d4hLL/Frame-8.png",
+            "link": "https://www.nike.com/"
+        }
+    ],
+    "homeMiddleView": {
+        "img": "https://firebasestorage.googleapis.com/v0/b/be-6eb1c.appspot.com/o/nikeads.mp4?alt=media&token=7ede4765-3c2b-4ab9-93fe-3f8e4f0c9f39",
+        "link": "https://www.nike.com/in/launch"
+    }
+}

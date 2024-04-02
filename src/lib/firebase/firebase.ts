@@ -27,11 +27,12 @@ if (browser) {
     firebaseAnalytics = getAnalytics(app)
     firebaseMessaging = getMessaging(app)
     firebaseRemoteConfig = getRemoteConfig(app)
-    firebaseRemoteConfig.settings.minimumFetchIntervalMillis = 600000
+    firebaseRemoteConfig.settings.minimumFetchIntervalMillis = 6 //600000
   } catch (error) {
     error
   }
 }
+
 
 export async function setUpForegroundFCM() {
   try {
