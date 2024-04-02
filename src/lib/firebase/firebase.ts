@@ -3,9 +3,9 @@ import { getAnalytics, type Analytics } from 'firebase/analytics'
 import { browser } from '$app/environment'
 import { type Messaging, onMessage, getToken } from 'firebase/messaging'
 import { getMessaging } from 'firebase/messaging'
-import { fetchAndActivate, getRemoteConfig, getValue, type RemoteConfig } from 'firebase/remote-config'
 import type { ZeneAdsListsData } from '../../domain/local/entities/ZeneAdsListsData'
 import { wait } from '$lib/utils/indexd'
+import axios from 'axios'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC6dhNuFEKeoClW69Rwl5v7sjWXVjtfF1Y',
@@ -20,14 +20,11 @@ const firebaseConfig = {
 let app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
 let firebaseAnalytics: Analytics | undefined
 let firebaseMessaging: Messaging | undefined
-let firebaseRemoteConfig: RemoteConfig | undefined
 
 if (browser) {
   try {
     firebaseAnalytics = getAnalytics(app)
     firebaseMessaging = getMessaging(app)
-    firebaseRemoteConfig = getRemoteConfig(app)
-    firebaseRemoteConfig.settings.minimumFetchIntervalMillis = 6 //600000
   } catch (error) {
     error
   }
@@ -53,12 +50,12 @@ export async function setUpForegroundFCM() {
 export async function getZAds(): Promise<ZeneAdsListsData | null> {
   await wait(1000)
   try {
-      await fetchAndActivate(firebaseRemoteConfig!)
-      const val = JSON.parse(getValue(firebaseRemoteConfig!, "zene_ads_list").asString()) as ZeneAdsListsData
-      return val
+    const readAds = await axios.get('/ad/ads_lists.json')
+    const r = (await readAds.data) as ZeneAdsListsData
+    return r
   } catch (error) {
-     return null
+    return null
   }
 }
 
-export { firebaseAnalytics, firebaseMessaging, firebaseRemoteConfig }
+export { firebaseAnalytics, firebaseMessaging }

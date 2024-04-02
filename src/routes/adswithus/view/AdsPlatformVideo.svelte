@@ -11,7 +11,7 @@
     <p class="text-lg text-white urbanist-regular mb-4">Zene Ads on Desktop, MacOS, Linux, Chrome extension</p>
     <video class="h-[32rem]" controls={true} muted={true} autoplay={true} loop={true} playsinline>
       <track kind="captions" />
-      <source src="/ad/web-ads.mp4" type="video/mp4" />
+      <source src="/ad/videos/web-ads.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
   </div>
@@ -22,7 +22,7 @@
 
       <video class="h-[32rem]" controls={true} muted={true} autoplay={true} loop={true} playsinline>
         <track kind="captions" />
-        <source src="/ad/ios-ads.mp4" type="video/mp4" />
+        <source src="/ad/videos/ios-ads.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
@@ -32,7 +32,7 @@
 
       <video class="h-[32rem]" controls={true} muted={true} autoplay={true} loop={true} playsinline>
         <track kind="captions" />
-        <source src="/ad/android-ads.mp4" type="video/mp4" />
+        <source src="/ad/videos/android-ads.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
