@@ -54,6 +54,7 @@
   <meta property="og:title" content="Song Party on Zene" />
   <meta property="og:image" content="https://zenemusic.co/logo820.png" />
   <meta property="og:image:alt" content="Song Party on Zene" />
+  <meta name="keywords" content="zene, zene free music, zene a free music, free music, zene, zene songs, zene music, music streaming, music streaming app, free music streaming, music app for android, music app for iphone, music player app, free music download, music discovery app, offline listening, curated playlists, high-fidelity audio, free music streaming with no ads, workout music app, music for studying app, audio streaming, mobile music app, radio, radio streaming" />
 </svelte:head>
 
 <div class="w-full flex flex-col justify-items-center items-center">

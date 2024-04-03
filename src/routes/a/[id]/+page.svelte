@@ -33,6 +33,7 @@
   <meta property="og:image" content={artistsInfo?.artistsImage} />
   <meta property="og:image:alt" content={`${artistsInfo?.name} on Zene`} />
   <link rel="canonical" href={`https://zenemusic.co/a/${data.url}`} />
+  <meta name="keywords" content="zene, {artistsInfo?.name} on zene, {artistsInfo?.name} on zene music, zene music {artistsInfo?.name}, {artistsInfo?.name} songs, zene free music, zene a free music, {artistsInfo?.name} free music, zene, zene songs, zene music, {artistsInfo?.name} music streaming, {artistsInfo?.name} music streaming app, {artistsInfo?.name} free music streaming, {artistsInfo?.name} music app for android, {artistsInfo?.name} music app for iphone, {artistsInfo?.name} music player app, {artistsInfo?.name} free music download, {artistsInfo?.name} music discovery app, {artistsInfo?.name} offline listening, {artistsInfo?.name} curated playlists, {artistsInfo?.name} high-fidelity audio, {artistsInfo?.name} free music streaming with no ads, {artistsInfo?.name} workout music app, {artistsInfo?.name} music for studying app, {artistsInfo?.name} audio streaming, {artistsInfo?.name} mobile music app, radio, {artistsInfo?.name} radio streaming" />
 </svelte:head>
 
 {#if key != null}

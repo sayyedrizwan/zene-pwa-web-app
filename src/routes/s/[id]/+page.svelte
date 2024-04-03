@@ -19,6 +19,7 @@
   <meta property="og:image" content={songInfo?.thumbnail == null ? '/logo820.png' : songInfo?.thumbnail} />
   <meta property="og:image:alt" content={`${songInfo?.name ?? ''} on Zene`} />
   <link rel="canonical" href={`https://zenemusic.co/s/${data.url}`} />
+  <meta name="keywords" content="zene, {songInfo?.name} on zene, {songInfo?.name} on zene music, zene music {songInfo?.name}, {songInfo?.name} songs, zene free music, zene a free music, {songInfo?.name} free music, zene, zene songs, zene music, {songInfo?.name} music streaming, {songInfo?.name} music streaming app, {songInfo?.name} free music streaming, {songInfo?.name} music app for android, {songInfo?.name} music app for iphone, {songInfo?.name} music player app, {songInfo?.name} free music download, {songInfo?.name} music discovery app, {songInfo?.name} offline listening, {songInfo?.name} curated playlists, {songInfo?.name} high-fidelity audio, {songInfo?.name} free music streaming with no ads, {songInfo?.name} workout music app, {songInfo?.name} music for studying app, {songInfo?.name} audio streaming, {songInfo?.name} mobile music app, radio, {songInfo?.name} radio streaming" />
 </svelte:head>
 
 <div class="w-screen flex flex-col justify-center items-center">
