@@ -31,6 +31,7 @@ export async function GET({ setHeaders }) {
         if (!sitemap.includes(`https://www.zenemusic.co/a/${s.songId}`)) {
           sitemap += `<url>
           <loc>https://www.zenemusic.co/a/${s.songId}</loc>
+          <changefreq>daily</changefreq>
           <priority>0.44</priority>
           </url>`
         }

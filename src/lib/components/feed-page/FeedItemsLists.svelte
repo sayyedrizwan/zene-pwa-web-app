@@ -70,7 +70,7 @@
   {#if response.data.length > 0}
     <section>
       <div class="relative items-center w-full px-5 py-12 mx-auto md:px-6">
-        <div class="grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-3">
+        <div class="grid w-full grid-cols-1 gap-6 mx-auto md:grid-cols-2 lg:grid-cols-3">
           {#each response.data as items}
             <a class="p-6 bg-black hover:bg-gray-900 over-animation rounded-sm" href={items.link} target="_blank">
               <img class="object-cover w-full mb-8 h-72 rounded-xl" src={items.thumbnail?.textBeforeKeyword('&')} alt={items.name} />

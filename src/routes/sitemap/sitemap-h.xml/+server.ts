@@ -25,6 +25,7 @@ export async function GET({ setHeaders }) {
       if (md.songId != null && !sitemap.includes(`https://zenemusic.co/s/${md.songId}`)) {
         sitemap += `<url>
       <loc>https://www.zenemusic.co/s/${md.songId}</loc>
+      <changefreq>daily</changefreq>
       <priority>0.44</priority>
       </url>`
       }

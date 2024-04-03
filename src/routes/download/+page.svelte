@@ -94,10 +94,10 @@
 </script>
 
 <svelte:head>
-  <title>Zene Download | Zene: A Music App</title>
+  <title>Zene Download | Zene a Music App</title>
   <meta name="description" content="Bring your free music to your iPhone, iPad, Mac, Desktop, Smartphone and Tablet too." />
   <meta name="og:description" content="Bring your free music to your iPhone, iPad, Mac, Desktop, Smartphone and Tablet too." />
-  <meta property="og:title" content="Zene Download | Zene: A Music App" />
+  <meta property="og:title" content="Zene Download | Zene a Music App" />
   <meta property="og:image" content="https://zenemusic.co/logo820.png" />
   <meta property="og:image:alt" content="Zene Logo" />
   <link rel="canonical" href="https://zenemusic.co/download" />
