@@ -68,6 +68,11 @@ export async function GET({ setHeaders }) {
       <changefreq>daily</changefreq>
       <priority>0.60</priority>
     </sitemap>
+    <sitemap>
+      <loc>https://www.zenemusic.co/sitemap/sitemap-temp.xml</loc>
+      <changefreq>daily</changefreq>
+      <priority>0.60</priority>
+    </sitemap>
   </sitemapindex>`
 
   return new Response(response)
