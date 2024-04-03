@@ -8,10 +8,6 @@ const artistsViaCountry = [
   "hollywood", "bollywood", "korean", "brazil", "hong kong", "japanese", "chinese", "italian", "israel", "pakistani", "germany", "french", "russian"
 ]
 
-const songPlaylists = [
-  "PLO7-VO1D0_6N2ePPlPE9NKCgUBA15aOk2", "PLO7-VO1D0_6NmK47v6tpOcxurcxdW-hZa", "PLPSCssPYXhWTTcpNZwYoEQWt8Wc8KO0NV", "PLOHoVaTp8R7dfrJW5pumS0iD_dhlXKv17", "PLOHoVaTp8R7dfrJW5pumS0iD_dhlXKv17", "PL_bKAgO9uCN3eYafod8pYAJAkVJmBa4K6", "PL2TRGyKhDQRwZWVuV1fto3ADZW6h27_QQ", "PLj3yHoINc17ve9DMQpyU_clEGETrKSrbD", "PL3oW2tjiIxvSk0WKXaEiDY78KKbKghOOo", "PLhtH0-zayx4jzkmyft_CVmXVYzC_G-n7Y", "PLy_wKxVmWb4awLwIktp2HWzj82rJAZqmp", "PLEBX04z4REEaQBRD1jYea4VmKD87sdMee", "PLMmqTuUsDkRLRQrF7S4HGinPCRmlYRjQu"
-]
-
 export async function GET({ setHeaders }) {
   setHeaders({
     'Content-Type': 'application/xml'

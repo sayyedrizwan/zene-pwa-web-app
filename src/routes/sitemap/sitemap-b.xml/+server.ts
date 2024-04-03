@@ -1,8 +1,7 @@
 import { YtMusicAPIImpl } from '../../api/api_impl/yt_music/YtMusicImpl.js'
 
-
 export async function GET({ setHeaders }) {
-  const songPlaylists = ["PLO7-VO1D0_6N2ePPlPE9NKCgUBA15aOk2", "PLPSCssPYXhWTTcpNZwYoEQWt8Wc8KO0NV"]
+  const songPlaylists = ["PLO7-VO1D0_6NmK47v6tpOcxurcxdW-hZa", "PL-nuykztplfc1qLveKgJ6OxUPeHBAZzNZ"]
 
   setHeaders({ 'Content-Type': 'application/xml' })
 
