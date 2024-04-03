@@ -31,10 +31,8 @@ export const POST = async (events: RequestEvent) => {
           dataLists.push(n)
         })
       }
-    }),
+    })
   )
-
-  const finalList: FeedData[] = []
 
   dataLists.sort((a, b) => {
     const dateA = new Date(a.ts ?? '')

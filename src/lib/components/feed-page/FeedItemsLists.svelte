@@ -68,27 +68,23 @@
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
   {#if response.data.length > 0}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {#each response.data as items}
-        <a class="bg-gray-900 rounded-lg p-3 cursor-pointer justify-start relative" href={items.link} target="_blank">
-          <p class="text-white urbanist-thin w-full text-start">{items.name} {items.type == FeedType.NEWS ? 'News' : 'youtube channel video'}</p>
-
-          <div class="flex pt-3">
-            <div class="relative">
-              <img src={items.thumbnail} alt={items.name} class="h-36 w-36 object-cover rounded-sm" />
-              {#if items.type == FeedType.YOUTUBE}
-                <img src={YoutubeIcon} alt="yt" class="absolute size-8 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
-              {/if}
-            </div>
-            <div class="ms-3">
-              <h1 class="text-white urbanist-bold line-clamp-2 truncate text-start">{items.title}</h1>
-              <h1 class="text-white urbanist-light line-clamp-4 truncate mt-2 text-sm text-start">{items.desc}</h1>
-            </div>
-          </div>
-
-          <p class="text-white urbanist-thin text-sm absolute bottom-2 right-2">{timeAgoFromTimestamp(items.ts)}</p>
-        </a>
-      {/each}
-    </div>
+    <section>
+      <div class="relative items-center w-full px-5 py-12 mx-auto md:px-6">
+        <div class="grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-3">
+          {#each response.data as items}
+            <a class="p-6 bg-black hover:bg-gray-900 over-animation rounded-sm" href={items.link} target="_blank">
+              <img class="object-cover w-full mb-8 h-72 rounded-xl" src={items.thumbnail?.textBeforeKeyword('&')} alt={items.name} />
+              <h2 class="text-xs urbanist-semibold tracking-widest text-white uppercase">{items.name} {items.type == FeedType.NEWS ? 'News' : 'youtube channel video'}</h2>
+              <h2 class="text-xs urbanist-semibold tracking-widest text-white uppercase mt-1 ms-0.5">{timeAgoFromTimestamp(items.ts)}</h2>
+              <h1 class="mx-auto mt-3 text-2xl urbanist-bold tracking-tighter text-gray-200 lg:text-3xl line-clamp-3">{items.title}</h1>
+              <p class="mx-auto text-base urbanist-regular leading-relaxed text-gray-300 mt-4 line-clamp-3">{items.desc}</p>
+              <div class="mt-4">
+                <h1 class="inline-flex items-center mt-4 font-semibold text-lightblue lg:mb-0 hover:text-neutral-600"> {items.type == FeedType.YOUTUBE ? 'View on Youtube' : 'Read More'} » </h1>
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    </section>
   {/if}
 {/if}
