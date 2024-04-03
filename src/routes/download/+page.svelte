@@ -174,7 +174,7 @@
     <button on:click|stopPropagation={redirectToPlayStore}><img src="/badges/get_on_play_store.png" alt="Get Zene on Play Store" class="w-32 cursor-pointer" /></button>
     <a href="https://www.amazon.com/Wallpo-Zene-A-Music-App/dp/B0CYJG8293/" target="_blank"><img src="/badges/amazon_app_store.png" alt="Get Zene on Amazon App Store" class="w-32 cursor-pointer" /></a>
     <button on:click|stopPropagation={underReview}><img src="/badges/galaxy_store.png" alt="Get Zene on Galaxy Store" class="w-32 cursor-pointer" /></button>
-    <img src="/badges/indusappstore.png" alt="Get Zene on Indus App store" class="w-32 cursor-pointer" />
+    <a href="https://www.indusappstore.com/" target="_blank"><img src="/badges/indusappstore.png" alt="Get Zene on Indus App store" class="w-32 cursor-pointer" /></a>
   </div>
 
   <div class="px-6 flex flex-col md:flex-row items-center justify-center w-full gap-9 mt-6">
