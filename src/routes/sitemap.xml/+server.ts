@@ -30,26 +30,26 @@ export async function GET({ setHeaders }) {
       </url>`
   })
 
-  await Promise.all(
-    songPlaylists.map(async (pId) => {
-      const lists = await music.searchPlaylists(null, `VL${pId}`)
-      lists.forEach(i => {
-        songsPlaylists.push(i)
-      })
-    })
-  )
+  // await Promise.all(
+  //   songPlaylists.map(async (pId) => {
+  //     const lists = await music.searchPlaylists(null, `VL${pId}`)
+  //     lists.forEach(i => {
+  //       songsPlaylists.push(i)
+  //     })
+  //   })
+  // )
   
-  await Promise.all(
-    songsPlaylists.map(async (mm) => {
-      const md = await music.musicSearchSingle(mm, false)
-      if (md.songId != null && !sitemap.includes(`https://zenemusic.co/s/${md.songId}`)) {
-        sitemap += `<url>
-      <loc>https://www.zenemusic.co/s/${md.songId}</loc>
-      <priority>0.44</priority>
-      </url>`
-      }
-    })
-  )
+  // await Promise.all(
+  //   songsPlaylists.map(async (mm) => {
+  //     const md = await music.musicSearchSingle(mm, false)
+  //     if (md.songId != null && !sitemap.includes(`https://zenemusic.co/s/${md.songId}`)) {
+  //       sitemap += `<url>
+  //     <loc>https://www.zenemusic.co/s/${md.songId}</loc>
+  //     <priority>0.44</priority>
+  //     </url>`
+  //     }
+  //   })
+  // )
 
   await Promise.all(
     artistsViaCountry.map(async (m) => {
