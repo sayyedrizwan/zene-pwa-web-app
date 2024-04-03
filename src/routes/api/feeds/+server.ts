@@ -1,10 +1,11 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
 import { decryptAPIKeyAndIsValid, decryptAppSharedData, decryptData, isFromZeneOrigin } from '../utils/EncryptionForAPI'
-import { authKeyError, getIpAddress, ipBaseUrl, shuffleList } from '../utils/utils'
+import { authKeyError } from '../utils/utils'
 import type { ArtistsPinData } from '../../../domain/local/entities/ArtistsPinData'
 import { NewsImpl } from '../api_impl/news/NewsImpl'
-import { FeedType, FeedData } from '../../../domain/local/entities/FeedData'
+import { FeedData } from '../../../domain/local/entities/FeedData'
 import { YtAPIImpl } from '../api_impl/yt/YtVideoSearch'
+import { InstagramImpl } from '../api_impl/instagram/InstagramImpl'
 
 export const POST = async (events: RequestEvent) => {
   if (!decryptAPIKeyAndIsValid(events)) return json(authKeyError)
@@ -14,6 +15,7 @@ export const POST = async (events: RequestEvent) => {
 
   const news = new NewsImpl()
   const yt = new YtAPIImpl()
+  const instagram = new InstagramImpl()
 
   const dataLists: FeedData[] = []
 
@@ -30,6 +32,8 @@ export const POST = async (events: RequestEvent) => {
         listYt.forEach((n) => {
           dataLists.push(n)
         })
+
+        const instagramPosts = await instagram.getArtistsPosts(name.trim())
       }
     })
   )
