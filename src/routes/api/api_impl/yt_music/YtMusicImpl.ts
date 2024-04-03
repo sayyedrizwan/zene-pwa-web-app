@@ -157,7 +157,7 @@ export class YtMusicAPIImpl {
     return new MusicDataList(listsNew)
   }
 
-  async searchPlaylists(ip: IpJsonResponse, id: string): Promise<string[]> {
+  async searchPlaylists(ip: IpJsonResponse | null, id: string): Promise<string[]> {
     const lists: string[] = []
     const musicr = await fetch(yt_music_browse, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParamsWithIp(ip, id) })
     const musics = (await musicr.json()) as YtMusicBrowsePlaylists
