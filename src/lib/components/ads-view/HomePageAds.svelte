@@ -10,7 +10,7 @@
 
   <div class="relative rounded-xl overflow-auto scrollbar-hide">
     <div class="w-full mx-auto shadow-xl">
-      <div class="overflow-x-auto flex">
+      <div class="overflow-x-auto flex scrollbar-hide">
         {#each ads.homeGridTop as ad}
           <div class="flex-none">
             <button class="flex flex-col items-center justify-center gap-3" on:click={() => window.open(ad.link, '_blank')}>
