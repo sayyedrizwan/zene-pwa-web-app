@@ -31,16 +31,16 @@ export async function GET({ setHeaders }) {
         }
       })
 
-      const artistsD = await music.artistsSearch(mm)
-      artistsD.forEach(md => {
-        if (md.songId != null && !sitemap.includes(`https://zenemusic.co/a/${md.songId}`)) {
-          sitemap += `<url>
-          <loc>https://www.zenemusic.co/a/${md.songId}</loc>
-          <changefreq>daily</changefreq>
-          <priority>0.44</priority>
-          </url>`
-        }
-      })
+      // const artistsD = await music.artistsSearch(mm)
+      // artistsD.forEach(md => {
+      //   if (md.songId != null && !sitemap.includes(`https://zenemusic.co/a/${md.songId}`)) {
+      //     sitemap += `<url>
+      //     <loc>https://www.zenemusic.co/a/${md.songId}</loc>
+      //     <changefreq>daily</changefreq>
+      //     <priority>0.44</priority>
+      //     </url>`
+      //   }
+      // })
     })
   )
 
