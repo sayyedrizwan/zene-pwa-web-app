@@ -8,6 +8,7 @@
   import { browser } from '$app/environment'
   import WindowsDownloadDialog from '$lib/components/dialog/WindowsDownloadDialog.svelte'
   import LinuxDownloadDialog from '$lib/components/dialog/LinuxDownloadDialog.svelte'
+  import { page } from '$app/stores'
 
   let deviceType = 0
   let showIOSDialog = false
@@ -24,6 +25,8 @@
     else if (/Android/.test(userAgent) && /tablet/.test(userAgent)) deviceType = 5
     else if (/Linux/.test(userAgent)) deviceType = 6
     else deviceType = 7
+
+    if($page.url.searchParams.get('ios') == "1") showIOSDialog = true
   })
 
   function redirectToPlayStore() {
