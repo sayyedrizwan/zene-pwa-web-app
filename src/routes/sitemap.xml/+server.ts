@@ -1,7 +1,5 @@
 export async function GET({ setHeaders }) {
-  setHeaders({
-    'Content-Type': 'application/xml'
-  })
+  setHeaders({ 'Content-Type': 'application/xml' })
 
 
   const response = `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http:www.w3.org/1999/xhtml">
@@ -15,6 +13,18 @@ export async function GET({ setHeaders }) {
     </sitemap>
     <sitemap>
       <loc>https://www.zenemusic.co/sitemap/sitemap-b.xml</loc>
+      <changefreq>weekly</changefreq>
+    </sitemap>
+    <sitemap>
+      <loc>https://www.zenemusic.co/sitemap/sitemap-k.xml</loc>
+      <changefreq>weekly</changefreq>
+    </sitemap>
+    <sitemap>
+      <loc>https://www.zenemusic.co/sitemap/sitemap-br.xml</loc>
+      <changefreq>weekly</changefreq>
+    </sitemap>
+    <sitemap>
+      <loc>https://www.zenemusic.co/sitemap/sitemap-hgkg.xml</loc>
       <changefreq>weekly</changefreq>
     </sitemap>
   </sitemapindex>`

@@ -5,7 +5,7 @@ const allPages = [
 ]
 
 const artistsViaCountry = [
-  "hollywood", "bollywood", "korean", "brazil", "hong kong", "japanese", "chinese", "italian", "israel", "pakistani", "germany", "french", "russian"
+  "hollywood", "bollywood", "korean", "brazil", "hong kong", "japanese", "chinese", "italian", "pakistani", "germany", "french", "russian"
 ]
 
 export async function GET({ setHeaders }) {
