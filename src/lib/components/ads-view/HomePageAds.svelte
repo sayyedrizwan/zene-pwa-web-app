@@ -14,7 +14,7 @@
         {#each ads.homeGridTop as ad}
           <div class="flex-none">
             <button class="flex flex-col items-center justify-center gap-3" on:click={() => window.open(ad.link, '_blank')}>
-              <img src={ad.img} alt={ad.link} class="h-80 w-56 md:h-96 md:w-72 hover-animation hover:md:w-96 m-3 rounded-md object-cover cursor-pointer" />
+              <img src={ad.img} alt={ad.link} class="h-80  md:h-96 m-3 rounded-md object-cover cursor-pointer" />
             </button>
           </div>
         {/each}
