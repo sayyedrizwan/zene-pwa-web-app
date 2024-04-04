@@ -1,6 +1,6 @@
 {
   "name": "zene-music-app",
-  "version": "0.0.1",
+  "version": "1.0.976",
   "private": true,
   "scripts": {
     "devrun": "vite dev",
