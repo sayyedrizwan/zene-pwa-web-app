@@ -19,7 +19,7 @@ export async function GET({ setHeaders }) {
   allPages.forEach(n => {
     sitemap += `<url>
       <loc>https://www.zenemusic.co/${n[0]}</loc>
-      <changefreq>daily</changefreq>
+      <changefreq>monthly</changefreq>
       <priority>${n[1]}</priority>
       </url>`
   })
