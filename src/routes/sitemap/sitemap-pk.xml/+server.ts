@@ -25,7 +25,7 @@ export async function GET({ setHeaders }) {
         if (md.songId != null && !sitemap.includes(`https://zenemusic.co/s/${md.songId}`)) {
           sitemap += `<url>
           <loc>https://www.zenemusic.co/s/${md.songId}</loc>
-          <changefreq>daily</changefreq>
+          <changefreq>yearly</changefreq>
           <priority>0.44</priority>
           </url>`
         }
@@ -37,7 +37,7 @@ export async function GET({ setHeaders }) {
       //   if (md.songId != null && !sitemap.includes(`https://zenemusic.co/a/${md.songId}`)) {
       //     sitemap += `<url>
       //     <loc>https://www.zenemusic.co/a/${md.songId}</loc>
-      //     <changefreq>daily</changefreq>
+      //     <changefreq>yearly</changefreq>
       //     <priority>0.44</priority>
       //     </url>`
       //   }
