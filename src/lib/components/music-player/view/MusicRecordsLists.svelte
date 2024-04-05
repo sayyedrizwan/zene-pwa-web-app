@@ -99,8 +99,8 @@
               </div>
             </div>
           {:else}
-            <p class="urbanist-regular w-28 text-base text-center text-white truncate line-clamp-1 mt-3">{list.name}</p>
-            <p class="urbanist-thin w-28 text-sm text-center text-white truncate line-clamp-1">{list.artists}</p>
+            <p class="urbanist-regular w-28 text-base text-center text-white line-clamp-1 mt-3">{list.name}</p>
+            <p class="urbanist-thin w-28 text-sm text-center text-white line-clamp-1">{list.artists}</p>
           {/if}
         </div>
       </button>

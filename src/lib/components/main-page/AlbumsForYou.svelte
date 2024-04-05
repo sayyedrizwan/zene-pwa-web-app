@@ -64,7 +64,7 @@
         {#each response.data?.results ?? [] as musicData}
           <a class="p-2 rounded-lg shadow-lg cursor-pointer" href={`album/${musicData.songId}`}>
             <img src={musicData.thumbnail} alt={musicData.name} class="w-full rounded-lg object-cover" />
-            <p class="text-white urbanist-semibold mt-3 text-base text-center w-full truncate line-clamp-1">{musicData.name}</p>
+            <p class="text-white urbanist-semibold mt-3 text-base text-center w-full line-clamp-1">{musicData.name}</p>
           </a>
         {/each}
       </div>

@@ -42,7 +42,7 @@
 
   onMount(async () => {
     setK(data.a as string, data.t as number)
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js', { type: dev ? 'module' : 'classic' })
+    // if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js', { type: dev ? 'module' : 'classic' })
 
     audioPlayer = new APManager()
     audioPlayer.init()

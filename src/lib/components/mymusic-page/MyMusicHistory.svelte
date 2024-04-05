@@ -41,8 +41,8 @@
               <div class="m-auto flex-col justify-center items-center h-[17rem] mt-4">
                 <center>
                   <img src={getDataOnMusicData(history).thumbnail} alt={getDataOnMusicData(history).name} class="size-28 rounded-md" />
-                  <p class="text-white urbanist-semibold text-base break-words w-[16rem] mt-2 line-clamp-2 truncate">{getDataOnMusicData(history).name}</p>
-                  <p class="text-white urbanist-thin text-sm mt-2 line-clamp-1 truncate">{getDataOnMusicData(history).artists}</p>
+                  <p class="text-white urbanist-semibold text-base break-words w-[16rem] mt-2 line-clamp-2">{getDataOnMusicData(history).name}</p>
+                  <p class="text-white urbanist-thin text-sm mt-2 line-clamp-1">{getDataOnMusicData(history).artists}</p>
                 </center>
               </div>
             </div>
