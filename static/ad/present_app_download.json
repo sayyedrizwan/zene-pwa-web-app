@@ -2,8 +2,12 @@
     "text": " Also Get it On",
     "lists": [
         {
+            "img": "https://www.zenemusic.co/badges/zene_on_web.png",
+            "link": "https://www.zenemusic.co/"
+        },
+        {
             "img": "https://www.zenemusic.co/badges/app_store.png",
-            "link": "https://www.zenemusic.co/download"
+            "link": "https://www.zenemusic.co/download?ios=1"
         },
         {
             "img": "https://www.zenemusic.co/badges/badges/get_on_macos.png",
@@ -23,7 +27,7 @@
         },
         {
             "img": "https://www.zenemusic.co/badges/firefox.png",
-            "link": "https://www.zenemusic.co/download"
+            "link": "https://addons.mozilla.org/en-US/firefox/addon/zene-a-free-muic-app/"
         },
         {
             "img": "https://www.zenemusic.co/badges/amazon_app_store.png",
