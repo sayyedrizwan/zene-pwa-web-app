@@ -52,7 +52,7 @@
 </script>
 
 {#if response.type == ResponseDataEnum.LOADING}
-  <h3 class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
+  <p class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</p>
   <div class="overflow-x-auto flex scrollbar-hide">
     {#each Array(6) as _, index (index)}
       <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
@@ -64,7 +64,7 @@
   </div>
 {:else if response.type == ResponseDataEnum.SUCCESS}
   {#if response?.data?.music?.length ?? 0 > 0}
-    <h3 class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</h3>
+    <p class="text-white urbanist-semibold text-2xl md:text-3xl ms-2 md:ms-4 mt-7">Discover the Currently <br />Most Playing Songs on Zene</p>
     <div class="overflow-x-auto flex scrollbar-hide">
       {#each response?.data?.music ?? [] as item (item?.music?.songId)}
         <div class="flex-none py-6 px-1 first:pl-2 last:pr-3">
