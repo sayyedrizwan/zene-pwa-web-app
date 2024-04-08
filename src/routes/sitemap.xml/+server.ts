@@ -2,7 +2,8 @@ export async function GET({ setHeaders }) {
   setHeaders({ 'Content-Type': 'application/xml' })
 
 
-  const response = `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http:www.w3.org/1999/xhtml">
+  const response = `<?xml version="1.0" encoding="UTF-8"?>
+  <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <sitemap>
       <loc>https://www.zenemusic.co/sitemap/sitemap.xml</loc>
       <changefreq>daily</changefreq>
