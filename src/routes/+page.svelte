@@ -21,6 +21,7 @@
   import { getZAds } from '$lib/firebase/firebase'
   import HomePageAds from '$lib/components/ads-view/HomePageAds.svelte'
   import HomeVideoAds from '$lib/components/ads-view/HomeVideoAds.svelte'
+  import { shareATxt } from '$lib/utils/f'
 
   export let data: any
 
@@ -40,6 +41,11 @@
   onMount(async () => {
     ads = await getZAds()
   })
+
+  function shareWebsite() {
+    const title = 'Discover Zene 🎶 an Ad-free music app \n🆓 Enjoy free music for life and many more amazing features. Get now https://zenemusic.co/download'
+    shareATxt(title, title, null)
+  }
 </script>
 
 <svelte:head>
@@ -50,8 +56,26 @@
   <meta property="og:image" content="https://zenemusic.co/logo820.png" />
   <meta property="og:image:alt" content="Zene Logo" />
   <link rel="canonical" href="https://zenemusic.co" />
-  <meta name="keywords" content="zene, zene free music, zene a free music, free music, zene, zene songs, zene music, music streaming, music streaming app, free music streaming, music app for android, music app for iphone, music player app, free music download, music discovery app, offline listening, curated playlists, high-fidelity audio, free music streaming with no ads, workout music app, music for studying app, audio streaming, mobile music app, radio, radio streaming" />
+  <meta
+    name="keywords"
+    content="zene, zene free music, zene a free music, free music, zene, zene songs, zene music, music streaming, music streaming app, free music streaming, music app for android, music app for iphone, music player app, free music download, music discovery app, offline listening, curated playlists, high-fidelity audio, free music streaming with no ads, workout music app, music for studying app, audio streaming, mobile music app, radio, radio streaming"
+  />
 </svelte:head>
+
+<div class="px-4">
+  <div class="w-full bg-maincolor rounded-md flex flex-col justify-center items-center">
+    <div class="h-6" />
+    <p class="text-white urbanist-semibold text-xl ms-1.5 text-center">Calling All Music Lovers! Zene needs your Help</p>
+    <p class="text-white urbanist-semibold text-5xl mt-7 text-center">🙏</p>
+    <p class="text-white urbanist-regular text-base mt-7 text-center mx-3">
+      Hey there! Have you tried Zene yet? It's an awesome music app that's completely free, with no annoying popup or audio ads to disrupt your listening experience. We've put a lot of effort and money into making it great, but we do need a little help spreading the word. <br
+      /><br />We've added a small ad on the Zene website and app to cover our server and database costs. We don't have a big budget for advertising on major platforms, so we're relying on our users to help us grow. By simply sharing Zene with your friends and family, you can help
+      us build the Zene family and give free music to everyone.
+    </p>
+    <button class="text-black bg-white px-4 py-2 m-2 rounded-xl md:hover:px-5 hover-animation mt-10" on:click={shareWebsite}>Share</button>
+    <div class="h-6" />
+  </div>
+</div>
 
 {#if authKey != null}
   <TopListeningSongs {authKey} />
