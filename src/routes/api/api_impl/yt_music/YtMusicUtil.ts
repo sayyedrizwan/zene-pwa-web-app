@@ -13,7 +13,7 @@ export const ytMusicHeader = {
 
 const userAgent = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36,gzip(gfe)'
 const clientName = 'WEB_REMIX'
-const clientVersion = '1.20240205.00.00'
+const clientVersion = '1.20240408.01.00'
 
 export const yt_music_search = `https://music.youtube.com/youtubei/v1/search?key=${YT_MUSIC_KEY}&prettyPrint=false`
 export const yt_music_song_info = `https://music.youtube.com/youtubei/v1/player?key=${YT_MUSIC_KEY}&prettyPrint=false`
