@@ -24,10 +24,9 @@ export function isFromZeneOrigin(events: RequestEvent): Boolean {
 }
 
 export function decryptAPIKeyAndIsValidOfSong(events: RequestEvent, key: string, ip: string): Boolean {
-  if (isFromZeneOrigin(events) === false) return false
-
   if(key == "app_vdvgfgvf_12443638gdvhvdddh1223344") return true
 
+  if (isFromZeneOrigin(events) === false) return false
   const timestamp = new Date().getTime()
   const decryptValue = decryptTempKey(key?.replace('qS-1Z.oWEkQ', '') ?? '')
   const v = decryptValue?.match(RegExp(`${`@@#####`}(.*?)${`>>#####`}`))
