@@ -11,3 +11,4 @@ export class ArtistsInfoData {
     this.description = description
   }
 }
+
