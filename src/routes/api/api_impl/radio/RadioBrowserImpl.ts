@@ -6,7 +6,7 @@ import type { RadioListResponse } from './domain/RadioListResponse'
 
 export class RadioBrowserImpl {
   private async getLiveURL(): Promise<string> {
-    return `https://de1.api.radio-browser.info`
+    // return `https://de1.api.radio-browser.info`
     const resolveSrv = util.promisify(dns.resolveSrv)
     const host = resolveSrv(radio_browser_url).then((hosts: any[]) => {
       hosts.sort()
@@ -17,8 +17,8 @@ export class RadioBrowserImpl {
       let item = hosts[Math.floor(Math.random() * hosts.length)]
       return item
     })
-
-    return url
+    
+    return await url
   }
 
   async countryRadios(countryName: string): Promise<RadioListResponse> {
