@@ -17,7 +17,7 @@
     response = { type: ResponseDataEnum.LOADING }
 
     const cacheDB = new DataIndexDS<ExtraDataMusicData>(radioTableCache, indexDB)
-      const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
+    const cacheRecords: any = await cacheDB.retrieveFromIndexedDB()
 
     try {
       if (cacheRecords.length > 0)
@@ -29,6 +29,7 @@
           }
         }
 
+      axios.defaults.timeout = 20000
       const res = await axios.post(env.PUBLIC_RADIO_LIST, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
       response = { type: ResponseDataEnum.SUCCESS, data: data }

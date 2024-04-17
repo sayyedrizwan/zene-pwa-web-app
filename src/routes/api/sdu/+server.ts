@@ -1,5 +1,4 @@
 import { type RequestEvent } from '@sveltejs/kit'
-import fs from 'node:fs'
 import { atob } from 'buffer'
 import { RadioBrowserImpl } from '../api_impl/radio/RadioBrowserImpl'
 import { downloadBlobInChunks, YTDownloaderImpl } from '../api_impl/yt_downloader/YtDownloaderImpl'

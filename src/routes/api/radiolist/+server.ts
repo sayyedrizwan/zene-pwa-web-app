@@ -15,6 +15,7 @@ export async function POST(events: RequestEvent) {
     const cityRadio: MusicData[] = []
     const countryRadio: MusicData[] = []
 
+    axios.defaults.timeout = 20000
     const responseIp = await axios.get(ipBaseUrl(getIpAddress(events)))
     const ipData = (await responseIp.data) as IpJsonResponse
 

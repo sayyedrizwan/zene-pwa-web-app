@@ -82,6 +82,7 @@ export class APManager implements AudioPlayer {
     mpegsource.type = 'audio/mpeg'
     audioe.appendChild(mpegsource)
 
+
     this.sourceElementMP4 = mp4source
     this.sourceElementMPEG = mpegsource
     this.audioElement = audioe
@@ -109,7 +110,7 @@ export class APManager implements AudioPlayer {
 
     this.audioElement.addEventListener('loadedmetadata', async () => {
       this.audioElement!.title = ''
-
+      
       if (this.audioElement?.duration === Infinity || isNaN(Number(this.audioElement?.duration))) {
         this.audioElement!.currentTime = 1e101
         this.audioElement?.addEventListener('timeupdate', getDuration)
@@ -118,6 +119,14 @@ export class APManager implements AudioPlayer {
       await wait(900)
 
       this.updatemetadata(this.music!)
+
+      if (this.music?.type == MusicType.RADIO) {
+        await wait(1000)
+        this.play()
+        this.pause()
+        await wait(900)
+        this.play()
+      }
     })
   }
 
@@ -236,11 +245,12 @@ export class APManager implements AudioPlayer {
   }
 
   isBuffering(): boolean | undefined {
+    if (this.music?.type == MusicType.RADIO) return false
+    if (this.audioElement!.currentTime > 0) return false
     if (this.audioElement!.currentTime > 0) return false
     if (this.audioElement?.paused === false) return false
     if (this.buffering == true) return true
 
-    if (this.music?.type == MusicType.RADIO) return this.audioElement!.networkState == 2
     return this.audioElement!.networkState == 2
   }
 
