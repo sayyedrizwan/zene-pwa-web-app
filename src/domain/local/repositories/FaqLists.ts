@@ -4,7 +4,7 @@ import type { FaqRepositoryInterface } from './FaqListInterface'
 export class FaqListsRepository implements FaqRepositoryInterface {
   getAllFaqs(): FaqData[] {
     return [
-      new FaqData('Can I sign up for free? What are the different subscription plans available?', 'coming soon...'),
+      new FaqData('Can I sign up for free? What are the different subscription plans available?', "User can streaming music, videos, lyrics, and more on Zene all without the hassle of mandatory signups or logins execpt when you start a group party. Also our vast library of content on the Zene Android, iOS, and Web apps are accessible without any subscription fees."),
       new FaqData('How do I import my music library from another platform?', 'coming soon...'),
       new FaqData('Can I listen to music offline?', 'coming soon...'),
       new FaqData('How much data does a song streaming use?', 'coming soon...'),
