@@ -21,6 +21,8 @@
   import { pppllaaayyyPatthh } from '$lib/utils/pid'
   import axios from 'axios'
   import { dev } from '$app/environment'
+  import { Analytics } from '@vercel/analytics/react'
+  import { inject } from '@vercel/analytics'
 
   axios.defaults.timeout = 20000
 
@@ -93,6 +95,7 @@
       setUpForegroundFCM()
     }, 2000)
   })
+  inject({ mode: dev ? 'development' : 'production' })
 </script>
 
 {#if $page.url.pathname === '/home' || $page.url.pathname === '/faq' || $page.url.pathname === '/privacy-policy'}
