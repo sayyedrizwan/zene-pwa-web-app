@@ -22,6 +22,7 @@
   import axios from 'axios'
   import { dev } from '$app/environment'
   import { inject } from '@vercel/analytics'
+  import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit'
 
   axios.defaults.timeout = 20000
 
@@ -42,6 +43,7 @@
   }
 
   onMount(async () => {
+    injectSpeedInsights()
     setK(data.a as string, data.t as number)
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js', { type: dev ? 'module' : 'classic' })
 
