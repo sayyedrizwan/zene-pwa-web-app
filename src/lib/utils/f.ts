@@ -20,11 +20,11 @@ export function playSongZene(song: MusicData | null, list: MusicData[] | null | 
   cacheDB.saveToIndexedDB(m)
 
   const customEvent = new CustomEvent('playsongid', {
-    detail: { value: song},
+    detail: { value: song },
   })
   document.dispatchEvent(customEvent)
 
-  if(open) showMusicPlayer(true)
+  if (open) showMusicPlayer(true)
 }
 
 export function notificationAlertListener(title: string, desc: string, img: string | null) {

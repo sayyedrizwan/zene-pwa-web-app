@@ -32,19 +32,15 @@ export const check_ip_aws = 'http://checkip.amazonaws.com/'
 
 export const top_100_artists_billboard = 'https://www.billboard.com/charts/artist-100/'
 
-
 export const imgbb_json = 'https://imgbb.com/json'
-
 
 export const api_useless_facts = 'https://uselessfacts.jsph.pl/api/v2/facts/random'
 
 export const giphy_search = 'https://api.giphy.com/v1/gifs/search'
 export const giphy_key = 'Gc7131jiJuvI7IdN0HZ1D7nh0ow5BU6g'
 
-
 export const instagram_search = `https://www.instagram.com/api/v1/web/search/topsearch`
 export const instagram_session_id = `sessionid=58767661637%3A295ot08SdxsAFe%3A25%3AAYfNx_wj1yuQVvMrZG8yX1bJnrcasaXPBg_S3Q6AEQ;`
-
 
 export const radio_browser_url = '_api._tcp.radio-browser.info'
 export const radio_browser_country = '/json/stations/bycountry/'

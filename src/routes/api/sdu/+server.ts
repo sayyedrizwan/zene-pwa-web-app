@@ -12,7 +12,7 @@ export const GET = async (req: RequestEvent) => {
   const ipAddress = new URL(req.url).searchParams.get('pp') ?? ''
 
   if (!decryptAPIKeyAndIsValidOfSong(req, key, ipAddress)) throw redirect(302, 'https://www.zenemusic.co/download/videoplayback.mp4')
-  
+
   const videoId = video_url.length > 20 ? video_url : atob(video_url)
 
   if (videoId.length > 20 && videoId.split('-').length > 3) {
@@ -50,7 +50,7 @@ function getTempHeader() {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-    timeZone: 'GMT'
+    timeZone: 'GMT',
   }
 
   return {
@@ -65,6 +65,6 @@ function getTempHeader() {
     vary: 'Origin',
     'cross-origin-resource-policy': 'cross-origin',
     'x-content-type-options': 'nosniff',
-    server: 'gvs 1.0'
+    server: 'gvs 1.0',
   }
 }

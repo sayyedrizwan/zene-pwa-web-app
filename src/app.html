@@ -1,66 +1,60 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    %sveltekit.head%
+    <meta charset="utf-8" />
+    <link rel="icon" href="%sveltekit.assets%/icon.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="alternate icon" href="%sveltekit.assets%/favicon.ico" />
+    <link rel="icon" href="%sveltekit.assets%/icon.svg" type="image/svg+xml" />
+    <link rel="mask-icon" href="%sveltekit.assets%/favicon.png" color="#FFFFFF" />
+    <meta name="msapplication-TileColor" content="black" />
+    <meta name="theme-color" content="black" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="robots" content="index, follow" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" sizes="76x76" href="%sveltekit.assets%/icons/pwa/ios/76.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="%sveltekit.assets%/icons/pwa/ios/120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="%sveltekit.assets%/icons/pwa/ios/152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="%sveltekit.assets%/icons/pwa/ios/167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%sveltekit.assets%/icons/pwa/ios/180.png" />
+    <link rel="manifest" href="/zene.webmanifest" />
+    <link data-default-icon="%sveltekit.assets%/favicon.ico" rel="shortcut icon" type="image/x-icon" href="%sveltekit.assets%/favicon.ico" />
+    <link rel="alternate" href="https://www.zenemusic.co/" hreflang="x-default" />
+    <link rel="alternate" href="https://www.zenemusic.co" hreflang="en" />
+    <meta property="al:ios:app_name" content="Zene" />
+    <meta property="al:android:app_name" content="Zene" />
+    <meta property="al:android:package" content="com.rizwansayyed.zene" />
+    <meta property="al:android:url" content="https://zenemusic.co/player" />
+    <meta property="og:site_name" content="Zene" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zenemusic.co/" />
+    <meta name="color-scheme" content="light" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
 
-<head>
-  %sveltekit.head%
-  <meta charset="utf-8" />
-  <link rel="icon" href="%sveltekit.assets%/icon.svg" type="image/svg+xml" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <link rel="alternate icon" href="%sveltekit.assets%/favicon.ico" />
-  <link rel="icon" href="%sveltekit.assets%/icon.svg" type="image/svg+xml" />
-  <link rel="mask-icon" href="%sveltekit.assets%/favicon.png" color="#FFFFFF" />
-  <meta name="msapplication-TileColor" content="black" />
-  <meta name="theme-color" content="black" />
-  <meta name="HandheldFriendly" content="true" />
-  <meta name="robots" content="index, follow" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="apple-touch-icon" sizes="76x76" href="%sveltekit.assets%/icons/pwa/ios/76.png" />
-  <link rel="apple-touch-icon" sizes="120x120" href="%sveltekit.assets%/icons/pwa/ios/120.png" />
-  <link rel="apple-touch-icon" sizes="152x152" href="%sveltekit.assets%/icons/pwa/ios/152.png" />
-  <link rel="apple-touch-icon" sizes="167x167" href="%sveltekit.assets%/icons/pwa/ios/167.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="%sveltekit.assets%/icons/pwa/ios/180.png" />
-  <link rel="manifest" href="/zene.webmanifest" />
-  <link data-default-icon="%sveltekit.assets%/favicon.ico" rel="shortcut icon" type="image/x-icon"
-    href="%sveltekit.assets%/favicon.ico" />
-  <link rel="alternate" href="https://www.zenemusic.co/" hreflang="x-default" />
-  <link rel="alternate" href="https://www.zenemusic.co" hreflang="en" />
-  <meta property="al:ios:app_name" content="Zene" />
-  <meta property="al:android:app_name" content="Zene" />
-  <meta property="al:android:package" content="com.rizwansayyed.zene" />
-  <meta property="al:android:url" content="https://zenemusic.co/player" />
-  <meta property="og:site_name" content="Zene" />
-  <meta property="og:locale" content="en_US" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://zenemusic.co/" />
-  <meta name="color-scheme" content="light" />
-  <meta name="referrer" content="no-referrer" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://browser.sentry-cdn.com/7.93.0/bundle.tracing.min.js" integrity="sha384-SPq2en7EMouQY/MGYLYA/shBLhoyYScgNTU8crQBLY4Aa8evvIXgmB6gSnUIAd/n" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script src="https://browser.sentry-cdn.com/7.93.0/bundle.tracing.min.js"
-    integrity="sha384-SPq2en7EMouQY/MGYLYA/shBLhoyYScgNTU8crQBLY4Aa8evvIXgmB6gSnUIAd/n"
-    crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2941808068005217" crossorigin="anonymous"></script>
+    <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2941808068005217"
-    crossorigin="anonymous"></script>
-  <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
+    <script>
+      Sentry.init({
+        dsn: 'https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896',
+        release: 'zene@0.0.1',
+        integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
+        tracesSampleRate: 1.0,
+        tracePropagationTargets: ['zenemusic.co'],
+        replaysSessionSampleRate: 0.1,
+        replaysOnErrorSampleRate: 1.0,
+      })
+    </script>
+  </head>
 
-  <script>
-    Sentry.init({
-      dsn: 'https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896',
-      release: 'zene@0.0.1',
-      integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
-      tracesSampleRate: 1.0,
-      tracePropagationTargets: ['zenemusic.co'],
-      replaysSessionSampleRate: 0.1,
-      replaysOnErrorSampleRate: 1.0,
-    })
-  </script>
-</head>
-
-<body data-sveltekit-preload-data="hover" style="background-color: black">
-  <div style="display: contents">%sveltekit.body%</div>
-</body>
-
+  <body data-sveltekit-preload-data="hover" style="background-color: black">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
 </html>

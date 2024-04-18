@@ -11,12 +11,12 @@ export async function POST(req: RequestEvent) {
   if (id == undefined) return json(apiError)
   if (id === '') return json(apiError)
   if (!decryptAPIKeyAndIsValid(req)) return json(authKeyError)
-  
+
   const ytImpl = new YtMusicAPIImpl()
   try {
     const lists: MusicData[] = []
     const response = await ytImpl.albumsInfo(id)
-    
+
     await Promise.all(
       response[1].map(async (m) => {
         const music = await ytImpl.musicSearchSingle(`${m} - ${response[0]?.artists}`, true)

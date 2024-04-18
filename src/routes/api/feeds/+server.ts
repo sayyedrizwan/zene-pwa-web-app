@@ -35,7 +35,7 @@ export const POST = async (events: RequestEvent) => {
 
         const instagramPosts = await instagram.getArtistsPosts(name.trim())
       }
-    })
+    }),
   )
 
   dataLists.sort((a, b) => {

@@ -23,7 +23,6 @@ export class YtAPIImpl {
     return list
   }
 
-
   async getSearchPlaylists(search: string): Promise<string[]> {
     const r = await fetch(yt_video_search, { method: 'POST', headers: ytHeader, body: ytBodyWithQueryParams(search, yt_playlist_search_params) })
     const response = (await r.json()) as YtSearchVideoResponse

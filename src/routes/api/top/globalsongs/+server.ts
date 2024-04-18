@@ -10,7 +10,7 @@ export async function POST(events: RequestEvent) {
 
   try {
     const ytImpl = new YtMusicAPIImpl()
-    
+
     const billboardImpl = new BillboardImpl()
     const lists: MusicData[] = []
 

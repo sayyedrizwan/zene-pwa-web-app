@@ -25,11 +25,11 @@ export async function POST(events: RequestEvent) {
             list.push(new TopSongsMusic(e?.image?.replace('174s/', '') ?? '', formatNumberString(e.listeners ?? '0'), music))
           }
         }
-      })
+      }),
     )
 
-    const sorted = list.sort((a, b) => parseInt(b?.listeners?.replaceAll(",", "").trim() ?? '0') - parseInt(a?.listeners?.replaceAll(",", "").trim() ?? '0'))
-    
+    const sorted = list.sort((a, b) => parseInt(b?.listeners?.replaceAll(',', '').trim() ?? '0') - parseInt(a?.listeners?.replaceAll(',', '').trim() ?? '0'))
+
     return json(new TopSongsMusicResults(sorted))
   } catch (error) {
     return json(apiError)

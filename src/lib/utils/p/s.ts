@@ -46,11 +46,11 @@ export class APManager implements AudioPlayer {
     const cacheDB = new DataIndexDS<MusicPlayerData>(musicPlayerInfoCache, indexDB)
     const records: any = await cacheDB.retrieveFromIndexedDB()
 
-    let musicData = (records.length > 0) ? records[0] as MusicPlayerData : null
+    let musicData = records.length > 0 ? (records[0] as MusicPlayerData) : null
     if (musicData == null) return
 
-    const musicDataItem = musicData?.lists.findIndex(v => musicData?.m.songId == v.songId)
-   
+    const musicDataItem = musicData?.lists.findIndex((v) => musicData?.m.songId == v.songId)
+
     this.stop()
     this.startBuffering()
     try {
@@ -82,7 +82,6 @@ export class APManager implements AudioPlayer {
     mpegsource.type = 'audio/mpeg'
     audioe.appendChild(mpegsource)
 
-
     this.sourceElementMP4 = mp4source
     this.sourceElementMPEG = mpegsource
     this.audioElement = audioe
@@ -110,7 +109,7 @@ export class APManager implements AudioPlayer {
 
     this.audioElement.addEventListener('loadedmetadata', async () => {
       this.audioElement!.title = ''
-      
+
       if (this.audioElement?.duration === Infinity || isNaN(Number(this.audioElement?.duration))) {
         this.audioElement!.currentTime = 1e101
         this.audioElement?.addEventListener('timeupdate', getDuration)
@@ -132,7 +131,7 @@ export class APManager implements AudioPlayer {
 
   async playMusic(url: string, music: MusicData, ap: string): Promise<void> {
     this.stop()
-    
+
     this.k = ap
     this.music = music
     this.buffering = true
@@ -211,8 +210,8 @@ export class APManager implements AudioPlayer {
       this.seekForward(5)
     })
 
-    setActionHandler('previoustrack', function () { })
-    setActionHandler('nexttrack', function () { })
+    setActionHandler('previoustrack', function () {})
+    setActionHandler('nexttrack', function () {})
   }
 
   pause(): void {
@@ -236,9 +235,9 @@ export class APManager implements AudioPlayer {
     this.audioElement!.currentTime = this.audioElement!.currentTime - v
   }
 
-  nextSong(): void { }
+  nextSong(): void {}
 
-  previousSong(): void { }
+  previousSong(): void {}
 
   isPlaying(): boolean {
     return !this.audioElement?.paused

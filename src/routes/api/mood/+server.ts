@@ -36,15 +36,15 @@ export const POST = async (events: RequestEvent) => {
   await Promise.all(
     lists.map(async (m) => {
       const music = await ytMusic.searchPlaylists(ipData, m)
-      music.forEach(item => songs.push(item))
-    })
+      music.forEach((item) => songs.push(item))
+    }),
   )
 
   await Promise.all(
     songs.map(async (m) => {
       const s = await ytMusic.musicSearchSingle(m, false)
-      if (!musicList.some(i => i.songId == s.songId) && s.songId != null) musicList.push(s)
-    })
+      if (!musicList.some((i) => i.songId == s.songId) && s.songId != null) musicList.push(s)
+    }),
   )
 
   return json(new MoodDataResponse(moodGif, facts, musicList))

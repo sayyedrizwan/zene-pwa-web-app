@@ -75,8 +75,6 @@ export async function getFileSize(url: string): Promise<number | null> {
   }
 }
 
-
-
 export async function downloadBlobInChunks(url: string, chunkSize: number, fileSize: number): Promise<Uint8Array[]> {
   const chunks: Uint8Array[] = []
   let start = 0
@@ -86,7 +84,7 @@ export async function downloadBlobInChunks(url: string, chunkSize: number, fileS
   setTimeout(() => {
     status = false
   }, 8 * 1000)
-  
+
   while (status) {
     const end = Math.min(start + chunkSize - 1, fileSize - 1)
     const headers = { Range: `bytes=${start}-${end}` }
@@ -95,7 +93,7 @@ export async function downloadBlobInChunks(url: string, chunkSize: number, fileS
 
       const chunk = new Uint8Array(response.data)
       chunks.push(chunk)
-      
+
       if (end === fileSize - 1) break
       start = end + 1
     } catch (error) {

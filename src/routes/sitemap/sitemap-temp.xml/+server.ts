@@ -9,14 +9,14 @@ export async function GET({ setHeaders }) {
 
   setHeaders({ 'Content-Type': 'application/xml' })
 
-  let sitemap = ""
+  let sitemap = ''
 
   const music = new YtMusicAPIImpl()
 
   await Promise.all(
     searchLists.map(async (n) => {
       const artists = await music.artistsSearch(n)
-      artists.forEach(i => {
+      artists.forEach((i) => {
         if (i.songId != null && !sitemap.includes(`https://zenemusic.co/a/${i.songId}`)) {
           sitemap += `<url>
            <loc>https://www.zenemusic.co/a/${i.songId}</loc>
@@ -25,9 +25,9 @@ export async function GET({ setHeaders }) {
            </url>`
         }
       })
-      
+
       const songs = await music.songsSearch(n)
-      songs.forEach(i => {
+      songs.forEach((i) => {
         if (i.songId != null && !sitemap.includes(`https://zenemusic.co/s/${i.songId}`)) {
           sitemap += `<url>
            <loc>https://www.zenemusic.co/s/${i.songId}</loc>
@@ -36,7 +36,7 @@ export async function GET({ setHeaders }) {
            </url>`
         }
       })
-    })
+    }),
   )
 
   // await Promise.all(
@@ -59,10 +59,9 @@ export async function GET({ setHeaders }) {
   return new Response(response)
 }
 
-
 function generateRandomLetters(): string {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-  const letter1 = alphabet[Math.floor(Math.random() * alphabet.length)];
-  const letter2 = alphabet[Math.floor(Math.random() * alphabet.length)];
-  return letter1 + letter2;
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+  const letter1 = alphabet[Math.floor(Math.random() * alphabet.length)]
+  const letter2 = alphabet[Math.floor(Math.random() * alphabet.length)]
+  return letter1 + letter2
 }

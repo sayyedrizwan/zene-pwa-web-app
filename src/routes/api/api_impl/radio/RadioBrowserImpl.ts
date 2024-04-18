@@ -17,7 +17,7 @@ export class RadioBrowserImpl {
       let item = hosts[Math.floor(Math.random() * hosts.length)]
       return item
     })
-    
+
     return await url
   }
 

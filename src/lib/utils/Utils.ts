@@ -6,45 +6,29 @@ import { ipBaseUrl } from '../../routes/api/utils/utils'
 import { en_ars4sfrb, g } from './pid'
 
 export async function llg_in(e: string): Promise<string | null> {
-  let encryptedText = ""
+  let encryptedText = ''
   for (let i = 0; i < e.length; i++) {
-    encryptedText += String.fromCharCode(e.charCodeAt(i) ^ kke.charCodeAt(i % kke.length));
+    encryptedText += String.fromCharCode(e.charCodeAt(i) ^ kke.charCodeAt(i % kke.length))
   }
-  return encryptedText;
+  return encryptedText
 }
 
 export async function gllg_in(e: string): Promise<string | null> {
   const v = await llg_in(e)
-  const count = ((v?.match(/_/g)?.length ?? 4) - (v?.replaceAll("_", "").length ?? 3))
+  const count = (v?.match(/_/g)?.length ?? 4) - (v?.replaceAll('_', '').length ?? 3)
 
-  if (count <= 2 && count > 0) return v?.replaceAll("_", "") ?? null
+  if (count <= 2 && count > 0) return v?.replaceAll('_', '') ?? null
 
   localStorage.removeItem(e)
   return null
 }
 
-export const moodsList: string[] = [
-  '\uD83D\uDE0A Happy',
-  '🎉 Party',
-  '\uD83D\uDE24 Angry',
-  '\uD83E\uDD18 Rock',
-  '\uD83D\uDE2C Stressed',
-  '\uD83C\uDF8A Pop',
-  '\uD83C\uDFAF Focused',
-  '\uD83C\uDFCB Workout',
-  '\uD83D\uDE29 Sleepy',
-  '\uD83D\uDE0C Feel Good',
-  '\uD83C\uDFB7 Jazz',
-  '\uD83E\uDD70 Romance',
-  '\uD83D\uDE14 Sad',
-]
-
+export const moodsList: string[] = ['😊 Happy', '🎉 Party', '😤 Angry', '🤟 Rock', '😬 Stressed', '🎊 Pop', '🎯 Focused', '🏋️ Workout', '😴 Sleepy', '☺️ Feel Good', '🎷 Jazz', '😍 Romance', '😔 Sad']
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)
 
   if (isRunOnPWA()) registerFirebaseEvents(AnalyticsEvents.OPEN_WEB_AS_APP)
-
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
@@ -104,7 +88,6 @@ export function formatRelativeTime(dateString: string): string {
       day: 'numeric',
     })
 }
-
 
 let kke: string = `53`
 let cT: number = 0

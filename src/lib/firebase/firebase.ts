@@ -30,7 +30,6 @@ if (browser) {
   }
 }
 
-
 export async function setUpForegroundFCM() {
   try {
     await Notification.requestPermission()
@@ -45,7 +44,6 @@ export async function setUpForegroundFCM() {
     error
   }
 }
-
 
 export async function getZAds(): Promise<ZeneAdsListsData | null> {
   await wait(1000)
