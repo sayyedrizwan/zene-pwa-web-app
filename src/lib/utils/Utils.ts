@@ -25,12 +25,13 @@ export async function gllg_in(e: string): Promise<string | null> {
 
 export const moodsList: string[] = [
   '\uD83D\uDE0A Happy',
+  '🎉 Party',
   '\uD83D\uDE24 Angry',
   '\uD83E\uDD18 Rock',
   '\uD83D\uDE2C Stressed',
   '\uD83C\uDF8A Pop',
   '\uD83C\uDFAF Focused',
-  '\uD83C\uDFCB️ Workout',
+  '\uD83C\uDFCB Workout',
   '\uD83D\uDE29 Sleepy',
   '\uD83D\uDE0C Feel Good',
   '\uD83C\uDFB7 Jazz',

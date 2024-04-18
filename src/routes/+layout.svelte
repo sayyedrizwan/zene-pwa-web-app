@@ -21,7 +21,6 @@
   import { pppllaaayyyPatthh } from '$lib/utils/pid'
   import axios from 'axios'
   import { dev } from '$app/environment'
-  import { Analytics } from '@vercel/analytics/react'
   import { inject } from '@vercel/analytics'
 
   axios.defaults.timeout = 20000
