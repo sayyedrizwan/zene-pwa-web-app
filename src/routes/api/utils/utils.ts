@@ -60,6 +60,9 @@ export const last_sync_ts_cookie = 'last_sync_ts'
 export const users_ip_address = 'i'
 export const users_ip_details = 'i_d'
 
+export const spotify_liked_playlists = "spotify_liked_playlists"
+
+
 export let ipAddress: string | null = null
 
 export async function isSameServerIp(ip: string) {

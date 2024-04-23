@@ -3,7 +3,7 @@
   import CardWithTopMenuIcon from '$lib/components/global-view/items/CardWithTopMenuIcon.svelte'
   import { onMount } from 'svelte'
   import type { MusicData } from '../../../domain/local/entities/MusicData.js'
-  import type { SpotifyPlaylistsMusicData, SpotifyPlaylistsMusicTrackData } from '../../../domain/local/entities/SpotifyPlaylistsMusicData.js'
+  import { SpotifyPlaylistsMusicData, type SpotifyPlaylistsMusicTrackData } from '../../../domain/local/entities/SpotifyPlaylistsMusicData.js'
   import axios from 'axios'
   import { env } from '$env/dynamic/public'
   import { ResponseDataEnum, type ResponseData } from '../../../domain/RequestEnumClass.js'
@@ -19,14 +19,18 @@
   let responses: ResponseData<Boolean> = { type: ResponseDataEnum.EMPTY }
 
   async function getAllMusic() {
+    axios.defaults.timeout = 10 * 1000
     songsLists = []
 
     responses = { type: ResponseDataEnum.LOADING }
 
     await Promise.all(
-      lists.map(async (items, num) => {
+      lists.map(async (items) => {
+        console.log(items)
         const response = await axios.post(env.PUBLIC_SPOTIFY_ZENE_S_API, { id: items.id, code: items.token, name: items.name }, { headers: { AuthorizationKey: window.atob(data.data) } })
         const r = (await response.data) as SpotifyPlaylistsMusicTrackData
+        console.log(r)
+        
         loadingNum += 1
         if (r.id != undefined) songsLists.push(r)
       })

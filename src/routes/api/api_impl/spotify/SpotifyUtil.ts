@@ -2,6 +2,8 @@ export const SPOTIFY_API_TOKEN_GENREATE = 'https://accounts.spotify.com/api/toke
 
 export const SPOTIFY_PLAYLISTS_SEARCH = 'https://api.spotify.com/v1/search'
 export const SPOTIFY_USER_PLAYLISTS = 'https://api.spotify.com/v1/me/playlists'
+export const SPOTIFY_USER_LIKED_PLAYLISTS = 'https://api.spotify.com/v1/me/tracks'
+
 
 export function spotifyPlaylistsTracks(id: string) {
   return `https://api.spotify.com/v1/playlists/${id}/tracks`

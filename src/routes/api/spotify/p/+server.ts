@@ -1,6 +1,6 @@
 import { json, type RequestEvent } from '@sveltejs/kit'
 import { decryptAPIKeyAndIsValid, encryptData } from '../../utils/EncryptionForAPI'
-import { authKeyError } from '../../utils/utils'
+import { authKeyError, spotify_liked_playlists } from '../../utils/utils'
 import { SpotifyImpl } from '../../api_impl/spotify/SpotifyImpl'
 import { SpotifyPlaylistsMusicData } from '../../../../domain/local/entities/SpotifyPlaylistsMusicData'
 
@@ -15,7 +15,7 @@ export const POST = async (events: RequestEvent) => {
   let isRunning = true
   let offset = 0
 
-  const lists: SpotifyPlaylistsMusicData[] = []
+  let lists: SpotifyPlaylistsMusicData[] = []
 
   setTimeout(() => {
     isRunning = false
@@ -30,7 +30,7 @@ export const POST = async (events: RequestEvent) => {
         if (img == '' && (items.images?.length ?? 0) > 0) img = items.images?.[0].url ?? ''
 
         if (items.id != undefined) lists.push(new SpotifyPlaylistsMusicData(items.id, encryptData(token), img, items.name ?? '', items.owner?.display_name ?? ''))
-      }),
+      })
     )
 
     if (playlistsAndSongs?.next != null) {
@@ -39,6 +39,9 @@ export const POST = async (events: RequestEvent) => {
       else isRunning = false
     } else isRunning = false
   }
+
+  // const liked = new SpotifyPlaylistsMusicData(spotify_liked_playlists, encryptData(token), "https://misc.scdn.co/liked-songs/liked-songs-300.png", "Liked Songs", "Spotify")
+  // lists = [liked, ...lists]
 
   return json(lists)
 }

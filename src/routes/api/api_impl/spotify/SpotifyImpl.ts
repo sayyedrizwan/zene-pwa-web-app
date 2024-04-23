@@ -1,12 +1,13 @@
 import { env } from '$env/dynamic/private'
 import axios from 'axios'
 import { Buffer } from 'buffer'
-import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_PLAYLISTS_SEARCH, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, SPOTIFY_USER_PLAYLISTS, spotifyPlaylistSearch, spotifyPlaylistsTracks } from './SpotifyUtil'
+import { SPOTIFY_API_TOKEN_GENREATE, SPOTIFY_PLAYLISTS_SEARCH, SPOTIFY_TOP_GLOBAL_PLAYLIST_ID, SPOTIFY_USER_LIKED_PLAYLISTS, SPOTIFY_USER_PLAYLISTS, spotifyPlaylistSearch, spotifyPlaylistsTracks } from './SpotifyUtil'
 import type { SpotifyTokenResponse } from './domain/SpotifyTokenResponse'
 import type { SpotifyPlaylistsSongsResponse } from './domain/SpotifyPlaylistsSongsResponse'
 import type { SpotifyPlaylistsResponse } from './domain/SpotifyPlaylistsResponse'
 import type { SpotifyUserPlaylistsResponse } from './domain/SpotifyUserPlaylistsResponse'
 import type { SpotifyPlaylistsUserSongsResponse } from './domain/SpotifyPlaylistsUserSongsResponse'
+import { spotify_liked_playlists } from '../../utils/utils'
 
 export class SpotifyImpl {
   private async getTokens(): Promise<string> {
@@ -89,8 +90,10 @@ export class SpotifyImpl {
   async playlistsSongsSpotifyAuthToken(offset: number, token: string, id: string): Promise<SpotifyPlaylistsUserSongsResponse | null> {
     let s: SpotifyPlaylistsUserSongsResponse | null = null
     try {
-      const response = await axios.get(spotifyPlaylistsTracks(id), { headers: { Authorization: token }, params: { offset: offset, limit: 100 } })
-      s = (await response.data) as SpotifyPlaylistsUserSongsResponse
+      const response = id == spotify_liked_playlists ? await axios.get(SPOTIFY_USER_LIKED_PLAYLISTS, { headers: { Authorization: token }, params: { offset: offset, limit: 50 } })
+        : await axios.get(spotifyPlaylistsTracks(id), { headers: { Authorization: token }, params: { offset: offset, limit: 50 } })
+     
+        s = (await response.data) as SpotifyPlaylistsUserSongsResponse
     } catch (error) {
       s = null
     }
