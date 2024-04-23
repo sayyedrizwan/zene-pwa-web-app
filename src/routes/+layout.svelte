@@ -24,7 +24,7 @@
   import { inject } from '@vercel/analytics'
   import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit'
 
-  axios.defaults.timeout = 20000
+  axios.defaults.timeout = 30 * 1000
 
   export let data: any
 

@@ -4,7 +4,7 @@ import { pintrestImageSearch, searchPintrestQuery } from './PintrestUtils'
 
 export class PinterestImpl {
   async searchImage(query: string): Promise<string[]> {
-    axios.defaults.timeout = 20000
+    axios.defaults.timeout = 30 * 1000
     const imgs: string[] = []
     const responseRadio = await axios.get(pintrestImageSearch, { params: { data: searchPintrestQuery(query) } })
     const search = (await responseRadio.data) as PinterestSearchResponse

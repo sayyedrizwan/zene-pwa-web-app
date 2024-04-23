@@ -29,7 +29,7 @@
           }
         }
 
-      axios.defaults.timeout = 20000
+      axios.defaults.timeout = 30 * 1000
       const res = await axios.post(env.PUBLIC_RADIO_LIST, {}, { headers: { AuthorizationKey: authKey } })
       const data = (await res.data) as ExtraDataMusicData
       response = { type: ResponseDataEnum.SUCCESS, data: data }

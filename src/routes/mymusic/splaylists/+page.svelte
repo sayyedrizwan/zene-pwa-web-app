@@ -19,21 +19,22 @@
   let responses: ResponseData<Boolean> = { type: ResponseDataEnum.EMPTY }
 
   async function getAllMusic() {
-    axios.defaults.timeout = 10 * 1000
+    axios.defaults.timeout = 30 * 1000
     songsLists = []
 
     responses = { type: ResponseDataEnum.LOADING }
 
     await Promise.all(
       lists.map(async (items) => {
-        console.log(items)
-        const response = await axios.post(env.PUBLIC_SPOTIFY_ZENE_S_API, { id: items.id, code: items.token, name: items.name }, { headers: { AuthorizationKey: window.atob(data.data) } })
-        const r = (await response.data) as SpotifyPlaylistsMusicTrackData
-        console.log(r)
-        
-        loadingNum += 1
-        if (r.id != undefined) songsLists.push(r)
-      })
+        try {
+          const response = await axios.post(env.PUBLIC_SPOTIFY_ZENE_S_API, { id: items.id, code: items.token, name: items.name }, { headers: { AuthorizationKey: window.atob(data.data) } })
+          const r = (await response.data) as SpotifyPlaylistsMusicTrackData
+          loadingNum += 1
+          if (r.id != undefined) songsLists.push(r)
+        } catch (error) {
+          loadingNum += 1
+        }
+      }),
     )
 
     lists.forEach((item, index) => {
@@ -72,7 +73,10 @@
   <meta property="og:image" content="https://zenemusic.co/logo820.png" />
   <meta property="og:image:alt" content="Zene Logo" />
   <link rel="canonical" href="https://zenemusic.co/mymusic" />
-  <meta name="keywords" content="zene, zene free music, zene a free music, free music, zene, zene songs, zene music, music streaming, music streaming app, free music streaming, music app for android, music app for iphone, music player app, free music download, music discovery app, offline listening, curated playlists, high-fidelity audio, free music streaming with no ads, workout music app, music for studying app, audio streaming, mobile music app, radio, radio streaming" />
+  <meta
+    name="keywords"
+    content="zene, zene free music, zene a free music, free music, zene, zene songs, zene music, music streaming, music streaming app, free music streaming, music app for android, music app for iphone, music player app, free music download, music discovery app, offline listening, curated playlists, high-fidelity audio, free music streaming with no ads, workout music app, music for studying app, audio streaming, mobile music app, radio, radio streaming"
+  />
 </svelte:head>
 
 <h3 class="text-white urbanist-semibold text-4xl md:text-6xl ms-4 md:ms-7 mt-11">Spotify Playlists</h3>
@@ -99,7 +103,7 @@
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 leading-6 rounded-lg px-4">
       {#each selectedLists as musicData}
         {#if musicData.songId != null}
-          <CardWithTopMenuIcon {musicData} list={selectedLists}/>
+          <CardWithTopMenuIcon {musicData} list={selectedLists} />
         {/if}
       {/each}
     </div>
