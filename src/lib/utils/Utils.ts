@@ -26,7 +26,7 @@ export async function gllg_in(e: string): Promise<string | null> {
 export const moodsList: string[] = ['😊 Happy', '🎉 Party', '😤 Angry', '🤟 Rock', '😬 Stressed', '🎊 Pop', '🎯 Focused', '🏋️ Workout', '😴 Sleepy', '☺️ Feel Good', '🎷 Jazz', '😍 Romance', '😔 Sad']
 
 export function onBrowser() {
-  registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE)
+  registerFirebaseEvents(AnalyticsEvents.OPEN_APP)
 
   if (isRunOnPWA()) registerFirebaseEvents(AnalyticsEvents.OPEN_WEB_AS_APP)
 
