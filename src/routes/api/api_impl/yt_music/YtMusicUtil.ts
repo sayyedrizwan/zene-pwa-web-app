@@ -1,7 +1,5 @@
 import type { IpJsonResponse } from '../../radiolist/domain/IpJsonResponse'
 
-export const YT_MUSIC_KEY = 'AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30'
-
 export const ytMusicHeader = {
   authority: 'music.youtube.com',
   'cache-control': 'no-cache',
@@ -15,11 +13,15 @@ const userAgent = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleW
 const clientName = 'WEB_REMIX'
 const clientVersion = '1.20240408.01.00'
 
-export const yt_music_search = `https://music.youtube.com/youtubei/v1/search?key=${YT_MUSIC_KEY}&prettyPrint=false`
-export const yt_music_song_info = `https://music.youtube.com/youtubei/v1/player?key=${YT_MUSIC_KEY}&prettyPrint=false`
-export const yt_music_next = `https://music.youtube.com/youtubei/v1/next?key=${YT_MUSIC_KEY}&prettyPrint=false`
-export const yt_music_browse = `https://music.youtube.com/youtubei/v1/browse?key=${YT_MUSIC_KEY}0&prettyPrint=false`
-export const yt_music_search_suggestion = `https://music.youtube.com/youtubei/v1/music/get_search_suggestions?key==${YT_MUSIC_KEY}&prettyPrint=false`
+export function ytMusicSearchToken(token : string) {
+    return `https://music.youtube.com/youtubei/v1/search?ctoken=${token}&continuation=${token}&type=next&prettyPrint=false`
+}
+
+export const yt_music_search = `https://music.youtube.com/youtubei/v1/search?prettyPrint=false`
+export const yt_music_song_info = `https://music.youtube.com/youtubei/v1/player?prettyPrint=false`
+export const yt_music_next = `https://music.youtube.com/youtubei/v1/next?prettyPrint=false`
+export const yt_music_browse = `https://music.youtube.com/youtubei/v1/browse?prettyPrint=false`
+export const yt_music_search_suggestion = `https://music.youtube.com/youtubei/v1/music/get_search_suggestions?prettyPrint=false`
 export const all_search_params = 'EgWKAQIIAWoSEAMQBBAFEA4QChAQEAkQERAV'
 export const all_search_artists_params = 'EgWKAQIgAWoSEAMQCRAEEA4QChAFEBAQERAV'
 export const all_search_albums_params = 'EgWKAQIYAWoSEAMQCRAEEA4QChAFEBAQERAV'
@@ -36,6 +38,19 @@ export function ytMusicBodyWithParams(q: string, params: string): string {
         },
         "query": "${q}",
         "params": "${params}"
+    }
+    `
+}
+
+export function ytMusicBodyEmpty(): string {
+  return `{
+        "context": {
+            "client": {
+                "userAgent": "${userAgent}",
+                "clientName": "${clientName}",
+                "clientVersion": "${clientVersion}"
+            }
+        }
     }
     `
 }

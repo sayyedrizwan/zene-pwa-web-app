@@ -3,6 +3,7 @@ export interface YtMusicSearchResponse {
   trackingParams?: string
 }
 
+
 export interface Contents {
   tabbedSearchResultsRenderer?: TabbedSearchResultsRenderer
 }

@@ -8,12 +8,14 @@ import {
   all_search_artists_params,
   all_search_params,
   new_release_params,
+  ytMusicBodyEmpty,
   ytMusicBodyWithInput,
   ytMusicBodyWithParams,
   ytMusicBodyWithParamsNext,
   ytMusicBodyWithParamsWithIp,
   ytMusicBodyWithVID,
   ytMusicHeader,
+  ytMusicSearchToken,
   yt_music_browse,
   yt_music_next,
   yt_music_search,
@@ -28,6 +30,7 @@ import type { YtMusicSearchKeywordsSuggestion } from './domain/YtMusicSearchKeyw
 import type { YtMusicSearchResponse } from './domain/YtMusicSearchResponse'
 import type { YtMusicSongsInfoData } from './domain/YtMusicSongsInfoData'
 import type { YtBrowsePlaylistsData } from './domain/YtBrowsePlaylistsData'
+import type { YtMusicNextSearchTokenResponse } from './domain/YtMusicNextSearchTokenResponse'
 
 export class YtMusicAPIImpl {
   async artistsSearch(search: string): Promise<MusicData[]> {
@@ -287,8 +290,15 @@ export class YtMusicAPIImpl {
 
     const r = await fetch(yt_music_search, { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyWithParams(search, all_search_params) })
     const response = (await r.json()) as YtMusicSearchResponse
+
+    let token: string | null = null
+
     response?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach((tabs) => {
       tabs?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((contents) => {
+        contents.musicShelfRenderer?.continuations?.forEach(t => {
+          token = t.nextContinuationData?.continuation ?? null
+        })
+
         contents.musicShelfRenderer?.contents?.forEach((musicContents) => {
           const thumbnail = musicContents?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
           let name: string | null
@@ -319,6 +329,39 @@ export class YtMusicAPIImpl {
       })
     })
 
+    if (token == null) return list
+
+    const rNext = await fetch(ytMusicSearchToken(token), { method: 'POST', headers: ytMusicHeader, body: ytMusicBodyEmpty() })
+    const responseNext = (await rNext.json()) as YtMusicNextSearchTokenResponse
+
+    responseNext.continuationContents.musicShelfContinuation.contents.forEach(musicContents => {
+      const thumbnail = musicContents?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails?.findLast((t) => t.height == 120)?.url?.replace('w120-h120-', 'w512-h512-')
+     
+      let name: string | null = null
+      let songId: string | null
+      let artistsName: string[] = []
+
+      musicContents?.musicResponsiveListItemRenderer?.flexColumns?.forEach((names) => {
+        const info = names.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]
+        if (info?.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == 'MUSIC_VIDEO_TYPE_ATV') {
+          name = info.text ?? null
+          songId = info.navigationEndpoint?.watchEndpoint?.videoId ?? null
+        }
+
+      })
+
+      if (artistsName.length == 0) {
+        try {
+          const a = musicContents?.musicResponsiveListItemRenderer?.flexColumns?.[1]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
+          artistsName.push(a ?? '')
+        } catch (error) {
+          error
+        }
+      }
+
+      list.push(new MusicData(name!, joinArtists(artistsName), btoa(songId!).replaceLastChar('=', ''), thumbnail!, MusicType.MUSIC))
+    })
+    
     return list
   }
 
