@@ -98,6 +98,8 @@
           frameborder="0"
           allow="autoplay; encrypted-media"
           allowfullscreen
+          cc_load_policy="3"
+          iv_load_policy="3"
           title="artists video"
           referrerPolicy="origin"
         >
