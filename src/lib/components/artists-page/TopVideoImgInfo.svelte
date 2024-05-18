@@ -94,7 +94,7 @@
       <div class="video-background relative">
         <iframe
           class="w-screen h-[80vh]"
-          src={`https://www.youtube.com/embed/${response.data}?autoplay=1&mute=1&showinfo=1&autohide=1&rel=0&controls=0&modestbranding=1&loop=1&&cc_load_policy=0`}
+          src={`https://www.youtube.com/embed/${response.data}?autoplay=1&mute=1&showinfo=1&autohide=1&rel=0&controls=0&modestbranding=1&loop=1&cc_load_policy=0&playlist=${response.data}`}
           frameborder="0"
           allow="autoplay; encrypted-media"
           allowfullscreen
