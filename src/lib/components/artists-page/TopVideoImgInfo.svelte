@@ -94,12 +94,10 @@
       <div class="video-background relative">
         <iframe
           class="w-screen h-[80vh]"
-          src={`https://www.youtube.com/embed/${response.data}?autoplay=1&mute=1&showinfo=1&autohide=1&rel=0&controls=0&modestbranding=1&loop=1`}
+          src={`https://www.youtube.com/embed/${response.data}?autoplay=1&mute=1&showinfo=1&autohide=1&rel=0&controls=0&modestbranding=1&loop=1&&cc_load_policy=0`}
           frameborder="0"
           allow="autoplay; encrypted-media"
           allowfullscreen
-          cc_load_policy="3"
-          iv_load_policy="3"
           title="artists video"
           referrerPolicy="origin"
         >
