@@ -5,6 +5,7 @@
   import SettingsIcon from '$lib/assets/img/ic_setting.svg'
   import Footer from '$lib/components/global-view/Footer.svelte'
   import MyMusicParty from '$lib/components/mymusic-page/MyMusicParty.svelte'
+    import DonateUsView from '$lib/components/mymusic-page/DonateUSView.svelte'
 
   onMount(async () => {
     // window.performance.getEntries().map(e => console.log(e.name) )
@@ -42,6 +43,10 @@
 <div class="h-44 md:h-72" />
 
 <MyMusicParty />
+
+<div class="h-44 md:h-72" />
+
+<DonateUsView />
 
 <div class="h-64" />
 
