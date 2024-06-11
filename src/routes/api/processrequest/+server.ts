@@ -7,6 +7,8 @@ export async function POST(events: RequestEvent) {
   const restype = events.request.headers.get("restype")
 
   const body = await events.request.json()
+
+  console.log(body)
   try {
     const r = type == "post" ? await fetch(url ?? "", { method: 'POST', headers: body.headers, body: body.body }) : await fetch(url ?? "")
     return restype == "json" ? (await r.json()) : (await r.text())
