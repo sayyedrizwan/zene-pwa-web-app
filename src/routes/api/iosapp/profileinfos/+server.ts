@@ -3,7 +3,7 @@ import { json, type RequestEvent } from '@sveltejs/kit'
 export async function POST(events: RequestEvent) {
   try {
     const name = events.request.headers.get("name") ?? ""
-
+    console.log(name)
     const path = await fetch("https://m.soundcloud.com/", { headers: { "Referer": "https://soundcloud.com/" } })
     const id = (await path.text()).textAfterKeyword("\"clientId\":\"").textBeforeKeyword("\",\"")
 
