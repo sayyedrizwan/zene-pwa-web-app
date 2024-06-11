@@ -4,7 +4,7 @@ import { apiError} from '../utils/utils'
 export async function POST(events: RequestEvent) {
   const url = events.request.headers.get("url")
   const type = events.request.headers.get("type")
-  const restype = events.request.headers.get("type")
+  const restype = events.request.headers.get("restype")
 
   const body = await events.request.json()
   try {
