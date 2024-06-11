@@ -14,6 +14,7 @@ export async function POST(events: RequestEvent) {
     console.log(await r.json())
     return restype == "json" ? (await r.json()) : (await r.text())
   } catch (error) {
+    console.log(error)
     return json(apiError)
   }
 }
