@@ -10,7 +10,7 @@ export async function POST(events: RequestEvent) {
 
   console.log(body)
   try {
-    const r = type == "post" ? await fetch(url ?? "", { method: 'POST', headers: body.headers, body: body.body }) : await fetch(url ?? "")
+    const r = type == "post" ? await fetch(url ?? "", { method: 'POST', headers: body.headers.toString(), body: body.body.toString() }) : await fetch(url ?? "")
     return restype == "json" ? (await r.json()) : (await r.text())
   } catch (error) {
     return json(apiError)
