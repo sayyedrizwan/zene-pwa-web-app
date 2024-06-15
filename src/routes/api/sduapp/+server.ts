@@ -6,7 +6,7 @@ export const GET = async (req: RequestEvent) => {
   const videoId = new URL(req.url).searchParams.get('id') ?? ''
 
   const ytDownloader = new YTDownloaderImpl()
-  const url = await ytDownloader.videoURL(videoId, false)
+  const url = await ytDownloader.audioYTDownloader(videoId)
   const responseInfo = await axios.head(url!)
 
   const response = await downloadBlobInChunks(url!, 2000000, responseInfo.headers['content-length'])

@@ -63,7 +63,21 @@ export class YTDownloaderImpl {
       return null
     }
   }
+
+  async audioYTDownloader(videoId: string): Promise<string | null> {
+    try {
+      let url = ``
+      let info = await ytdl.getInfo(videoId)
+      ytdl.filterFormats(info.formats, 'audioonly').forEach(s => {
+        if (s.container.toString() == "mp4" && url == '') url = s.url
+      })
+      return url ?? null
+    } catch (error) {
+      return null
+    }
+  }
 }
+
 
 export async function getFileSize(url: string): Promise<number | null> {
   try {
