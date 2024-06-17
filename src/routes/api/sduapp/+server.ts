@@ -4,9 +4,10 @@ import axios from 'axios'
 
 export const GET = async (req: RequestEvent) => {
   const videoId = new URL(req.url).searchParams.get('id') ?? ''
+  const isApple = new URL(req.url).searchParams.get('ios') ?? ''
 
   const ytDownloader = new YTDownloaderImpl()
-  const url = await ytDownloader.audioYTDownloader(videoId)
+  const url = isApple == "true" ? await ytDownloader.videoURL(videoId, false) : await ytDownloader.audioYTDownloader(videoId)
   const responseInfo = await axios.head(url!)
 
   const response = await downloadBlobInChunks(url!, 2000000, responseInfo.headers['content-length'])
