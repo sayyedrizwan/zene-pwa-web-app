@@ -82,6 +82,7 @@ export class YTDownloaderImpl {
       let url = ``
       let info = await ytdl.getInfo(videoId)
       let strings: string[] = []
+      console.log(info)
       ytdl.filterFormats(info.formats, 'audioonly').forEach(s => {
         strings.push(s.url)
       })
