@@ -78,7 +78,7 @@ export class YTDownloaderImpl {
   }
 
   async audioYTDownloaderAll(videoId: string): Promise<string[]> {
-    console.log("runnnnedd")
+    console.log(`runnnnedd ${videoId}`)
     try {
       let url = ``
       let info = await ytdl.getInfo(videoId)
