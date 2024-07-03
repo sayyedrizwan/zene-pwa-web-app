@@ -76,6 +76,20 @@ export class YTDownloaderImpl {
       return null
     }
   }
+
+  async audioYTDownloaderAll(videoId: string): Promise<string[]> {
+    try {
+      let url = ``
+      let info = await ytdl.getInfo(videoId)
+      let strings: string[] = []
+      ytdl.filterFormats(info.formats, 'audioonly').forEach(s => {
+        strings.push(s.url)
+      })
+      return strings
+    } catch (error) {
+      return [`${error}`]
+    }
+  }
 }
 
 
