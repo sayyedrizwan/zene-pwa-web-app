@@ -1,1 +1,0 @@
-export const billboard_hot_100 = 'https://www.billboard.com/charts/hot-100/'
