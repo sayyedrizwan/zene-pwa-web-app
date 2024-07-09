@@ -1,7 +1,9 @@
 import { json } from '@sveltejs/kit'
-import { mysqlpool } from '../utils/Utils.js';
+import { mysqlpool, verifyHeader } from '../utils/Utils.js';
 
 export async function GET({ url }) {
+	
+
 	const email = url.searchParams.get('user') ?? ""
 
 	if (email == "") return json({})
@@ -24,6 +26,8 @@ export async function GET({ url }) {
 }
 
 export async function POST({ request }) {
+	if(!verifyHeader(request)) return json({ "status": "error" })
+
 	const body = await request.json()
 	const email = body.email as string
 

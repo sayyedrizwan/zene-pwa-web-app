@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 
 const isDev = true
+const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e"
 
 //aiven
 export const mysqlpool : any = mysql.createPool({
@@ -17,3 +18,11 @@ export const mysqlpool : any = mysql.createPool({
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
 })
+
+
+export function verifyHeader(request: Request) {
+    const key = request.headers.get("auth")
+    if(key == auth) return true
+    
+    return false
+}
