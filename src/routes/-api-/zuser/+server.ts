@@ -1,12 +1,11 @@
 import { json } from '@sveltejs/kit'
 import { mysqlpool, verifyHeader } from '../utils/Utils.js';
 
-export async function GET({ url }) {
-	
+export async function GET({ url, request }) {
+	if(!verifyHeader(request)) return json({ })
 
 	const email = url.searchParams.get('user') ?? ""
-
-	if (email == "") return json({})
+	if (!email.includes("@") && email.length < 3) return json({})
 
 	try {
 		const [results] = await mysqlpool.query('SELECT * FROM `users` WHERE email = ?', [email])
