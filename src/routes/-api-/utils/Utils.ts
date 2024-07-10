@@ -26,7 +26,16 @@ export const shuffle = (array: MusicData[]) => {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-};
+}
+
+export function isYear(str: string): boolean {
+    const yearRegex = /^\d{4}$/
+    if (!yearRegex.test(str)) return false
+    
+    const year = parseInt(str, 10)
+    const currentYear = new Date().getFullYear()
+    return year >= 0 && year <= currentYear
+}
 
 export function verifyHeader(request: Request) {
     const key = request.headers.get("auth")
@@ -49,6 +58,21 @@ export const ytMusicHeader = {
 export function ytMusicvideoID(id: string): string {
     return JSON.stringify({
         "videoId": id,
+        "isAudioOnly": true,
+        "context": {
+            "client": {
+                "clientName": clientNameYTName,
+                "clientVersion": clientNameYTVersion
+            }
+        }
+    })
+}
+
+export function ytMusicPlaylistSongs(id: string): string {
+    return JSON.stringify({
+        "enablePersistentPlaylistPanel": true,
+        "tunerSettingValue": "AUTOMIX_SETTING_NORMAL",
+        "playlistId": "RDAMVM" + id,
         "isAudioOnly": true,
         "context": {
             "client": {
