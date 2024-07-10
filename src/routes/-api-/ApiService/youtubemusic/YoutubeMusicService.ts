@@ -129,16 +129,16 @@ export class YoutubeMusicService {
                 if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
                     contents?.musicShelfRenderer?.contents?.forEach(c => {
                         const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = thumbnail.sort((a, b) => (b.height ?? 0) - (a.height ?? 0))[0].url
-                        const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text
-                        const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.watchEndpoint?.videoId
+                        const highestThumbnail = thumbnail.sort((a, b) => (b.height ?? 0) - (a.height ?? 0))[0].url ?? ""
+                        const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+                        const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId
+                        const artists = c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
 
-                        if (id != undefined) console.log(name)
+                        if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
                     })
                 }
             })
         })
-
         return list
     }
 }

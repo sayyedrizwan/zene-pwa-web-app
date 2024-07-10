@@ -45,7 +45,7 @@ export function verifyHeader(request: Request) {
 }
 
 
-export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts?type=artist&tracks=1&nr=5&format=json"
+export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts?type=artist&tracks=1&nr=10&format=json"
 
 
 const clientNameYTName = "WEB_REMIX"
