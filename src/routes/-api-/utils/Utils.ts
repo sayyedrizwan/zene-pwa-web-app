@@ -44,11 +44,18 @@ export function verifyHeader(request: Request) {
     return false
 }
 
+
+export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts?type=artist&tracks=1&nr=5&format=json"
+
+
 const clientNameYTName = "WEB_REMIX"
 const clientNameYTVersion = "1.20240703.00.00"
 
+export const ytMusicSearchSearchParam = "EgWKAQIIAWoSEAkQAxAEEA4QBRAKEBUQEBAR"
+
 export const ytMusicNext = "https://music.youtube.com/youtubei/v1/next?prettyPrint=false"
 export const ytMusicBrowse = "https://music.youtube.com/youtubei/v1/browse?prettyPrint=false"
+export const ytMusicSearch = "https://music.youtube.com/youtubei/v1/search?prettyPrint=false"
 export const ytMusicHeader = {
     'content-type': 'application/json',
     'cookie': 'GPS=1;',
@@ -92,5 +99,17 @@ export function ytMusicBrowseID(id: string): string {
             }
         },
         "browseId": id
+    })
+}
+export function ytMusicBrowseIDWithParam(q: string, params: string): string {
+    return JSON.stringify({
+        "context": {
+            "client": {
+                "clientName": clientNameYTName,
+                "clientVersion": clientNameYTVersion
+            }
+        },
+        "query": q,
+        "params": params
     })
 }
