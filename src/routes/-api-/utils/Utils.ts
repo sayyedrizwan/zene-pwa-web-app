@@ -46,12 +46,14 @@ export function verifyHeader(request: Request) {
 
 
 export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts?type=artist&tracks=1&nr=10&format=json"
+export const billboardTopArtists = "https://www.billboard.com/charts/artist-100/"
 
 
 const clientNameYTName = "WEB_REMIX"
 const clientNameYTVersion = "1.20240703.00.00"
 
-export const ytMusicSearchSearchParam = "EgWKAQIIAWoSEAkQAxAEEA4QBRAKEBUQEBAR"
+export const ytMusicSearchSongParam = "EgWKAQIIAWoSEAkQAxAEEA4QBRAKEBUQEBAR"
+export const ytMusicSearchAlbumsParam = "EgWKAQIgAWoQEAMQCRAOEAoQBBAFEBEQEA%3D%3D"
 
 export const ytMusicNext = "https://music.youtube.com/youtubei/v1/next?prettyPrint=false"
 export const ytMusicBrowse = "https://music.youtube.com/youtubei/v1/browse?prettyPrint=false"

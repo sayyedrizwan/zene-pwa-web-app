@@ -1,10 +1,11 @@
 import axios from "axios";
-import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicNext, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchSearchParam, ytMusicvideoID } from "../../utils/Utils"
+import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicNext, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchSongParam, ytMusicvideoID } from "../../utils/Utils"
 import type { YTMusicSimilar } from "./model/YTMusicSimilar"
 import type { YTMusicPlaylists } from "./model/YTMusicPlaylists"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
 import { YTMusicSimiarId } from "./model/YTMusicSimiarId"
 import type { YTMusicSearch } from "./model/YTMusicSearch";
+import { substringBeforeLast } from "../../utils/extension/String";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -21,7 +22,7 @@ export class YoutubeMusicService {
                 if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Recommended playlists") {
                     c?.musicCarouselShelfRenderer?.contents?.forEach(content => {
                         const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = thumbnail.sort((a, b) => (b.height ?? 0) - (a.height ?? 0))[0].url ?? ""
+                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
                         const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? ""
                         const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
                         let artists = ""
@@ -52,7 +53,7 @@ export class YoutubeMusicService {
                 if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label?.includes("MORE FROM")) {
                     c?.musicCarouselShelfRenderer?.contents?.forEach(content => {
                         const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = thumbnail.sort((a, b) => (b.height ?? 0) - (a.height ?? 0))[0].url ?? ""
+                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
                         const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? ""
                         const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
                         let artists = ""
@@ -82,7 +83,7 @@ export class YoutubeMusicService {
                     t?.tabRenderer?.content?.musicQueueRenderer?.content?.playlistPanelRenderer?.contents?.forEach(m => {
                         const name = m?.playlistPanelVideoRenderer?.title?.runs?.[0].text ?? ""
                         const thumbnail = m.playlistPanelVideoRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = thumbnail.sort((a, b) => (b.height ?? 0) - (a.height ?? 0))[0].url ?? ""
+                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
                         const id = m.playlistPanelVideoRenderer?.videoId
                         const artists = m?.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0]?.text ?? ""
 
@@ -119,7 +120,7 @@ export class YoutubeMusicService {
     }
 
     async searchSongs(q: string): Promise<MusicData[]> {
-        let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchSearchParam) }
+        let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchSongParam) }
         const response = await axios.request(config)
         const data = await response.data as YTMusicSearch
 
@@ -129,12 +130,36 @@ export class YoutubeMusicService {
                 if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
                     contents?.musicShelfRenderer?.contents?.forEach(c => {
                         const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = thumbnail.sort((a, b) => (b.height ?? 0) - (a.height ?? 0))[0].url ?? ""
+                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
                         const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
                         const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId
                         const artists = c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
 
                         if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
+                    })
+                }
+            })
+        })
+        return list
+    }
+
+
+    async searchArtists(q: string): Promise<MusicData[]> {
+        let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchAlbumsParam) }
+        const response = await axios.request(config)
+        const data = await response.data as YTMusicSearch
+
+        let list: MusicData[] = []
+        data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
+            tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
+                if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Artists") {
+                    contents?.musicShelfRenderer?.contents?.forEach(c => {
+                        const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                        const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+                        const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+                        
+                        if (id != undefined) list.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.SONGS))
                     })
                 }
             })

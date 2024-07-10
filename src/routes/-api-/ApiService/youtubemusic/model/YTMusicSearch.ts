@@ -465,6 +465,7 @@ interface PlaylistItemData {
 }
 
 interface NavigationEndpoint5 {
+    browseEndpoint?: BrowseEndpoint
     clickTrackingParams?: string
     watchEndpoint?: WatchEndpoint4
 }
