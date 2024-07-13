@@ -45,6 +45,10 @@ export function verifyHeader(request: Request) {
 }
 
 
+export const GLOBAL_TRENDING_ARTISTS = "GLOBAL_TRENDING_ARTISTS"
+export const MOST_LISTEN_SONGS = "MOST_LISTEN_SONGS"
+
+
 export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts?type=artist&tracks=1&nr=10&format=json"
 export const billboardTopArtists = "https://www.billboard.com/charts/artist-100/"
 
@@ -114,4 +118,23 @@ export function ytMusicBrowseIDWithParam(q: string, params: string): string {
         "query": q,
         "params": params
     })
+}
+
+export function timeDifferenceIs24Hours(oldTimestamp: string) : Boolean {
+    const currentTimestamp = new Date().getTime()
+    const oldDate = new Date(oldTimestamp).getTime()
+    const differenceInMs = currentTimestamp - oldDate
+    
+    const hours = Math.floor((differenceInMs / (1000 * 60 * 60)) % 24)
+
+    if(hours > 24) return true
+    return false
+}
+
+export function timeDifferenceInHours(oldTimestamp: string) {
+    const currentTimestamp = new Date().getTime()
+    const oldDate = new Date(oldTimestamp).getTime()
+    const differenceInMs = currentTimestamp - oldDate
+
+    const hours = Math.floor((differenceInMs / (1000 * 60 * 60)) % 24)
 }
