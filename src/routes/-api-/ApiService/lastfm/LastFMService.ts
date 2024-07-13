@@ -7,7 +7,7 @@ export class LastFMService {
 
     async topListeningArtists(): Promise<TopLastFmChartData | undefined> {
         try {
-            const response = await axios.get(lastFMListeningSongs)
+            const response = await axios.get(lastFMListeningSongs, { params: { type: "artist", tracks: 1, nr: 10, format: "json" } })
             return await response.data as TopLastFmChartData
         } catch (error) {
             return undefined

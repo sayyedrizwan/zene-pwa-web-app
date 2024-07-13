@@ -6,9 +6,31 @@ import { MusicData, MUSICTYPE } from "../model/MusicData"
 import { YTMusicSimiarId } from "./model/YTMusicSimiarId"
 import type { YTMusicSearch } from "./model/YTMusicSearch";
 import { substringBeforeLast } from "../../utils/extension/String";
+import type { YTMusicReleasePlaylists } from "./model/YTMusicReleasePlaylists";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
+
+    async releasePlaylists(id: string): Promise<String[]> {
+        let lists: String[] = []
+        let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(`VL${id}`) }
+
+        const response = await axios.request(config)
+        const data = await response.data as YTMusicReleasePlaylists
+
+        data.contents?.twoColumnBrowseResultsRenderer?.secondaryContents?.sectionListRenderer?.contents?.forEach(c => {
+          c.musicPlaylistShelfRenderer?.contents?.forEach(cc => {
+            const name = cc?.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
+            const artists = cc?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
+       
+            if(name != undefined) lists.push(`${name} - ${artists ?? ""}`)
+        })
+        })
+
+
+
+        return lists
+    }
 
     async similarPlaylist(id: string): Promise<MusicData[] | undefined> {
         const playlistID = await this.similarIds(id)
@@ -158,7 +180,7 @@ export class YoutubeMusicService {
                         const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
                         const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
                         const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
-                        
+
                         if (id != undefined) list.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.SONGS))
                     })
                 }

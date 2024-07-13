@@ -49,8 +49,12 @@ export const GLOBAL_TRENDING_ARTISTS = "GLOBAL_TRENDING_ARTISTS"
 export const MOST_LISTEN_SONGS = "MOST_LISTEN_SONGS"
 
 
-export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts?type=artist&tracks=1&nr=10&format=json"
+export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts"
 export const billboardTopArtists = "https://www.billboard.com/charts/artist-100/"
+
+
+export const tokenSpotify = 'https://accounts.spotify.com/api/token'
+export const searchSpotify = 'https://api.spotify.com/v1/search'
 
 
 const clientNameYTName = "WEB_REMIX"
