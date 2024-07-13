@@ -47,6 +47,7 @@ export function verifyHeader(request: Request) {
 
 export const GLOBAL_TRENDING_ARTISTS = "GLOBAL_TRENDING_ARTISTS"
 export const MOST_LISTEN_SONGS = "MOST_LISTEN_SONGS"
+export const NEW_RELEASE_SONGS = "NEW_RELEASE_SONGS"
 
 
 export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts"
@@ -57,11 +58,44 @@ export const tokenSpotify = 'https://accounts.spotify.com/api/token'
 export const searchSpotify = 'https://api.spotify.com/v1/search'
 
 
-const clientNameYTName = "WEB_REMIX"
-const clientNameYTVersion = "1.20240703.00.00"
+
+
+export const ytSearch = "https://www.youtube.com/youtubei/v1/search?prettyPrint=false"
+
+
+const clientNameYTName = "WEB"
+const clientNameYTVersion = "2.20240712.01.00"
+
+export const ytHeader = {
+    'content-type': 'application/json',
+    'cookie': 'GPS=1;',
+    'origin': 'https://www.youtube.com',
+    'x-origin': 'https://www.youtube.com'
+}
+
+
+export function ytBrowseQuery(q: string): string {
+    return JSON.stringify({
+        "context": {
+            "client": {
+                "clientName": clientNameYTName,
+                "clientVersion": clientNameYTVersion
+            }
+        },
+        "query": q
+    })
+}
+
+
 
 export const ytMusicSearchSongParam = "EgWKAQIIAWoSEAkQAxAEEA4QBRAKEBUQEBAR"
 export const ytMusicSearchAlbumsParam = "EgWKAQIgAWoQEAMQCRAOEAoQBBAFEBEQEA%3D%3D"
+
+
+
+const clientNameYTMusicName = "WEB_REMIX"
+const clientNameYTMusicVersion = "1.20240703.00.00"
+
 
 export const ytMusicNext = "https://music.youtube.com/youtubei/v1/next?prettyPrint=false"
 export const ytMusicBrowse = "https://music.youtube.com/youtubei/v1/browse?prettyPrint=false"
@@ -78,8 +112,8 @@ export function ytMusicvideoID(id: string): string {
         "isAudioOnly": true,
         "context": {
             "client": {
-                "clientName": clientNameYTName,
-                "clientVersion": clientNameYTVersion
+                "clientName": clientNameYTMusicName,
+                "clientVersion": clientNameYTMusicVersion
             }
         }
     })
@@ -93,8 +127,8 @@ export function ytMusicPlaylistSongs(id: string): string {
         "isAudioOnly": true,
         "context": {
             "client": {
-                "clientName": clientNameYTName,
-                "clientVersion": clientNameYTVersion
+                "clientName": clientNameYTMusicName,
+                "clientVersion": clientNameYTMusicVersion
             }
         }
     })
@@ -104,8 +138,8 @@ export function ytMusicBrowseID(id: string): string {
     return JSON.stringify({
         "context": {
             "client": {
-                "clientName": clientNameYTName,
-                "clientVersion": clientNameYTVersion
+                "clientName": clientNameYTMusicName,
+                "clientVersion": clientNameYTMusicVersion
             }
         },
         "browseId": id
@@ -115,14 +149,15 @@ export function ytMusicBrowseIDWithParam(q: string, params: string): string {
     return JSON.stringify({
         "context": {
             "client": {
-                "clientName": clientNameYTName,
-                "clientVersion": clientNameYTVersion
+                "clientName": clientNameYTMusicName,
+                "clientVersion": clientNameYTMusicVersion
             }
         },
         "query": q,
         "params": params
     })
 }
+
 
 export function timeDifferenceIs24Hours(oldTimestamp: string) : Boolean {
     const currentTimestamp = new Date().getTime()

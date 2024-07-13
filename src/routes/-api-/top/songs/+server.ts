@@ -14,9 +14,9 @@ export async function POST({ request }) {
         const playlist = await YoutubeMusicService.instance.similarSongs(id)
         playlist?.forEach((p, i) => {
             if(body.length >= 7) {
-                if(i <= 2) list.push(p)
+                if(i <= 2 && !list.some((item) => item.id === p.id)) list.push(p)
             } else {
-                if(i <= 3) list.push(p)
+                if(i <= 3 && !list.some((item) => item.id === p.id)) list.push(p)
             }
         })
     }))

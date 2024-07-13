@@ -15,21 +15,23 @@ export class YoutubeMusicService {
         let lists: String[] = []
         let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(`VL${id}`) }
 
-        const response = await axios.request(config)
-        const data = await response.data as YTMusicReleasePlaylists
+        try {
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicReleasePlaylists
 
-        data.contents?.twoColumnBrowseResultsRenderer?.secondaryContents?.sectionListRenderer?.contents?.forEach(c => {
-          c.musicPlaylistShelfRenderer?.contents?.forEach(cc => {
-            const name = cc?.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
-            const artists = cc?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
-       
-            if(name != undefined) lists.push(`${name} - ${artists ?? ""}`)
-        })
-        })
+            data.contents?.twoColumnBrowseResultsRenderer?.secondaryContents?.sectionListRenderer?.contents?.forEach(c => {
+                c.musicPlaylistShelfRenderer?.contents?.forEach(cc => {
+                    const name = cc?.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
+                    const artists = cc?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0]?.text
 
+                    if (name != undefined) lists.push(`${name} - ${artists ?? ""}`)
+                })
+            })
 
-
-        return lists
+            return lists
+        } catch (error) {
+            return []
+        }
     }
 
     async similarPlaylist(id: string): Promise<MusicData[] | undefined> {
@@ -142,50 +144,58 @@ export class YoutubeMusicService {
     }
 
     async searchSongs(q: string): Promise<MusicData[]> {
-        let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchSongParam) }
-        const response = await axios.request(config)
-        const data = await response.data as YTMusicSearch
+        try {
+            let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchSongParam) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicSearch
 
-        let list: MusicData[] = []
-        data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
-            tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
-                if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
-                    contents?.musicShelfRenderer?.contents?.forEach(c => {
-                        const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
-                        const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
-                        const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId
-                        const artists = c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+            let list: MusicData[] = []
+            data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
+                tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
+                    if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
+                        contents?.musicShelfRenderer?.contents?.forEach(c => {
+                            const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                            const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+                            const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId
+                            const artists = c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
 
-                        if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
-                    })
-                }
+                            if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
+                        })
+                    }
+                })
             })
-        })
-        return list
+            return list
+        } catch (error) {
+            return []
+        }
     }
 
 
     async searchArtists(q: string): Promise<MusicData[]> {
-        let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchAlbumsParam) }
-        const response = await axios.request(config)
-        const data = await response.data as YTMusicSearch
+        try {
+            let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchAlbumsParam) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicSearch
 
-        let list: MusicData[] = []
-        data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
-            tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
-                if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Artists") {
-                    contents?.musicShelfRenderer?.contents?.forEach(c => {
-                        const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
-                        const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
-                        const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+            let list: MusicData[] = []
+            data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
+                tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
+                    if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Artists") {
+                        contents?.musicShelfRenderer?.contents?.forEach(c => {
+                            const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                            const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+                            const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
-                        if (id != undefined) list.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.SONGS))
-                    })
-                }
+                            if (id != undefined) list.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.ARTISTS))
+                        })
+                    }
+                })
             })
-        })
-        return list
+            return list
+        } catch (error) {
+            return []
+        }
     }
 }

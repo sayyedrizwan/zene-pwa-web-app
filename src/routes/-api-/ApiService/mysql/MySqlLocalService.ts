@@ -18,7 +18,7 @@ export class MySqlLocalService {
                 }
             }
         } catch (error) {
-            error
+            console.log(error)
         }
 
         return list
@@ -31,7 +31,7 @@ export class MySqlLocalService {
             await mysqlpool.query("INSERT INTO `temp_holder` (`name`, `artists`, `ids`, `thumbnail`, `type`, `category`, `timestamp`, `extra`)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [m.name, m.artists, m.id, m.thumbnail, m.type, category, currentTimestamp.toString(), m.extra])
         } catch (error) {
-            error
+            console.log(error)
         }
     }
 }
