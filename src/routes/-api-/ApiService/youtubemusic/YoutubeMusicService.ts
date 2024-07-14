@@ -4,11 +4,11 @@ import type { YTMusicSimilar } from "./model/YTMusicSimilar"
 import type { YTMusicPlaylists } from "./model/YTMusicPlaylists"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
 import { YTMusicSimiarId } from "./model/YTMusicSimiarId"
-import type { YTMusicSearch } from "./model/YTMusicSearch";
-import { substringBeforeLast } from "../../utils/extension/String";
-import type { YTMusicReleasePlaylists } from "./model/YTMusicReleasePlaylists";
-import type { YTMusicMood } from "./model/YTMusicMood";
-import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo";
+import type { YTMusicSearch } from "./model/YTMusicSearch"
+import type { YTMusicReleasePlaylists } from "./model/YTMusicReleasePlaylists"
+import type { YTMusicMood } from "./model/YTMusicMood"
+import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo"
+import { filterThumbnailURL } from "../../utils/extension/String";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -48,7 +48,7 @@ export class YoutubeMusicService {
                 if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Recommended playlists") {
                     c?.musicCarouselShelfRenderer?.contents?.forEach(content => {
                         const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                        const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                         const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? ""
                         const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
                         let artists = ""
@@ -56,13 +56,14 @@ export class YoutubeMusicService {
                             if (!a?.text?.includes("Playlist") && !a?.text?.includes("•") && !a?.text?.includes("views") && !a?.text?.includes("YouTube Music"))
                                 artists += artists == "" ? a.text : `, ${a.text}`
                         })
-
+                        
                         if (id != undefined) lists.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.PLAYLIST))
                     })
                 }
             })
             return lists
         } catch (error) {
+            console.log(error)
             return []
         }
     }
@@ -79,7 +80,7 @@ export class YoutubeMusicService {
                 if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label?.includes("MORE FROM")) {
                     c?.musicCarouselShelfRenderer?.contents?.forEach(content => {
                         const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                        const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                         const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? ""
                         const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
                         let artists = ""
@@ -109,7 +110,7 @@ export class YoutubeMusicService {
                     t?.tabRenderer?.content?.musicQueueRenderer?.content?.playlistPanelRenderer?.contents?.forEach(m => {
                         const name = m?.playlistPanelVideoRenderer?.title?.runs?.[0].text ?? ""
                         const thumbnail = m.playlistPanelVideoRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                        const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                         const id = m.playlistPanelVideoRenderer?.videoId
                         const artists = m?.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0]?.text ?? ""
 
@@ -157,7 +158,7 @@ export class YoutubeMusicService {
                     if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
                         contents?.musicShelfRenderer?.contents?.forEach(c => {
                             const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                            const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                             const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
                             const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId
                             const artists = c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
@@ -186,7 +187,7 @@ export class YoutubeMusicService {
                     if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Artists") {
                         contents?.musicShelfRenderer?.contents?.forEach(c => {
                             const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                            const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                             const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
                             const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
@@ -239,7 +240,7 @@ export class YoutubeMusicService {
                 t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
                     c.musicCarouselShelfRenderer?.contents?.forEach(m => {
                         const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
-                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                        const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                         const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
                         const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
