@@ -11,3 +11,11 @@ export function filterThumbnailURL(text: String): String {
     const closestIndex = Math.min(indexOfW !== -1 ? indexOfW : Infinity, indexOfS !== -1 ? indexOfS : Infinity);
     return text.substring(0, closestIndex)
 }
+
+export function filterArtistsName(text: String): String {
+    const indexOfW = text.indexOf("&")
+    const indexOfS = text.indexOf(",")
+    if (indexOfW === -1 && indexOfS === -1) return text
+    const closestIndex = Math.min(indexOfW !== -1 ? indexOfW : Infinity, indexOfS !== -1 ? indexOfS : Infinity);
+    return text.substring(0, closestIndex)
+}

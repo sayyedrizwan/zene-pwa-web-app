@@ -1,5 +1,5 @@
 import axios from "axios";
-import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicIDWithParam, ytMusicMoodAndGenresCategoryParam, ytMusicMoodAndGenresParam, ytMusicNext, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchSongParam, ytMusicvideoID } from "../../utils/Utils"
+import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicIDWithParam, ytMusicMoodAndGenresCategoryParam, ytMusicMoodAndGenresParam, ytMusicNext, ytMusicPlayer, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchSongParam, ytMusicSongID, ytMusicvideoID } from "../../utils/Utils"
 import type { YTMusicSimilar } from "./model/YTMusicSimilar"
 import type { YTMusicPlaylists } from "./model/YTMusicPlaylists"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
@@ -9,6 +9,7 @@ import type { YTMusicReleasePlaylists } from "./model/YTMusicReleasePlaylists"
 import type { YTMusicMood } from "./model/YTMusicMood"
 import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo"
 import { filterThumbnailURL } from "../../utils/extension/String";
+import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -56,7 +57,7 @@ export class YoutubeMusicService {
                             if (!a?.text?.includes("Playlist") && !a?.text?.includes("•") && !a?.text?.includes("views") && !a?.text?.includes("YouTube Music"))
                                 artists += artists == "" ? a.text : `, ${a.text}`
                         })
-                        
+
                         if (id != undefined) lists.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.PLAYLIST))
                     })
                 }
@@ -255,5 +256,22 @@ export class YoutubeMusicService {
         }
     }
 
+    async songInfo(VID: string): Promise<MusicData | undefined> {
+        try {
+            let config = { method: 'post', url: ytMusicPlayer, headers: ytMusicHeader, data: ytMusicSongID(VID) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicSongsDetails
+
+            const id = data.videoDetails?.videoId
+            const name = data.videoDetails?.title
+            const thumbnail = data.videoDetails?.thumbnail?.thumbnails ?? []
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+            const artists = data.videoDetails?.author?.replaceAll(" and ", " & ") ?? ""
+
+            return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined
+        } catch (error) {
+            return undefined
+        }
+    }
 
 }
