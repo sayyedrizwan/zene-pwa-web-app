@@ -16,6 +16,8 @@ export async function GET({ url, request }) {
 	const list: MusicData[] = []
 	const playlist = await YoutubeMusicService.instance.releasePlaylists(i)
 
+	await MySqlLocalService.instance.delteTempData(`${NEW_RELEASE_SONGS}_${i}`)
+
 	await Promise.all(playlist.map(async name => {
 		const song = await YoutubeMusicService.instance.searchSongs(name.toString())
 		list.push(song[0])

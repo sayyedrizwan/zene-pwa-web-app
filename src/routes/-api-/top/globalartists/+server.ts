@@ -15,6 +15,8 @@ export async function GET({ request }) {
 
     let list = await BillboardAPIService.instance.topListeningArtists()
 
+	await MySqlLocalService.instance.delteTempData(GLOBAL_TRENDING_ARTISTS)
+
     await Promise.all(list.map(async n => {
         if (n != "") {
             const data = await YoutubeMusicService.instance.searchArtists(n)

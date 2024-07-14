@@ -31,7 +31,7 @@ export const shuffle = (array: MusicData[]) => {
 export function isYear(str: string): boolean {
     const yearRegex = /^\d{4}$/
     if (!yearRegex.test(str)) return false
-    
+
     const year = parseInt(str, 10)
     const currentYear = new Date().getFullYear()
     return year >= 0 && year <= currentYear
@@ -188,14 +188,12 @@ export function ytMusicSongID(vID: string): string {
 }
 
 
-export function timeDifferenceIs24Hours(oldTimestamp: string) : Boolean {
+export function timeDifferenceIs24Hours(oldTimestamp: string): Boolean {
     const currentTimestamp = new Date().getTime()
-    const oldDate = new Date(oldTimestamp).getTime()
+    const oldDate = new Date(parseInt(oldTimestamp)).getTime()
     const differenceInMs = currentTimestamp - oldDate
-    
-    const hours = Math.floor((differenceInMs / (1000 * 60 * 60)) % 24)
-
-    if(hours > 24) return true
+    let hours = Math.floor(differenceInMs / (1000 * 60 * 60))
+    if (hours > 12) return true
     return false
 }
 

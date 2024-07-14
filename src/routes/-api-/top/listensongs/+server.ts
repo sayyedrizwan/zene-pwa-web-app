@@ -27,6 +27,7 @@ export async function GET({ request }) {
 
     const l = await processAndSortByDate(temps)
 
+	await MySqlLocalService.instance.delteTempData(MOST_LISTEN_SONGS)
     l.forEach(async m => {
         list.push(m)
         await MySqlLocalService.instance.insertTempData(m, MOST_LISTEN_SONGS)

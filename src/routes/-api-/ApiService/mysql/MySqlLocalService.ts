@@ -24,6 +24,14 @@ export class MySqlLocalService {
         return list
     }
 
+    async delteTempData(category: String) {
+        try {
+            await mysqlpool.query("DELETE FROM `temp_holder` WHERE category = ?", [category])
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async insertTempData(m: MusicData, category: String) {
         const currentTimestamp = new Date().getTime()
 
