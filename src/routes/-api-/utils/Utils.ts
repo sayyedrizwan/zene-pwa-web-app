@@ -90,6 +90,8 @@ export function ytBrowseQuery(q: string): string {
 
 export const ytMusicSearchSongParam = "EgWKAQIIAWoSEAkQAxAEEA4QBRAKEBUQEBAR"
 export const ytMusicSearchAlbumsParam = "EgWKAQIgAWoQEAMQCRAOEAoQBBAFEBEQEA%3D%3D"
+export const ytMusicMoodAndGenresParam = "FEmusic_moods_and_genres"
+export const ytMusicMoodAndGenresCategoryParam = "FEmusic_moods_and_genres_category"
 
 
 
@@ -145,6 +147,7 @@ export function ytMusicBrowseID(id: string): string {
         "browseId": id
     })
 }
+
 export function ytMusicBrowseIDWithParam(q: string, params: string): string {
     return JSON.stringify({
         "context": {
@@ -154,6 +157,19 @@ export function ytMusicBrowseIDWithParam(q: string, params: string): string {
             }
         },
         "query": q,
+        "params": params
+    })
+}
+
+export function ytMusicIDWithParam(q: string, params: string): string {
+    return JSON.stringify({
+        "context": {
+            "client": {
+                "clientName": clientNameYTMusicName,
+                "clientVersion": clientNameYTMusicVersion
+            }
+        },
+        "browseId": q,
         "params": params
     })
 }

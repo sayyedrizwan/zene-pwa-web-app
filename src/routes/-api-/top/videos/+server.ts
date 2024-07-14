@@ -15,9 +15,8 @@ export async function POST({ request }) {
         const songInfo = await YoutubeMusicService.instance.searchSongs(name)
         const videoID = await YoutubeAPIService.instance.searchVideoIDFirst(`${name} Official Video`)
         const song = songInfo[0]
-        song.id = videoID
+        song.extra = videoID
         song.type = MUSICTYPE.VIDEO
-        song.thumbnail = `https://i.ytimg.com/vi/${videoID}/maxresdefault.jpg`
 
         list.push(song)
     }))

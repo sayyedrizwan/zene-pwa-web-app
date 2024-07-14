@@ -1,5 +1,5 @@
 import axios from "axios";
-import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicNext, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchSongParam, ytMusicvideoID } from "../../utils/Utils"
+import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicIDWithParam, ytMusicMoodAndGenresCategoryParam, ytMusicMoodAndGenresParam, ytMusicNext, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchSongParam, ytMusicvideoID } from "../../utils/Utils"
 import type { YTMusicSimilar } from "./model/YTMusicSimilar"
 import type { YTMusicPlaylists } from "./model/YTMusicPlaylists"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
@@ -7,6 +7,8 @@ import { YTMusicSimiarId } from "./model/YTMusicSimiarId"
 import type { YTMusicSearch } from "./model/YTMusicSearch";
 import { substringBeforeLast } from "../../utils/extension/String";
 import type { YTMusicReleasePlaylists } from "./model/YTMusicReleasePlaylists";
+import type { YTMusicMood } from "./model/YTMusicMood";
+import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -198,4 +200,59 @@ export class YoutubeMusicService {
             return []
         }
     }
+
+
+    async allMoods(): Promise<MusicData[]> {
+        try {
+            let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(ytMusicMoodAndGenresParam) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicMood
+
+            let list: MusicData[] = []
+            data.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach(t => {
+                t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
+                    c.gridRenderer?.items?.forEach(i => {
+                        const name = i.musicNavigationButtonRenderer?.buttonText?.runs?.[0].text
+                        const id = i.musicNavigationButtonRenderer?.clickCommand?.browseEndpoint?.browseId
+                        const params = i.musicNavigationButtonRenderer?.clickCommand?.browseEndpoint?.params
+
+                        if (name != undefined && id != undefined && params != undefined)
+                            list.push(new MusicData(name, name, params, "", MUSICTYPE.MOOD, id))
+                    })
+                })
+            })
+
+            return list
+        } catch (error) {
+            return []
+        }
+    }
+
+    async moodData(params: String): Promise<MusicData[]> {
+        try {
+            let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicIDWithParam(ytMusicMoodAndGenresCategoryParam, params.toString()) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicMoodInfo
+            let list: MusicData[] = []
+
+            data.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach(t => {
+                t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
+                    c.musicCarouselShelfRenderer?.contents?.forEach(m => {
+                        const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                        const highestThumbnail = `${substringBeforeLast(thumbnail[0].url ?? "", "=w")}=w544-h544-l90-rj` ?? ""
+                        const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
+                        const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+
+                        if (name != undefined && id != undefined) list.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.PLAYLIST))
+                    })
+                })
+            })
+
+            return list
+        } catch (error) {
+            return []
+        }
+    }
+
+
 }

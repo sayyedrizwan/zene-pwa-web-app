@@ -11,11 +11,11 @@ export class YoutubeAPIService {
             let config = { method: 'post', url: ytSearch, headers: ytHeader, data: ytBrowseQuery(q.toString()) }
             const response = await axios.request(config)
             const data = await response.data as YTSearchData
-            
+
             let vID = ""
 
             data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.forEach(e => {
-                if(vID == "") vID = e.itemSectionRenderer?.contents?.[0].videoRenderer?.videoId ?? ""
+                if (vID == "") vID = e.itemSectionRenderer?.contents?.[0].videoRenderer?.videoId ?? ""
             })
 
             return vID
@@ -30,17 +30,18 @@ export class YoutubeAPIService {
             const response = await axios.request(config)
             const data = await response.data as YTSearchData
 
-            const list : MusicData[] = []
+            const list: MusicData[] = []
 
             data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.forEach(e => {
                 e.itemSectionRenderer?.contents?.forEach(v => {
-                  if(v.videoRenderer != undefined) {
-                    const vID = e.itemSectionRenderer?.contents?.[0].videoRenderer?.videoId
-                    const name = v.videoRenderer.title?.runs?.[0].text
-                    const artists = v.videoRenderer.longBylineText?.runs?.[0].text
-                    const thumbnail = `https://i.ytimg.com/vi/${vID}/maxresdefault.jpg`
-                    if(vID != undefined && name != undefined) list.push(new MusicData(name, artists ?? "", vID, thumbnail, MUSICTYPE.VIDEO))
-                  }  
+                    if (v.videoRenderer != undefined) {
+                        const vID = v.videoRenderer?.videoId
+                        const name = v.videoRenderer.title?.runs?.[0].text
+                        const artists = v.videoRenderer.longBylineText?.runs?.[0].text
+                        const thumbnail = `https://i.ytimg.com/vi/${vID}/maxresdefault.jpg`
+
+                        if (vID != undefined && name != undefined) list.push(new MusicData(name, artists ?? "", vID, thumbnail, MUSICTYPE.VIDEO))
+                    }
                 })
             })
 
