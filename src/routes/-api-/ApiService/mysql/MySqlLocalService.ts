@@ -12,7 +12,7 @@ export class MySqlLocalService {
             if (results.length > 0) {
                 if (!timeDifferenceIs24Hours(results[0].timestamp)) {
                     results.forEach((e: any) => {
-                        const m = new MusicData(e.name, e.artists, e.ids, e.thumbnail, e.extra, e.type)
+                        const m = new MusicData(e.name, e.artists, e.ids, e.thumbnail, e.type, e.extra)
                         list.push(m)
                     })
                 }

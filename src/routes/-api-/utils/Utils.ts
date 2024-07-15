@@ -89,7 +89,9 @@ export function ytBrowseQuery(q: string): string {
 
 
 export const ytMusicSearchSongParam = "EgWKAQIIAWoSEAkQAxAEEA4QBRAKEBUQEBAR"
-export const ytMusicSearchAlbumsParam = "EgWKAQIgAWoQEAMQCRAOEAoQBBAFEBEQEA%3D%3D"
+export const ytMusicSearchArtistsParam = "EgWKAQIgAWoQEAMQCRAOEAoQBBAFEBEQEA%3D%3D"
+export const ytMusicSearchAlbumsParam = "EgWKAQIYAWoQEAoQAxAEEAkQEBAFEBEQFQ%3D%3D"
+export const ytMusicSearchPlaylistParam = "EgeKAQQoAEABahAQChADEAQQCRAQEAUQERAV"
 export const ytMusicMoodAndGenresParam = "FEmusic_moods_and_genres"
 export const ytMusicMoodAndGenresCategoryParam = "FEmusic_moods_and_genres_category"
 

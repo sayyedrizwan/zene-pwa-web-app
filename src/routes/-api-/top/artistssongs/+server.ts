@@ -1,7 +1,6 @@
 import { json } from '@sveltejs/kit'
-import { shuffle, verifyHeader } from '../../utils/Utils.js'
+import { verifyHeader } from '../../utils/Utils.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
-import type { MusicData } from '../../ApiService/model/MusicData.js'
 import { MusicDataWithArtists } from '../../ApiService/model/MusicDataWithArtists.js'
 
 export async function POST({ request }) {
@@ -14,8 +13,10 @@ export async function POST({ request }) {
     await Promise.all(body.map(async (name: string) => {
         const artists = await YoutubeMusicService.instance.searchArtists(name)
         const artistsSongs = await YoutubeMusicService.instance.searchSongs(`${name} top songs`)
+        const artistsPlaylists = await YoutubeMusicService.instance.searchPlaylists(`${name} top`)
 
-        list.push(new MusicDataWithArtists(artists[0], artistsSongs))
+        if(!list.some((item) => item.artists.name === artists[0].name)) 
+            list.push(new MusicDataWithArtists(artists[0], artistsSongs, artistsPlaylists))
     }))
 
     return json(list)
