@@ -40,7 +40,7 @@ export class YoutubeAPIService {
                         const artists = v.videoRenderer.longBylineText?.runs?.[0].text
                         const thumbnail = `https://i.ytimg.com/vi/${vID}/maxresdefault.jpg`
 
-                        if (vID != undefined && name != undefined) list.push(new MusicData(name, artists ?? "", vID, thumbnail, MUSICTYPE.VIDEO))
+                        if (vID != undefined && name != undefined) list.push(new MusicData(name, artists ?? "", vID, thumbnail, MUSICTYPE.VIDEO, vID))
                     }
                 })
             })
