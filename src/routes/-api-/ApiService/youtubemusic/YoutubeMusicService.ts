@@ -1,5 +1,5 @@
 import axios from "axios";
-import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicIDWithParam, ytMusicMoodAndGenresCategoryParam, ytMusicMoodAndGenresParam, ytMusicNext, ytMusicPlayer, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchArtistsParam, ytMusicSearchPlaylistParam, ytMusicSearchSongParam, ytMusicSongID, ytMusicvideoID } from "../../utils/Utils"
+import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicIDWithParam, ytMusicInput, ytMusicMoodAndGenresCategoryParam, ytMusicMoodAndGenresParam, ytMusicNext, ytMusicPlayer, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchArtistsParam, ytMusicSearchPlaylistParam, ytMusicSearchSongParam, ytMusicSearchSuggestions, ytMusicSongID, ytMusicvideoID } from "../../utils/Utils"
 import type { YTMusicSimilar } from "./model/YTMusicSimilar"
 import type { YTMusicPlaylists } from "./model/YTMusicPlaylists"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
@@ -11,6 +11,7 @@ import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo"
 import { filterThumbnailURL } from "../../utils/extension/String";
 import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
 import type { YTMusicSearchPagination } from "./model/YTMusicSearchPagination";
+import type { YTMusicSearchSuggestions } from "./model/YTMusicSearchSuggestions";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -285,6 +286,40 @@ export class YoutubeMusicService {
                     }
                 })
             })
+            return list
+        } catch (error) {
+            return []
+        }
+    }
+
+    async searchKeywords(q: string): Promise<String[]> {
+        try {
+            let config = { method: 'post', url: ytMusicSearchSuggestions, headers: ytMusicHeader, data: ytMusicInput(q) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicSearchSuggestions
+
+            let list: String[] = []
+
+            data.contents?.forEach(c => {
+                c.searchSuggestionsSectionRenderer?.contents?.forEach(s => {
+                    let q = s.searchSuggestionRenderer?.navigationEndpoint?.searchEndpoint?.query
+                    if(q != undefined) list.push(q)
+                })
+            })
+
+            if(list.length > 1){
+                let config = { method: 'post', url: ytMusicSearchSuggestions, headers: ytMusicHeader, data: ytMusicInput(list?.[1].toString()) }
+                const response = await axios.request(config)
+                const data = await response.data as YTMusicSearchSuggestions
+    
+                data.contents?.forEach(c => {
+                    c.searchSuggestionsSectionRenderer?.contents?.forEach(s => {
+                        let q = s.searchSuggestionRenderer?.navigationEndpoint?.searchEndpoint?.query
+                        if(q != undefined && !list.some((item) => item === q)) list.push(q)
+                    })
+                })    
+            }
+
             return list
         } catch (error) {
             return []

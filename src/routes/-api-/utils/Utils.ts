@@ -104,6 +104,7 @@ const clientNameYTMusicVersion = "1.20240703.00.00"
 export const ytMusicNext = "https://music.youtube.com/youtubei/v1/next?prettyPrint=false"
 export const ytMusicPlayer = "https://music.youtube.com/youtubei/v1/player?prettyPrint=false"
 export const ytMusicBrowse = "https://music.youtube.com/youtubei/v1/browse?prettyPrint=false"
+export const ytMusicSearchSuggestions = "https://music.youtube.com/youtubei/v1/music/get_search_suggestions?prettyPrint=false"
 export const ytMusicSearch = "https://music.youtube.com/youtubei/v1/search?prettyPrint=false"
 export const ytMusicHeader = {
     'content-type': 'application/json',
@@ -180,6 +181,18 @@ export function ytMusicIDWithParam(q: string, params: string): string {
 export function ytMusicSongID(vID: string): string {
     return JSON.stringify({
         "videoId": vID,
+        "context": {
+            "client": {
+                "clientName": clientNameYTMusicName,
+                "clientVersion": clientNameYTMusicVersion
+            }
+        }
+    })
+}
+
+export function ytMusicInput(q: string): string {
+    return JSON.stringify({
+        "input": q,
         "context": {
             "client": {
                 "clientName": clientNameYTMusicName,
