@@ -24,7 +24,7 @@ export class YoutubeAPIService {
         }
     }
 
-    async searchVideos(q: String): Promise<MusicData[]> {
+    async searchVideos(q: String, addOnlyThree: Boolean = false): Promise<MusicData[]> {
         try {
             let config = { method: 'post', url: ytSearch, headers: ytHeader, data: ytBrowseQuery(q.toString()) }
             const response = await axios.request(config)
@@ -45,7 +45,7 @@ export class YoutubeAPIService {
                 })
             })
 
-            return list
+            return addOnlyThree ? list.slice(0, 3) : list
         } catch (error) {
             return []
         }

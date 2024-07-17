@@ -10,6 +10,7 @@ import type { YTMusicMood } from "./model/YTMusicMood"
 import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo"
 import { filterThumbnailURL } from "../../utils/extension/String";
 import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
+import type { YTMusicSearchPagination } from "./model/YTMusicSearchPagination";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -147,13 +148,15 @@ export class YoutubeMusicService {
         return similar
     }
 
-    async searchSongs(q: string): Promise<MusicData[]> {
+    async searchSongs(q: string, searchMore: Boolean = false): Promise<MusicData[]> {
         try {
             let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchSongParam) }
             const response = await axios.request(config)
             const data = await response.data as YTMusicSearch
 
             let list: MusicData[] = []
+            let token: String = ""
+            let trackingParams: String = ""
             data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
                 tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
                     if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
@@ -167,8 +170,39 @@ export class YoutubeMusicService {
                             if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
                         })
                     }
+
+                    if (contents.musicShelfRenderer?.continuations != undefined) {
+                        contents.musicShelfRenderer.continuations?.forEach(t => {
+                            token = t.nextContinuationData?.continuation ?? ""
+                            trackingParams = t.nextContinuationData?.clickTrackingParams ?? ""
+                        })
+                    }
                 })
             })
+
+            if (searchMore && token != "" && trackingParams != "") {
+                let url = new URL(ytMusicSearch)
+                url.searchParams.set('ctoken', token.toString())
+                url.searchParams.set('continuation', token.toString())
+                url.searchParams.set('type', "next")
+                url.searchParams.set('itct', trackingParams.toString())
+
+                let config = { method: 'post', url: url.toString(), headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchSongParam) }
+                const response = await axios.request(config)
+                const data = await response.data as YTMusicSearchPagination
+
+                data.continuationContents?.musicShelfContinuation?.contents?.forEach(c => {
+                    const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                    const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                    const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+                    const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId
+                    const artists = c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+
+                    if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
+                })
+            }
+
+
             return list
         } catch (error) {
             return []
