@@ -45,7 +45,7 @@ export class YoutubeAPIService {
                 })
             })
 
-            return addOnlyThree ? list.slice(0, 3) : list
+            return addOnlyThree ? list.slice(0, 5) : list
         } catch (error) {
             return []
         }

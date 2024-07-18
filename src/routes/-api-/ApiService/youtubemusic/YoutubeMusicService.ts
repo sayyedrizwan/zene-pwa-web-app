@@ -76,7 +76,7 @@ export class YoutubeMusicService {
         try {
             let lists: MusicData[] = []
             let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(String(releatedID.related)) }
-
+            
             const response = await axios.request(config)
             const data = await response.data as YTMusicPlaylists
             data?.contents?.sectionListRenderer?.contents?.forEach(c => {
@@ -254,7 +254,14 @@ export class YoutubeMusicService {
                             const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
                             const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
-                            if (id != undefined) list.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.ALBUMS))
+                            let artists = ""
+                            c?.musicResponsiveListItemRenderer?.flexColumns?.forEach(f => {
+                                f.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach(a => {
+                                     if (isYear(a.text ?? "") && artists == "") artists = a.text ?? ""
+                                })
+                            })
+
+                            if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.ALBUMS))
                         })
                     }
                 })
@@ -303,21 +310,21 @@ export class YoutubeMusicService {
             data.contents?.forEach(c => {
                 c.searchSuggestionsSectionRenderer?.contents?.forEach(s => {
                     let q = s.searchSuggestionRenderer?.navigationEndpoint?.searchEndpoint?.query
-                    if(q != undefined) list.push(q)
+                    if (q != undefined) list.push(q)
                 })
             })
 
-            if(list.length > 1){
+            if (list.length > 1) {
                 let config = { method: 'post', url: ytMusicSearchSuggestions, headers: ytMusicHeader, data: ytMusicInput(list?.[1].toString()) }
                 const response = await axios.request(config)
                 const data = await response.data as YTMusicSearchSuggestions
-    
+
                 data.contents?.forEach(c => {
                     c.searchSuggestionsSectionRenderer?.contents?.forEach(s => {
                         let q = s.searchSuggestionRenderer?.navigationEndpoint?.searchEndpoint?.query
-                        if(q != undefined && !list.some((item) => item === q)) list.push(q)
+                        if (q != undefined && !list.some((item) => item === q)) list.push(q)
                     })
-                })    
+                })
             }
 
             return list
