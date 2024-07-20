@@ -58,6 +58,7 @@ export const tokenSpotify = 'https://accounts.spotify.com/api/token'
 export const searchSpotify = 'https://api.spotify.com/v1/search'
 
 
+export const rentAnAdviser = "https://www.rentanadviser.com/subtitles/"
 
 
 export const ytSearch = "https://www.youtube.com/youtubei/v1/search?prettyPrint=false"

@@ -21,7 +21,7 @@ export async function GET({ url, request }) {
         else if (id == 2) playlist = await YoutubeMusicService.instance.searchPlaylists(s)
         else if (id == 3) albums = await YoutubeMusicService.instance.searchAlbums(s)
         else if (id == 4) songs = await YoutubeMusicService.instance.searchSongs(s, true)
-        else if (id == 4) video = await YoutubeAPIService.instance.searchVideos(`${s} songs`, true)
+        else if (id == 5) video = await YoutubeAPIService.instance.searchVideos(`${s} songs`, true)
     }))
 
     const data = new MusicDataSearch(artists, songs, playlist, video, albums)

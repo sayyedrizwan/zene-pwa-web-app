@@ -76,7 +76,7 @@ export class YoutubeMusicService {
         try {
             let lists: MusicData[] = []
             let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(String(releatedID.related)) }
-            
+
             const response = await axios.request(config)
             const data = await response.data as YTMusicPlaylists
             data?.contents?.sectionListRenderer?.contents?.forEach(c => {
@@ -101,7 +101,37 @@ export class YoutubeMusicService {
         }
     }
 
-    async similarSongs(id: string): Promise<MusicData[]> {
+    async similarSongs(id: string): Promise<MusicData[] | undefined> {
+        const releatedID = await this.similarIds(id)
+        try {
+            let lists: MusicData[] = []
+            let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(String(releatedID.related)) }
+
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicPlaylists
+            data?.contents?.sectionListRenderer?.contents?.forEach(c => {
+                if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "You might also like") {
+                    c?.musicCarouselShelfRenderer?.contents?.forEach(content => {
+                        const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                        const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                        const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? ""
+                        const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+                        let artists = ""
+                        content?.musicTwoRowItemRenderer?.subtitle?.runs?.forEach(a => {
+                            if (isYear(a.text ?? "") && artists == "") artists = a.text ?? ""
+                        })
+
+                        if (id != undefined) lists.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
+                    })
+                }
+            })
+            return lists
+        } catch (error) {
+            return []
+        }
+    }
+
+    async upNextSongs(id: string): Promise<MusicData[]> {
         let lists: MusicData[] = []
         try {
             let config = { method: 'post', url: ytMusicNext, headers: ytMusicHeader, data: ytMusicPlaylistSongs(id) }
@@ -126,6 +156,25 @@ export class YoutubeMusicService {
         }
         return lists
     }
+
+
+    async lyricsOfVideo(id: string): Promise<String> {
+        const releatedID = await this.similarIds(id)
+        let lyrics: string = ""
+
+        try {
+            let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(String(releatedID.lyrics)) }
+
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicPlaylists
+
+            lyrics = data.contents?.sectionListRenderer?.contents?.[0].musicDescriptionShelfRenderer?.description?.runs?.[0].text ?? ""
+            return ""
+        } catch (error) {
+            return ""
+        }
+    }
+
 
 
     private async similarIds(id: string): Promise<YTMusicSimiarId> {
@@ -257,7 +306,7 @@ export class YoutubeMusicService {
                             let artists = ""
                             c?.musicResponsiveListItemRenderer?.flexColumns?.forEach(f => {
                                 f.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach(a => {
-                                     if (isYear(a.text ?? "") && artists == "") artists = a.text ?? ""
+                                    if (isYear(a.text ?? "") && artists == "") artists = a.text ?? ""
                                 })
                             })
 

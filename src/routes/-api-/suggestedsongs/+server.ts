@@ -11,9 +11,14 @@ export async function POST({ request }) {
     let list: MusicData[] = []
 
     await Promise.all(body.map(async (id: string) => {
-        const playlist = await YoutubeMusicService.instance.similarSongs(id)
-        playlist?.forEach((p, i) => {
-            if (i > 2 && !list.some((item) => item.id === p.id)) list.push(p)
+        const sSongs = await YoutubeMusicService.instance.similarSongs(id)
+        const nSongs = await YoutubeMusicService.instance.upNextSongs(id)
+
+        sSongs?.forEach((p, i) => {
+            if (i > 3 && !list.some((item) => item.id === p.id)) list.push(p)
+        })
+        nSongs?.forEach((p, i) => {
+            if (i > 3 && !list.some((item) => item.id === p.id)) list.push(p)
         })
     }))
 

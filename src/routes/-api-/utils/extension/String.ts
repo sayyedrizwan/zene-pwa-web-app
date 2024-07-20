@@ -4,6 +4,13 @@ export function substringBeforeLast(text: String, char: string): string {
     return text.slice(0, lastIndex)
 }
 
+export function substringAfter(text: String, char: string): string {
+    const index = text.indexOf(char);
+    if (index !== -1) return text.substring(index + char.length);
+
+    return "";
+}
+
 export function filterThumbnailURL(text: String): String {
     const indexOfW = text.indexOf("=w")
     const indexOfS = text.indexOf("=s")
