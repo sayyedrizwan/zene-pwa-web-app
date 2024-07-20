@@ -11,13 +11,9 @@ export async function GET({ url, request }) {
     const a = url.searchParams.get('a') ?? ""
 
     const syncLyrics = await LyricsAPIService.instance.lyricsData(n, a)
-    console.log(syncLyrics)
-
     if (syncLyrics != undefined) return json(syncLyrics)
 
-    console.log(syncLyrics)
-
     const lyrics = await YoutubeMusicService.instance.lyricsOfVideo(s)
-
+    console.log(lyrics)
     return json(new MusicLyricsData(lyrics, false))
 }

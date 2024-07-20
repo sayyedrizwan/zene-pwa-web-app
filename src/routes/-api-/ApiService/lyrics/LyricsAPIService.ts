@@ -1,22 +1,20 @@
 import axios from "axios"
 import { rentAnAdviser } from "../../utils/Utils"
 import { parse } from 'node-html-parser'
-import { substringAfter, substringBeforeLast } from "../../utils/extension/String"
+import { filterArtistsName, substringAfter, substringBeforeLast } from "../../utils/extension/String"
 import { MusicLyricsData } from "../model/MusicLyricsData"
 
 export class LyricsAPIService {
     static instance = new LyricsAPIService()
 
     async lyricsData(name: String, artists: String) : Promise<MusicLyricsData | undefined> {
-        const response = await axios.get(`${rentAnAdviser}subtitles4songs.aspx`, { params: { q: name } })
+        const response = await axios.get(`${rentAnAdviser}subtitles4songs.aspx`, { params: { q: `${filterArtistsName(artists)} - ${name}` } })
         const res = await response.data
         const root = parse(res)
 
         let url = ""
 
         root.querySelector("#tablecontainer")?.querySelectorAll("a")?.forEach(html => {
-            console.log(html.getAttribute("href") ?? "")
-            console.log(checkRentAnAdvisorLyricsChecks(name, artists, html?.text?.trim()))
             if (checkRentAnAdvisorLyricsChecks(name, artists, html?.text?.trim()) && url == "")
                 url = html.getAttribute("href") ?? ""
         })
@@ -32,6 +30,7 @@ export class LyricsAPIService {
         const t = text.replace("by RentAnAdviser.com", "🎶 🎵").replace("by rentanadviser.com", "🎶 🎵")
                 .replace("by RentAnAdviser.com", "🎶 🎵").replace("www.RentAnAdviser.com", "🎶 🎵")
                 .replace("\r\n", "").replace("</h3>", "")
+
         return new MusicLyricsData(t, true)
     }
 }
