@@ -167,9 +167,8 @@ export class YoutubeMusicService {
 
             const response = await axios.request(config)
             const data = await response.data as YTMusicPlaylists
-
             lyrics = data.contents?.sectionListRenderer?.contents?.[0].musicDescriptionShelfRenderer?.description?.runs?.[0].text ?? ""
-            return ""
+            return lyrics
         } catch (error) {
             return ""
         }

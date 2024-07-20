@@ -15,6 +15,8 @@ export class LyricsAPIService {
         let url = ""
 
         root.querySelector("#tablecontainer")?.querySelectorAll("a")?.forEach(html => {
+            console.log(html.getAttribute("href") ?? "")
+            console.log(checkRentAnAdvisorLyricsChecks(name, artists, html?.text?.trim()))
             if (checkRentAnAdvisorLyricsChecks(name, artists, html?.text?.trim()) && url == "")
                 url = html.getAttribute("href") ?? ""
         })
@@ -26,9 +28,10 @@ export class LyricsAPIService {
 
         const rootSubtitle = parse(resSubtitle)
         const subtitles = rootSubtitle.querySelector("#ctl00_ContentPlaceHolder1_lbllyrics_simple")
-        const text = substringAfter(subtitles?.text.toString() ?? "", "(.LRC)".trim())
+        const text = substringAfter(subtitles?.innerHTML.toString() ?? "", "(.LRC)".trim())
         const t = text.replace("by RentAnAdviser.com", "🎶 🎵").replace("by rentanadviser.com", "🎶 🎵")
                 .replace("by RentAnAdviser.com", "🎶 🎵").replace("www.RentAnAdviser.com", "🎶 🎵")
+                .replace("\r\n", "").replace("</h3>", "")
         return new MusicLyricsData(t, true)
     }
 }
