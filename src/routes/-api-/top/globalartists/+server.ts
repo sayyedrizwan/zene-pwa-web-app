@@ -3,7 +3,7 @@ import { GLOBAL_TRENDING_ARTISTS, verifyHeader } from '../../utils/Utils.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import { BillboardAPIService } from '../../ApiService/billboard/BillboardAPIService.js'
 import { MusicData } from '../../ApiService/model/MusicData.js'
-import { MySqlLocalService } from '../../ApiService/mysql/MySqlLocalService.js'
+import { MySqlLocalService } from '../../ApiService/dbmysql/MySqlLocalService.js'
 
 export async function GET({ request }) {
     if (!verifyHeader(request)) return json([])

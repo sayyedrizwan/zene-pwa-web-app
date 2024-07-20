@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit'
-import { mysqlpool, verifyHeader } from '../utils/Utils.js';
+import { mysqlpool, verifyHeader } from '../../utils/Utils.js'
 
 export async function GET({ url, request }) {
 	if (!verifyHeader(request)) return json({})

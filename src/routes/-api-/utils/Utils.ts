@@ -1,10 +1,12 @@
-import mysql from 'mysql2/promise';
+import mysql from 'mysql2/promise'
+import { MongoClient } from 'mongodb'
 import type { MusicData } from '../ApiService/model/MusicData';
 
 const isDev = true
 const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e"
 
 //aiven
+//filess.io
 export const mysqlpool: any = mysql.createPool({
     host: isDev ? 'mysql-2bab654c-sayyedrizwanahme-db86.h.aivencloud.com' : 'j3v.h.filess.io',
     user: isDev ? 'avnadmin' : 'zenemusic_tapechest',
@@ -19,6 +21,9 @@ export const mysqlpool: any = mysql.createPool({
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
 })
+
+export const mongoDBClient = new MongoClient(`mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/?retryWrites=true&w=majority&appName=zene`)
+await mongoDBClient.connect()
 
 export const shuffle = (array: MusicData[]) => {
     for (let i = array.length - 1; i > 0; i--) {
