@@ -10,12 +10,24 @@ export class MongoDBLocalService {
     mainDBName = 'zenemusic'
     userSongHistoryDB = 'song_history'
 
-    async updateOrInsertMusicHistory(music: MusicData, email: String, deviceInfo: String, deviceType: String) {
-        try {
-            const collection = mongoDBClient.db(this.mainDBName).collection(this.userSongHistoryDB)
+    collectionSongHistory = mongoDBClient.db(this.mainDBName).collection(this.userSongHistoryDB)
 
-            const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, deviceType, Date.now(), 1)
-            await collection.insertOne(data)
+    async updateOrInsertMusicHistory(music: MusicData, email: String, deviceInfo: String, deviceType: String, playTime: number) {
+        try {
+            
+            const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, deviceType, Date.now(), playTime)
+            await this.collectionSongHistory.insertOne(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+    
+    async isSongAlreadyPresentDelete(songID: String, email: String): Promise<DBMusicHistory | undefined>{
+        try {
+            const data = await this.collectionSongHistory.findOne({ id: songID, email: email })
+            await this.collectionSongHistory.deleteMany({ id: songID, email: email })
+            return data as any
         } catch (error) {
             console.log(error)
         }
