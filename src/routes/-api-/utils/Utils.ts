@@ -63,6 +63,7 @@ export const MOST_LISTEN_SONGS = "MOST_LISTEN_SONGS"
 export const NEW_RELEASE_SONGS = "NEW_RELEASE_SONGS"
 
 
+
 export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts"
 export const billboardTopArtists = "https://www.billboard.com/charts/artist-100/"
 
@@ -75,10 +76,14 @@ export const rentAnAdviser = "https://www.rentanadviser.com/subtitles/"
 
 
 export const ytSearch = "https://www.youtube.com/youtubei/v1/search?prettyPrint=false"
+export const ytBrowse = "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false"
 
 
 const clientNameYTName = "WEB"
 const clientNameYTVersion = "2.20240712.01.00"
+
+
+export const YT_STORE_PARAMS = "EgVzdG9yZfIGBAoCGgA%3D"
 
 export const ytHeader = {
     'content-type': 'application/json',
@@ -97,6 +102,20 @@ export function ytBrowseQuery(q: string): string {
             }
         },
         "query": q
+    })
+}
+
+
+export function ytBrowseQueryParams(id: string): string {
+    return JSON.stringify({
+        "context": {
+            "client": {
+                "clientName": clientNameYTName,
+                "clientVersion": clientNameYTVersion
+            }
+        },
+        "browseId": id,
+        "params": YT_STORE_PARAMS
     })
 }
 

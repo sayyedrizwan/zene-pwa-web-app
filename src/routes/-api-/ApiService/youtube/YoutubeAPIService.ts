@@ -1,7 +1,8 @@
 import axios from "axios"
-import { ytBrowseQuery, ytHeader, ytSearch } from "../../utils/Utils"
+import { ytBrowse, ytBrowseQuery, ytBrowseQueryParams, ytHeader, ytSearch } from "../../utils/Utils"
 import type { YTSearchData } from "./model/YTSearchData"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
+import type { YTStoreData } from "./model/YTStoreData"
 
 export class YoutubeAPIService {
     static instance = new YoutubeAPIService()
@@ -46,6 +47,55 @@ export class YoutubeAPIService {
             })
 
             return addOnlyThree ? list.slice(0, 5) : list
+        } catch (error) {
+            return []
+        }
+    }
+
+    async merchandises(q: String) {
+        try {
+            let config = { method: 'post', url: ytSearch, headers: ytHeader, data: ytBrowseQuery(q.toString()) }
+            const response = await axios.request(config)
+            const data = await response.data as YTSearchData
+
+            let channelID = ""
+
+            data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.forEach(e => {
+                e.itemSectionRenderer?.contents?.[0].videoRenderer?.longBylineText?.runs?.forEach(e => {
+                    if (e.navigationEndpoint?.commandMetadata?.webCommandMetadata?.webPageType == "WEB_PAGE_TYPE_CHANNEL" && channelID == "") {
+                        channelID = e.navigationEndpoint.browseEndpoint?.browseId ?? ""
+                    }
+                })
+            })
+
+            let configStore = { method: 'post', url: ytBrowse, headers: ytHeader, data: ytBrowseQueryParams(channelID) }
+            const responseStore = await axios.request(configStore)
+            const dataStore = await responseStore.data as YTStoreData
+
+            let storeList: MusicData[] = []
+
+            dataStore.contents?.twoColumnBrowseResultsRenderer?.tabs?.forEach(t => {
+                if (t.tabRenderer?.title == "Store") {
+                    t.tabRenderer.content?.sectionListRenderer?.contents?.forEach(c => {
+                        c.itemSectionRenderer?.contents?.forEach(i => {
+                            i.shelfRenderer?.content?.gridRenderer?.items?.forEach(store => {
+                                const name = store.verticalProductCardRenderer?.title
+                                const thumbnail = store.verticalProductCardRenderer?.thumbnail?.thumbnails?.[0].url
+                                let link = ""
+                                store.verticalProductCardRenderer?.navigationEndpoint?.commandExecutorCommand?.commands?.forEach(c => {
+                                    if (link == "") link = c.urlEndpoint?.url ?? ""
+                                })
+
+                                const price = store.verticalProductCardRenderer?.price
+
+                                if (name != undefined) storeList.push(new MusicData(name, price ?? "", link, thumbnail ?? "", MUSICTYPE.STORE))
+                            })
+                        })
+                    })
+                }
+            })
+
+            return storeList
         } catch (error) {
             return []
         }

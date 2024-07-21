@@ -12,8 +12,6 @@ export async function GET({ url, request }) {
 
     const syncLyrics = await LyricsAPIService.instance.lyricsData(n, a)
     if (syncLyrics != undefined) return json(syncLyrics)
-
     const lyrics = await YoutubeMusicService.instance.lyricsOfVideo(s)
-    console.log(lyrics)
     return json(new MusicLyricsData(lyrics, false))
 }
