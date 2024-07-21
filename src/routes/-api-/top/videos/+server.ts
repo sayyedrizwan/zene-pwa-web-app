@@ -4,16 +4,20 @@ import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicS
 import { MUSICTYPE, type MusicData } from '../../ApiService/model/MusicData.js'
 import { YoutubeAPIService } from '../../ApiService/youtube/YoutubeAPIService.js'
 import { filterArtistsName } from '../../utils/extension/String.js'
+import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalService.js'
 
 export async function POST({ request }) {
     if (!verifyHeader(request)) return json([])
 
     const body = await request.json()
 
+    if (!body.email.includes("@") && body.email.length < 3) return json([])
+    let songsID = await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email)
+
     let list: MusicData[] = []
 
-    await Promise.all(body.map(async (id: string) => {
-        const song = await YoutubeMusicService.instance.songInfo(id)
+    await Promise.all(songsID.map(async (id: String) => {
+        const song = await YoutubeMusicService.instance.songInfo(id.toString())
         if (song != undefined) {
             const videoID = await YoutubeAPIService.instance.searchVideoIDFirst(`${song.name} - ${filterArtistsName(song.artists)} Official Video`)
             song.extra = videoID
@@ -23,7 +27,7 @@ export async function POST({ request }) {
 
             const videoList = await YoutubeAPIService.instance.searchVideos(`${filterArtistsName(song.artists)} Official Song Video`)
             videoList.forEach((v, i) => {
-                if(i <= 3 && !list.some((item) => item.extra === v.extra)) {
+                if (i <= 3 && !list.some((item) => item.extra === v.extra)) {
                     v.extra = v.id
                     v.type = MUSICTYPE.VIDEO
                     list.push(v)

@@ -2,21 +2,25 @@ import { json } from '@sveltejs/kit'
 import { shuffle, verifyHeader } from '../../utils/Utils.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import type { MusicData } from '../../ApiService/model/MusicData.js'
+import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalService.js'
 
 export async function POST({ request }) {
     if (!verifyHeader(request)) return json([])
 
     const body = await request.json()
 
-    let list : MusicData[] = []
+    if (!body.email.includes("@") && body.email.length < 3) return json([])
+    let songsID = await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email)
 
-    await Promise.all(body.map(async (id: string) => {
-        const playlist = await YoutubeMusicService.instance.similarAlbums(id)
+    let list: MusicData[] = []
+
+    await Promise.all(songsID.map(async (id: String) => {
+        const playlist = await YoutubeMusicService.instance.similarAlbums(id.toString())
         playlist?.forEach((p, i) => {
-            if(body.length >= 7) {
-                if(i <= 1 && !list.some((item) => item.id === p.id)) list.push(p)
+            if (body.length >= 7) {
+                if (i <= 1 && !list.some((item) => item.id === p.id)) list.push(p)
             } else {
-                if(i <= 3 && !list.some((item) => item.id === p.id)) list.push(p)
+                if (i <= 3 && !list.some((item) => item.id === p.id)) list.push(p)
             }
         })
     }))
