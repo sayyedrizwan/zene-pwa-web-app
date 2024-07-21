@@ -2,8 +2,6 @@ import type { MusicData } from "../model/MusicData"
 import { mongoDBClient } from "../../utils/Utils"
 import { DBMusicHistory } from "./model/DBMusicHistory"
 
-//sayyedrizwanahmed
-//A4H9W99pa0trLCMJ
 export class MongoDBLocalService {
     static instance = new MongoDBLocalService()
 
@@ -14,8 +12,7 @@ export class MongoDBLocalService {
 
     async updateOrInsertSongHistory(music: MusicData, email: String, deviceInfo: String, playTime: number) {
         try {
-
-            const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, Date.now(), playTime)
+            const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, Date.now(), playTime, "SONGS")
             await this.collectionSongHistory.insertOne(data)
         } catch (error) {
             console.log(error)

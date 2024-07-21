@@ -25,6 +25,7 @@ interface SectionListRenderer {
 
 interface Content {
     musicPlaylistShelfRenderer?: MusicPlaylistShelfRenderer
+    musicShelfRenderer?: MusicPlaylistShelfRenderer
 }
 
 interface MusicPlaylistShelfRenderer {
