@@ -6,7 +6,16 @@ export async function GET({ request }) {
     if (!verifyHeader(request)) return json([])
 
     const moods = await YoutubeMusicService.instance.allMoods()
-
-    // const moodsL = await YoutubeMusicService.instance.moodData(moods[0].id)
     return json(moods)
 }
+
+export async function POST({ request }) {
+    if (!verifyHeader(request)) return json([])
+
+    const body = await request.json()
+    const moodID = body.id
+
+    const moodsL = await YoutubeMusicService.instance.moodData(moodID)
+    return json(moodsL ?? {})
+}
+

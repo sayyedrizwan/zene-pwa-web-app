@@ -12,6 +12,7 @@ import { filterThumbnailURL } from "../../utils/extension/String";
 import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
 import type { YTMusicSearchPagination } from "./model/YTMusicSearchPagination";
 import type { YTMusicSearchSuggestions } from "./model/YTMusicSearchSuggestions";
+import { MoodplaylistData, MoodplaylistDataItems } from "../model/MoodplaylistData";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -364,8 +365,8 @@ export class YoutubeMusicService {
                     let artists = ""
                     let isAlbum = false
                     c.musicResponsiveHeaderRenderer?.subtitle?.runs?.forEach(t => {
-                      if((t.text == "Album" || t.text == "EP") && !isAlbum) isAlbum = true
-                      if(isYear(t.text ?? "") && artists == "") artists = t.text ?? ""
+                        if ((t.text == "Album" || t.text == "EP") && !isAlbum) isAlbum = true
+                        if (isYear(t.text ?? "") && artists == "") artists = t.text ?? ""
                     })
 
                     const desc = c.musicResponsiveHeaderRenderer?.description?.musicDescriptionShelfRenderer?.description?.runs?.[0].text
@@ -381,10 +382,10 @@ export class YoutubeMusicService {
 
                     const name = c.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text
                     const artists = c.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text
-            
-                    const id  = c.musicResponsiveListItemRenderer?.playlistItemData?.videoId
 
-                   if(id != undefined) playlistMusic.push(new MusicData(name ?? "", artists ?? "", id, highestThumbnail, MUSICTYPE.SONGS))
+                    const id = c.musicResponsiveListItemRenderer?.playlistItemData?.videoId
+
+                    if (id != undefined) playlistMusic.push(new MusicData(name ?? "", artists ?? "", id, highestThumbnail, MUSICTYPE.SONGS))
                 })
             })
 
@@ -392,8 +393,8 @@ export class YoutubeMusicService {
                 e.musicShelfRenderer?.contents?.forEach(c => {
                     const name = c.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text
                     const artists = c.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text
-                    const id  = c.musicResponsiveListItemRenderer?.playlistItemData?.videoId
-                    if(id != undefined) playlistMusic.push(new MusicData(name ?? "", artists ?? "", id, "", MUSICTYPE.SONGS))
+                    const id = c.musicResponsiveListItemRenderer?.playlistItemData?.videoId
+                    if (id != undefined) playlistMusic.push(new MusicData(name ?? "", artists ?? "", id, "", MUSICTYPE.SONGS))
                 })
             })
 
@@ -465,29 +466,38 @@ export class YoutubeMusicService {
         }
     }
 
-    async moodData(params: String): Promise<MusicData[]> {
+    async moodData(params: String): Promise<MoodplaylistData | undefined> {
         try {
             let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicIDWithParam(ytMusicMoodAndGenresCategoryParam, params.toString()) }
             const response = await axios.request(config)
             const data = await response.data as YTMusicMoodInfo
-            let list: MusicData[] = []
+            let moodData: MoodplaylistData = new MoodplaylistData("", [])
+            moodData.name = data.header?.musicHeaderRenderer?.title?.runs?.[0]?.text ?? ""
+            let itemsLists: MoodplaylistDataItems[] = []
+
 
             data.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach(t => {
                 t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
+                    let topName = c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label ?? ""
+                    let lists: MusicData[] = []
                     c.musicCarouselShelfRenderer?.contents?.forEach(m => {
                         const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
                         const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                         const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
                         const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
-                        if (name != undefined && id != undefined) list.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.PLAYLIST))
+                        if (name != undefined && id != undefined) {
+                            lists.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.PLAYLIST))
+                        }
                     })
+
+                    itemsLists.push(new MoodplaylistDataItems(topName, lists))
                 })
             })
-
-            return list
+            moodData.list = itemsLists
+            return moodData
         } catch (error) {
-            return []
+            return undefined
         }
     }
 
