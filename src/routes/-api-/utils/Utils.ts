@@ -64,6 +64,11 @@ export const NEW_RELEASE_SONGS = "NEW_RELEASE_SONGS"
 
 
 
+export const soundCloudBaseURL = "https://soundcloud.com/"
+export const searchSearchUserURL = "https://api-v2.soundcloud.com/search/users"
+export const searchUserURL = "https://api-v2.soundcloud.com/users"
+
+
 export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts"
 export const lastFMLSearchArtists = "https://www.last.fm/search/artists"
 export const lastFMURL = "https://www.last.fm"

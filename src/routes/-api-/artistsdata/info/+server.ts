@@ -4,6 +4,7 @@ import { LastFMService } from '../../ApiService/lastfm/LastFMService.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import { ArtistsData, ArtistsDataInfo } from '../../ApiService/model/ArtistsData.js'
 import type { MusicData } from '../../ApiService/model/MusicData.js'
+import { SoundAPIService } from '../../ApiService/soundcloud/SoundAPIService.js'
 
 export async function POST({ request }) {
     if (!verifyHeader(request)) return json([])
@@ -17,6 +18,7 @@ export async function POST({ request }) {
     let imgs: String[] = []
     let topSongs: MusicData[] = []
 
+    const infos = await SoundAPIService.instance.socialInfo(name)
 
     await Promise.all([1, 2].map(async page => {
         const lastFMImages = await LastFMService.instance.searchImages(lastFMURL, page)
@@ -40,6 +42,6 @@ export async function POST({ request }) {
     const desc = await LastFMService.instance.wiki(lastFMURL) ?? null
 
     if (ytMusicURL?.name == undefined) return json({})
-    return json(new ArtistsDataInfo(ytMusicURL?.name, imgs, topSongs, desc))
+    return json(new ArtistsDataInfo(ytMusicURL?.name, imgs, topSongs, desc, infos[1], infos[0]))
 }
 

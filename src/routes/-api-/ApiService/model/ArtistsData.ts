@@ -1,3 +1,4 @@
+import type { SocialProfileUserData } from "../soundcloud/model/SocialProfileUserData"
 import type { MusicData } from "./MusicData"
 
 export class ArtistsData {
@@ -21,11 +22,15 @@ export class ArtistsDataInfo {
     img: String[]
     topSongs: MusicData[]
     desc: String | null
+    followers: number
+    socialMedia: SocialProfileUserData
 
-    constructor(name: String, img: String[], topSongs: MusicData[], desc: String | null) {
+    constructor(name: String, img: String[], topSongs: MusicData[], desc: String | null, followers: number, socialMedia: SocialProfileUserData) {
         this.name = name
         this.img = img
         this.topSongs = topSongs
         this.desc = desc
+        this.followers = followers
+        this.socialMedia = socialMedia
     }
 }
