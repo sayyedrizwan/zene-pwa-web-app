@@ -12,8 +12,9 @@ import { filterThumbnailURL } from "../../utils/extension/String";
 import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
 import type { YTMusicSearchPagination } from "./model/YTMusicSearchPagination";
 import type { YTMusicSearchSuggestions } from "./model/YTMusicSearchSuggestions";
-import { MoodplaylistData, MoodplaylistDataItems } from "../model/MoodplaylistData";
+import { MoodplaylistData, MoodplaylistDataItems } from "../model/MoodplaylistData"
 import type { YTArtistsData } from "./model/YTArtistsData";
+import { YTArtistsSaveData } from "./model/YTArtistsSaveData";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -584,55 +585,97 @@ export class YoutubeMusicService {
         }
     }
 
-    async artistsPageData(channelID: string): Promise<[String | undefined, String | undefined, String | undefined, MusicData[]]> {
+    async artistsPageData(channelID: string): Promise<YTArtistsSaveData | undefined> {
         try {
             let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(channelID) }
             const response = await axios.request(config)
             const data = await response.data as YTArtistsData
 
-            let playlistID: String | undefined = undefined
-            let albumsID: String | undefined = undefined
-            let videoID: String | undefined = undefined
-            let similarArtists: MusicData[] = []
+            let saveData: YTArtistsSaveData = new YTArtistsSaveData("", [], "", [], "", [], "", [], [])
 
             data.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach(t => {
                 t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
                     c.musicShelfRenderer?.title?.runs?.forEach(async e => {
                         if (e.text == "Songs") {
-                            if (e.navigationEndpoint?.browseEndpoint?.browseId != undefined) playlistID = e.navigationEndpoint?.browseEndpoint?.browseId ?? undefined
+                            if (e.navigationEndpoint?.browseEndpoint?.browseId != undefined) {
+                                saveData.songPlaylistID = e.navigationEndpoint?.browseEndpoint?.browseId ?? ""
+                            }
                         }
                     })
 
-                    c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.title?.runs?.forEach(async e => {
-                        if (e.text == "Albums") {
-                            if (e.navigationEndpoint?.browseEndpoint?.browseId != undefined) albumsID = e.navigationEndpoint?.browseEndpoint?.browseId ?? undefined
-                        }
-                    })
-
-                    c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.title?.runs?.forEach(async e => {
-                        if (e.text == "Videos") {
-                            if (e.navigationEndpoint?.browseEndpoint?.browseId != undefined) videoID = e.navigationEndpoint?.browseEndpoint?.browseId ?? undefined
-                        }
-                    })
-
-                    if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Fans might also like") {
+                    if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Albums") {
+                        let albumsList: MusicData[] = []
                         c.musicCarouselShelfRenderer.contents?.forEach(m => {
                             const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
                             const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
                             const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
                             const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
 
-                            if(id != undefined && name != undefined) similarArtists.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.ARTISTS))
+                            let artists = ""
+                            m?.musicTwoRowItemRenderer?.subtitle?.runs?.forEach(a => {
+                                if (isYear(a.text ?? "") && artists == "") artists = a.text ?? ""
+                            })
+                            if (id != undefined && name != undefined) albumsList.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.ALBUMS))
                         })
+
+                        saveData.albumsID = c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.title?.runs?.[0].navigationEndpoint?.browseEndpoint?.browseId ?? ""
+                        saveData.albumsItems = albumsList
+                    }
+                    
+                    if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Videos") {
+                        let videoList: MusicData[] = []
+                        c.musicCarouselShelfRenderer.contents?.forEach(m => {
+                            const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                            const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
+                            const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+
+                            let artists = ""
+                            m.musicTwoRowItemRenderer?.subtitle?.runs?.forEach(a => {
+                                artists += a.text
+                            })
+
+                            if (id != undefined && name != undefined) videoList.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.VIDEO, id))
+                        })
+
+                        saveData.videoID = c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.title?.runs?.[0].navigationEndpoint?.browseEndpoint?.browseId ?? ""
+                        saveData.videoItems = videoList
+                    }
+
+                    if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Featured on") {
+                        let playlistList: MusicData[] = []
+                        c.musicCarouselShelfRenderer.contents?.forEach(m => {
+                            const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                            const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
+                            const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+
+                            if (id != undefined && name != undefined) playlistList.push(new MusicData(name, "", id, highestThumbnail, MUSICTYPE.PLAYLIST))
+                        })
+
+                        saveData.playlistID = c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.title?.runs?.[0].navigationEndpoint?.browseEndpoint?.browseId ?? ""
+                        saveData.playlistItems = playlistList
+                    }
+
+                    if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Fans might also like") {
+                        let similarArtists: MusicData[] = []
+                        c.musicCarouselShelfRenderer.contents?.forEach(m => {
+                            const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                            const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
+                            const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+                            if (id != undefined && name != undefined) similarArtists.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.ARTISTS))
+                        })
+
+                        saveData.artistsItems = similarArtists
                     }
 
                 })
             })
 
-            return [playlistID, albumsID, videoID, similarArtists]
+            return saveData
         } catch (error) {
-            console.log(error)
-            return [undefined, undefined, undefined, []]
+            return undefined
         }
     }
 
