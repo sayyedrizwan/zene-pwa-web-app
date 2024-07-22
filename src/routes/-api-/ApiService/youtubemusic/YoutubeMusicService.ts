@@ -1,5 +1,5 @@
 import axios from "axios";
-import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicHeader, ytMusicIDWithParam, ytMusicInput, ytMusicMoodAndGenresCategoryParam, ytMusicMoodAndGenresParam, ytMusicNext, ytMusicPlayer, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchArtistsParam, ytMusicSearchPlaylistParam, ytMusicSearchSongParam, ytMusicSearchSuggestions, ytMusicSongID, ytMusicvideoID } from "../../utils/Utils"
+import { isYear, ytMusicBrowse, ytMusicBrowseID, ytMusicBrowseIDWithParam, ytMusicGridListParam, ytMusicHeader, ytMusicIDWithParam, ytMusicInput, ytMusicMoodAndGenresCategoryParam, ytMusicMoodAndGenresParam, ytMusicNext, ytMusicPlayer, ytMusicPlaylistSongs, ytMusicSearch, ytMusicSearchAlbumsParam, ytMusicSearchArtistsParam, ytMusicSearchPlaylistParam, ytMusicSearchSongParam, ytMusicSearchSuggestions, ytMusicSongID, ytMusicvideoID } from "../../utils/Utils"
 import type { YTMusicSimilar } from "./model/YTMusicSimilar"
 import type { YTMusicPlaylists } from "./model/YTMusicPlaylists"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
@@ -13,6 +13,7 @@ import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
 import type { YTMusicSearchPagination } from "./model/YTMusicSearchPagination";
 import type { YTMusicSearchSuggestions } from "./model/YTMusicSearchSuggestions";
 import { MoodplaylistData, MoodplaylistDataItems } from "../model/MoodplaylistData";
+import type { YTArtistsData } from "./model/YTArtistsData";
 
 export class YoutubeMusicService {
     static instance = new YoutubeMusicService()
@@ -287,6 +288,34 @@ export class YoutubeMusicService {
         }
     }
 
+    async searchArtistsSpecific(q: string): Promise<MusicData | undefined> {
+        try {
+            let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchArtistsParam) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicSearch
+
+            let list: MusicData | undefined = undefined
+            data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
+                tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
+                    if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Artists") {
+                        contents?.musicShelfRenderer?.contents?.forEach(c => {
+                            const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                            const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+                            const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+
+                            if (id != undefined && list == undefined)
+                                list = new MusicData(name, name, id, highestThumbnail, MUSICTYPE.ARTISTS)
+                        })
+                    }
+                })
+            })
+            return list
+        } catch (error) {
+            return undefined
+        }
+    }
+
     async searchAlbums(q: string): Promise<MusicData[]> {
         try {
             let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(q, ytMusicSearchAlbumsParam) }
@@ -405,6 +434,42 @@ export class YoutubeMusicService {
     }
 
 
+    async listGridData(id: string): Promise<MusicData[]> {
+        let lists: MusicData[] = []
+
+        try {
+            let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicIDWithParam(id, ytMusicGridListParam) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicMood
+
+            data.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach(t => {
+                t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
+                    c.gridRenderer?.items?.forEach(i => {
+                        const thumbnail = i.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail.thumbnails ?? []
+                        const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+
+
+                        const name = i.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
+                        const id = i.musicTwoRowItemRenderer?.navigationEndpoint.browseEndpoint.browseId
+                        let artists = ""
+                        let isAlbum = false
+                        i.musicTwoRowItemRenderer?.subtitle?.runs?.forEach(t => {
+                            if ((t.text == "Album" || t.text == "EP") && !isAlbum) isAlbum = true
+                            if (isYear(t.text ?? "") && artists == "") artists = t.text ?? ""
+                        })
+
+                        if (name != undefined && id != undefined) lists.push(new MusicData(name, artists, id, highestThumbnail, isAlbum ? MUSICTYPE.ALBUMS : MUSICTYPE.PLAYLIST))
+                    })
+                })
+            })
+
+            return lists
+        } catch (e) {
+            return []
+        }
+    }
+
+
     async searchKeywords(q: string): Promise<String[]> {
         try {
             let config = { method: 'post', url: ytMusicSearchSuggestions, headers: ytMusicHeader, data: ytMusicInput(q) }
@@ -516,6 +581,58 @@ export class YoutubeMusicService {
             return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined
         } catch (error) {
             return undefined
+        }
+    }
+
+    async artistsPageData(channelID: string): Promise<[String | undefined, String | undefined, String | undefined, MusicData[]]> {
+        try {
+            let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(channelID) }
+            const response = await axios.request(config)
+            const data = await response.data as YTArtistsData
+
+            let playlistID: String | undefined = undefined
+            let albumsID: String | undefined = undefined
+            let videoID: String | undefined = undefined
+            let similarArtists: MusicData[] = []
+
+            data.contents?.singleColumnBrowseResultsRenderer?.tabs?.forEach(t => {
+                t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(c => {
+                    c.musicShelfRenderer?.title?.runs?.forEach(async e => {
+                        if (e.text == "Songs") {
+                            if (e.navigationEndpoint?.browseEndpoint?.browseId != undefined) playlistID = e.navigationEndpoint?.browseEndpoint?.browseId ?? undefined
+                        }
+                    })
+
+                    c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.title?.runs?.forEach(async e => {
+                        if (e.text == "Albums") {
+                            if (e.navigationEndpoint?.browseEndpoint?.browseId != undefined) albumsID = e.navigationEndpoint?.browseEndpoint?.browseId ?? undefined
+                        }
+                    })
+
+                    c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.title?.runs?.forEach(async e => {
+                        if (e.text == "Videos") {
+                            if (e.navigationEndpoint?.browseEndpoint?.browseId != undefined) videoID = e.navigationEndpoint?.browseEndpoint?.browseId ?? undefined
+                        }
+                    })
+
+                    if (c.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Fans might also like") {
+                        c.musicCarouselShelfRenderer.contents?.forEach(m => {
+                            const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                            const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text
+                            const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId
+
+                            if(id != undefined && name != undefined) similarArtists.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.ARTISTS))
+                        })
+                    }
+
+                })
+            })
+
+            return [playlistID, albumsID, videoID, similarArtists]
+        } catch (error) {
+            console.log(error)
+            return [undefined, undefined, undefined, []]
         }
     }
 

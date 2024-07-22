@@ -65,6 +65,8 @@ export const NEW_RELEASE_SONGS = "NEW_RELEASE_SONGS"
 
 
 export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts"
+export const lastFMLSearchArtists = "https://www.last.fm/search/artists"
+export const lastFMURL = "https://www.last.fm"
 export const billboardTopArtists = "https://www.billboard.com/charts/artist-100/"
 
 
@@ -127,6 +129,7 @@ export const ytMusicSearchAlbumsParam = "EgWKAQIYAWoQEAoQAxAEEAkQEBAFEBEQFQ%3D%3
 export const ytMusicSearchPlaylistParam = "EgeKAQQoAEABahAQChADEAQQCRAQEAUQERAV"
 export const ytMusicMoodAndGenresParam = "FEmusic_moods_and_genres"
 export const ytMusicMoodAndGenresCategoryParam = "FEmusic_moods_and_genres_category"
+export const ytMusicGridListParam = "ggMIegYIARoCAQI%3D"
 
 
 

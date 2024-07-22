@@ -43,15 +43,63 @@
   }
   
    interface Item {
+    musicTwoRowItemRenderer?: MusicNavigationButtonRenderer
     musicNavigationButtonRenderer?: MusicNavigationButtonRenderer
   }
   
    interface MusicNavigationButtonRenderer {
+    title?: Title
+    thumbnailRenderer?: ThumbnailRenderer
+    subtitle?: ButtonText
+    navigationEndpoint: NavigationEndpoint
     buttonText?: ButtonText
     solid?: Solid
     clickCommand?: ClickCommand
     trackingParams?: string
   }
+
+
+  export interface ThumbnailRenderer {
+    musicThumbnailRenderer: MusicThumbnailRenderer
+  }
+  
+  export interface MusicThumbnailRenderer {
+    thumbnail: Thumbnail
+    thumbnailCrop: string
+    thumbnailScale: string
+    trackingParams: string
+  }
+  
+  export interface Thumbnail {
+    thumbnails: Thumbnail2[]
+  }
+  
+  export interface Thumbnail2 {
+    url: string
+    width: number
+    height: number
+  }
+  
+  
+  export interface NavigationEndpoint {
+    clickTrackingParams: string
+    browseEndpoint: BrowseEndpoint2
+  }
+  
+  export interface BrowseEndpoint2 {
+    browseId: string
+    params: string
+    browseEndpointContextSupportedConfigs: BrowseEndpointContextSupportedConfigs
+  }
+  
+  export interface BrowseEndpointContextSupportedConfigs {
+    browseEndpointContextMusicConfig: BrowseEndpointContextMusicConfig
+  }
+  
+  export interface BrowseEndpointContextMusicConfig {
+    pageType: string
+  }
+  
   
    interface ButtonText {
     runs?: Run[]
