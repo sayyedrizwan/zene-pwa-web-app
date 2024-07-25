@@ -3,6 +3,7 @@ import { verifyHeader } from '../../utils/Utils.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import { ArtistsData } from '../../ApiService/model/ArtistsData.js'
 import { MUSICTYPE, type MusicData } from '../../ApiService/model/MusicData.js'
+import { NewsAPIService } from '../../ApiService/news/NewsAPIService.js'
 
 export async function POST({ request }) {
     if (!verifyHeader(request)) return json([])
@@ -45,7 +46,9 @@ export async function POST({ request }) {
         videos = data.videoItems
     }
 
+    const news = await NewsAPIService.instance.searchNews(name)
+
     if (ytMusicURL?.name == undefined) return json({})
-    return json(new ArtistsData(songs, albums, videos, data.playlistItems, data.artistsItems))
+    return json(new ArtistsData(songs, albums, videos, data.playlistItems, data.artistsItems, news))
 }
 

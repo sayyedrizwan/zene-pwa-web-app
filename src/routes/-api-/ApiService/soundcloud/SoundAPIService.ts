@@ -5,7 +5,7 @@ import { substringAfter, substringBefore } from "../../utils/extension/String"
 import type { SearchUsersCollection, SearchUsersData } from "./model/SearchUsersData"
 import type { SocialProfileUserData } from "./model/SocialProfileUserData"
 
-export class SoundAPIService {
+export class SoundAPIService {  
     static instance = new SoundAPIService()
 
     async socialInfo(name: String): Promise<[SocialProfileUserData, number]> {

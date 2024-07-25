@@ -7,13 +7,15 @@ export class ArtistsData {
     videos: MusicData[]
     playlists: MusicData[]
     artists: MusicData[]
+    news: MusicData[]
 
-    constructor(songs: MusicData[], albums: MusicData[], videos: MusicData[], playlists: MusicData[], artists: MusicData[]) {
+    constructor(songs: MusicData[], albums: MusicData[], videos: MusicData[], playlists: MusicData[], artists: MusicData[], news: MusicData[]) {
         this.songs = songs
         this.albums = albums
         this.videos = videos
         this.playlists = playlists
         this.artists = artists
+        this.news = news
     }
 }
 

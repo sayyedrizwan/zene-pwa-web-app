@@ -2,7 +2,6 @@ import axios from "axios"
 import { lastFMListeningSongs, lastFMLSearchArtists, lastFMURL } from "../../utils/Utils"
 import type { TopLastFmChartData } from "./model/TopLastFmChartData"
 import { parse } from 'node-html-parser'
-import { substringAfter } from "../../utils/extension/String"
 
 export class LastFMService {
     static instance = new LastFMService()

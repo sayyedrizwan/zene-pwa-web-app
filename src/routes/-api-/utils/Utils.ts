@@ -57,6 +57,14 @@ export function verifyHeader(request: Request) {
     return false
 }
 
+export function bingNewsMostRecent(q: String) : string{
+    return `https://www.bing.com/news/search?q=${q.toLowerCase().replaceAll(" ", "+")}&qft=sortbydate%3d%221%22+interval%3d%227%22&form=YFNR`
+}
+
+export function bingNewsBest(q: String) : string {
+    return `https://www.bing.com/news/search?q=${q.toLowerCase().replaceAll(" ", "+")}&qft=interval%3d%227%22&form=YFNR`
+}
+
 
 export const GLOBAL_TRENDING_ARTISTS = "GLOBAL_TRENDING_ARTISTS"
 export const MOST_LISTEN_SONGS = "MOST_LISTEN_SONGS"
