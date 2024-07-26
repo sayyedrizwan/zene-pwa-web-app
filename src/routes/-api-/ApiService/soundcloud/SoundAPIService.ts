@@ -17,7 +17,6 @@ export class SoundAPIService {
             const data = await response.data as SocialProfileUserData
             return [data, searchClient?.followers_count ?? 0]
         } catch (e) {
-            console.log(e)
             return [[], 0]
         }
     }

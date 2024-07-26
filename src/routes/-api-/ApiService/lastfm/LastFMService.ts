@@ -2,6 +2,7 @@ import axios from "axios"
 import { lastFMListeningSongs, lastFMLSearchArtists, lastFMURL } from "../../utils/Utils"
 import type { TopLastFmChartData } from "./model/TopLastFmChartData"
 import { parse } from 'node-html-parser'
+import { substringAfter, substringBefore } from "../../utils/extension/String"
 
 export class LastFMService {
     static instance = new LastFMService()
@@ -24,10 +25,10 @@ export class LastFMService {
             const root = parse(data)
 
             let url = ""
-    
+
             root.querySelectorAll(".artist-result-inner")?.forEach(html => {
                 let txt = html.querySelector("a")?.text
-                if(txt?.toLowerCase() == txt?.toLowerCase() && url == "")
+                if (txt?.toLowerCase() == txt?.toLowerCase() && url == "")
                     url = html.querySelector("a")?.getAttribute("href") ?? ""
             })
             return url
@@ -43,10 +44,10 @@ export class LastFMService {
             const root = parse(data)
 
             let list: String[] = []
-    
+
             root.querySelectorAll(".image-list-item-wrapper")?.forEach(html => {
                 const src = html.querySelector("img")?.getAttribute("src")
-                if(src != undefined) list.push(`https://lastfm.freetls.fastly.net/i/u/770x0/${src.split("/").pop()}`)
+                if (src != undefined) list.push(`https://lastfm.freetls.fastly.net/i/u/770x0/${src.split("/").pop()}`)
             })
             return list
         } catch (error) {
@@ -56,7 +57,7 @@ export class LastFMService {
 
     async topSongs(url: String): Promise<[String, String][]> {
         try {
-            const response = await axios.get(`${lastFMURL}${url}/+tracks`, {params : { date_preset: "LAST_30_DAYS"}})
+            const response = await axios.get(`${lastFMURL}${url}/+tracks`, { params: { date_preset: "LAST_30_DAYS" } })
             const data = await response.data
             const root = parse(data)
 
@@ -64,7 +65,7 @@ export class LastFMService {
             root.querySelectorAll("tr")?.forEach(html => {
                 const name = html.querySelector(".chartlist-name")?.querySelector("a")?.text.trim()
                 const listeners = html.querySelector(".chartlist-count-bar-value")?.text.trim()
-                if(name != undefined) list.push([name, listeners?.replace("listeners", "").replaceAll(",", "").trim() ?? ""])
+                if (name != undefined) list.push([name, listeners?.replace("listeners", "").replaceAll(",", "").trim() ?? ""])
             })
             return list
         } catch (error) {
@@ -76,10 +77,10 @@ export class LastFMService {
         try {
             const response = await axios.get(`${lastFMURL}${url}/+wiki`)
             const data = await response.data
-            const root = parse(data)
-
-            let desc: String | undefined = root.querySelector(".wiki-content")?.text
-            return desc
+            const textAfter = substringAfter(data, "<div class=\"wiki-content\" itemprop=\"description\">")
+            const textBefore = substringBefore(textAfter, "</div></div>")
+            const root = parse(textBefore.toString())
+            return root.text
         } catch (error) {
             return undefined
         }

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ytBrowse, ytBrowseQuery, ytBrowseQueryParams, ytHeader, ytSearch } from "../../utils/Utils"
+import { YT_SONG_AS_PLAYLISTS_PARAMS, YT_STORE_PARAMS, ytBrowse, ytBrowseQuery, ytBrowseQueryParams, ytHeader, ytQueryParams, ytSearch } from "../../utils/Utils"
 import type { YTSearchData } from "./model/YTSearchData"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
 import type { YTStoreData } from "./model/YTStoreData"
@@ -52,6 +52,33 @@ export class YoutubeAPIService {
         }
     }
 
+    async searchVideosPlaylist(q: String): Promise<MusicData[]> {
+
+        try {
+            let config = { method: 'post', url: ytSearch, headers: ytHeader, data: ytQueryParams(q.toString(), YT_SONG_AS_PLAYLISTS_PARAMS) }
+            const response = await axios.request(config)
+            const datas = await response.data as YTSearchData
+
+            const list: MusicData[] = []
+
+            datas.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.forEach(e => {
+               e.itemSectionRenderer?.contents?.forEach(v => {
+                    if (v.videoRenderer != undefined) {
+                        const vID = v.videoRenderer?.videoId
+                        const name = v.videoRenderer.title?.runs?.[0].text
+                        const artists = v.videoRenderer.longBylineText?.runs?.[0].text
+                        const thumbnail = `https://i.ytimg.com/vi/${vID}/maxresdefault.jpg`
+
+                        if (vID != undefined && name != undefined) list.push(new MusicData(name, artists ?? "", vID, thumbnail, MUSICTYPE.VIDEO, vID))
+                    }
+                })
+            })
+            return list.length > 5 ? list.slice(0, 5) : list
+        } catch (error) {
+            return []
+        }
+    }
+
     async merchandises(q: String) {
         try {
             let config = { method: 'post', url: ytSearch, headers: ytHeader, data: ytBrowseQuery(q.toString()) }
@@ -68,7 +95,7 @@ export class YoutubeAPIService {
                 })
             })
 
-            let configStore = { method: 'post', url: ytBrowse, headers: ytHeader, data: ytBrowseQueryParams(channelID) }
+            let configStore = { method: 'post', url: ytBrowse, headers: ytHeader, data: ytBrowseQueryParams(channelID, YT_STORE_PARAMS) }
             const responseStore = await axios.request(configStore)
             const dataStore = await responseStore.data as YTStoreData
 

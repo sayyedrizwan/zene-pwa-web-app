@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit'
-import { verifyHeader } from '../../utils/Utils.js'
+import { getRandomItem, verifyHeader } from '../../utils/Utils.js'
 import { LastFMService } from '../../ApiService/lastfm/LastFMService.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import { ArtistsData, ArtistsDataInfo } from '../../ApiService/model/ArtistsData.js'
-import type { MusicData } from '../../ApiService/model/MusicData.js'
+import { MusicData } from '../../ApiService/model/MusicData.js'
 import { SoundAPIService } from '../../ApiService/soundcloud/SoundAPIService.js'
 import type { SocialProfileUserData } from '../../ApiService/soundcloud/model/SocialProfileUserData.js'
+import { YoutubeAPIService } from '../../ApiService/youtube/YoutubeAPIService.js'
 
 export async function POST({ request }) {
     if (!verifyHeader(request)) return json([])
@@ -19,11 +20,12 @@ export async function POST({ request }) {
     let topSongs: MusicData[] = []
     let desc: String | null = ""
     let mainName: String | null = ""
+    let radioID: String | null = null
     let infos: [SocialProfileUserData, number] = [[], 0]
 
 
 
-    await Promise.all([1, 2, 3, 4, 5].map(async page => {
+    await Promise.all([1, 2, 3, 4, 5, 6].map(async page => {
         if (page == 1 || page == 2) {
             const lastFMImages = await LastFMService.instance.searchImages(lastFMURL, page)
             lastFMImages.forEach(e => {
@@ -47,12 +49,15 @@ export async function POST({ request }) {
             desc = await LastFMService.instance.wiki(lastFMURL) ?? null
         } else if (page == 5) {
             infos = await SoundAPIService.instance.socialInfo(name)
+        } else if (page == 6) {
+            let radioList = await YoutubeAPIService.instance.searchVideosPlaylist(`${name} greatest hits`) ?? []
+            radioID = getRandomItem(radioList).id
         }
     }))
 
 
     
     if (mainName == undefined) return json({})
-    return json(new ArtistsDataInfo(mainName, imgs, topSongs, desc, infos[1], infos[0]))
+    return json(new ArtistsDataInfo(mainName, imgs, topSongs, desc, infos[1], infos[0], radioID))
 }
 

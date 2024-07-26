@@ -95,10 +95,11 @@ export const ytBrowse = "https://www.youtube.com/youtubei/v1/browse?prettyPrint=
 
 
 const clientNameYTName = "WEB"
-const clientNameYTVersion = "2.20240712.01.00"
+const clientNameYTVersion = "2.20240724.03.00"
 
 
 export const YT_STORE_PARAMS = "EgVzdG9yZfIGBAoCGgA%3D"
+export const YT_SONG_AS_PLAYLISTS_PARAMS = "EgIYAg%3D%3D"
 
 export const ytHeader = {
     'content-type': 'application/json',
@@ -121,7 +122,7 @@ export function ytBrowseQuery(q: string): string {
 }
 
 
-export function ytBrowseQueryParams(id: string): string {
+export function ytBrowseQueryParams(id: string, param: String): string {
     return JSON.stringify({
         "context": {
             "client": {
@@ -130,7 +131,20 @@ export function ytBrowseQueryParams(id: string): string {
             }
         },
         "browseId": id,
-        "params": YT_STORE_PARAMS
+        "params": param
+    })
+}
+
+export function ytQueryParams(id: string, param: String): string {
+    return JSON.stringify({
+        "context": {
+            "client": {
+                "clientName": clientNameYTName,
+                "clientVersion": clientNameYTVersion
+            }
+        },
+        "query": id,
+        "params": param
     })
 }
 
@@ -267,4 +281,9 @@ export function timeDifferenceInHours(oldTimestamp: string) {
     const differenceInMs = currentTimestamp - oldDate
 
     const hours = Math.floor((differenceInMs / (1000 * 60 * 60)) % 24)
+}
+
+export function getRandomItem<T>(list: T[]): T {
+    const randomIndex = Math.floor(Math.random() * list.length);
+    return list[randomIndex];
 }

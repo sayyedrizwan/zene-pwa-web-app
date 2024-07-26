@@ -14,8 +14,12 @@ export async function GET({ url, request }) {
 
 		if (results.length > 0) {
 			info = results[0]
-			info.latest_songs = JSON.parse(results[0].latest_songs)
-			info.pinned_artists = JSON.parse(results[0].pinned_artists)
+			try {
+				info.pinned_artists = JSON.parse(results[0].pinned_artists)
+			} catch (error) {
+				info.pinned_artists = []
+			}
+			
 		}
 
 		return json(info)
