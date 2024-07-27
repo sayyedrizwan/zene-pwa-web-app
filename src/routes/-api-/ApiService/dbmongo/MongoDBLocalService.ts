@@ -33,7 +33,7 @@ export class MongoDBLocalService {
     async readSongHistory(email: String, page: number): Promise<DBMusicHistory[] | undefined> {
         try {
             const skip = page * 50
-            const data = await this.collectionSongHistory.find({ email: email }).sort({timestamp: -1}).skip(skip).limit(50).toArray()
+            const data = await this.collectionSongHistory.find({ email: email }).sort({timestamp: -1}).skip(skip).limit(20).toArray()
             return data as any
         } catch (error) {
             return []

@@ -17,14 +17,14 @@ export async function GET({ request, url }) {
 }
 
 export async function POST({ request }) {
-	if (!verifyHeader(request)) return json({ status: false })
+	if (!verifyHeader(request)) return json({ status: "error" })
 
 	const body = await request.json()
 	const email = body.email as string
 	const songID = body.songID as string
 	const device = body.device as string
 
-	if (!email.includes("@") && email.length < 3) return json({ status: false })
+	if (!email.includes("@") && email.length < 3) return json({ status: "error" })
 
 	const data = await MongoDBLocalService.instance.isSongAlreadyPresentDelete(songID, email)
 	const songInfo = await YoutubeMusicService.instance.songInfo(songID)
@@ -34,5 +34,5 @@ export async function POST({ request }) {
 		else MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, (data.timesItsPlayed as number) + 1)
 	}
 
-	return json({ status: true })
+	return json({ status: "success" })
 }
