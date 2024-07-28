@@ -6,6 +6,8 @@ import { DBPlaylists } from "./model/DBPlaylistInfo"
 export class MongoDBLocalService {
     static instance = new MongoDBLocalService()
 
+    static limitPagination = 20
+
     mainDBName = 'zenemusic'
     userSongHistoryDB = 'song_history'
     userPlaylistsDB = 'playlists'
@@ -16,10 +18,20 @@ export class MongoDBLocalService {
     async insertPlaylistHistory(name: String, img: String, email: String) {
         try {
             const id = btoa(`${email}_${Date.now()}`)
-            const data = new DBPlaylists(email, name, img, id, Date.now())
+            const data = new DBPlaylists(email, name, img, id, false, Date.now())
             await this.collectionPlaylists.insertOne(data)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async readPlaylists(email: String, page: number): Promise<DBMusicHistory[] | undefined> {
+        try {
+            const skip = page * MongoDBLocalService.limitPagination
+            const data = await this.collectionPlaylists.find({ email: email }).sort({ timestamp: -1 }).skip(skip).limit(MongoDBLocalService.limitPagination).toArray()
+            return data as any
+        } catch (error) {
+            return []
         }
     }
 
@@ -45,8 +57,8 @@ export class MongoDBLocalService {
 
     async readSongHistory(email: String, page: number): Promise<DBMusicHistory[] | undefined> {
         try {
-            const skip = page * 50
-            const data = await this.collectionSongHistory.find({ email: email }).sort({timestamp: -1}).skip(skip).limit(20).toArray()
+            const skip = page * MongoDBLocalService.limitPagination
+            const data = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).skip(skip).limit(MongoDBLocalService.limitPagination).toArray()
             return data as any
         } catch (error) {
             return []
@@ -55,17 +67,17 @@ export class MongoDBLocalService {
 
     async topFifteenSongsOfUsers(email: String): Promise<String[]> {
         try {
-            const list : String[] = []
-            const dataLatest = await this.collectionSongHistory.find({ email: email }).sort({timestamp: -1}).limit(10).toArray()
+            const list: String[] = []
+            const dataLatest = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(10).toArray()
             dataLatest.forEach((e: any) => {
                 const id = (e as DBMusicHistory).id
-                if(!list.some((item) => item === id)) list.push(id)
+                if (!list.some((item) => item === id)) list.push(id)
             })
 
-            const dataTop = await this.collectionSongHistory.find({ email: email }).sort({timesItsPlayed: -1}).limit(5).toArray()
+            const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray()
             dataTop.forEach((e: any) => {
                 const id = (e as DBMusicHistory).id
-                if(!list.some((item) => item === id)) list.push(id)
+                if (!list.some((item) => item === id)) list.push(id)
             })
             return shuffleString(list)
         } catch (error) {
@@ -75,17 +87,17 @@ export class MongoDBLocalService {
 
     async topFifteenArtistsOfUsers(email: String): Promise<String[]> {
         try {
-            const list : String[] = []
-            const dataLatest = await this.collectionSongHistory.find({ email: email }).sort({timestamp: -1}).limit(10).toArray()
+            const list: String[] = []
+            const dataLatest = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(10).toArray()
             dataLatest.forEach((e: any) => {
                 const id = (e as DBMusicHistory).artists
-                if(!list.some((item) => item === id)) list.push(id)
+                if (!list.some((item) => item === id)) list.push(id)
             })
 
-            const dataTop = await this.collectionSongHistory.find({ email: email }).sort({timesItsPlayed: -1}).limit(5).toArray()
+            const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray()
             dataTop.forEach((e: any) => {
                 const id = (e as DBMusicHistory).artists
-                if(!list.some((item) => item === id)) list.push(id)
+                if (!list.some((item) => item === id)) list.push(id)
             })
             return shuffleString(list)
         } catch (error) {

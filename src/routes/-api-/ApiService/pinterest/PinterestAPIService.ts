@@ -49,8 +49,6 @@ export class PinterestAPIService {
                 if (e.images?.orig?.url != undefined) imgs.push(e.images.orig.url)
             })
 
-            console.log(imgs)
-
             return [imgs, data.resource_response?.bookmark ?? ""]
         } catch (error) {
             console.log(error)

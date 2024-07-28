@@ -71,6 +71,9 @@ export const MOST_LISTEN_SONGS = "MOST_LISTEN_SONGS"
 export const NEW_RELEASE_SONGS = "NEW_RELEASE_SONGS"
 
 
+export const IMG_BB_BASE_URL = "https://api.imgbb.com/1/upload?key=a970144e82f636d36a37244bb2cd6692"
+
+
 export const pinterestSearchBaseURL = "https://pinterest.com/resource/BaseSearchResource/get/"
 
 export const pinterestHeader = { 
