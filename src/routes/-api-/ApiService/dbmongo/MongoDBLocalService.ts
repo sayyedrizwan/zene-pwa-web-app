@@ -1,14 +1,27 @@
 import type { MusicData } from "../model/MusicData"
 import { mongoDBClient, shuffleString } from "../../utils/Utils"
 import { DBMusicHistory } from "./model/DBMusicHistory"
+import { DBPlaylists } from "./model/DBPlaylistInfo"
 
 export class MongoDBLocalService {
     static instance = new MongoDBLocalService()
 
     mainDBName = 'zenemusic'
     userSongHistoryDB = 'song_history'
+    userPlaylistsDB = 'playlists'
 
     collectionSongHistory = mongoDBClient.db(this.mainDBName).collection(this.userSongHistoryDB)
+    collectionPlaylists = mongoDBClient.db(this.mainDBName).collection(this.userPlaylistsDB)
+
+    async insertPlaylistHistory(name: String, img: String, email: String) {
+        try {
+            const id = btoa(`${email}_${Date.now()}`)
+            const data = new DBPlaylists(email, name, img, id, Date.now())
+            await this.collectionPlaylists.insertOne(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     async updateOrInsertSongHistory(music: MusicData, email: String, deviceInfo: String, playTime: number) {
         try {

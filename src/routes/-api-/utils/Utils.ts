@@ -71,6 +71,16 @@ export const MOST_LISTEN_SONGS = "MOST_LISTEN_SONGS"
 export const NEW_RELEASE_SONGS = "NEW_RELEASE_SONGS"
 
 
+export const pinterestSearchBaseURL = "https://pinterest.com/resource/BaseSearchResource/get/"
+
+export const pinterestHeader = { 
+    'accept': 'application/json, text/javascript, */*, q=0.01', 
+    'accept-language': 'en-US,en;q=0.9', 
+    'content-type': 'application/x-www-form-urlencoded', 
+    'origin': 'https://in.pinterest.com',
+    'referer': 'https://in.pinterest.com/', 
+  }
+
 
 export const soundCloudBaseURL = "https://soundcloud.com/"
 export const searchSearchUserURL = "https://api-v2.soundcloud.com/search/users"
