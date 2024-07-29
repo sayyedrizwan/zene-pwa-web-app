@@ -25,6 +25,20 @@ export class MongoDBLocalService {
         }
     }
 
+    async isPlaylistPresent(pID: String, email: String): Promise<Boolean> {
+        let isPlaylistPresent = false
+        try {
+            const data = await this.collectionSongHistory.find({ id: pID, email: email }).toArray()
+            data.forEach((element: any) => {
+                let info = element as DBMusicHistory
+                if(pID == info.id) isPlaylistPresent = true
+            })
+            return isPlaylistPresent
+        } catch (error) {
+            return false
+        }
+    }
+
     async readPlaylists(email: String, page: number): Promise<DBMusicHistory[] | undefined> {
         try {
             const skip = page * MongoDBLocalService.limitPagination

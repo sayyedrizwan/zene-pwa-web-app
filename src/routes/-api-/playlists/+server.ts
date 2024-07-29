@@ -3,11 +3,14 @@ import { verifyHeader } from '../utils/Utils.js'
 import { YoutubeMusicService } from '../ApiService/youtubemusic/YoutubeMusicService.js'
 import type { MusicData } from '../ApiService/model/MusicData.js'
 import { filterArtistsName } from '../utils/extension/String.js'
+import { MongoDBLocalService } from '../ApiService/dbmongo/MongoDBLocalService.js'
 
 export async function GET({ url, request }) {
-    if (!verifyHeader(request)) return json([])
+    if (!verifyHeader(request)) return json({})
     const id = url.searchParams.get('id') ?? ""
+    const email = url.searchParams.get('email') ?? ""
     if (id == "") return json([])
+    if (!email.includes("@") && email.length < 3) return json({})
 
     const playlists = await YoutubeMusicService.instance.playlistsData(id)
     let songs: MusicData[] = []
@@ -31,7 +34,9 @@ export async function GET({ url, request }) {
         }
     }))
 
-    return json({ info: playlists[0], songs: songs })
+    const isPresent = await MongoDBLocalService.instance.isPlaylistPresent(email, id)
+
+    return json({ info: playlists[0], songs: songs, isAdded: isPresent })
 }
 
 function normalizeAndClean(name: string): string {
