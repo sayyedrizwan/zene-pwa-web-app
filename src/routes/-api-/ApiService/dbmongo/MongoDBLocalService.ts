@@ -2,6 +2,7 @@ import type { MusicData } from "../model/MusicData"
 import { mongoDBClient, shuffleString, zenePlaylistsParam } from "../../utils/Utils"
 import { DBMusicHistory } from "./model/DBMusicHistory"
 import { DBPlaylists } from "./model/DBPlaylistInfo"
+import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo"
 
 export class MongoDBLocalService {
     static instance = new MongoDBLocalService()
@@ -21,9 +22,9 @@ export class MongoDBLocalService {
         try {
             const saveID = id == null ? `${zenePlaylistsParam}${btoa(`${email}_${Date.now()}`)}` : id
             const data = new DBPlaylists(email, name, img, saveID, id != null, Date.now())
-            if(id != null) {
+            if (id != null) {
                 await this.collectionPlaylists.deleteMany({ id: id, email: email })
-            }   
+            }
             await this.collectionPlaylists.insertOne(data)
         } catch (error) {
             console.log(error)
@@ -44,25 +45,59 @@ export class MongoDBLocalService {
         try {
             const data = await this.collectionPlaylists.find({ id: pID, email: email }).toArray()
 
-            data.forEach((element : any) => {
+            data.forEach((element: any) => {
                 const data = element as DBPlaylists
-                if(data.id == pID && data.email == email) isPlaylistPresent = true
+                if (data.id == pID && data.email == email) isPlaylistPresent = true
             })
-            
+
             return isPlaylistPresent
         } catch (error) {
-    
+
             return false
         }
     }
 
-    async readPlaylists(email: String, page: number): Promise<DBMusicHistory[] | undefined> {
+    async readPlaylists(email: String, page: number): Promise<DBPlaylists[] | undefined> {
         try {
             const skip = page * MongoDBLocalService.limitPagination
             const data = await this.collectionPlaylists.find({ email: email }).sort({ timestamp: -1 }).skip(skip).limit(MongoDBLocalService.limitPagination).toArray()
             return data as any
         } catch (error) {
             return []
+        }
+    }
+
+    async readPlaylistsCreatedByUser(email: String, page: number): Promise<DBPlaylists[] | undefined> {
+        try {
+            const skip = page * MongoDBLocalService.limitPagination
+            const data = await this.collectionPlaylists.find({ email: email, isSaved: false }).sort({ timestamp: -1 }).skip(skip).limit(MongoDBLocalService.limitPagination).toArray()
+            return data as any
+        } catch (error) {
+            return []
+        }
+    }
+
+    async updatePlaylistSongs(pID: String, sID: String, doAdd: String): Promise<Boolean> {
+        try {
+            const items = await this.collectionPlaylistsSongs.deleteMany({ playlistId: pID.trim(), songId: sID.trim() })
+            console.log(`${items.deletedCount} ${pID} = ${sID} ${doAdd}`)
+            if (doAdd == "true") {
+                const data = new DBPlaylistsSong(pID, sID, Date.now())
+                await this.collectionPlaylistsSongs.insertOne(data)
+            }
+            return true
+        } catch (error) {
+            return false
+        }
+    }
+
+    async isSongPresentPlaylists(playlistID: String, songID: String): Promise<number> {
+        try {
+            const data = await this.collectionPlaylistsSongs.find({ playlistId: playlistID, songId: songID }).limit(MongoDBLocalService.limitPagination).toArray() as any
+            console.log(data)
+            return (data as DBPlaylistsSong[]).length
+        } catch (error) {
+            return 0
         }
     }
 
