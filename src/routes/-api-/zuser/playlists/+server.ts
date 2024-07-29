@@ -23,13 +23,15 @@ export async function POST({ request }) {
 	const image = data.get("image")
 	const name = data.get("name") as String
 	const email = data.get("email") as String
+	const id = data.get("id")
 
 	let photoURL = image == null ? "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg" : await ImgBBService.instance.uploadImgBB(image)
 	if(photoURL == "") photoURL = "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg"
 
 	if (!email.includes("@") && email.length < 3) return json({ status: "error" })
 
-	await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email)
+	
+	await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, id == null ? null : id as String)
 
 	return json({ status: "success" })
 }

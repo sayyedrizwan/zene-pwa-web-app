@@ -33,8 +33,8 @@ export async function GET({ url, request }) {
             else songs.push(e)
         }
     }))
-
     const isPresent = await MongoDBLocalService.instance.isPlaylistPresent(email, id)
+
     return json({ info: playlists[0], songs: songs, isAdded: isPresent })
 }
 

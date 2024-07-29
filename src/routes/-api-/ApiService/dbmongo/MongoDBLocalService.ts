@@ -1,5 +1,5 @@
 import type { MusicData } from "../model/MusicData"
-import { mongoDBClient, shuffleString } from "../../utils/Utils"
+import { mongoDBClient, shuffleString, zenePlaylistsParam } from "../../utils/Utils"
 import { DBMusicHistory } from "./model/DBMusicHistory"
 import { DBPlaylists } from "./model/DBPlaylistInfo"
 
@@ -11,30 +11,47 @@ export class MongoDBLocalService {
     mainDBName = 'zenemusic'
     userSongHistoryDB = 'song_history'
     userPlaylistsDB = 'playlists'
+    playlistsSongsDB = 'playlists_songs'
 
     collectionSongHistory = mongoDBClient.db(this.mainDBName).collection(this.userSongHistoryDB)
     collectionPlaylists = mongoDBClient.db(this.mainDBName).collection(this.userPlaylistsDB)
+    collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB)
 
-    async insertPlaylistHistory(name: String, img: String, email: String) {
+    async insertPlaylistHistory(name: String, img: String, email: String, id: String | null) {
         try {
-            const id = btoa(`${email}_${Date.now()}`)
-            const data = new DBPlaylists(email, name, img, id, false, Date.now())
+            const saveID = id == null ? `${zenePlaylistsParam}${btoa(`${email}_${Date.now()}`)}` : id
+            const data = new DBPlaylists(email, name, img, saveID, id != null, Date.now())
+            if(id != null) {
+                await this.collectionPlaylists.deleteMany({ id: id, email: email })
+            }   
             await this.collectionPlaylists.insertOne(data)
         } catch (error) {
             console.log(error)
         }
     }
 
-    async isPlaylistPresent(pID: String, email: String): Promise<Boolean> {
+    async deletePlaylistHistory(email: String, id: String | null) {
+        try {
+            await this.collectionPlaylists.deleteMany({ id: id, email: email })
+            await this.collectionPlaylistsSongs.deleteMany({ playlistID: id })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async isPlaylistPresent(email: String, pID: String): Promise<Boolean> {
         let isPlaylistPresent = false
         try {
-            const data = await this.collectionSongHistory.find({ id: pID, email: email }).toArray()
-            data.forEach((element: any) => {
-                let info = element as DBMusicHistory
-                if(pID == info.id) isPlaylistPresent = true
+            const data = await this.collectionPlaylists.find({ id: pID, email: email }).toArray()
+
+            data.forEach((element : any) => {
+                const data = element as DBPlaylists
+                if(data.id == pID && data.email == email) isPlaylistPresent = true
             })
+            
             return isPlaylistPresent
         } catch (error) {
+    
             return false
         }
     }

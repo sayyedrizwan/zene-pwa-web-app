@@ -4,6 +4,7 @@ import type { MusicData } from '../ApiService/model/MusicData';
 
 const isDev = true
 const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e"
+export const zenePlaylistsParam = "zene_p_"
 
 //aiven
 //filess.io
