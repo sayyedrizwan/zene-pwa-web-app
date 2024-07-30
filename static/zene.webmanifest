@@ -1,0 +1,505 @@
+{
+  "name": "Zene : A Music App",
+  "short_name": "Zene",
+  "description": "Discover the top music streaming platforms to find your favorite artists, albums, and playlists.",
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#100E09",
+  "background_color": "#100E09",
+  "orientation": "portrait-primary",
+  "dir": "ltr",
+  "lang": "en",
+  "display_override": [],
+  "categories": ["music", "lifestyle", "euphonious", "melodic", "harmony", "song", "orchestra", "rhythm", "singer", "dance", "tempo", "guitar"],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "Amazon App Store",
+      "url": "https://f-droid.org/en/packages/org.btcmap/",
+      "id": ""
+    },
+    {
+      "platform": "Play Store",
+      "url": "https://play.google.com/store/apps/details?id=com.rizwansayyed.zene",
+      "id": "com.rizwansayyed.zene"
+    },
+    {
+      "platform": "App Store",
+      "url": "https://apps.apple.com/app/btc-world-map/id6443604345",
+      "id": ""
+    },
+    {
+      "platform": "Mac OS",
+      "url": "https://apps.apple.com/app/btc-world-map/id6443604345",
+      "id": ""
+    },
+    {
+      "platform": "Windows Desktop",
+      "url": "https://apps.apple.com/app/btc-world-map/id6443604345",
+      "id": ""
+    }
+  ],
+  "developer": {
+    "name": "Rizwan Sayyed",
+    "url": "https://rizwansayyed.tk"
+  },
+  "icons": [
+    {
+      "src": "/icons/pwa/maskable/maskable_icon_x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/pwa/maskable/maskable_icon_x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/pwa/maskable/maskable_icon_x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/pwa/maskable/maskable_icon_x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/pwa/maskable/maskable_icon_x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/pwa/maskable/maskable_icon_x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/pwa/maskable/maskable_icon_x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/pwa/windows11/SmallTile.scale-100.png",
+      "sizes": "71x71"
+    },
+    {
+      "src": "/icons/pwa/windows11/SmallTile.scale-125.png",
+      "sizes": "89x89"
+    },
+    {
+      "src": "/icons/pwa/windows11/SmallTile.scale-150.png",
+      "sizes": "107x107"
+    },
+    {
+      "src": "/icons/pwa/windows11/SmallTile.scale-200.png",
+      "sizes": "142x142"
+    },
+    {
+      "src": "/icons/pwa/windows11/SmallTile.scale-400.png",
+      "sizes": "284x284"
+    },
+    {
+      "src": "/icons/pwa/windows11/LargeTile.scale-100.png",
+      "sizes": "310x310"
+    },
+    {
+      "src": "/icons/pwa/windows11/LargeTile.scale-125.png",
+      "sizes": "388x388"
+    },
+    {
+      "src": "/icons/pwa/windows11/LargeTile.scale-150.png",
+      "sizes": "465x465"
+    },
+    {
+      "src": "/icons/pwa/windows11/LargeTile.scale-200.png",
+      "sizes": "620x620"
+    },
+    {
+      "src": "/icons/pwa/windows11/LargeTile.scale-400.png",
+      "sizes": "1240x1240"
+    },
+    {
+      "src": "/icons/pwa/windows11/SplashScreen.scale-100.png",
+      "sizes": "620x300"
+    },
+    {
+      "src": "/icons/pwa/windows11/SplashScreen.scale-125.png",
+      "sizes": "775x375"
+    },
+    {
+      "src": "/icons/pwa/windows11/SplashScreen.scale-150.png",
+      "sizes": "930x450"
+    },
+    {
+      "src": "/icons/pwa/windows11/SplashScreen.scale-200.png",
+      "sizes": "1240x600"
+    },
+    {
+      "src": "/icons/pwa/windows11/SplashScreen.scale-400.png",
+      "sizes": "2480x1200"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-16.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-20.png",
+      "sizes": "20x20"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-24.png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-30.png",
+      "sizes": "30x30"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-32.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-36.png",
+      "sizes": "36x36"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-40.png",
+      "sizes": "40x40"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-44.png",
+      "sizes": "44x44"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-48.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-60.png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-64.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-72.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-80.png",
+      "sizes": "80x80"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-96.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/icons/pwa/windows11/Square44x44Logo.altform-unplated_targetsize-256.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/icons/pwa/android/android-launchericon-512-512.png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/icons/pwa/android/android-launchericon-192-192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/pwa/android/android-launchericon-144-144.png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/icons/pwa/android/android-launchericon-96-96.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/icons/pwa/android/android-launchericon-72-72.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/icons/pwa/android/android-launchericon-48-48.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/icons/pwa/ios/16.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "/icons/pwa/ios/20.png",
+      "sizes": "20x20"
+    },
+    {
+      "src": "/icons/pwa/ios/29.png",
+      "sizes": "29x29"
+    },
+    {
+      "src": "/icons/pwa/ios/32.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/icons/pwa/ios/40.png",
+      "sizes": "40x40"
+    },
+    {
+      "src": "/icons/pwa/ios/50.png",
+      "sizes": "50x50"
+    },
+    {
+      "src": "/icons/pwa/ios/57.png",
+      "sizes": "57x57"
+    },
+    {
+      "src": "/icons/pwa/ios/58.png",
+      "sizes": "58x58"
+    },
+    {
+      "src": "/icons/pwa/ios/60.png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "/icons/pwa/ios/64.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "/icons/pwa/ios/72.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/icons/pwa/ios/76.png",
+      "sizes": "76x76"
+    },
+    {
+      "src": "/icons/pwa/ios/80.png",
+      "sizes": "80x80"
+    },
+    {
+      "src": "/icons/pwa/ios/87.png",
+      "sizes": "87x87"
+    },
+    {
+      "src": "/icons/pwa/ios/100.png",
+      "sizes": "100x100"
+    },
+    {
+      "src": "/icons/pwa/ios/114.png",
+      "sizes": "114x114"
+    },
+    {
+      "src": "/icons/pwa/ios/120.png",
+      "sizes": "120x120"
+    },
+    {
+      "src": "/icons/pwa/ios/128.png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/icons/pwa/ios/144.png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/icons/pwa/ios/152.png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "/icons/pwa/ios/167.png",
+      "sizes": "167x167"
+    },
+    {
+      "src": "/icons/pwa/ios/180.png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/icons/pwa/ios/192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/pwa/ios/256.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/icons/pwa/ios/512.png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/icons/pwa/ios/1024.png",
+      "sizes": "1024x1024"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Home",
+      "short_name": "Home",
+      "description": "Zene Homepage",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/logo_png.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "Feed",
+      "short_name": "Feed",
+      "description": "Artists feed.",
+      "url": "/feed",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/ic_feed.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "short_name": "Search",
+      "description": "Find your favourite song, album, artists.",
+      "url": "/search",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/ic_search.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "My Music",
+      "short_name": "My Music",
+      "description": "Get your saved music and music hitory.",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/ic_my_music.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Config zene as per you need.",
+      "url": "/settings",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/ic_settings.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "App Download",
+      "short_name": "App Download",
+      "description": "Bring your free music to your device",
+      "url": "/download",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/ic_downloads.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "Zene Instagram",
+      "short_name": "Zene Instagram",
+      "description": "Follow Zene on Instagram",
+      "url": "https://www.instagram.com/zene__music/",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/ic_instagram.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "FAQ",
+      "short_name": "FAQ",
+      "description": "View frequently asked question on Zene",
+      "url": "/countries",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/ic_faq_info.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    },
+    {
+      "name": "About Us",
+      "short_name": "About Us",
+      "description": "Info about Zene",
+      "url": "/home",
+      "icons": [
+        {
+          "src": "/icons/pwa/widgets/logo_png.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/screenshots/0.png",
+      "sizes": "2881x1616",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/icons/screenshots/1.png",
+      "sizes": "1080x1920",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/screenshots/2.png",
+      "sizes": "1080x1920",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/screenshots/3.png",
+      "sizes": "1080x19204",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/screenshots/4.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/screenshots/5.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/screenshots/6.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    }
+  ]
+}

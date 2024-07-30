@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.rizwansayyed.zene",
+    "sha256_cert_fingerprints":
+    ["52:6B:D8:8E:2B:28:7D:BC:F3:7C:17:C1:81:08:5E:88:3F:AE:93:2C:DA:2F:20:D5:D2:C9:FC:AE:7B:D9:DB:80"]
+  }
+}]
