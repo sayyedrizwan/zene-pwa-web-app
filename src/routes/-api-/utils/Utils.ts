@@ -6,6 +6,7 @@ const isDev = true
 const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e"
 export const zenePlaylistsParam = "zene_p_"
 
+
 //aiven
 //filess.io
 export const mysqlpool: any = mysql.createPool({
@@ -300,4 +301,11 @@ export function timeDifferenceInHours(oldTimestamp: string) {
 export function getRandomItem<T>(list: T[]): T {
     const randomIndex = Math.floor(Math.random() * list.length);
     return list[randomIndex];
+}
+
+export function toDate(time: number){
+    const date = new Date(time)
+    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' }
+    const formattedDate = date.toLocaleDateString('en-GB', options)
+    return formattedDate
 }

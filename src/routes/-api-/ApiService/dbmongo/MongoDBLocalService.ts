@@ -7,7 +7,7 @@ import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo"
 export class MongoDBLocalService {
     static instance = new MongoDBLocalService()
 
-    static limitPagination = 20
+    static limitPagination = 26
 
     mainDBName = 'zenemusic'
     userSongHistoryDB = 'song_history'
@@ -34,7 +34,8 @@ export class MongoDBLocalService {
     async deletePlaylistHistory(email: String, id: String | null) {
         try {
             await this.collectionPlaylists.deleteMany({ id: id, email: email })
-            await this.collectionPlaylistsSongs.deleteMany({ playlistID: id })
+           const deletes = await this.collectionPlaylistsSongs.deleteMany({ playlistId: id })
+           console.log(deletes.deletedCount)
         } catch (error) {
             console.log(error)
         }
@@ -54,6 +55,15 @@ export class MongoDBLocalService {
         } catch (error) {
 
             return false
+        }
+    }
+
+    async getUserPlaylistDetails(pID: String): Promise<DBPlaylists | undefined> {
+        try {
+            const data = await this.collectionPlaylists.findOne({ id: pID, isSaved : false }) as any
+            return data as DBPlaylists
+        } catch (error) {
+            return undefined
         }
     }
 
@@ -80,7 +90,7 @@ export class MongoDBLocalService {
     async updatePlaylistSongs(pID: String, sID: String, doAdd: String): Promise<Boolean> {
         try {
             const items = await this.collectionPlaylistsSongs.deleteMany({ playlistId: pID.trim(), songId: sID.trim() })
-            console.log(`${items.deletedCount} ${pID} = ${sID} ${doAdd}`)
+           
             if (doAdd == "true") {
                 const data = new DBPlaylistsSong(pID, sID, Date.now())
                 await this.collectionPlaylistsSongs.insertOne(data)
@@ -98,6 +108,16 @@ export class MongoDBLocalService {
             return (data as DBPlaylistsSong[]).length
         } catch (error) {
             return 0
+        }
+    }
+
+    async playlistSong(playlistID: String, page: number): Promise<DBPlaylistsSong[]> {
+        try {
+            const skip = page * MongoDBLocalService.limitPagination
+            const data = await this.collectionPlaylistsSongs.find({ playlistId: playlistID }).sort({ timestamp: -1 }).skip(skip).limit(MongoDBLocalService.limitPagination).toArray() as any
+            return data as DBPlaylistsSong[]
+        } catch (error) {
+            return []
         }
     }
 
