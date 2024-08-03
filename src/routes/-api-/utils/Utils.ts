@@ -165,7 +165,7 @@ export function ytQueryParams(id: string, param: String): string {
 
 
 
-export const ytMusicSearchSongParam = "EgWKAQIIAWoSEAkQAxAEEA4QBRAKEBUQEBAR"
+export const ytMusicSearchSongParam = "EgWKAQIIAWoQEAMQBBAJEAoQBRAREBAQFQ%3D%3D"
 export const ytMusicSearchArtistsParam = "EgWKAQIgAWoQEAMQCRAOEAoQBBAFEBEQEA%3D%3D"
 export const ytMusicSearchAlbumsParam = "EgWKAQIYAWoQEAoQAxAEEAkQEBAFEBEQFQ%3D%3D"
 export const ytMusicSearchPlaylistParam = "EgeKAQQoAEABahAQChADEAQQCRAQEAUQERAV"
@@ -176,7 +176,7 @@ export const ytMusicGridListParam = "ggMIegYIARoCAQI%3D"
 
 
 const clientNameYTMusicName = "WEB_REMIX"
-const clientNameYTMusicVersion = "1.20240703.00.00"
+const clientNameYTMusicVersion = "1.20240729.01.00"
 
 
 export const ytMusicNext = "https://music.youtube.com/youtubei/v1/next?prettyPrint=false"
