@@ -9,7 +9,7 @@ export async function GET({ url, request }) {
 	if (!email.includes("@") && email.length < 3) return json({})
 
 	try {
-		const userInfo = MySqlLocalService.instance.searchUser(email)
+		const userInfo = await MySqlLocalService.instance.searchUser(email)
 		return json(userInfo)
 	} catch (err) {
 		return json({})

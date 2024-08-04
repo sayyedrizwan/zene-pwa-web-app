@@ -219,7 +219,6 @@ export class YoutubeAPIService {
         const configShorts = { method: 'post', url: ytBrowse, headers: ytHeader, data: ytBrowseQueryParams(channelID, YT_SHORTS_PARAMS) }
         const resShorts = await axios.request(configShorts)
         const responseShorts = await resShorts.data as YTShortsData
-        console.log(responseShorts.contents?.twoColumnBrowseResultsRenderer?.tabs?.length)
 
         await Promise.all((responseShorts.contents?.twoColumnBrowseResultsRenderer?.tabs ?? []).map(async e => {
             if (e.tabRenderer?.title == "Shorts") {
@@ -229,7 +228,7 @@ export class YoutubeAPIService {
                     const thumbnail = e.richItemRenderer?.content?.reelItemRenderer?.thumbnail?.thumbnails?.reduce((prev, current) => {
                         return ((prev.width ?? 0) > (current.width ?? 0)) ? prev : current
                     })
-                    
+
                     const timestampResponse = await (await axios.get(`https://www.youtube.com/watch?v=${postID}`)).data
                     const firsTS = substringAfter(timestampResponse.toString(), `"publishedTimeText":{"simpleText":"`)
                     const finalTS = substringBefore(firsTS.toString(), `"},`).trim()
