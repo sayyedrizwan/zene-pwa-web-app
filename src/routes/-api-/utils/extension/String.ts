@@ -35,3 +35,47 @@ export function filterArtistsName(text: String): String {
     const closestIndex = Math.min(indexOfW !== -1 ? indexOfW : Infinity, indexOfS !== -1 ? indexOfS : Infinity);
     return text.substring(0, closestIndex)
 }
+
+export function convertDateAgoToTS(timeAgo: String): number {
+    const now = new Date().getTime()
+
+    const regex = /(\d+)\s(\w+)\sago/;
+    const match = timeAgo.match(regex);
+
+    if (!match) return 0
+
+    const value = parseInt(match[1], 10);
+    const unit = match[2]
+
+    let milliseconds = 0
+    switch (unit) {
+        case 'minute':
+        case 'minutes':
+            milliseconds = value * 60 * 1000;
+            break;
+        case 'hour':
+        case 'hours':
+            milliseconds = value * 60 * 60 * 1000;
+            break;
+        case 'day':
+        case 'days':
+            milliseconds = value * 24 * 60 * 60 * 1000;
+            break;
+        case 'week':
+        case 'weeks':
+            milliseconds = value * 7 * 24 * 60 * 60 * 1000;
+            break;
+        case 'month':
+        case 'months':
+            milliseconds = value * 30 * 24 * 60 * 60 * 1000;
+            break;
+        case 'year':
+        case 'years':
+            milliseconds = value * 365 * 24 * 60 * 60 * 1000;
+            break;
+        default:
+            milliseconds = 0
+    }
+    const timestamp = now - milliseconds
+    return timestamp
+}

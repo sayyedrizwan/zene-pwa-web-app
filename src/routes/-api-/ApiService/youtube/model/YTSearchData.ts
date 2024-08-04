@@ -40,11 +40,21 @@ interface ItemSectionRenderer {
 }
 
 interface Content2 {
+    channelRenderer?: ChannelRenderer
     videoRenderer?: VideoRenderer
     adSlotRenderer?: AdSlotRenderer
     radioRenderer?: RadioRenderer
     reelShelfRenderer?: ReelShelfRenderer
     shelfRenderer?: ShelfRenderer
+}
+
+interface ChannelRenderer {
+    channelId?: string
+    title?: ChannelRendererTitle
+}
+
+interface ChannelRendererTitle {
+    simpleText?: string
 }
 
 interface VideoRenderer {

@@ -91,6 +91,9 @@ export const soundCloudBaseURL = "https://soundcloud.com/"
 export const searchSearchUserURL = "https://api-v2.soundcloud.com/search/users"
 export const searchUserURL = "https://api-v2.soundcloud.com/users"
 
+export const instagramWebProfile = "https://www.instagram.com/api/v1/users/web_profile_info/"
+export const instagramGraphQuery = "https://www.instagram.com/graphql/query/"
+
 
 export const lastFMListeningSongs = "https://kerve.last.fm/kerve/charts"
 export const lastFMLSearchArtists = "https://www.last.fm/search/artists"
@@ -113,6 +116,8 @@ const clientNameYTName = "WEB"
 const clientNameYTVersion = "2.20240724.03.00"
 
 
+export const YT_COMMUNITY_PARAMS = "Egljb21tdW5pdHnyBgQKAkoA"
+export const YT_SHORTS_PARAMS = "EgZzaG9ydHPyBgUKA5oBAA%3D%3D"
 export const YT_STORE_PARAMS = "EgVzdG9yZfIGBAoCGgA%3D"
 export const YT_SONG_AS_PLAYLISTS_PARAMS = "EgIYAg%3D%3D"
 
@@ -162,7 +167,6 @@ export function ytQueryParams(id: string, param: String): string {
         "params": param
     })
 }
-
 
 
 export const ytMusicSearchSongParam = "EgWKAQIIAWoQEAMQBBAJEAoQBRAREBAQFQ%3D%3D"

@@ -4,6 +4,7 @@ import { MusicData } from "../model/MusicData"
 export class MySqlLocalService {
     static instance = new MySqlLocalService()
     tempHolderDB = '`temp_holder`'
+    userDB = '`users`'
 
     async getTempData(category: String): Promise<MusicData[]> {
         const list: MusicData[] = []
@@ -42,5 +43,23 @@ export class MySqlLocalService {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    async searchUser(email: String) : Promise<any> {
+        const [results] = await mysqlpool.query(`SELECT * FROM ${this.userDB} WHERE email = ?`, [email])
+
+		let info: any = {}
+
+		if (results.length > 0) {
+			info = results[0]
+			try {
+				info.pinned_artists = JSON.parse(results[0].pinned_artists)
+			} catch (error) {
+				info.pinned_artists = []
+			}
+			
+		}
+
+        return info
     }
 }

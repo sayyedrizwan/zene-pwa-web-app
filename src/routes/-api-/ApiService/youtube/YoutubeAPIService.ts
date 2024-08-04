@@ -1,8 +1,13 @@
 import axios from "axios"
-import { YT_SONG_AS_PLAYLISTS_PARAMS, YT_STORE_PARAMS, ytBrowse, ytBrowseQuery, ytBrowseQueryParams, ytHeader, ytQueryParams, ytSearch } from "../../utils/Utils"
+import { YT_COMMUNITY_PARAMS, YT_SHORTS_PARAMS, YT_SONG_AS_PLAYLISTS_PARAMS, YT_STORE_PARAMS, ytBrowse, ytBrowseQuery, ytBrowseQueryParams, ytHeader, ytQueryParams, ytSearch } from "../../utils/Utils"
 import type { YTSearchData } from "./model/YTSearchData"
 import { MusicData, MUSICTYPE } from "../model/MusicData"
 import type { YTStoreData } from "./model/YTStoreData"
+import { parse } from "node-html-parser"
+import { convertDateAgoToTS, substringAfter, substringBefore } from "../../utils/extension/String"
+import type { YTCommunityData } from "./model/YTCommunityData"
+import { FEEDTYPE, ZenePostsData } from "../model/ZenePostsData"
+import type { YTShortsData } from "./model/YTShortsData"
 
 export class YoutubeAPIService {
     static instance = new YoutubeAPIService()
@@ -62,7 +67,7 @@ export class YoutubeAPIService {
             const list: MusicData[] = []
 
             datas.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.forEach(e => {
-               e.itemSectionRenderer?.contents?.forEach(v => {
+                e.itemSectionRenderer?.contents?.forEach(v => {
                     if (v.videoRenderer != undefined) {
                         const vID = v.videoRenderer?.videoId
                         const name = v.videoRenderer.title?.runs?.[0].text
@@ -126,5 +131,116 @@ export class YoutubeAPIService {
         } catch (error) {
             return []
         }
+    }
+
+
+    async youtubeCommunity(user: String): Promise<ZenePostsData[]> {
+        const config = { method: 'post', url: ytSearch, headers: ytHeader, data: ytBrowseQuery(`${user} channel`) }
+        const response = await axios.request(config)
+        const data = await response.data as YTSearchData
+
+        let channelID = ""
+
+        data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents?.forEach(c => {
+            c.itemSectionRenderer?.contents?.forEach(i => {
+                if (i.channelRenderer != undefined && channelID == "" && i.channelRenderer.title?.simpleText?.toString().toLowerCase() == user.toLowerCase())
+                    channelID = i.channelRenderer?.channelId ?? ""
+            })
+        })
+
+        if (channelID == "") return []
+
+        const list: ZenePostsData[] = []
+
+        const configCommunity = { method: 'post', url: ytBrowse, headers: ytHeader, data: ytBrowseQueryParams(channelID, YT_COMMUNITY_PARAMS) }
+        const resCommunity = await axios.request(configCommunity)
+        const responseCommunity = await resCommunity.data as YTCommunityData
+
+
+        const name = responseCommunity.metadata?.channelMetadataRenderer?.title
+        const username = substringAfter(responseCommunity.metadata?.channelMetadataRenderer?.vanityChannelUrl ?? "", "/@")
+
+        const profilePic = responseCommunity.metadata?.channelMetadataRenderer?.avatar?.thumbnails?.reduce((prev, current) => {
+            return ((prev.width ?? 0) > (current.width ?? 0)) ? prev : current
+        })
+
+        await Promise.all((responseCommunity.contents?.twoColumnBrowseResultsRenderer?.tabs ?? []).map(async e => {
+            if (e.tabRenderer?.title == "Community") {
+                e.tabRenderer.content?.sectionListRenderer?.contents?.forEach(c => {
+                    c.itemSectionRenderer?.contents?.forEach(m => {
+                        const postID = m.backstagePostThreadRenderer?.post?.backstagePostRenderer?.postId
+                        let mainThumbnail = ""
+                        const media: string[] = []
+
+                        const vidThumb = m.backstagePostThreadRenderer?.post?.backstagePostRenderer?.backstageAttachment?.videoRenderer
+                        const backThumb = m.backstagePostThreadRenderer?.post?.backstagePostRenderer?.backstageAttachment?.backstageImageRenderer
+                        const multiThumb = m.backstagePostThreadRenderer?.post?.backstagePostRenderer?.backstageAttachment?.postMultiImageRenderer
+
+                        if (vidThumb != undefined) {
+                            let t = vidThumb.thumbnail?.thumbnails?.reduce((prev, current) => {
+                                return ((prev.width ?? 0) > (current.width ?? 0)) ? prev : current
+                            })
+                            mainThumbnail = t?.url ?? ""
+                            if (t?.url != undefined) media.push(t.url)
+                        }
+
+                        if (backThumb != undefined) {
+                            let t = backThumb.image?.thumbnails?.reduce((prev, current) => {
+                                return ((prev.width ?? 0) > (current.width ?? 0)) ? prev : current
+                            })
+                            mainThumbnail = t?.url ?? ""
+                            if (t?.url != undefined) media.push(t.url)
+                        }
+
+                        if (multiThumb != undefined) {
+                            multiThumb.images?.forEach(img => {
+                                img.backstageImageRenderer?.image
+
+                                let t = img.backstageImageRenderer?.image?.thumbnails?.reduce((prev, current) => {
+                                    return ((prev.width ?? 0) > (current.width ?? 0)) ? prev : current
+                                })
+
+                                if (mainThumbnail == "") mainThumbnail = t?.url ?? ""
+                                if (t?.url != undefined) media.push(t.url)
+                            })
+
+                        }
+
+                        const timestamp = m.backstagePostThreadRenderer?.post?.backstagePostRenderer?.publishedTimeText?.runs?.[0].text
+                        const caption = m.backstagePostThreadRenderer?.post?.backstagePostRenderer?.contentText?.runs?.[0].text
+
+                        list.push(new ZenePostsData(`http://youtube.com/post/${postID}`, mainThumbnail, media, convertDateAgoToTS(timestamp ?? "0"), profilePic?.url ?? "", username ?? "", name ?? "", caption ?? "", FEEDTYPE.YOUTUBE_POSTS))
+                    })
+                })
+            }
+        }))
+
+
+        const configShorts = { method: 'post', url: ytBrowse, headers: ytHeader, data: ytBrowseQueryParams(channelID, YT_SHORTS_PARAMS) }
+        const resShorts = await axios.request(configShorts)
+        const responseShorts = await resShorts.data as YTShortsData
+        console.log(responseShorts.contents?.twoColumnBrowseResultsRenderer?.tabs?.length)
+
+        await Promise.all((responseShorts.contents?.twoColumnBrowseResultsRenderer?.tabs ?? []).map(async e => {
+            if (e.tabRenderer?.title == "Shorts") {
+                await Promise.all((e.tabRenderer.content?.richGridRenderer?.contents ?? []).map(async e => {
+                    const postID = e.richItemRenderer?.content?.reelItemRenderer?.videoId
+                    const caption = e.richItemRenderer?.content?.reelItemRenderer?.headline?.simpleText
+                    const thumbnail = e.richItemRenderer?.content?.reelItemRenderer?.thumbnail?.thumbnails?.reduce((prev, current) => {
+                        return ((prev.width ?? 0) > (current.width ?? 0)) ? prev : current
+                    })
+                    
+                    const timestampResponse = await (await axios.get(`https://www.youtube.com/watch?v=${postID}`)).data
+                    const firsTS = substringAfter(timestampResponse.toString(), `"publishedTimeText":{"simpleText":"`)
+                    const finalTS = substringBefore(firsTS.toString(), `"},`).trim()
+                  
+                    list.push(new ZenePostsData(`https://youtube.com/shorts/${postID}`, thumbnail?.url ?? "", [thumbnail?.url ?? ""], convertDateAgoToTS(finalTS ?? "0"), profilePic?.url ?? "", `@${username}`, name ?? "", caption ?? "", FEEDTYPE.YOUTUBE_POSTS))
+
+                }))
+            }
+        }))
+
+
+        return list
     }
 }

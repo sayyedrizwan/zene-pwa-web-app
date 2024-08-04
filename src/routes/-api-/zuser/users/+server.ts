@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit'
 import { mysqlpool, verifyHeader } from '../../utils/Utils.js'
+import { MySqlLocalService } from '../../ApiService/dbmysql/MySqlLocalService.js'
 
 export async function GET({ url, request }) {
 	if (!verifyHeader(request)) return json({})
@@ -8,21 +9,8 @@ export async function GET({ url, request }) {
 	if (!email.includes("@") && email.length < 3) return json({})
 
 	try {
-		const [results] = await mysqlpool.query('SELECT * FROM `users` WHERE email = ?', [email])
-
-		let info: any = {}
-
-		if (results.length > 0) {
-			info = results[0]
-			try {
-				info.pinned_artists = JSON.parse(results[0].pinned_artists)
-			} catch (error) {
-				info.pinned_artists = []
-			}
-			
-		}
-
-		return json(info)
+		const userInfo = MySqlLocalService.instance.searchUser(email)
+		return json(userInfo)
 	} catch (err) {
 		return json({})
 	}
