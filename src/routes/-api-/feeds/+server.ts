@@ -10,46 +10,55 @@ import { MusicData } from '../ApiService/model/MusicData.js'
 import { YoutubeMusicService } from '../ApiService/youtubemusic/YoutubeMusicService.js'
 import { FEEDTYPE, ZenePostsData } from '../ApiService/model/ZenePostsData.js'
 
-
 export async function POST({ request }) {
     if (!verifyHeader(request)) return json({})
 
     const body = await request.json()
-    const name = body.name
+    const email = body.email
 
-    let yt: MusicData | undefined = undefined
+    if (!email.includes("@") && email.length < 3) return json({})
 
-    let artists: MusicData | undefined = undefined
+    const artistsName = await MySqlLocalService.instance.searchUser(email)
+
+    let artists: MusicData[] = []
     let posts: ZenePostsData[] = []
 
-    await Promise.all([1, 2, 3].map(async i => {
+    async function processItem(name: string) {
         try {
-            if (i == 1) {
-                yt = await YoutubeMusicService.instance.searchArtistsSpecific(name)
-                const news = await NewsAPIService.instance.searchNews(name)
-                news.forEach(n => {
-                    posts.push(new ZenePostsData(n.id, n.thumbnail.toString(), [n.thumbnail.toString()], convertDateAgoToTS(n.extra), yt?.thumbnail ?? "", "", yt?.name ?? "", n.name, FEEDTYPE.NEWS))
-                })
-                if (yt != undefined) artists = yt
-            } else if (i == 2) {
-                const artistsInfo = await SoundAPIService.instance.socialInfo(name)
-                let instagram = ""
+            let yt = await YoutubeMusicService.instance.searchArtistsSpecific(name)
+            const news = await NewsAPIService.instance.searchNews(name)
+            news.forEach(n => {
+                posts.push(new ZenePostsData(n.id, n.thumbnail.toString(), [n.thumbnail.toString()], convertDateAgoToTS(n.extra), yt?.thumbnail ?? "", "", yt?.name ?? "", n.name, FEEDTYPE.NEWS))
+            })
+            if (yt != undefined) artists.push(yt)
+            // if (i == 2) {
+            //     const artistsInfo = await SoundAPIService.instance.socialInfo(name)
+            //     let instagram = ""
 
-                artistsInfo[0].forEach(i => {
-                    if (i.url?.includes("instagram.com")) instagram = substringAfter(i.url.toString(), "instagram.com/").replaceAll("/", "")
-                })
+            //     artistsInfo[0].forEach(i => {
+            //         if (i.url?.includes("instagram.com")) instagram = substringAfter(i.url.toString(), "instagram.com/").replaceAll("/", "")
+            //     })
+            //     if (instagram.trim() != "") {
+            //         const instaPosts = await InstagramService.instance.userPosts(instagram)
+            //         instaPosts.forEach(i => posts.push(i))
+            //     }
+            // }
 
-                const instaPosts = await InstagramService.instance.userPosts(instagram)
-                instaPosts.forEach(i => posts.push(i))
-            } else if (i == 3) {
-                const ytCommunity = await YoutubeAPIService.instance.youtubeCommunity(name)
-                ytCommunity.forEach(i => posts.push(i))
-            }
+            // const ytCommunity = await YoutubeAPIService.instance.youtubeCommunity(name)
+            // ytCommunity.forEach(i => posts.push(i))
         } catch (error) {
             console.log(error)
         }
-    }))
 
-    return json({ artists: artists, posts: posts })
+    }
+
+    const uniqueList = Array.from(new Set(artistsName.pinned_artists));
+    await Promise.all(uniqueList.map(async (name : any) => {
+		await processItem(name as string)
+	}))
+
+    const sortedList = posts.sort((a, b) => (a.timestamp ?? 0) - (b.timestamp ?? 0));
+
+    return json({ follow: artists.length, artists: artists, posts: sortedList })
 }
 
