@@ -16,21 +16,25 @@ export async function GET({ url, request }) {
     let songs: MusicData[] = []
 
     await Promise.all((playlists[1] ?? []).map(async e => {
-        if (e.thumbnail.includes("h3.googleusercontent.com")) {
-            songs.push(e)
-            return
-        }
+        try {
+            if (e.thumbnail.includes("h3.googleusercontent.com")) {
+                songs.push(e)
+                return
+            }
 
-        const song = await YoutubeMusicService.instance.searchSongs(`${filterArtistsName(e.artists)} - ${e.name}`)
+            const song = await YoutubeMusicService.instance.searchSongs(`${filterArtistsName(e.artists)} - ${e.name}`)
 
-        if (song[0] == undefined) {
-            songs.push(e)
-            return
-        }
-        if (hasCommonParts(song[0].name.toString(), e.name.toString())) songs.push(song[0])
-        else{
-            if(e.thumbnail == "") songs.push(song[0])
-            else songs.push(e)
+            if (song[0] == undefined) {
+                songs.push(e)
+                return
+            }
+            if (hasCommonParts(song[0].name.toString(), e.name.toString())) songs.push(song[0])
+            else {
+                if (e.thumbnail == "") songs.push(song[0])
+                else songs.push(e)
+            }
+        } catch (error) {
+            console.log(error)
         }
     }))
 

@@ -17,9 +17,13 @@ export async function GET({ request }) {
     await MySqlLocalService.instance.delteTempData(GLOBAL_TRENDING_ARTISTS)
 
     await Promise.all(list.map(async n => {
-        if (n != "") {
-            const data = await YoutubeMusicService.instance.searchArtists(n)
-            artists.push(data[0])
+        try {
+            if (n != "") {
+                const data = await YoutubeMusicService.instance.searchArtists(n)
+                artists.push(data[0])
+            }
+        } catch (error) {
+            console.log(error)
         }
     }))
 

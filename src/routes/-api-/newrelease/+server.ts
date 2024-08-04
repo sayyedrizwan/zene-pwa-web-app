@@ -12,16 +12,20 @@ export async function GET({ url, request }) {
 
 	const cacheList = await MySqlLocalService.instance.getTempData(`${NEW_RELEASE_SONGS}_${i}`)
 	if (cacheList.length > 0) return json(cacheList)
-	
+
 	const list: MusicData[] = []
 	const playlist = await YoutubeMusicService.instance.releasePlaylists(i)
 
 	await MySqlLocalService.instance.delteTempData(`${NEW_RELEASE_SONGS}_${i}`)
 
 	await Promise.all(playlist.map(async name => {
-		const song = await YoutubeMusicService.instance.searchSongs(name.toString())
-		list.push(song[0])
-		await MySqlLocalService.instance.insertTempData(song[0], `${NEW_RELEASE_SONGS}_${i}`)
+		try {
+			const song = await YoutubeMusicService.instance.searchSongs(name.toString())
+			list.push(song[0])
+			await MySqlLocalService.instance.insertTempData(song[0], `${NEW_RELEASE_SONGS}_${i}`)
+		} catch (error) {
+			console.log(error)
+		}
 	}))
 
 	return json(list)

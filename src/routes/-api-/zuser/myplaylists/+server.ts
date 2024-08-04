@@ -13,11 +13,15 @@ export async function GET({ request, url }) {
 
 	const list = await MongoDBLocalService.instance.playlistSong(pID, page as number)
 
-	const songs : MusicData[] = []
+	const songs: MusicData[] = []
 
 	await Promise.all(list.map(async n => {
-		const yt = await YoutubeMusicService.instance.songInfo(n.songId.toString())
-		if(yt != undefined) songs.push(yt)
+		try {
+			const yt = await YoutubeMusicService.instance.songInfo(n.songId.toString())
+			if (yt != undefined) songs.push(yt)
+		} catch (error) {
+			console.log(error)
+		}
 	}))
 
 	return json(songs)
@@ -32,6 +36,6 @@ export async function POST({ request }) {
 	const data = await MongoDBLocalService.instance.getUserPlaylistDetails(pID)
 	if (data?.name == undefined) return json({})
 
-	
+
 	return json(new MusicData(data?.name, data?.name, data?.id, data?.img, MUSICTYPE.PLAYLIST, toDate(data.timestamp).toString()))
 }

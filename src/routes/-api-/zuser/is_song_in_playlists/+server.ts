@@ -16,8 +16,12 @@ export async function GET({ request, url }) {
 	const data = await MongoDBLocalService.instance.readPlaylistsCreatedByUser(email, page as number)
 
 	await Promise.all((data ?? []).map(async n => {
-		const isPresent = await MongoDBLocalService.instance.isSongPresentPlaylists(n.id, songID)
-		list.push(new MusicData(n.name, n.name, n.id, n.img, MUSICTYPE.PLAYLIST, isPresent > 0 ? "present" : "no"))
+		try {
+			const isPresent = await MongoDBLocalService.instance.isSongPresentPlaylists(n.id, songID)
+			list.push(new MusicData(n.name, n.name, n.id, n.img, MUSICTYPE.PLAYLIST, isPresent > 0 ? "present" : "no"))
+		} catch (error) {
+			console.log(error)
+		}
 	}))
 
 

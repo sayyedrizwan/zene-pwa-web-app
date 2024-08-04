@@ -29,7 +29,7 @@ export async function POST({ request }) {
 
 		if (results.length > 0)
 			await mysqlpool.query('UPDATE `users` SET name = ?, total_playtime = ?, profile_photo = ?, ' +
-				'last_seen = ?, fcm_token = ?, ip = ?, device_info = ?, country = ?, is_review_done = ?, ' +
+				'last_seen = ?, fcm_token = ?, ip = ?, device_info = ?, country = ?, is_review_done = ? ' +
 				'WHERE email = ?', [body.name, body.playtime, body.photo, Date.now(), body.fcm, body.ip, body.device, body.country, body.review, email])
 		else
 			await mysqlpool.query("INSERT INTO `users` (`email`, `name`, `total_playtime`," +

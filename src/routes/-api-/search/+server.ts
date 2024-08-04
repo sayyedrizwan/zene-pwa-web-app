@@ -17,11 +17,15 @@ export async function GET({ url, request }) {
     let video: MusicData[] = []
 
     await Promise.all([1, 2, 3, 4, 5].map(async id => {
-        if (id == 1) artists = await YoutubeMusicService.instance.searchArtists(s)
-        else if (id == 2) playlist = await YoutubeMusicService.instance.searchPlaylists(s)
-        else if (id == 3) albums = await YoutubeMusicService.instance.searchAlbums(s)
-        else if (id == 4) songs = await YoutubeMusicService.instance.searchSongs(s, true)
-        else if (id == 5) video = await YoutubeAPIService.instance.searchVideos(`${s} songs`, true)
+        try {
+            if (id == 1) artists = await YoutubeMusicService.instance.searchArtists(s)
+            else if (id == 2) playlist = await YoutubeMusicService.instance.searchPlaylists(s)
+            else if (id == 3) albums = await YoutubeMusicService.instance.searchAlbums(s)
+            else if (id == 4) songs = await YoutubeMusicService.instance.searchSongs(s, true)
+            else if (id == 5) video = await YoutubeAPIService.instance.searchVideos(`${s} songs`, true)
+        } catch (error) {
+            console.log(error)
+        }
     }))
 
     const data = new MusicDataSearch(artists, songs, playlist, video, albums)

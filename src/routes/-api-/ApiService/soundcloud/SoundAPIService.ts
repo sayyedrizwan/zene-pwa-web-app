@@ -5,7 +5,7 @@ import { substringAfter, substringBefore } from "../../utils/extension/String"
 import type { SearchUsersCollection, SearchUsersData } from "./model/SearchUsersData"
 import type { SocialProfileUserData } from "./model/SocialProfileUserData"
 
-export class SoundAPIService {  
+export class SoundAPIService {
     static instance = new SoundAPIService()
 
     async socialInfo(name: String): Promise<[SocialProfileUserData, number]> {
@@ -30,7 +30,7 @@ export class SoundAPIService {
 
             data.collection?.forEach(a => {
                 if (a.username?.toLowerCase() == name.toLowerCase() || a.full_name?.toLowerCase() == name.toLocaleLowerCase()) {
-                    if(user == undefined) user = a
+                    if (user == undefined) user = a
                 }
             })
 
@@ -58,19 +58,23 @@ export class SoundAPIService {
             let clientID: String = ""
 
             await Promise.all(url.map(async u => {
-                const responseURL = await axios.get(u.toString())
-                const data = await responseURL.data
+                try {
+                    const responseURL = await axios.get(u.toString())
+                    const data = await responseURL.data
 
-                if (data.toString().includes(`({client_id:"`) && clientID == "") {
-                    const after = substringAfter(data.toString(), `({client_id:"`)
-                    const id = substringBefore(after, `",`)
-                    clientID = id.trim() ?? ""
-                }
+                    if (data.toString().includes(`({client_id:"`) && clientID == "") {
+                        const after = substringAfter(data.toString(), `({client_id:"`)
+                        const id = substringBefore(after, `",`)
+                        clientID = id.trim() ?? ""
+                    }
 
-                if (data.toString().includes(`("client_id=`) && clientID == "") {
-                    const after = substringAfter(data.toString(), `("client_id=`)
-                    const id = substringBefore(after, `")`)
-                    clientID = id.trim() ?? ""
+                    if (data.toString().includes(`("client_id=`) && clientID == "") {
+                        const after = substringAfter(data.toString(), `("client_id=`)
+                        const id = substringBefore(after, `")`)
+                        clientID = id.trim() ?? ""
+                    }
+                } catch (error) {
+                    console.log(error)
                 }
             }))
 

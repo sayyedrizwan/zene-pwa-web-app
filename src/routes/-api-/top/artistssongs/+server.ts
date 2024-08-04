@@ -16,14 +16,19 @@ export async function POST({ request }) {
     let list: MusicDataWithArtists[] = []
 
     await Promise.all(artists.map(async (n: String) => {
-        const name = filterArtistsName(n)
-        const artists = await YoutubeMusicService.instance.searchArtists(name.toString())
-        const artistsSongs = await YoutubeMusicService.instance.searchSongs(`${name} top songs`)
-        const artistsPlaylists = await YoutubeMusicService.instance.searchPlaylists(`${name} top`)
-        const artistsVideo = await YoutubeAPIService.instance.searchVideos(`${name} official songs`)
+        try {
+            const name = filterArtistsName(n)
+            const artists = await YoutubeMusicService.instance.searchArtists(name.toString())
+            const artistsSongs = await YoutubeMusicService.instance.searchSongs(`${name} top songs`)
+            const artistsPlaylists = await YoutubeMusicService.instance.searchPlaylists(`${name} top`)
+            const artistsVideo = await YoutubeAPIService.instance.searchVideos(`${name} official songs`)
 
-        if (!list.some((item) => item.artists.name === (artists[0].name ?? "")))
-            list.push(new MusicDataWithArtists(artists[0], artistsSongs, artistsPlaylists, artistsVideo))
+            if (!list.some((item) => item.artists.name === (artists[0].name ?? "")))
+                list.push(new MusicDataWithArtists(artists[0], artistsSongs, artistsPlaylists, artistsVideo))
+            
+        } catch (error) {
+            console.log(error)
+        }
     }))
 
     return json(list)
