@@ -1,5 +1,5 @@
 import type { MusicData } from "../model/MusicData"
-import { mongoDBClient, shuffleString, zenePlaylistsParam } from "../../utils/Utils"
+import { isDevDB, mongoDBClient, shuffleString, zenePlaylistsParam } from "../../utils/Utils"
 import { DBMusicHistory } from "./model/DBMusicHistory"
 import { DBPlaylists } from "./model/DBPlaylistInfo"
 import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo"
@@ -9,7 +9,7 @@ export class MongoDBLocalService {
 
     static limitPagination = 26
 
-    mainDBName = 'zenemusic'
+    mainDBName = isDevDB ? 'zenemusic' : 'zenemusicnosql_zooofficer'
     userSongHistoryDB = 'song_history'
     userPlaylistsDB = 'playlists'
     playlistsSongsDB = 'playlists_songs'

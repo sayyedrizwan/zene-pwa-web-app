@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise'
 import { MongoClient } from 'mongodb'
 import type { MusicData } from '../ApiService/model/MusicData';
 
-const isDev = true
+export const isDevDB = false
 const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e"
 export const zenePlaylistsParam = "zene_p_"
 
@@ -10,11 +10,11 @@ export const zenePlaylistsParam = "zene_p_"
 //aiven
 //filess.io
 export const mysqlpool: any = mysql.createPool({
-    host: isDev ? 'mysql-2bab654c-sayyedrizwanahme-db86.h.aivencloud.com' : 'j3v.h.filess.io',
-    user: isDev ? 'avnadmin' : 'zenemusic_tapechest',
-    database: isDev ? 'users' : 'zenemusic_tapechest',
-    password: isDev ? 'AVNS_52AdOsyCcYA1DBd0DJL' : 'a33f2d3fbf728e74cc42d3c82e64cacebf358422',
-    port: isDev ? 18874 : 3307,
+    host: isDevDB ? 'mysql-2bab654c-sayyedrizwanahme-db86.h.aivencloud.com' : 'j3v.h.filess.io',
+    user: isDevDB ? 'avnadmin' : 'zenemusic_tapechest',
+    database: isDevDB ? 'users' : 'zenemusic_tapechest',
+    password: isDevDB ? 'AVNS_52AdOsyCcYA1DBd0DJL' : 'a33f2d3fbf728e74cc42d3c82e64cacebf358422',
+    port: isDevDB ? 18874 : 3307,
     waitForConnections: true,
     connectionLimit: 3,
     maxIdle: 3,
@@ -25,7 +25,7 @@ export const mysqlpool: any = mysql.createPool({
 })
 
 
-export const mongoDBClient = new MongoClient(`mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/?retryWrites=true&w=majority&appName=zene`)
+export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/?retryWrites=true&w=majority&appName=zene` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`)
 await mongoDBClient.connect()
 
 export const shuffle = (array: MusicData[]) => {
