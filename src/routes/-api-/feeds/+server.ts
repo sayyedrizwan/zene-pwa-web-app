@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit'
 import { verifyHeader } from '../utils/Utils.js'
 import { MySqlLocalService } from '../ApiService/dbmysql/MySqlLocalService.js'
 import { SoundAPIService } from '../ApiService/soundcloud/SoundAPIService.js'
-import { convertDateAgoToTS, substringAfter } from '../utils/extension/String.js'
+import { convertDateAgoToTS, convertShortDateAgoToTS, substringAfter } from '../utils/extension/String.js'
 import { InstagramService } from '../ApiService/instagram/InstagramService.js'
 import { NewsAPIService } from '../ApiService/news/NewsAPIService.js'
 import { YoutubeAPIService } from '../ApiService/youtube/YoutubeAPIService.js'
@@ -26,9 +26,9 @@ export async function POST({ request }) {
     async function processItem(name: string) {
         try {
             let yt = await YoutubeMusicService.instance.searchArtistsSpecific(name)
-            const news = await NewsAPIService.instance.searchNews(name)
+            const news = await NewsAPIService.instance.searchNews(`${name} news`)
             news.forEach(n => {
-                posts.push(new ZenePostsData(n.id, n.thumbnail.toString(), [n.thumbnail.toString()], convertDateAgoToTS(n.extra), yt?.thumbnail ?? "", "", yt?.name ?? "", n.name, FEEDTYPE.NEWS))
+                posts.push(new ZenePostsData(n.id, n.thumbnail.toString(), [n.thumbnail.toString()], convertShortDateAgoToTS(n.extra.toString()), yt?.thumbnail ?? "", "", yt?.name ?? "", n.name, FEEDTYPE.NEWS))
             })
             if (yt != undefined) artists.push(yt)
             // if (i == 2) {
@@ -57,7 +57,7 @@ export async function POST({ request }) {
 		await processItem(name as string)
 	}))
 
-    const sortedList = posts.sort((a, b) => (a.timestamp ?? 0) - (b.timestamp ?? 0));
+    const sortedList = posts.sort((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0));
 
     return json({ follow: artists.length, artists: artists, posts: sortedList })
 }

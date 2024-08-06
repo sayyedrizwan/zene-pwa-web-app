@@ -35,11 +35,12 @@ export async function POST({ request }) {
 			await mysqlpool.query("INSERT INTO `users` (`email`, `name`, `total_playtime`," +
 				"`profile_photo`, `sign_up_date`, `last_seen`, `fcm_token`, `ip`, `device_info`, `country`, `is_review_done`," +
 				"`pinned_artists`, `subscription_status`, `subscription_expiry_date`) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [email, body.name, 0,
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [email, body.name, 0,
 				body.photo, Date.now(), Date.now(), body.fcm, body.ip, body.device, body.country, false, '[]', 'FREEMIUM', Date.now()])
 
 		return json({ "status": "success" })
 	} catch (err) {
+		console.log(err)
 		return json({ "status": "error" })
 	}
 }

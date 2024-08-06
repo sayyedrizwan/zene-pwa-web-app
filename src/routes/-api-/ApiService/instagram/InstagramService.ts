@@ -12,7 +12,7 @@ export class InstagramService {
     async userPosts(username: String): Promise<ZenePostsData[]> {
         try {
             const response = await axios.get(instagramWebProfile, { params: { username: username }, headers: { 'x-ig-app-id': this.appID } })
-            console.log(response.data)
+          
             const res = await response.data as InstagramPostsData
             
             const list: ZenePostsData[] = []

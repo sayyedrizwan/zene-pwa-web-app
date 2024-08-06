@@ -79,3 +79,33 @@ export function convertDateAgoToTS(timeAgo: String): number {
     const timestamp = now - milliseconds
     return timestamp
 }
+
+export function convertShortDateAgoToTS(timeString: string): number {
+    const amount = parseInt(timeString.slice(0, -1))
+    const unit = timeString.slice(-1)
+
+    const now = new Date().getTime()
+    let resultTime: number
+
+    switch (unit) {
+        case 's':
+            resultTime = now - amount * 1000
+            break;
+        case 'm':
+            resultTime = now - amount * 60 * 1000
+            break;
+        case 'h':
+            resultTime = now - amount * 60 * 60 * 1000
+            break;
+        case 'd':
+            resultTime = now - amount * 24 * 60 * 60 * 1000
+            break;
+        case 'y':
+            resultTime = new Date().setFullYear(new Date().getFullYear() - amount)
+            break;
+        default:
+            resultTime = 0
+    }
+
+    return resultTime
+}

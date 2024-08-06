@@ -24,6 +24,7 @@ export const mysqlpool: any = mysql.createPool({
     keepAliveInitialDelay: 0,
 })
 
+
 export const mongoDBClient = new MongoClient(`mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/?retryWrites=true&w=majority&appName=zene`)
 await mongoDBClient.connect()
 
@@ -85,6 +86,11 @@ export const pinterestHeader = {
     'origin': 'https://in.pinterest.com',
     'referer': 'https://in.pinterest.com/', 
   }
+
+
+export const spotifyAPIPlaylists = "https://api.spotify.com/v1/me/playlists"
+export const spotifyAPIMyTracks = "https://api.spotify.com/v1/me/tracks"
+
 
 
 export const soundCloudBaseURL = "https://soundcloud.com/"
