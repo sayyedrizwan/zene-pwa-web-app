@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "./tailwind.svelte";
+  import "../tailwind.css"
   import "$lib/firebase/firebase";
 </script>
 
