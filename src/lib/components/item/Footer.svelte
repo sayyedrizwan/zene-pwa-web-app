@@ -1,5 +1,5 @@
 <script>
- const support_mail_server = 'knocknock@zenemusic.co'
+  import { support_mail_server } from "$lib/utils/Utils";
 
   $: d = new Date()
 </script>
