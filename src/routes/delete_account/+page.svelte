@@ -1,7 +1,5 @@
 <script lang="ts">
   import Footer from "$lib/components/item/Footer.svelte";
-  import { support_mail_server } from "$lib/utils/Utils";
-
 </script>
 
 <svelte:head>
