@@ -23,8 +23,6 @@ export async function POST({ request }) {
     let radioID: String | null = null
     let infos: [SocialProfileUserData, number] = [[], 0]
 
-
-
     await Promise.all([1, 2, 3, 4, 5, 6].map(async page => {
         try {
             if (page == 1 || page == 2) {

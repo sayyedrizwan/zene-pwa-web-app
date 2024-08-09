@@ -14,7 +14,7 @@ export const theme = {
     blue: '#0000FF',
     lightblack: '#2e2e2e',
     transparent: '#ffffff00',
-  },
+  }
 }
 export const variants = {
   extend: {},
