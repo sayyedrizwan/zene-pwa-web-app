@@ -37,5 +37,5 @@ export async function POST({ request }) {
 	if (data?.name == undefined) return json({})
 
 
-	return json(new MusicData(data?.name, data?.name, data?.id, data?.img, MUSICTYPE.PLAYLIST, toDate(data.timestamp).toString()))
+	return json(new MusicData(data?.name, data?.email, data?.id, data?.img, MUSICTYPE.PLAYLIST, toDate(data.timestamp).toString()))
 }
