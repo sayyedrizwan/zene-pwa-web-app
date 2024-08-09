@@ -14,7 +14,7 @@
 
 <svelte:head>
   {#if songInfo?.id == undefined}
-    <title>No Video Found on Zene</title>
+    <title>No Playlist Found on Zene</title>
     <meta name="description" content="No Found" />
     <meta name="og:description" content="No Found" />
     <meta property="og:title" content="No Song Found on Zene" />
