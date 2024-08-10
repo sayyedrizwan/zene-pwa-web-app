@@ -3,17 +3,17 @@ import { getAnalytics, type Analytics } from 'firebase/analytics'
 import { browser } from '$app/environment'
 import { type Messaging} from 'firebase/messaging'
 import { getMessaging } from 'firebase/messaging'
-import axios from 'axios'
+
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyC6dhNuFEKeoClW69Rwl5v7sjWXVjtfF1Y',
-  authDomain: 'be-6eb1c.firebaseapp.com',
-  projectId: 'be-6eb1c',
-  storageBucket: 'be-6eb1c.appspot.com',
-  messagingSenderId: '248438081408',
-  appId: '1:248438081408:web:2e2d35e2a402a440ff6365',
-  measurementId: 'G-RXEJ4NHQCG',
-}
+  apiKey: "AIzaSyByJDZ-o_ucQQbNy-6m3D2D4mJoTss1uA8",
+  authDomain: "zene-music.firebaseapp.com",
+  projectId: "zene-music",
+  storageBucket: "zene-music.appspot.com",
+  messagingSenderId: "12742833162",
+  appId: "1:12742833162:web:c827b309c459e18b0b5bf3",
+  measurementId: "G-H19CKMR6Z4"
+};
 
 let app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
 let firebaseAnalytics: Analytics | undefined
