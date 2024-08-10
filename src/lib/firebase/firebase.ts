@@ -1,5 +1,5 @@
 import { initializeApp, type FirebaseApp, getApps } from 'firebase/app'
-import { getAnalytics, type Analytics } from 'firebase/analytics'
+import { getAnalytics, logEvent, type Analytics } from 'firebase/analytics'
 import { browser } from '$app/environment'
 import { type Messaging} from 'firebase/messaging'
 import { getMessaging } from 'firebase/messaging'
@@ -17,15 +17,14 @@ const firebaseConfig = {
 
 let app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
 let firebaseAnalytics: Analytics | undefined
-let firebaseMessaging: Messaging | undefined
 
 if (browser) {
   try {
     firebaseAnalytics = getAnalytics(app)
-    firebaseMessaging = getMessaging(app)
+    logEvent(firebaseAnalytics, 'visit_website')
   } catch (error) {
     error
   }
 }
 
-export { firebaseAnalytics, firebaseMessaging }
+export { firebaseAnalytics }
