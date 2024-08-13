@@ -34,11 +34,12 @@ export class MongoDBLocalService {
     async deletePlaylistHistory(email: String, id: String | null) {
         try {
             await this.collectionPlaylists.deleteMany({ id: id, email: email })
-           const deletes = await this.collectionPlaylistsSongs.deleteMany({ playlistId: id })
+            await this.collectionPlaylistsSongs.deleteMany({ playlistId: id })
         } catch (error) {
             console.log(error)
         }
     }
+    
 
     async isPlaylistPresent(email: String, pID: String): Promise<Boolean> {
         let isPlaylistPresent = false
