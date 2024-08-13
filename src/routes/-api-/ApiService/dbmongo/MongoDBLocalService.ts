@@ -35,7 +35,6 @@ export class MongoDBLocalService {
         try {
             await this.collectionPlaylists.deleteMany({ id: id, email: email })
            const deletes = await this.collectionPlaylistsSongs.deleteMany({ playlistId: id })
-           console.log(deletes.deletedCount)
         } catch (error) {
             console.log(error)
         }
