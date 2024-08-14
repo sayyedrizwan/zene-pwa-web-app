@@ -169,7 +169,6 @@ export class SendMailService {
             <h2 class="lexend-deca-font font-size-m body-s" style="color: black; width: 100%; text-align: left">&nbsp;</h2>
           </td>
         </tr>
-
         ${
           topSongs != null
             ? topSongs?.length > 0
