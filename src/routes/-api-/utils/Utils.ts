@@ -4,7 +4,7 @@ import { MongoClient } from 'mongodb'
 import type { MusicData } from '../ApiService/model/MusicData';
 
 export const isDevDB = (process.platform.toLowerCase() == "darwin")
-const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e"
+export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e"
 export const zenePlaylistsParam = "zene_p_"
 
 

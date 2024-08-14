@@ -1,4 +1,4 @@
-import { mysqlpool, timeDifferenceIs24Hours } from "../../utils/Utils"
+import { isDevDB, mysqlpool, timeDifferenceIs24Hours } from "../../utils/Utils"
 import { MusicData } from "../model/MusicData"
 
 export class MySqlLocalService {
@@ -31,6 +31,18 @@ export class MySqlLocalService {
             await mysqlpool.query(`DELETE FROM ${this.tempHolderDB} WHERE category = ?`, [category])
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async selectUserWhoNotReceivedMails() : Promise<any> {
+        try {
+            const nodejsTimestamp = Date.now()
+            const [results] = await mysqlpool.query(`SELECT * FROM ${this.userDB} WHERE (last_mail_send IS NULL OR last_mail_send > ?) AND last_seen < ? ORDER BY last_seen ASC LIMIT 20`, [nodejsTimestamp, nodejsTimestamp - 4 * 24 * 60 * 60 * 1000])
+        
+            return results
+        } catch (error) {
+            console.log(error)
+            return []
         }
     }
 
