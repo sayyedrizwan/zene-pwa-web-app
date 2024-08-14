@@ -20,7 +20,6 @@ export async function GET({ url, request }) {
         }
         await SendMailService.instance.sendMailToOldUsers(r.email, r.name, songsList)
     })
-  );
-
+  )
   return json({})
 }

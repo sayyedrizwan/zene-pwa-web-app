@@ -171,7 +171,7 @@ export class SendMailService {
           </td>
         </tr>
         <tr>
-          <td align="center" style="margin-left: 5px">
+          <td align="center" style="margin-left: 5px" style="display:inline-block">
             <h2 class="lexend-deca-font font-size-m body-s" style="color: black; width: 100%; text-align: left">Songs for you</h2>
           </td>
         </tr>
