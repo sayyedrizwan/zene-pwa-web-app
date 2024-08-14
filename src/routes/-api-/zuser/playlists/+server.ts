@@ -30,7 +30,6 @@ export async function POST({ request }) {
 
 	if (!email.includes("@") && email.length < 3) return json({ status: "error" })
 
-	
 	await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, id == null ? null : id as String)
 
 	return json({ status: "success" })

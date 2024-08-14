@@ -1,6 +1,5 @@
 import axios from "axios";
 import { encryptSharingData } from "../../utils/EncrypDecrypt";
-import { isDevDB, mysqlpool, timeDifferenceIs24Hours } from "../../utils/Utils";
 import { MusicData } from "../model/MusicData";
 
 export class SendMailService {
@@ -52,7 +51,7 @@ export class SendMailService {
             name: name,
           },
         ],
-        subject: `Hey, ${name} We Miss you 🥹 !!`,
+        subject: `Hey, ${name == null ? "User" : name} We Miss you 🥹 !!`,
         htmlContent: `
 <!DOCTYPE html>
 <html>
@@ -160,7 +159,7 @@ export class SendMailService {
 
         <tr>
           <td align="center">
-            <h2 class="lexend-deca-font font-size body-s" style="color: black">Hey, ${name} We Miss you 🥹 !!</h2>
+            <h2 class="lexend-deca-font font-size body-s" style="color: black">Hey, ${name == null ? "User" : name} We Miss you 🥹 !!</h2>
             <h2 class="lexend-deca-font font-size-m body-s" style="color: black; transform: translateY(-10px)">Here are some tunes we've gathered for you.</h2>
           </td>
         </tr>
@@ -170,16 +169,17 @@ export class SendMailService {
             <h2 class="lexend-deca-font font-size-m body-s" style="color: black; width: 100%; text-align: left">&nbsp;</h2>
           </td>
         </tr>
-        <tr>
-          <td align="center" style="margin-left: 5px" style="display:inline-block">
-            <h2 class="lexend-deca-font font-size-m body-s" style="color: black; width: 100%; text-align: left">Songs for you</h2>
-          </td>
-        </tr>
 
         ${
           topSongs != null
             ? topSongs?.length > 0
               ? `
+            <tr>
+              <td align="center" style="margin-left: 5px" style="display:inline-block">
+                <h2 class="lexend-deca-font font-size-m body-s" style="color: black; width: 100%; text-align: left">Songs for you</h2>
+              </td>
+            </tr>
+          
             <tr>
                 ${songImages}
             </tr>
@@ -190,8 +190,8 @@ export class SendMailService {
                 ${songImages2}
             </tr>
         `
-              : null
-            : null
+              : ``
+            : ``
         }
       
        <tr>
@@ -219,7 +219,7 @@ export class SendMailService {
         url: "https://api.brevo.com/v3/smtp/email",
         headers: {
           accept: "application/json",
-          "api-key": "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",
+          "api-key": "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",
           "content-type": "application/json",
         },
         data: data,
