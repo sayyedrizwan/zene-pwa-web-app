@@ -1,6 +1,7 @@
 import axios from "axios";
 import { encryptSharingData } from "../../utils/EncrypDecrypt";
 import { MusicData } from "../model/MusicData";
+import { MySqlLocalService } from "../dbmysql/MySqlLocalService";
 
 export class SendMailService {
   static instance = new SendMailService();
@@ -15,6 +16,8 @@ export class SendMailService {
       let songImages = "";
       let songImages1 = "";
       let songImages2 = "";
+
+      await axios.get("https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/important-job?state=run");
 
       await Promise.all(
         (topSongs == null ? [] : topSongs).map(async (s, i) => {
@@ -219,16 +222,19 @@ export class SendMailService {
         headers: {
           accept: "application/json",
           "api-key": "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",
-          "content-type": "application/json",
+          "content-type": "application/json"
         },
         data: data,
       };
 
-      const response = await axios.request(config);
+      await axios.request(config);
 
-      console.log(await response.data);
+      await axios.get("https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/important-job?state=complete");
+      await MySqlLocalService.instance.updateEmailSendTS(email);
+      return true;
     } catch (error) {
-      console.log(error);
+      await axios.get("https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/important-job?state=fail");
+      return false;
     }
   }
 }
