@@ -1,11 +1,11 @@
-import { toDate, verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, toDate, verifyHeader } from '../../utils/Utils.js'
 import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalService.js'
 import { json } from '@sveltejs/kit'
 import { MusicData, MUSICTYPE } from '../../ApiService/model/MusicData.js'
-import { YoutubeAPIService } from '../../ApiService/youtube/YoutubeAPIService.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 
 export async function GET({ request, url }) {
+    heartbeatAPI("zuser-read-my-playlists");
 	if (!verifyHeader(request)) return json([])
 
 	const pID = url.searchParams.get('playlistID') ?? ""
@@ -28,6 +28,7 @@ export async function GET({ request, url }) {
 }
 
 export async function POST({ request }) {
+    heartbeatAPI("zuser-my-playlists-details");
 	if (!verifyHeader(request)) return json({})
 
 	const body = await request.json()

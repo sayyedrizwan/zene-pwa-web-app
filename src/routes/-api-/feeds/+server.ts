@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit'
-import { verifyHeader } from '../utils/Utils.js'
+import { heartbeatAPI, verifyHeader } from '../utils/Utils.js'
 import { MySqlLocalService } from '../ApiService/dbmysql/MySqlLocalService.js'
 import { SoundAPIService } from '../ApiService/soundcloud/SoundAPIService.js'
 import { convertDateAgoToTS, convertShortDateAgoToTS, substringAfter } from '../utils/extension/String.js'
@@ -11,6 +11,7 @@ import { YoutubeMusicService } from '../ApiService/youtubemusic/YoutubeMusicServ
 import { FEEDTYPE, ZenePostsData } from '../ApiService/model/ZenePostsData.js'
 
 export async function POST({ request }) {
+    heartbeatAPI("feeds");
     if (!verifyHeader(request)) return json({})
 
     const body = await request.json()

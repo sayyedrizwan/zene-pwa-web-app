@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit'
-import { verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, verifyHeader } from '../../utils/Utils.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import { MusicDataWithArtists } from '../../ApiService/model/MusicDataWithArtists.js'
 import { YoutubeAPIService } from '../../ApiService/youtube/YoutubeAPIService.js'
@@ -7,6 +7,7 @@ import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalServic
 import { filterArtistsName } from '../../utils/extension/String.js'
 
 export async function POST({ request }) {
+    heartbeatAPI("top-artists-songs");
     if (!verifyHeader(request)) return json([])
 
     const body = await request.json()

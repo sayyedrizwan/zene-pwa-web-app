@@ -1,8 +1,9 @@
 import { json } from '@sveltejs/kit'
-import { mysqlpool, verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, mysqlpool, verifyHeader } from '../../utils/Utils.js'
 import { MySqlLocalService } from '../../ApiService/dbmysql/MySqlLocalService.js'
 
 export async function GET({ url, request }) {
+	heartbeatAPI("zuser-get-user");
 	if (!verifyHeader(request)) return json({})
 
 	const email = url.searchParams.get('user') ?? ""
@@ -17,6 +18,7 @@ export async function GET({ url, request }) {
 }
 
 export async function POST({ request }) {
+	heartbeatAPI("zuser-add-user");
 	if (!verifyHeader(request)) return json({ "status": "error" })
 
 	const body = await request.json()

@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit'
-import { verifyHeader } from '../utils/Utils.js'
+import { heartbeatAPI, verifyHeader } from '../utils/Utils.js'
 import { YoutubeMusicService } from '../ApiService/youtubemusic/YoutubeMusicService.js'
 import type { MusicData } from '../ApiService/model/MusicData.js'
 import { filterArtistsName } from '../utils/extension/String.js'
 import { MongoDBLocalService } from '../ApiService/dbmongo/MongoDBLocalService.js'
 
 export async function GET({ url, request }) {
+    heartbeatAPI("playlists-data");
     if (!verifyHeader(request)) return json({})
     const id = url.searchParams.get('id') ?? ""
     const email = url.searchParams.get('email') ?? ""

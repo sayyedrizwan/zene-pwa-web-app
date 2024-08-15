@@ -1,10 +1,11 @@
 import { json } from '@sveltejs/kit'
-import { shuffle, verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, shuffle, verifyHeader } from '../../utils/Utils.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import type { MusicData } from '../../ApiService/model/MusicData.js'
 import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalService.js'
 
 export async function POST({ request }) {
+    heartbeatAPI("top-songs");
     if (!verifyHeader(request)) return json([])
 
     const body = await request.json()

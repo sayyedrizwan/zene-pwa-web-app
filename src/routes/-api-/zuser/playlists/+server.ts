@@ -1,9 +1,10 @@
-import { verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, verifyHeader } from '../../utils/Utils.js'
 import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalService.js'
 import { json } from '@sveltejs/kit'
 import { ImgBBService } from '../../ApiService/imgbb/ImgBBService.js'
 
 export async function GET({ request, url }) {
+    heartbeatAPI("zuser-read-my-playlists");
 	if (!verifyHeader(request)) return json([])
 
 	const email = url.searchParams.get('email') ?? ""
@@ -17,6 +18,7 @@ export async function GET({ request, url }) {
 }
 
 export async function POST({ request }) {
+    heartbeatAPI("zuser-add-my-playlists");
 	if (!verifyHeader(request)) return json({ status: "error" })
 	
 	const data = await request.formData()

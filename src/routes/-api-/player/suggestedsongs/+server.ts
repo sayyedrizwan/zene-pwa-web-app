@@ -1,8 +1,9 @@
 import { json } from '@sveltejs/kit'
-import { shuffle, verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, shuffle, verifyHeader } from '../../utils/Utils.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 
 export async function GET({ url, request }) {
+    heartbeatAPI("suggested-songs");
     if (!verifyHeader(request)) return json([])
     const s = url.searchParams.get('s') ?? ""
     if (s == "") return json([])

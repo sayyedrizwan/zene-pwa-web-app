@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     %sveltekit.head%
@@ -43,16 +43,24 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2941808068005217" crossorigin="anonymous"></script>
     <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
 
+    <script async src="https://rum.cronitor.io/script.js"></script>
     <script>
+      window.cronitor =
+        window.cronitor ||
+        function () {
+          (window.cronitor.q = window.cronitor.q || []).push(arguments);
+        };
+      cronitor("config", { clientKey: "3ae847a4942e4e017353f277a5f8c362" })
+      
       Sentry.init({
-        dsn: 'https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896',
-        release: 'zene@0.0.1',
+        dsn: "https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896",
+        release: "zene@0.0.1",
         integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
         tracesSampleRate: 1.0,
-        tracePropagationTargets: ['zenemusic.co'],
+        tracePropagationTargets: ["zenemusic.co"],
         replaysSessionSampleRate: 0.1,
         replaysOnErrorSampleRate: 1.0,
-      })
+      });
     </script>
   </head>
 

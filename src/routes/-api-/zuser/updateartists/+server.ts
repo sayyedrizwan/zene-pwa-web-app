@@ -1,7 +1,8 @@
 import { json } from '@sveltejs/kit'
-import { mysqlpool, verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, mysqlpool, verifyHeader } from '../../utils/Utils.js'
 
 export async function POST({ request }) {
+	heartbeatAPI("zuser-followed-artists");
 	if (!verifyHeader(request)) return json({ "status": "error" })
 
 	const body = await request.json()

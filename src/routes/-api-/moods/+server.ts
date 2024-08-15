@@ -1,8 +1,9 @@
 import { json } from '@sveltejs/kit'
-import { verifyHeader } from '../utils/Utils.js'
+import { heartbeatAPI, verifyHeader } from '../utils/Utils.js'
 import { YoutubeMusicService } from '../ApiService/youtubemusic/YoutubeMusicService.js'
 
 export async function GET({ request }) {
+    heartbeatAPI("all-moods");
     if (!verifyHeader(request)) return json([])
 
     const moods = await YoutubeMusicService.instance.allMoods()
@@ -10,6 +11,7 @@ export async function GET({ request }) {
 }
 
 export async function POST({ request }) {
+    heartbeatAPI("get-moods-data");
     if (!verifyHeader(request)) return json([])
 
     const body = await request.json()

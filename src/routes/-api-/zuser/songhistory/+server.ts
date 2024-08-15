@@ -1,9 +1,10 @@
-import { verifyHeader } from "../../utils/Utils.js";
+import { heartbeatAPI, verifyHeader } from "../../utils/Utils.js";
 import { MongoDBLocalService } from "../../ApiService/dbmongo/MongoDBLocalService.js";
 import { YoutubeMusicService } from "../../ApiService/youtubemusic/YoutubeMusicService.js";
 import { json } from "@sveltejs/kit";
 
 export async function GET({ request, url }) {
+  heartbeatAPI("zuser-get-song-history");
   if (!verifyHeader(request)) return json([]);
 
   const email = url.searchParams.get("email") ?? "";
@@ -17,6 +18,7 @@ export async function GET({ request, url }) {
 }
 
 export async function POST({ request }) {
+  heartbeatAPI("zuser-add-song-history");
   if (!verifyHeader(request)) return json({ status: "error" });
 
   const body = await request.json();

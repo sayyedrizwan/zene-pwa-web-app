@@ -1,9 +1,10 @@
-import { verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, verifyHeader } from '../../utils/Utils.js'
 import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalService.js'
 import { json } from '@sveltejs/kit'
 import { MusicData, MUSICTYPE } from '../../ApiService/model/MusicData.js'
 
 export async function GET({ request, url }) {
+    heartbeatAPI("zuser-is-song-in-playlists");
 	if (!verifyHeader(request)) return json([])
 
 	const email = url.searchParams.get('email') ?? ""

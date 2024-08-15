@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit'
-import { getRandomItem, verifyHeader } from '../../utils/Utils.js'
+import { getRandomItem, heartbeatAPI, verifyHeader } from '../../utils/Utils.js'
 import { LastFMService } from '../../ApiService/lastfm/LastFMService.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 import { ArtistsData, ArtistsDataInfo } from '../../ApiService/model/ArtistsData.js'
@@ -9,6 +9,7 @@ import type { SocialProfileUserData } from '../../ApiService/soundcloud/model/So
 import { YoutubeAPIService } from '../../ApiService/youtube/YoutubeAPIService.js'
 
 export async function POST({ request }) {
+    heartbeatAPI("artistsdata-info");
     if (!verifyHeader(request)) return json([])
 
     const body = await request.json()

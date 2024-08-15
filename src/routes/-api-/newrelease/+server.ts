@@ -1,10 +1,11 @@
 import { json } from '@sveltejs/kit'
-import { NEW_RELEASE_SONGS, verifyHeader } from '../utils/Utils.js';
+import { heartbeatAPI, NEW_RELEASE_SONGS, verifyHeader } from '../utils/Utils.js';
 import { YoutubeMusicService } from '../ApiService/youtubemusic/YoutubeMusicService.js'
 import type { MusicData } from '../ApiService/model/MusicData.js';
 import { MySqlLocalService } from '../ApiService/dbmysql/MySqlLocalService.js';
 
 export async function GET({ url, request }) {
+    heartbeatAPI("new-release");
 	if (!verifyHeader(request)) return json({})
 
 	const i = url.searchParams.get('i') ?? ""

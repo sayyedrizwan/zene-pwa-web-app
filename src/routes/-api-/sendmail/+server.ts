@@ -1,13 +1,14 @@
 import { json } from "@sveltejs/kit";
 import axios from "axios";
 import { MySqlLocalService } from "../ApiService/dbmysql/MySqlLocalService.js";
-import { auth } from "../utils/Utils.js";
+import { auth, heartbeatAPI } from "../utils/Utils.js";
 import type { MusicData } from "../ApiService/model/MusicData.js";
 import { SendMailService } from "../ApiService/sendmail/SendMailService.js";
 
 //https://pwdyp0nz.status.cron-job.org/
 //cron-job.org
 export async function GET({ url, request }) {
+  heartbeatAPI("send-mail");
   const response = await MySqlLocalService.instance.selectUserWhoNotReceivedMails();
   const records = response as [any];
 

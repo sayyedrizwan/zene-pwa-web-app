@@ -1,8 +1,9 @@
 import { json } from '@sveltejs/kit'
-import { verifyHeader } from '../../utils/Utils.js'
+import { heartbeatAPI, verifyHeader } from '../../utils/Utils.js'
 import { SpotifyAPIService } from '../../ApiService/spotify/SpotifyAPIService.js'
 
 export async function GET({ request, url }) {
+    heartbeatAPI("import-playlists-spotify");
     if (!verifyHeader(request)) return json({})
 
     const token = url.searchParams.get('token') ?? ""
