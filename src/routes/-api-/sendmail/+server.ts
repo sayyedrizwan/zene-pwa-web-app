@@ -5,6 +5,8 @@ import { auth } from "../utils/Utils.js";
 import type { MusicData } from "../ApiService/model/MusicData.js";
 import { SendMailService } from "../ApiService/sendmail/SendMailService.js";
 
+
+//cron-job.org
 export async function GET({ url, request }) {
   const response = await MySqlLocalService.instance.selectUserWhoNotReceivedMails();
   const records = response as [any];
