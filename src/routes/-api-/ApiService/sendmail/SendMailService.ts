@@ -225,10 +225,12 @@ export class SendMailService {
         data: data,
       };
 
-      await axios.request(config);
-      await MySqlLocalService.instance.updateEmailSendTS(email);
+      const res = await axios.request(config);
+      console.log(await res.data)
+      await MySqlLocalService.instance.updateEmailSendTS(email)
       return true;
     } catch (error) {
+      console.log(error)
       return false;
     }
   }
