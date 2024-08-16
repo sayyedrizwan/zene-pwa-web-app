@@ -219,7 +219,7 @@ export class SendMailService {
         url: "https://api.brevo.com/v3/smtp/email",
         headers: {
           accept: "application/json",
-          "api-key": "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",
+          "api-key": "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",
           "content-type": "application/json"
         },
         data: data,
