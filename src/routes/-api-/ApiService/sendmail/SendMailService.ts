@@ -17,8 +17,6 @@ export class SendMailService {
       let songImages1 = "";
       let songImages2 = "";
 
-      await axios.get("https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/important-job?state=run");
-
       await Promise.all(
         (topSongs == null ? [] : topSongs).map(async (s, i) => {
           if (i <= 9) {
@@ -228,12 +226,9 @@ export class SendMailService {
       };
 
       await axios.request(config);
-
-      await axios.get("https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/important-job?state=complete");
       await MySqlLocalService.instance.updateEmailSendTS(email);
       return true;
     } catch (error) {
-      await axios.get("https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/important-job?state=fail");
       return false;
     }
   }

@@ -303,12 +303,12 @@ export function toDate(time: number) {
 }
 
 export function heartbeatAPI(value: String) {
-  axios.get(`https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/api-${value}`).then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
+  // axios.get(`https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/api-${value}`).then(function (response) {
+  //   // handle success
+  //   console.log(response);
+  // })
+  // .catch(function (error) {
+  //   // handle error
+  //   console.log(error);
+  // })
 }
