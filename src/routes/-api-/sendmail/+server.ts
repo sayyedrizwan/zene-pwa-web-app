@@ -22,7 +22,7 @@ export async function GET({ url, request }) {
         songsList = null;
       }
 
-     await SendMailService.instance.sendMailToOldUsers(r.email, r.name, songsList)
+      await SendMailService.instance.sendMailToOldUsers(r.email, r.name, songsList)
     })
   );
   return json({});

@@ -1,4 +1,5 @@
 import axios from "axios";
+import nodemailer from "nodemailer";
 import { encryptSharingData } from "../../utils/EncrypDecrypt";
 import { MusicData } from "../model/MusicData";
 import { MySqlLocalService } from "../dbmysql/MySqlLocalService";
@@ -9,7 +10,18 @@ export class SendMailService {
   senderInfo = {
     name: "Zene Music",
     email: "no-reply@mail.zenemusic.co",
-  };
+  }
+
+  transporter = nodemailer.createTransport({
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: "7a506a002@smtp-brevo.com",
+      pass: "ZjNdqTgYHmRX5027",
+    }
+  })
+  
 
   async sendMailToOldUsers(email: String, name: String, topSongs: [MusicData] | null) {
     try {
@@ -44,16 +56,7 @@ export class SendMailService {
         })
       );
 
-      const data = JSON.stringify({
-        sender: this.senderInfo,
-        to: [
-          {
-            email: email,
-            name: name,
-          },
-        ],
-        subject: `Hey, ${name == null ? "User" : name} We Miss you 🥹 !!`,
-        htmlContent: `
+      const htmlContent = `
 <!DOCTYPE html>
 <html>
   <head>
@@ -211,23 +214,18 @@ export class SendMailService {
     </center>
   </body>
 </html>
-        `,
-      });
+        `
 
-      let config = {
-        method: "post",
-        url: "https://api.brevo.com/v3/smtp/email",
-        headers: {
-          accept: "application/json",
-          "api-key": "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",
-          "content-type": "application/json"
-        },
-        data: data,
-      };
+      const info = await this.transporter.sendMail({
+        from: '"Zene Music" <no-reply@mail.zenemusic.co>',
+        to: email.toString(),
+        subject: `Hey, ${name == null ? "User" : name} We Miss you 🥹 !!`,
+        html: htmlContent
+      })
 
-      const res = await axios.request(config);
-      console.log(await res.data)
-      await MySqlLocalService.instance.updateEmailSendTS(email)
+      if(info.accepted.includes(email.toString())) {
+        await MySqlLocalService.instance.updateEmailSendTS(email)
+      }
       return true;
     } catch (error) {
       console.log(error)
