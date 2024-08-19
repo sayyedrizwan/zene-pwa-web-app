@@ -122,8 +122,10 @@ export class MongoDBLocalService {
   async updateOrInsertSongHistory(music: MusicData, email: String, deviceInfo: String, playTime: number) {
     try {
       const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, Date.now(), playTime, "SONGS");
-      await this.collectionSongHistory.insertOne(data);
+      const info = await this.collectionSongHistory.insertOne(data);
+      console.log(`theeee ${info.insertedId}`)
     } catch (error) {
+      console.log(`theeee ${error}`)
       console.log(error);
     }
   }
