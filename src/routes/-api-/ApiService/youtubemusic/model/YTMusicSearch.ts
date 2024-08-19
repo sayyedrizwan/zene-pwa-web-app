@@ -125,6 +125,7 @@ interface Run2 {
 
 interface NavigationEndpoint {
     clickTrackingParams?: string
+    browseEndpoint?: BrowseEndpoint
     watchEndpoint?: WatchEndpoint
 }
 
