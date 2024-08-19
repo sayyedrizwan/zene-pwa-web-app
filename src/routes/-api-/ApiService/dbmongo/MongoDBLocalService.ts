@@ -183,6 +183,9 @@ export class MongoDBLocalService {
         const id = (e as DBMusicHistory).id;
         if (!list.some((item) => item === id)) list.push(id);
       });
+
+      console.log(`ss ${email} -- ${list}`)
+     
       return shuffleString(list);
     } catch (error) {
       return [];
