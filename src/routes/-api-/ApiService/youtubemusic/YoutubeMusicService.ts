@@ -39,6 +39,7 @@ import { MoodplaylistData, MoodplaylistDataItems } from "../model/MoodplaylistDa
 import type { YTArtistsData } from "./model/YTArtistsData";
 import { YTArtistsSaveData } from "./model/YTArtistsSaveData";
 import type { YTSearchWholeInfoData } from "./model/YTSearchWholeInfoData";
+import { YoutubeAPIService } from "../youtube/YoutubeAPIService";
 
 export class YoutubeMusicService {
   static instance = new YoutubeMusicService();
@@ -575,22 +576,43 @@ export class YoutubeMusicService {
     }
   }
 
+  async videoInfo(VID: string): Promise<MusicData | undefined> {
+      const info = await YoutubeAPIService.instance.searchVideos(VID)
+
+      let m: MusicData | undefined = undefined
+      info.forEach(e => {
+        if(e.id == VID && m == undefined) m = e 
+      })
+
+      return m
+
+  }
+  
   async songInfo(VID: string): Promise<MusicData | undefined> {
-    try {
-      let config = { method: "post", url: ytMusicPlayer, headers: ytMusicHeader, data: ytMusicSongID(VID) };
-      const response = await axios.request(config);
-      const data = (await response.data) as YTMusicSongsDetails;
+      const info = await this.searchSongs(VID, false)
 
-      const id = data.videoDetails?.videoId;
-      const name = data.videoDetails?.title;
-      const thumbnail = data.videoDetails?.thumbnail?.thumbnails ?? [];
-      const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
-      const artists = data.videoDetails?.author?.replaceAll(" and ", " & ") ?? "";
+      let m: MusicData | undefined = undefined
+      info.forEach(e => {
+        if(e.id == VID && m == undefined) m = e 
+      })
 
-      return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined;
-    } catch (error) {
-      return undefined;
-    }
+      return m
+
+    // try {
+    //   let config = { method: "post", url: ytMusicPlayer, headers: ytMusicHeader, data: ytMusicSongID(VID) };
+    //   const response = await axios.request(config);
+    //   const data = (await response.data) as YTMusicSongsDetails;
+
+    //   const id = data.videoDetails?.videoId;
+    //   const name = data.videoDetails?.title;
+    //   const thumbnail = data.videoDetails?.thumbnail?.thumbnails ?? [];
+    //   const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+    //   const artists = data.videoDetails?.author?.replaceAll(" and ", " & ") ?? "";
+
+    //   return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined;
+    // } catch (error) {
+    //   return undefined;
+    // }
   }
 
   async songInfoViaSearch(VID: string): Promise<MusicData | undefined> {
