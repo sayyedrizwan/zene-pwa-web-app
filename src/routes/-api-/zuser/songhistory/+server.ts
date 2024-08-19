@@ -49,7 +49,7 @@ export async function POST({ request }) {
     "credentials": "include"
   })
 
-  console.log(datas)
+  console.log(await datas.json())
 
   
   if (songInfo != undefined) {
