@@ -32,8 +32,7 @@ export async function POST({ request }) {
   const data = await MongoDBLocalService.instance.isSongAlreadyPresentDelete(songID, email);
   const songInfo = await YoutubeMusicService.instance.songInfo(songID);
 
-  console.log('the email --- ' + email + " -- " + songID)
-  console.log('dbdbdbh' + songInfo)
+  console.log('the email --- ' + email + " -- " + songID + "-- " + data)
   if (songInfo != undefined) {
     if (data == null) await MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, 1);
     else MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, (data.timesItsPlayed as number) + 1);
