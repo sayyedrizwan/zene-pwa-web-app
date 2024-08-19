@@ -33,6 +33,7 @@ export async function POST({ request }) {
   const songInfo = await YoutubeMusicService.instance.songInfo(songID);
 
   console.log('the email --- ' + email + " -- " + songID + "-- " + data)
+  console.log('the email --- ' + email + " -- " + songID + "-- " + songInfo)
   if (songInfo != undefined) {
     console.log('the email ---  1111' + email + " -- " + songID + "-- " + data)
     if (data == null) await MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, 1);
