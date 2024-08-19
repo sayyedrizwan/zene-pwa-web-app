@@ -589,7 +589,6 @@ export class YoutubeMusicService {
 
       return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined;
     } catch (error) {
-      console.log(error);
       return undefined;
     }
   }
@@ -641,8 +640,6 @@ export class YoutubeMusicService {
             let name = "";
             let vID = "";
             let artists: String[] = [];
-
-            console.log(highestThumbnail);
 
             c?.musicCardShelfRenderer?.title?.runs?.forEach((t) => {
               if (t.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_ATV") {

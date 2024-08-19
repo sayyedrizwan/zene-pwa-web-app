@@ -4,7 +4,7 @@ import { YoutubeMusicService } from "../../-api-/ApiService/youtubemusic/Youtube
 export async function load({ params }) {
   const id = await decryptSharingData(params.id)
 
-  const data = await YoutubeMusicService.instance.songInfoViaSearch(id)
+  const data = await YoutubeMusicService.instance.songInfo(id)
   if(data?.id == null) return { data: JSON.stringify("{}"), url: params.id }
   
   data.id = ""
