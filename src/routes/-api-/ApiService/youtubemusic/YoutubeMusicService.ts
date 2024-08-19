@@ -581,6 +581,7 @@ export class YoutubeMusicService {
 
             return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined
         } catch (error) {
+            console.log(error)
             return undefined
         }
     }
