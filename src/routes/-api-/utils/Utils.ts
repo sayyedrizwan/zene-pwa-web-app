@@ -253,17 +253,8 @@ export function ytMusicSongID(vID: string): string {
     videoId: vID,
     context: {
       client: {
-        "remoteHost": "183.87.181.70",
-        "deviceMake": "Google",
-        "deviceModel": "Nexus 5",
-        "userAgent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36,gzip(gfe)",
-        "clientName": "WEB_REMIX",
-        "clientVersion": "1.20240812.01.00",
-        "osName": "Android",
-        "osVersion": "6.0",
-        "originalUrl": "https://music.youtube.com/",
-        // clientName: clientNameYTMusicName,
-        // clientVersion: clientNameYTMusicVersion,
+        clientName: clientNameYTMusicName,
+        clientVersion: clientNameYTMusicVersion,
       },
     },
   });

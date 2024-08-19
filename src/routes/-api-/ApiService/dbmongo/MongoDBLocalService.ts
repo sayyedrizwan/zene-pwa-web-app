@@ -123,9 +123,7 @@ export class MongoDBLocalService {
     try {
       const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, Date.now(), playTime, "SONGS");
       const info = await this.collectionSongHistory.insertOne(data);
-      console.log(`theeee ${info.insertedId}`)
     } catch (error) {
-      console.log(`theeee ${error}`)
       console.log(error);
     }
   }
@@ -137,7 +135,7 @@ export class MongoDBLocalService {
         return;
       }
 
-      const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const oneWeekAgo = Date.now() - 8 * 24 * 60 * 60 * 1000;
       const top5Playtimes = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
       const top5PlaytimesArray = top5Playtimes.map((doc) => doc._id);
 
@@ -162,9 +160,7 @@ export class MongoDBLocalService {
   async readSongHistory(email: String, page: number): Promise<DBMusicHistory[] | undefined> {
     try {
       const skip = page * MongoDBLocalService.limitPagination;
-      console.log(`ss ${email} -- ${page}`)
       const data = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).skip(skip).limit(MongoDBLocalService.limitPagination).toArray();
-      console.log(data)
       return data as any;
     } catch (error) {
       return [];
@@ -184,10 +180,8 @@ export class MongoDBLocalService {
       dataTop.forEach((e: any) => {
         const id = (e as DBMusicHistory).id;
         if (!list.some((item) => item === id)) list.push(id);
-      });
-
-      console.log(`ss ${email} -- ${list}`)
-     
+      })
+    
       return shuffleString(list);
     } catch (error) {
       return [];
