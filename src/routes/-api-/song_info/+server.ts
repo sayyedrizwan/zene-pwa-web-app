@@ -133,7 +133,7 @@ export async function GET({ url, request }) {
     credentials: "include",
   });
 
-  console.log((await datas.json()) as YTMusicSongsDetails);
+  // console.log((await datas.json()) as YTMusicSongsDetails);
 
   // const data = await YoutubeMusicService.instance.songInfo(s);
   if (datas == undefined) return json({});
