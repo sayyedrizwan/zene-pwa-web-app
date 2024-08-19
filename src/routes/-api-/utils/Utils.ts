@@ -236,6 +236,19 @@ export function ytMusicBrowseIDWithParam(q: string, params: string): string {
   });
 }
 
+
+export function ytMusicQueryWithParam(q: string): string {
+  return JSON.stringify({
+    context: {
+      client: {
+        clientName: clientNameYTMusicName,
+        clientVersion: clientNameYTMusicVersion,
+      },
+    },
+    query: q
+  })
+}
+
 export function ytMusicIDWithParam(q: string, params: string): string {
   return JSON.stringify({
     context: {

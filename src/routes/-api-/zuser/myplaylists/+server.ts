@@ -17,7 +17,7 @@ export async function GET({ request, url }) {
 
 	await Promise.all(list.map(async n => {
 		try {
-			const yt = await YoutubeMusicService.instance.songInfo(n.songId.toString())
+			const yt = await YoutubeMusicService.instance.songInfoViaSearch(n.songId.toString())
 			if (yt != undefined) songs.push(yt)
 		} catch (error) {
 			console.log(error)
