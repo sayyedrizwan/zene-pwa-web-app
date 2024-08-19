@@ -35,7 +35,7 @@ export async function POST({ request }) {
   console.log('the email --- ' + email + " -- " + songID + "-- " + data)
   if (songInfo != undefined) {
     if (data == null) await MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, 1);
-    else MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, (data.timesItsPlayed as number) + 1);
+    else await MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, (data.timesItsPlayed as number) + 1);
   }
   await MongoDBLocalService.instance.deleteOldSongHistory(email);
   return json({ status: "success" });
