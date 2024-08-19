@@ -8,8 +8,6 @@ export async function GET({ request, url }) {
   if (!verifyHeader(request)) return json([]);
 
   const email = url.searchParams.get("email") ?? "";
-
-  console.log("1111111")
   if (!email.includes("@") && email.length < 3) return json([]);
 
   const page = url.searchParams.get("page") ?? 0;

@@ -1,10 +1,9 @@
 import mysql from "mysql2/promise";
-import os from "os";
 import { MongoClient } from "mongodb";
 import type { MusicData } from "../ApiService/model/MusicData";
-import axios from "axios";
 
-export const isDevDB = process.platform.toLowerCase() == "darwin";
+export const isDevDB = false
+// process.platform.toLowerCase() == "darwin";
 export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e";
 export const zenePlaylistsParam = "zene_p_";
 
