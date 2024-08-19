@@ -1,6 +1,7 @@
 import { json } from "@sveltejs/kit";
 import { heartbeatAPI, verifyHeader } from "../utils/Utils.js";
 import type { YTMusicSongsDetails } from "../ApiService/youtubemusic/model/YTMusicSongsDetails.js";
+import { YoutubeMusicService } from "../ApiService/youtubemusic/YoutubeMusicService.js";
 
 export async function GET({ url, request }) {
   heartbeatAPI("song-info");
@@ -8,11 +9,7 @@ export async function GET({ url, request }) {
   const s = url.searchParams.get("id") ?? "";
   if (s == "") return json([]);
 
-  const datas = await fetch("https://music.youtube.com/watch?v=aC9HkZW2hZk")
-
-  // console.log((await datas.json()) as YTMusicSongsDetails);
-
-  // const data = await YoutubeMusicService.instance.songInfo(s);
-  if (datas == undefined) return json({});
-  return json((await datas.text()));
+  const data = await YoutubeMusicService.instance.songInfo(s);
+  if (data == undefined) return json({});
+  return json(data);
 }

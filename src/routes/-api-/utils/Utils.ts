@@ -2,7 +2,7 @@ import mysql from "mysql2/promise";
 import { MongoClient } from "mongodb";
 import type { MusicData } from "../ApiService/model/MusicData";
 
-export const isDevDB = false
+export const isDevDB = false;
 // process.platform.toLowerCase() == "darwin";
 export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e";
 export const zenePlaylistsParam = "zene_p_";
@@ -180,6 +180,7 @@ export const ytMusicHeader = {
   "content-type": "application/json",
   cookie: "GPS=1;",
   origin: "https://music.youtube.com",
+  "x-origin": "https://music.youtube.com",
 };
 
 export function ytMusicvideoID(id: string): string {
