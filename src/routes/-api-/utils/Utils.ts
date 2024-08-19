@@ -169,7 +169,7 @@ export const ytMusicMoodAndGenresCategoryParam = "FEmusic_moods_and_genres_categ
 export const ytMusicGridListParam = "ggMIegYIARoCAQI%3D";
 
 const clientNameYTMusicName = "WEB_REMIX";
-const clientNameYTMusicVersion = "1.20240729.01.00";
+const clientNameYTMusicVersion = "1.20240812.01.00";
 
 export const ytMusicNext = "https://music.youtube.com/youtubei/v1/next?prettyPrint=false";
 export const ytMusicPlayer = "https://music.youtube.com/youtubei/v1/player?prettyPrint=false";
