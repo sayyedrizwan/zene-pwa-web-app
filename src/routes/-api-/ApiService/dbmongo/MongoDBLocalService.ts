@@ -87,7 +87,7 @@ export class MongoDBLocalService {
 
   async updatePlaylistSongs(pID: String, sID: String, doAdd: String): Promise<Boolean> {
     try {
-      const items = await this.collectionPlaylistsSongs.deleteMany({ playlistId: pID.trim(), songId: sID.trim() });
+      await this.collectionPlaylistsSongs.deleteMany({ playlistId: pID.trim(), songId: sID.trim() });
 
       if (doAdd == "true") {
         const data = new DBPlaylistsSong(pID, sID, Date.now());
