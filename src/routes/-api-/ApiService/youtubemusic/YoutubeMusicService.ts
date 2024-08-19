@@ -610,7 +610,7 @@ export class YoutubeMusicService {
               const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
               let name = "";
               let vID = "";
-              let artists: String[] = []
+              let artists: String[] = [];
 
               cont?.musicResponsiveListItemRenderer?.flexColumns?.forEach((a) => {
                 a.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach((aName) => {
@@ -626,19 +626,23 @@ export class YoutubeMusicService {
                 });
               });
 
-              if(mData== undefined && VID.trim() == vID.trim()){
-                const joinListWithAnd = (items: String[]): string => items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} & ${items[items.length - 1]}`;
+              if (mData == undefined && VID.trim() == vID.trim()) {
+                const joinListWithAnd = (items: String[]): string => (items.length <= 1 ? items.join("") : `${items.slice(0, -1).join(", ")} & ${items[items.length - 1]}`);
 
-                mData = new MusicData(name, joinListWithAnd(artists), vID, highestThumbnail, MUSICTYPE.SONGS)
+                mData = new MusicData(name, joinListWithAnd(artists), vID, highestThumbnail, MUSICTYPE.SONGS);
               }
             });
-          } else {
+          } 
+          
+          if (c?.musicCardShelfRenderer != undefined) {
             const thumbnail = c?.musicCardShelfRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
             const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
 
             let name = "";
             let vID = "";
-            let artists: String[] = []
+            let artists: String[] = [];
+
+            console.log(highestThumbnail);
 
             c?.musicCardShelfRenderer?.title?.runs?.forEach((t) => {
               if (t.navigationEndpoint?.watchEndpoint?.watchEndpointMusicSupportedConfigs?.watchEndpointMusicConfig?.musicVideoType == "MUSIC_VIDEO_TYPE_ATV") {
@@ -657,19 +661,18 @@ export class YoutubeMusicService {
               }
             });
 
+            if (mData == undefined && VID.trim() == vID.trim()) {
+              const joinListWithAnd = (items: String[]): string => (items.length <= 1 ? items.join("") : `${items.slice(0, -1).join(", ")} & ${items[items.length - 1]}`);
 
-            if(mData== undefined && VID.trim() == vID.trim()){
-                const joinListWithAnd = (items: String[]): string => items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} & ${items[items.length - 1]}`;
-
-                mData = new MusicData(name, joinListWithAnd(artists), vID, highestThumbnail, MUSICTYPE.SONGS)
-              }
+              mData = new MusicData(name, joinListWithAnd(artists), vID, highestThumbnail, MUSICTYPE.SONGS);
+            }
           }
         });
       });
 
       return mData;
     } catch (error) {
-      return undefined
+      return undefined;
     }
   }
 
