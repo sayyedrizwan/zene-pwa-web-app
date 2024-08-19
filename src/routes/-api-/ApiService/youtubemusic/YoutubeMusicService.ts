@@ -586,6 +586,36 @@ export class YoutubeMusicService {
         }
     }
 
+
+    async songInfoViaSearch(VID: string): Promise<MusicData[] | undefined> {
+        try {
+            let config = { method: 'post', url: ytMusicSearch, headers: ytMusicHeader, data: ytMusicBrowseIDWithParam(VID, ytMusicSearchSongParam) }
+            const response = await axios.request(config)
+            const data = await response.data as YTMusicSearch
+
+            let list: MusicData[] = []
+            data?.contents?.tabbedSearchResultsRenderer?.tabs?.forEach(tab => {
+                tab?.tabRenderer?.content?.sectionListRenderer?.contents?.forEach(contents => {
+                    if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
+                        contents?.musicShelfRenderer?.contents?.forEach(c => {
+                            const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? []
+                            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`
+                            const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+                            const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId
+                            const artists = c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? ""
+
+                            if (id != undefined) list.push(new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS))
+                        })
+                    }
+                })
+            })
+
+            return list
+        } catch (error) {
+            return []
+        }
+    }
+
     async artistsPageData(channelID: string): Promise<YTArtistsSaveData | undefined> {
         try {
             let config = { method: 'post', url: ytMusicBrowse, headers: ytMusicHeader, data: ytMusicBrowseID(channelID) }

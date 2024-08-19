@@ -9,7 +9,7 @@ export async function GET({ url, request }) {
   const s = url.searchParams.get("id") ?? "";
   if (s == "") return json([]);
 
-  const data = await YoutubeMusicService.instance.songInfo(s);
+  const data = await YoutubeMusicService.instance.songInfoViaSearch(s);
   if (data == undefined) return json({});
   return json(data);
 }
