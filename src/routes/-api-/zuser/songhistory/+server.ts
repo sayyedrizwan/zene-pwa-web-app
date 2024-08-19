@@ -34,6 +34,7 @@ export async function POST({ request }) {
 
   console.log('the email --- ' + email + " -- " + songID + "-- " + data)
   if (songInfo != undefined) {
+    console.log('the email ---  1111' + email + " -- " + songID + "-- " + data)
     if (data == null) await MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, 1);
     else await MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, (data.timesItsPlayed as number) + 1);
   }
