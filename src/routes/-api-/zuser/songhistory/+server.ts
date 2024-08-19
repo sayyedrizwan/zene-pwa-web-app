@@ -15,7 +15,6 @@ export async function GET({ request, url }) {
   console.log(email);
 
   const list = await MongoDBLocalService.instance.readSongHistory(email, page as number);
-  console.log(list);
   return json(list);
 }
 
@@ -32,6 +31,8 @@ export async function POST({ request }) {
 
   const data = await MongoDBLocalService.instance.isSongAlreadyPresentDelete(songID, email);
   const songInfo = await YoutubeMusicService.instance.songInfoViaSearch(songID);
+
+  console.log('info ' + songInfo + "-- " + email)
 
   if (songInfo != undefined) {
     if (data == null) await MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, 1);
