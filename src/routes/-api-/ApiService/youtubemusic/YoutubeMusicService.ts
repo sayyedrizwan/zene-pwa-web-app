@@ -593,6 +593,7 @@ export class YoutubeMusicService {
 
       let m: MusicData | undefined = undefined
       info.forEach(e => {
+        console.log(e)
         if(e.id == VID && m == undefined) m = e 
       })
 
