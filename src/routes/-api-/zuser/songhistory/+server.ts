@@ -36,6 +36,6 @@ export async function POST({ request }) {
     else MongoDBLocalService.instance.updateOrInsertSongHistory(songInfo, email, device, (data.timesItsPlayed as number) + 1);
   }
 
-  await MongoDBLocalService.instance.deleteOldSongHistory(email);
+  // await MongoDBLocalService.instance.deleteOldSongHistory(email);
   return json({ status: "success" });
 }
