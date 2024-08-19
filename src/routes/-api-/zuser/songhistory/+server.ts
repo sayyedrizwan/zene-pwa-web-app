@@ -2,7 +2,6 @@ import { heartbeatAPI, verifyHeader, ytMusicSongID } from "../../utils/Utils.js"
 import { MongoDBLocalService } from "../../ApiService/dbmongo/MongoDBLocalService.js";
 import { YoutubeMusicService } from "../../ApiService/youtubemusic/YoutubeMusicService.js";
 import { json } from "@sveltejs/kit";
-import type { YTMusicSongsDetails } from "../../ApiService/youtubemusic/model/YTMusicSongsDetails.js";
 
 export async function GET({ request, url }) {
   heartbeatAPI("zuser-get-song-history");
@@ -12,8 +11,6 @@ export async function GET({ request, url }) {
   if (!email.includes("@") && email.length < 3) return json([]);
 
   const page = url.searchParams.get("page") ?? 0;
-  console.log(email);
-
   const list = await MongoDBLocalService.instance.readSongHistory(email, page as number);
   return json(list);
 }
