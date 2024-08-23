@@ -81,4 +81,103 @@ export class MySqlLocalService {
 
     return info;
   }
+
+  // Anylatics API
+
+  async today24HourUsers(): Promise<number> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfTodayEpoch = startOfToday.getTime();
+
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ?`, [startOfTodayEpoch]);
+      return results[0].count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async yesterday24HourUsers(): Promise<number> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfPreviousDay = new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000);
+    const startOfTodayEpoch = startOfToday.getTime();
+    const startOfPreviousDayEpoch = startOfPreviousDay.getTime();
+
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ?`, [startOfPreviousDayEpoch, startOfTodayEpoch]);
+      return results[0].count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async last7DaysUsers(): Promise<number> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfTodayEpochMs = startOfToday.getTime();
+    const startOfSevenDaysAgoEpochMs = startOfTodayEpochMs - 7 * 24 * 60 * 60 * 1000;
+
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ?`, [startOfSevenDaysAgoEpochMs, startOfTodayEpochMs]);
+      return results[0].count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async totalUsers(): Promise<number> {
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB}`);
+      return results[0].count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async oldUsers(): Promise<number> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfTodayEpochMs = startOfToday.getTime();
+    const last24HoursEpochMs = startOfTodayEpochMs - 24 * 60 * 60 * 1000;
+    const twoDaysAgoEpochMs = startOfTodayEpochMs - 2 * 24 * 60 * 60 * 1000;
+
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ? AND sign_up_date < ?`, [last24HoursEpochMs, startOfTodayEpochMs, twoDaysAgoEpochMs]);
+      return results[0].count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async newUsers(): Promise<number> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfTodayEpochMs = startOfToday.getTime();
+
+    const last24HoursEpochMs = startOfTodayEpochMs - 24 * 60 * 60 * 1000;
+    const twoDaysAgoEpochMs = startOfTodayEpochMs - 2 * 24 * 60 * 60 * 1000;
+
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ? AND sign_up_date >= ? AND sign_up_date < ?`, [last24HoursEpochMs, startOfTodayEpochMs, twoDaysAgoEpochMs, startOfTodayEpochMs]);
+      return results[0].count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async allCountriesofUsers(): Promise<any[]> {
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT TRIM(SUBSTRING_INDEX(country, ',', 1)) AS city, TRIM(SUBSTRING_INDEX(country, ',', -1)) AS country, COUNT(*) AS count FROM ${this.userDB} GROUP BY city, country ORDER BY count DESC`);
+      return results;
+    } catch (error) {
+      return [];
+    }
+  }
 }

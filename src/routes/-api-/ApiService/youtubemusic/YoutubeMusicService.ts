@@ -79,7 +79,7 @@ export class YoutubeMusicService {
         if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "Recommended playlists") {
           c?.musicCarouselShelfRenderer?.contents?.forEach((content) => {
             const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
             const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? "";
             const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
             let artists = "";
@@ -110,7 +110,7 @@ export class YoutubeMusicService {
         if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label?.includes("MORE FROM")) {
           c?.musicCarouselShelfRenderer?.contents?.forEach((content) => {
             const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
             const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? "";
             const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
             let artists = "";
@@ -140,7 +140,7 @@ export class YoutubeMusicService {
         if (c?.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer?.accessibilityData?.accessibilityData?.label == "You might also like") {
           c?.musicCarouselShelfRenderer?.contents?.forEach((content) => {
             const thumbnail = content?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
             const name = content?.musicTwoRowItemRenderer?.title?.runs?.[0].text ?? "";
             const id = content?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
             let artists = "";
@@ -170,7 +170,7 @@ export class YoutubeMusicService {
           t?.tabRenderer?.content?.musicQueueRenderer?.content?.playlistPanelRenderer?.contents?.forEach((m) => {
             const name = m?.playlistPanelVideoRenderer?.title?.runs?.[0].text ?? "";
             const thumbnail = m.playlistPanelVideoRenderer?.thumbnail?.thumbnails ?? [];
-            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
             const id = m.playlistPanelVideoRenderer?.videoId;
             const artists = m?.playlistPanelVideoRenderer?.shortBylineText?.runs?.[0]?.text ?? "";
 
@@ -232,7 +232,7 @@ export class YoutubeMusicService {
           if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Songs") {
             contents?.musicShelfRenderer?.contents?.forEach((c) => {
               const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
               const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId;
 
@@ -275,7 +275,7 @@ export class YoutubeMusicService {
 
         data.continuationContents?.musicShelfContinuation?.contents?.forEach((c) => {
           const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-          const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+          const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
           const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
           const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId;
         
@@ -314,7 +314,7 @@ export class YoutubeMusicService {
           if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Artists") {
             contents?.musicShelfRenderer?.contents?.forEach((c) => {
               const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
               const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -341,7 +341,7 @@ export class YoutubeMusicService {
           if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Artists") {
             contents?.musicShelfRenderer?.contents?.forEach((c) => {
               const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
               const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -368,7 +368,7 @@ export class YoutubeMusicService {
           if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Albums") {
             contents?.musicShelfRenderer?.contents?.forEach((c) => {
               const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
               const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -402,7 +402,7 @@ export class YoutubeMusicService {
           if (contents?.musicShelfRenderer?.title?.runs?.[0].text == "Community playlists") {
             contents?.musicShelfRenderer?.contents?.forEach((c) => {
               const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
               const id = c?.musicResponsiveListItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -429,7 +429,7 @@ export class YoutubeMusicService {
       data.contents?.twoColumnBrowseResultsRenderer?.tabs?.forEach((t) => {
         t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((c) => {
           const thumbnail = c?.musicResponsiveHeaderRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-          const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+          const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
           const name = c.musicResponsiveHeaderRenderer?.title?.runs?.[0].text;
           let artists = "";
           let isAlbum = false;
@@ -447,7 +447,7 @@ export class YoutubeMusicService {
       data.contents?.twoColumnBrowseResultsRenderer?.secondaryContents?.sectionListRenderer?.contents?.forEach((e) => {
         e.musicPlaylistShelfRenderer?.contents?.forEach((c) => {
           const thumbnail = c?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-          const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+          const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
 
           const name = c.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
           const artists = c.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
@@ -485,7 +485,7 @@ export class YoutubeMusicService {
         t.tabRenderer?.content?.sectionListRenderer?.contents?.forEach((c) => {
           c.gridRenderer?.items?.forEach((i) => {
             const thumbnail = i.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail.thumbnails ?? [];
-            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
 
             const name = i.musicTwoRowItemRenderer?.title?.runs?.[0]?.text;
             const id = i.musicTwoRowItemRenderer?.navigationEndpoint.browseEndpoint.browseId;
@@ -581,7 +581,7 @@ export class YoutubeMusicService {
           let lists: MusicData[] = [];
           c.musicCarouselShelfRenderer?.contents?.forEach((m) => {
             const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
             const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text;
             const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -625,7 +625,7 @@ export class YoutubeMusicService {
     //   const id = data.videoDetails?.videoId;
     //   const name = data.videoDetails?.title;
     //   const thumbnail = data.videoDetails?.thumbnail?.thumbnails ?? [];
-    //   const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+    //   const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
     //   const artists = data.videoDetails?.author?.replaceAll(" and ", " & ") ?? "";
 
     //   return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined;
@@ -647,7 +647,7 @@ export class YoutubeMusicService {
           if (c?.musicShelfRenderer?.contents != undefined) {
             c?.musicShelfRenderer?.contents?.forEach((cont) => {
               const thumbnail = cont?.musicResponsiveListItemRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               let name = "";
               let vID = "";
               let artists: String[] = [];
@@ -676,7 +676,7 @@ export class YoutubeMusicService {
           
           if (c?.musicCardShelfRenderer != undefined) {
             const thumbnail = c?.musicCardShelfRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+            const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
 
             let name = "";
             let vID = "";
@@ -736,7 +736,7 @@ export class YoutubeMusicService {
             let albumsList: MusicData[] = [];
             c.musicCarouselShelfRenderer.contents?.forEach((m) => {
               const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text;
               const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -755,7 +755,7 @@ export class YoutubeMusicService {
             let videoList: MusicData[] = [];
             c.musicCarouselShelfRenderer.contents?.forEach((m) => {
               const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text;
               const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -775,7 +775,7 @@ export class YoutubeMusicService {
             let playlistList: MusicData[] = [];
             c.musicCarouselShelfRenderer.contents?.forEach((m) => {
               const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text;
               const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
 
@@ -790,7 +790,7 @@ export class YoutubeMusicService {
             let similarArtists: MusicData[] = [];
             c.musicCarouselShelfRenderer.contents?.forEach((m) => {
               const thumbnail = m?.musicTwoRowItemRenderer?.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
-              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}=w544-h544-l90-rj`;
+              const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
               const name = m?.musicTwoRowItemRenderer?.title?.runs?.[0]?.text;
               const id = m?.musicTwoRowItemRenderer?.navigationEndpoint?.browseEndpoint?.browseId;
               if (id != undefined && name != undefined) similarArtists.push(new MusicData(name, name, id, highestThumbnail, MUSICTYPE.ARTISTS));

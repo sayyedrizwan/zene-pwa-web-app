@@ -180,8 +180,8 @@ export class MongoDBLocalService {
       dataTop.forEach((e: any) => {
         const id = (e as DBMusicHistory).id;
         if (!list.some((item) => item === id)) list.push(id);
-      })
-    
+      });
+
       return shuffleString(list);
     } catch (error) {
       return [];
@@ -205,6 +205,59 @@ export class MongoDBLocalService {
       return shuffleString(list);
     } catch (error) {
       return [];
+    }
+  }
+
+  // Song Analytics
+
+  async songPlayedToday(): Promise<number> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfTodayEpochMs = startOfToday.getTime();
+
+    const endOfToday = new Date(startOfToday);
+    endOfToday.setDate(startOfToday.getDate() + 1);
+    const endOfTodayEpochMs = endOfToday.getTime();
+
+    try {
+      const count = await this.collectionSongHistory.countDocuments({
+        timestamp: { $gte: startOfTodayEpochMs, $lt: endOfTodayEpochMs },
+      });
+
+      return count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async songPlayedYesterday(): Promise<number> {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfTodayEpochMs = startOfToday.getTime();
+    const startOfYesterday = new Date(startOfToday);
+    startOfYesterday.setDate(startOfToday.getDate() - 1);
+    const startOfYesterdayEpochMs = startOfYesterday.getTime();
+
+    try {
+      const count = await this.collectionSongHistory.countDocuments({
+        timestamp: { $gte: startOfYesterdayEpochMs, $lt: startOfTodayEpochMs },
+      });
+
+      return count;
+    } catch (error) {
+      console.log(error);
+      return -1;
+    }
+  }
+
+  async totalSongPlayed(): Promise<number> {
+    try {
+      const count = await this.collectionSongHistory.estimatedDocumentCount();
+      return count;
+    } catch (error) {
+      console.log(error);
+      return -1;
     }
   }
 }
