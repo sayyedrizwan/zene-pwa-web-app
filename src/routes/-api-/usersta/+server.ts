@@ -8,6 +8,8 @@ export async function GET({ setHeaders }) {
   let totalUsers: number = -0;
   let oldUsers: number = -0;
   let newUsers: number = -0;
+
+  let countrywithcity: any[] = [];
   let country: any[] = [];
 
   let songPlayedToday: number = -0;
@@ -15,31 +17,45 @@ export async function GET({ setHeaders }) {
   let totalSongPlayed: number = -0;
 
   await Promise.all(
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(async (i) => {
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(async (i) => {
       if (i == 1) usersinLast24Hours = await MySqlLocalService.instance.today24HourUsers();
       if (i == 2) yesterday24HourUsers = await MySqlLocalService.instance.yesterday24HourUsers();
       if (i == 3) last7DaysUsers = await MySqlLocalService.instance.last7DaysUsers();
       if (i == 4) totalUsers = await MySqlLocalService.instance.totalUsers();
       if (i == 5) oldUsers = await MySqlLocalService.instance.oldUsers();
       if (i == 6) newUsers = await MySqlLocalService.instance.newUsers();
-      if (i == 7) country = await MySqlLocalService.instance.allCountriesofUsers();
+      if (i == 7) countrywithcity = await MySqlLocalService.instance.allCountriesCityofUsers();
 
       if (i == 8) songPlayedToday = await MongoDBLocalService.instance.songPlayedToday();
       if (i == 9) songPlayedYesterday = await MongoDBLocalService.instance.songPlayedYesterday();
       if (i == 10) totalSongPlayed = await MongoDBLocalService.instance.totalSongPlayed();
+
+
+      if (i == 11) country = await MySqlLocalService.instance.allCountriesUsers();
     })
   );
 
   setHeaders({ "Content-Type": "text/html" });
-  return new Response(await htmlTable(usersinLast24Hours, yesterday24HourUsers, last7DaysUsers, totalUsers, oldUsers, newUsers, songPlayedToday, songPlayedYesterday, totalSongPlayed, country));
+  return new Response(await htmlTable(usersinLast24Hours, yesterday24HourUsers, last7DaysUsers, totalUsers, oldUsers, newUsers, songPlayedToday, songPlayedYesterday, totalSongPlayed, country, countrywithcity));
 }
 
-async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: number, last7DaysUsers: number, totalUsers: number, oldUsers: number, newUsers: number, songPlayedToday: number, songPlayedYesterday: number, totalSongPlayed: number, country: any[]) {
+async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: number, last7DaysUsers: number, totalUsers: number, oldUsers: number, newUsers: number, songPlayedToday: number, songPlayedYesterday: number, totalSongPlayed: number, country: any[], countrywithcity: any[]) {
   let countryString = "";
+  let countrywithCityString = "";
+
   await Promise.all(
     country.map(async (e) => {
       countryString += `<tr>
         <td>${e.city} - ${e.country}</td>
+        <td>${e.count}</td>
+    </tr>`;
+    })
+  );
+
+  await Promise.all(
+    countrywithcity.map(async (e) => {
+        countrywithCityString += `<tr>
+        <td>$${e.country}</td>
         <td>${e.count}</td>
     </tr>`;
     })
@@ -122,6 +138,16 @@ async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: numbe
     </tr>
 
     ${countryString}
+    
+    </table>
+
+    <table style="width:100%">
+    <tr>
+        <th>Countries with City</th>
+        <th>Counts</th>
+    </tr>
+
+    ${countrywithCityString}
     
     </table>
 

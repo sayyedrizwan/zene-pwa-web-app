@@ -172,9 +172,18 @@ export class MySqlLocalService {
     }
   }
 
-  async allCountriesofUsers(): Promise<any[]> {
+  async allCountriesCityofUsers(): Promise<any[]> {
     try {
       const [results, i] = await mysqlpool.query(`SELECT TRIM(SUBSTRING_INDEX(country, ',', 1)) AS city, TRIM(SUBSTRING_INDEX(country, ',', -1)) AS country, COUNT(*) AS count FROM ${this.userDB} GROUP BY city, country ORDER BY count DESC`);
+      return results;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async allCountriesUsers(): Promise<any[]> {
+    try {
+      const [results, i] = await mysqlpool.query(`SELECT TRIM(SUBSTRING_INDEX(country, ',', -1)) AS country, COUNT(*) AS count FROM ${this.userDB} GROUP BY country ORDER BY count DESC`);
       return results;
     } catch (error) {
       return [];
