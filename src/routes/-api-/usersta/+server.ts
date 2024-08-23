@@ -46,7 +46,7 @@ async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: numbe
   await Promise.all(
     country.map(async (e) => {
       countryString += `<tr>
-        <td>${e.city} - ${e.country}</td>
+        <td>${e.country}</td>
         <td>${e.count}</td>
     </tr>`;
     })
@@ -55,7 +55,7 @@ async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: numbe
   await Promise.all(
     countrywithcity.map(async (e) => {
         countrywithCityString += `<tr>
-        <td>$${e.country}</td>
+        <td>${e.city} - ${e.country}</td>
         <td>${e.count}</td>
     </tr>`;
     })
@@ -140,6 +140,8 @@ async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: numbe
     ${countryString}
     
     </table>
+    
+    <br/><br/><br/>
 
     <table style="width:100%">
     <tr>
