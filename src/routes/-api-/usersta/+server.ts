@@ -46,7 +46,7 @@ async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: numbe
   await Promise.all(
     country.map(async (e) => {
       countryString += `<tr>
-        <td>${e.country}</td>
+        <td>${e.country_name}</td>
         <td>${e.count}</td>
     </tr>`;
     })

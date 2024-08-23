@@ -183,9 +183,10 @@ export class MySqlLocalService {
 
   async allCountriesUsers(): Promise<any[]> {
     try {
-      const [results, i] = await mysqlpool.query(`SELECT TRIM(SUBSTRING_INDEX(country, ',', -1)) AS country, COUNT(*) AS count FROM ${this.userDB} GROUP BY country ORDER BY count DESC`);
+      const [results, i] = await mysqlpool.query(` SELECT TRIM(SUBSTRING_INDEX(country, ',', -1)) AS country_name, COUNT(*) AS count FROM ${this.userDB} GROUP BY country_name ORDER BY count DESC; `);
       return results;
     } catch (error) {
+      console.log(error);
       return [];
     }
   }
