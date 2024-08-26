@@ -10,9 +10,10 @@ export async function GET({ url, request }) {
     if (!verifyHeader(request)) return json({})
     const id = url.searchParams.get('id') ?? ""
     const email = url.searchParams.get('email') ?? ""
+        
     if (id == "") return json([])
     if (!email.includes("@") && email.length < 3) return json({})
-
+        
     const playlists = await YoutubeMusicService.instance.playlistsData(id)
     let songs: MusicData[] = []
 
