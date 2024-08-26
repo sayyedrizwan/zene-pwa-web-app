@@ -11,11 +11,13 @@ export function openAppOrRedirect(url: String) {
   const iosScheme = `zene.music.app://${url}`;
   const appStoreUrl = "https://apps.apple.com/us/app/zene-a-music-app/id6504202797";
   const playStoreUrl = "https://play.google.com/store/apps/details?id=com.rizwansayyed.zene";
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any["opera"]);
 
-  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && (!window as any["MSStream"]);
+  const isIOS = () => {
+    if (typeof window === `undefined` || typeof navigator === `undefined`) return false;
 
-  if (isIOS) window.location.href = iosScheme;
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || ((window as any).opera && (opera as any).toString() === `[object Opera]`));
+}
+  if (isIOS()) window.location.href = iosScheme;
   else window.location.href = appScheme;
 
   let pageHidden = false;
@@ -30,7 +32,7 @@ export function openAppOrRedirect(url: String) {
 
   const redirectTimeout = setTimeout(() => {
     if (!pageHidden) {
-      if (isIOS) window.location.href = appStoreUrl;
+      if (isIOS()) window.location.href = appStoreUrl;
       else window.location.href = playStoreUrl;
     }
   }, 1500);
