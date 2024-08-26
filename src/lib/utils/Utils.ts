@@ -13,10 +13,11 @@ export function openAppOrRedirect(url: String) {
   const playStoreUrl = "https://play.google.com/store/apps/details?id=com.rizwansayyed.zene";
 
   const isIOS = () => {
-    if (typeof window === `undefined` || typeof navigator === `undefined`) return false;
-
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || ((window as any).opera && (opera as any).toString() === `[object Opera]`));
-}
+    const ua = navigator.userAgent;
+    if (/android/i.test(ua)) return false;
+    else if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) return true;
+    return false;
+  };
   if (isIOS()) window.location.href = iosScheme;
   else window.location.href = appScheme;
 

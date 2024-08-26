@@ -236,17 +236,17 @@ export class YoutubeMusicService {
               const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
               const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId;
 
-              let artistsList: String[] = []
-              c?.musicResponsiveListItemRenderer?.flexColumns?.forEach(f => {
-                f.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach(r => {
-                  if(r.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
-                    if(r.text != undefined) artistsList.push(r.text)
+              let artistsList: String[] = [];
+              c?.musicResponsiveListItemRenderer?.flexColumns?.forEach((f) => {
+                f.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach((r) => {
+                  if (r.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
+                    if (r.text != undefined) artistsList.push(r.text);
                   }
                 });
               });
-              
-              if(artistsList.length == 0) {
-                artistsList.push(c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "")
+
+              if (artistsList.length == 0) {
+                artistsList.push(c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "");
               }
 
               if (id != undefined) list.push(new MusicData(name, filterArtistsArrayName(artistsList), id, highestThumbnail, MUSICTYPE.SONGS));
@@ -278,18 +278,18 @@ export class YoutubeMusicService {
           const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
           const name = c?.musicResponsiveListItemRenderer?.flexColumns?.[0]?.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "";
           const id = c?.musicResponsiveListItemRenderer?.playlistItemData?.videoId;
-        
-          let artistsList: String[] = []
-          c?.musicResponsiveListItemRenderer?.flexColumns?.forEach(f => {
-            f.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach(r => {
-              if(r.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
-                if(r.text != undefined) artistsList.push(r.text)
+
+          let artistsList: String[] = [];
+          c?.musicResponsiveListItemRenderer?.flexColumns?.forEach((f) => {
+            f.musicResponsiveListItemFlexColumnRenderer?.text?.runs?.forEach((r) => {
+              if (r.navigationEndpoint?.browseEndpoint?.browseEndpointContextSupportedConfigs?.browseEndpointContextMusicConfig?.pageType == "MUSIC_PAGE_TYPE_ARTIST") {
+                if (r.text != undefined) artistsList.push(r.text);
               }
             });
           });
-          
-          if(artistsList.length == 0) {
-            artistsList.push(c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "")
+
+          if (artistsList.length == 0) {
+            artistsList.push(c?.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text ?? "");
           }
 
           if (id != undefined) list.push(new MusicData(name, filterArtistsArrayName(artistsList), id, highestThumbnail, MUSICTYPE.SONGS));
@@ -600,38 +600,38 @@ export class YoutubeMusicService {
     }
   }
 
-  async songInfo(VID: string): Promise<MusicData | undefined> {
-      const info = await this.searchSongs(VID, false)
+  async songInfo(VID: string): Promise<MusicData | any> {
+    const info = await this.searchSongs(VID, false);
 
-      let m: MusicData | undefined = undefined
-      info.forEach(e => {
-        if(e.id == VID && m == undefined) m = e
+    let m: MusicData | undefined = undefined;
+    info.forEach((e) => {
+      if (e.id == VID && m == undefined) m = e;
+    });
+
+    if (m == undefined) {
+      const infoVID = await YoutubeAPIService.instance.searchVideos(VID, false);
+      infoVID.forEach((e) => {
+        if (e.id == VID && m == undefined) m = e;
       });
+    }
 
-      if(m == undefined) {
-        const infoVID = await YoutubeAPIService.instance.searchVideos(VID, false)
-        infoVID.forEach(e => {
-          if(e.id == VID && m == undefined) m = e
-        });
-      }
+    if (m != undefined) return m;
 
-      return m
+    try {
+      let config = { method: "post", url: ytMusicPlayer, headers: ytMusicHeader, data: ytMusicSongID(VID) };
+      const response = await axios.request(config);
+      const data = (await response.data) as YTMusicSongsDetails;
 
-    // try {
-    //   let config = { method: "post", url: ytMusicPlayer, headers: ytMusicHeader, data: ytMusicSongID(VID) };
-    //   const response = await axios.request(config);
-    //   const data = (await response.data) as YTMusicSongsDetails;
+      const id = data.videoDetails?.videoId;
+      const name = data.videoDetails?.title;
+      const thumbnail = data.videoDetails?.thumbnail?.thumbnails ?? [];
+      const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
+      const artists = data.videoDetails?.author?.replaceAll(" and ", " & ") ?? "";
 
-    //   const id = data.videoDetails?.videoId;
-    //   const name = data.videoDetails?.title;
-    //   const thumbnail = data.videoDetails?.thumbnail?.thumbnails ?? [];
-    //   const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
-    //   const artists = data.videoDetails?.author?.replaceAll(" and ", " & ") ?? "";
-
-    //   return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : undefined;
-    // } catch (error) {
-    //   return undefined;
-    // }
+      return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : {};
+    } catch (error) {
+      return {};
+    }
   }
 
   async songInfoViaSearch(VID: string): Promise<MusicData | undefined> {
@@ -672,8 +672,8 @@ export class YoutubeMusicService {
                 mData = new MusicData(name, joinListWithAnd(artists), vID, highestThumbnail, MUSICTYPE.SONGS);
               }
             });
-          } 
-          
+          }
+
           if (c?.musicCardShelfRenderer != undefined) {
             const thumbnail = c?.musicCardShelfRenderer?.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails ?? [];
             const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
