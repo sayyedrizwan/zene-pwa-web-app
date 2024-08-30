@@ -16,14 +16,14 @@ export async function GET({ url, request }) {
     records.map(async (r: any) => {
       console.log(r)
       let songsList: [MusicData] | null = null;
-      // try {
-      //   const songs = await axios.post("https://www.zenemusic.co/-api-/top/songs", { email: r.email }, { headers: { auth: auth } });
-      //   songsList = (await songs.data) as [MusicData];
-      // } catch (error) {
-      //   songsList = null;
-      // }
+      try {
+        const songs = await axios.post("https://www.zenemusic.co/-api-/top/songs", { email: r.email }, { headers: { auth: auth } });
+        songsList = (await songs.data) as [MusicData];
+      } catch (error) {
+        songsList = null;
+      }
 
-      // await SendMailService.instance.sendMailToOldUsers(r.email, r.name, songsList)
+      await SendMailService.instance.sendMailToOldUsers(r.email, r.name, songsList)
     })
   );
   return json({});
