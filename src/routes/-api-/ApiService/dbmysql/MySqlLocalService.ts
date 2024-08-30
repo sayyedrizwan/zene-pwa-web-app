@@ -5,6 +5,8 @@ export class MySqlLocalService {
   static instance = new MySqlLocalService();
   tempHolderDB = "`temp_holder`";
   userDB = "`users`";
+  unsubscribeMailDB = "`unsubscribe_mail`";
+  
 
   async getTempData(category: String): Promise<MusicData[]> {
     const list: MusicData[] = [];
@@ -46,8 +48,7 @@ export class MySqlLocalService {
   async selectUserWhoNotReceivedMails(): Promise<any> {
     try {
       const nodejsTimestamp = Date.now();
-      const [results] = await mysqlpool.query(`SELECT * FROM ${this.userDB} WHERE (last_mail_send IS NULL OR last_mail_send > ?) AND last_seen < ? ORDER BY last_seen ASC LIMIT 11`, [nodejsTimestamp, nodejsTimestamp - 4 * 24 * 60 * 60 * 1000]);
-
+      const [results] = await mysqlpool.query(`SELECT u.* FROM ${this.userDB} u LEFT JOIN ${this.unsubscribeMailDB} e ON u.email COLLATE utf8mb4_general_ci = e.email COLLATE utf8mb4_general_ci WHERE (u.last_mail_send IS NULL OR u.last_mail_send > ?) AND u.last_seen < ? AND e.email IS NULL ORDER BY u.last_seen ASC LIMIT 11;`, [nodejsTimestamp, nodejsTimestamp - 9 * 24 * 60 * 60 * 1000]);
       return results;
     } catch (error) {
       console.log(error);
