@@ -18,10 +18,9 @@ export class MongoDBLocalService {
   collectionPlaylists = mongoDBClient.db(this.mainDBName).collection(this.userPlaylistsDB);
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
 
-  async insertPlaylistHistory(name: String, img: String, email: String, id: String | null) {
+  async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
     try {
-      const saveID = id == null ? `${zenePlaylistsParam}${btoa(`${email}_${Date.now()}`)}` : id;
-      const data = new DBPlaylists(email, name, img, saveID, id != null, Date.now());
+      const data = new DBPlaylists(email, name, img, id, id != null, Date.now());
       if (id != null) {
         await this.collectionPlaylists.deleteMany({ id: id, email: email });
       }

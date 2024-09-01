@@ -59,6 +59,8 @@ export function verifyHeader(request: Request) {
   return false;
 }
 
+export const BUNNY_IMG_HEADER = { AccessKey: "57a911cd-3810-42ea-bfa1b983b711-3256-4576", "Content-Type": "application/octet-stream" }
+
 export function bingNewsMostRecent(q: String): string {
   return `https://www.bing.com/news/search?q=${q.toLowerCase().replaceAll(" ", "+")}&qft=sortbydate%3d%221%22+interval%3d%227%22&form=YFNR`;
 }
