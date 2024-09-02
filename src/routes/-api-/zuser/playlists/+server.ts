@@ -38,11 +38,11 @@ export async function POST({ request }) {
     const playlistInfo = await YoutubeMusicService.instance.playlistsData(id.toString());
     photoURL = playlistInfo[0]?.thumbnail ?? "";
   } else {
-    photoURL = image == null ? "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg" : await ImgUploadService.instance.uploadToBunnyNet(image, saveID);
+    photoURL = image == null ? "https://www.zenemusic.co/monthly-playlist.jpg" : await ImgUploadService.instance.uploadToBunnyNet(image, saveID);
   }
 
-  if (photoURL == "") photoURL = "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg";
-  
+  if (photoURL == "") photoURL = "https://www.zenemusic.co/monthly-playlist.jpg";
+
   await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, saveID, id == null ? false : true);
 
   return json({ status: "success" });
