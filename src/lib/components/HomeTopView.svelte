@@ -23,7 +23,7 @@
   onDestroy(() => clearInterval(interval));
 </script>
 
-<div class="absolute left-0 top-0 z-20 h-[85vh] w-full bg-maincolor">
+<div class="z-20 h-[85vh] w-full bg-maincolor">
   <div class="flex h-screen items-center justify-center text-white">
     <div class="mb-24">
       <div class="flex items-center justify-center">
