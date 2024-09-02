@@ -6,7 +6,6 @@ export class ImgUploadService {
   static instance = new ImgUploadService();
 
   async uploadImgBB(file: any): Promise<String> {
-    console.log(file);
     try {
       let data = new FormData();
       data.append("image", file);
@@ -15,7 +14,6 @@ export class ImgUploadService {
 
       const response = await axios.request(config);
       const imgbb = (await response.data) as ImgBBData;
-      console.log(imgbb);
       let url = imgbb.data?.image?.url ?? "";
       return url;
     } catch (error) {
@@ -44,6 +42,15 @@ export class ImgUploadService {
   async getImageBunnyNet(url: any): Promise<any | null> {
     try {
       const response = await axios({ method: "GET", url: url, responseType: "arraybuffer", headers: BUNNY_IMG_HEADER });
+      return response.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async deleteImageBunnyNet(url: any): Promise<any | null> {
+    try {
+      const response = await axios({ method: "DELETE", url: url, headers: BUNNY_IMG_HEADER });
       return response.data;
     } catch (error) {
       return null;
