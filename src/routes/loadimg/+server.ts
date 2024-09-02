@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import { ImgUploadService } from "../-api-/ApiService/imgbb/ImgUploadService.js";
 
-export async function GET({ request, url }) {
+export async function GET({ url }) {
   const img = url.searchParams.get("img") ?? "";
 
   if (img.includes("bunnycdn.com")) {
