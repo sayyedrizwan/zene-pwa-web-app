@@ -2,6 +2,7 @@ import { heartbeatAPI, verifyHeader, zenePlaylistsParam } from "../../utils/Util
 import { MongoDBLocalService } from "../../ApiService/dbmongo/MongoDBLocalService.js";
 import { json } from "@sveltejs/kit";
 import { ImgUploadService } from "../../ApiService/imgbb/ImgUploadService.js";
+import { YoutubeMusicService } from "../../ApiService/youtubemusic/YoutubeMusicService.js";
 
 export async function GET({ request, url }) {
   heartbeatAPI("zuser-read-my-playlists");
@@ -31,7 +32,15 @@ export async function POST({ request }) {
 
   const saveID = id == null ? `${zenePlaylistsParam}${btoa(`${email}_${Date.now()}`)}` : (id as String);
 
-  let photoURL = image == null ? "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg" : await ImgUploadService.instance.uploadToBunnyNet(image, saveID);
+  let photoURL: String = "";
+
+  if (id != null) {
+    const playlistInfo = await YoutubeMusicService.instance.playlistsData(id.toString());
+    photoURL = playlistInfo[0]?.thumbnail ?? "";
+  } else {
+    photoURL = image == null ? "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg" : await ImgUploadService.instance.uploadToBunnyNet(image, saveID);
+  }
+
   if (photoURL == "") photoURL = "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg";
   await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, saveID, id != null);
 

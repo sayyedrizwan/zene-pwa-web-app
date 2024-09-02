@@ -1,5 +1,5 @@
 import type { MusicData } from "../model/MusicData";
-import { isDevDB, mongoDBClient, shuffleString, zenePlaylistsParam } from "../../utils/Utils";
+import { isDevDB, mongoDBClient, shuffleString } from "../../utils/Utils";
 import { DBMusicHistory } from "./model/DBMusicHistory";
 import { DBPlaylists } from "./model/DBPlaylistInfo";
 import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo";
@@ -110,7 +110,6 @@ export class MongoDBLocalService {
   async isSongPresentPlaylists(playlistID: String, songID: String): Promise<number> {
     try {
       const data = (await this.collectionPlaylistsSongs.find({ playlistId: playlistID, songId: songID }).limit(MongoDBLocalService.limitPagination).toArray()) as any;
-      console.log(data);
       return (data as DBPlaylistsSong[]).length;
     } catch (error) {
       return 0;
