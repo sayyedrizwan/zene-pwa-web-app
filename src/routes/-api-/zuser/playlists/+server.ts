@@ -42,7 +42,8 @@ export async function POST({ request }) {
   }
 
   if (photoURL == "") photoURL = "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg";
-  await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, saveID, id != null);
+  
+  await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, saveID, id == null ? false : true);
 
   return json({ status: "success" });
 }

@@ -64,6 +64,58 @@ export class MongoDBLocalService {
     }
   }
 
+  async getSavedPlaylistsTemps(): Promise<DBPlaylists[]> {
+    try {
+      const filter = {
+        $and: [
+          {
+            $or: [{ img: { $regex: /https:\/\/i\.ibb\.co\//, $options: "i" } }, { img: { $regex: /https:\/\/www\.zenemusic\.co\//, $options: "i" } }],
+          },
+          { isSaved: true },
+        ],
+      };
+
+      const data = await this.collectionPlaylists.find(filter).limit(30).toArray();
+      return data as any;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async setToFalseMyZeneID(): Promise<DBPlaylists[]> {
+    try {
+      const filter = {
+        id: { $regex: /zene_p_/ }
+    };
+
+    // The update object to set isSaved to false
+    const updateDoc = {
+        $set: { isSaved: false }
+    };
+      const data = await this.collectionPlaylists.updateMany(filter, updateDoc);
+      return data as any;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async updateInfoPlaylistsThumbnails(img: String, email: String, id: String): Promise<any> {
+    try {
+      const updateDoc = {
+        $set: {
+          img: img,
+        },
+      };
+
+      const filter = { id: id, email: email };
+
+      const data = await this.collectionPlaylists.updateOne(filter, updateDoc);
+      return data as any;
+    } catch (error) {
+      return "";
+    }
+  }
+
   async getPlaylistDetails(pID: String): Promise<DBPlaylists | undefined> {
     try {
       const data = (await this.collectionPlaylists.findOne({ id: pID, isSaved: false })) as any;
