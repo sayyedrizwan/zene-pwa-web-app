@@ -27,6 +27,7 @@ export async function POST({ request }) {
   const email = data.get("email") as String;
   const id = data.get("id");
 
+
   if (!email.includes("@") && email.length < 3) return json({ status: "error" });
 
   const saveID = id == null ? `${zenePlaylistsParam}${btoa(`${email}_${Date.now()}`)}` : (id as String);
@@ -34,7 +35,7 @@ export async function POST({ request }) {
 
   let photoURL = image == null ? "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg" : await ImgUploadService.instance.uploadToBunnyNet(image, saveID);
   if (photoURL == "") photoURL = "https://i.ibb.co/1Xf9DkT/monthly-playlist.jpg";
-  await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, saveID, isSaved);
+//   await MongoDBLocalService.instance.insertPlaylistHistory(name, photoURL, email, saveID, isSaved);
 
   return json({ status: "success" });
 }

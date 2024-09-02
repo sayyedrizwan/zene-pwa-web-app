@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { ImgBBData } from "./model/ImgBBData";
-import { BUNNY_IMG_HEADER, IMG_BB_BASE_URL } from "../../utils/Utils";
+import { BUNNY_IMG_HEADER, IMG_BB_BASE_URL, isDevDB } from "../../utils/Utils";
 
 export class ImgUploadService {
   static instance = new ImgUploadService();
@@ -28,7 +28,7 @@ export class ImgUploadService {
     try {
       const fileBuffer = Buffer.from(await file.arrayBuffer());
 
-      const filePath = `https://sg.storage.bunnycdn.com/zene-files/ZENE_PLAYLISTS_IMAGES/${id}.png`;
+      const filePath = `https://sg.storage.bunnycdn.com/zene-files/${isDevDB ? `TEMP_ZENE_PLAYLISTS_IMAGES_TEMP` : `ZENE_PLAYLISTS_IMAGES`}/${id}.png`;
 
       const response = await axios.request({ method: "PUT", url: filePath, data: fileBuffer, headers: BUNNY_IMG_HEADER });
       const res = (await response.data) as any;
