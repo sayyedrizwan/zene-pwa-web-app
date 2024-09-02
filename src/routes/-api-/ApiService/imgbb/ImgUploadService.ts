@@ -39,8 +39,6 @@ export class ImgUploadService {
 
   async getImageBunnyNet(url: string): Promise<any | null> {
     try {
-      // const response = await fetch(url, { headers: BUNNY_IMG_HEADER });
-
       const response = await axios({ method: "GET", url: url, responseType: "arraybuffer", headers: BUNNY_IMG_HEADER });
       return response.data;
     } catch (error) {
