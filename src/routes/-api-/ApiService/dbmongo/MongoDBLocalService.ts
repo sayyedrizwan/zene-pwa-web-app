@@ -20,7 +20,7 @@ export class MongoDBLocalService {
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
     try {
-      const data = new DBPlaylists(email, name, img, id, id != null, Date.now());
+      const data = new DBPlaylists(email, name, img, id, isSaved, Date.now());
       if (id != null) {
         await this.collectionPlaylists.deleteMany({ id: id, email: email });
       }
