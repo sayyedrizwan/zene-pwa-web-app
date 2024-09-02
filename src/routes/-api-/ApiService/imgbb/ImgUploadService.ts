@@ -26,16 +26,14 @@ export class ImgUploadService {
     try {
       const fileBuffer = Buffer.from(await file.arrayBuffer());
 
-      const filePath = `https://sg.storage.bunnycdn.com/zene-files/${isDevDB ? `TEMP_ZENE_PLAYLISTS_IMAGES_TEMP` : `ZENE_PLAYLISTS_IMAGES`}/${id}.png`;
+      const path = `${isDevDB ? `TEMP_ZENE_PLAYLISTS_IMAGES_TEMP` : `ZENE_PLAYLISTS_IMAGES`}/${id}.png`;
 
-      const response = await axios.request({ method: "PUT", url: filePath, data: fileBuffer, headers: BUNNY_IMG_HEADER });
+      const response = await axios.request({ method: "PUT", url: `https://sg.storage.bunnycdn.com/zene-files/${path}`, data: fileBuffer, headers: BUNNY_IMG_HEADER });
       const res = (await response.data) as any;
-      if (res.HttpCode == 201) {
-        return `https://www.zenemusic.co/loadimg?img=${filePath}`;
-      }
-      return "";
+      if (res.HttpCode == 201) return `https://zenemusic.b-cdn.net/${path}`
+      return ""
     } catch (error) {
-      return "";
+      return ""
     }
   }
 
