@@ -12,10 +12,10 @@ export async function GET({ request, url }) {
 	const id = url.searchParams.get('id') ?? ""
 	if (!email.includes("@") && email.length < 3) return json([])
 
-	const playlist = await MongoDBLocalService.instance.getUserPlaylistDetails(id, email)
+	const playlist = await MongoDBLocalService.instance.getUserPlaylistDetailsWithEmail(id, email)
 
-	if(playlist?.img.includes("bunnycdn.com")) {
-		const link = substringAfter(playlist.img, "?img=")
+	if(playlist?.img.includes("https://zenemusic.b-cdn.net/")) {
+		const link = substringAfter(playlist.img, "https://zenemusic.b-cdn.net/")
 		await ImgUploadService.instance.deleteImageBunnyNet(link)
 	}
 	await MongoDBLocalService.instance.deletePlaylistHistory(email, id)

@@ -48,7 +48,7 @@ export class ImgUploadService {
 
   async deleteImageBunnyNet(url: any): Promise<any | null> {
     try {
-      const response = await axios({ method: "DELETE", url: url, headers: BUNNY_IMG_HEADER });
+      const response = await axios({ method: "DELETE", url: `https://sg.storage.bunnycdn.com/zene-files/${url}`, headers: BUNNY_IMG_HEADER });
       return response.data;
     } catch (error) {
       return null;
