@@ -55,9 +55,9 @@ export class MongoDBLocalService {
     }
   }
 
-  async getUserPlaylistDetails(pID: String, email: String): Promise<DBPlaylists | undefined> {
+  async getUserPlaylistDetails(pID: String): Promise<DBPlaylists | undefined> {
     try {
-      const data = (await this.collectionPlaylists.findOne({ id: pID, email: email })) as any;
+      const data = (await this.collectionPlaylists.findOne({ id: pID })) as any;
       return data as DBPlaylists;
     } catch (error) {
       return undefined;
