@@ -22,7 +22,8 @@ export async function GET({ url, request }) {
 	await Promise.all(playlist.map(async name => {
 		try {
 			const song = await YoutubeMusicService.instance.searchSongs(name.toString())
-			list.push(song[0])
+			if (!list.some((item) => item.id === (song[0].id ?? ""))) list.push(song[0])
+			
 			await MySqlLocalService.instance.insertTempData(song[0], `${NEW_RELEASE_SONGS}_${i}`)
 		} catch (error) {
 			console.log(error)
