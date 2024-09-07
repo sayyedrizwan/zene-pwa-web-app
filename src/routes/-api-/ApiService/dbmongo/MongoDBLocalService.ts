@@ -151,12 +151,12 @@ export class MongoDBLocalService {
         return;
       }
 
-      const oneWeekAgo = Date.now() - 8 * 24 * 60 * 60 * 1000;
+      const twoWeekAgo = Date.now() - 15 * 24 * 60 * 60 * 1000;
       const top5Playtimes = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
       const top5PlaytimesArray = top5Playtimes.map((doc) => doc._id);
 
       await this.collectionSongHistory.deleteMany({
-        $and: [{ timestamp: { $lt: oneWeekAgo } }, { _id: { $nin: top5PlaytimesArray } }],
+        $and: [{ timestamp: { $lt: twoWeekAgo } }, { _id: { $nin: top5PlaytimesArray } }],
       });
     } catch (error) {
       console.log(error);
