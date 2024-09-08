@@ -1,8 +1,6 @@
 import { initializeApp, type FirebaseApp, getApps } from 'firebase/app'
 import { getAnalytics, logEvent, type Analytics } from 'firebase/analytics'
 import { browser } from '$app/environment'
-import { type Messaging} from 'firebase/messaging'
-import { getMessaging } from 'firebase/messaging'
 
 
 const firebaseConfig = {
@@ -15,11 +13,12 @@ const firebaseConfig = {
   measurementId: "G-H19CKMR6Z4"
 };
 
-let app: FirebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
+let app: FirebaseApp | undefined = undefined
 let firebaseAnalytics: Analytics | undefined
 
 if (browser) {
   try {
+    app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
     firebaseAnalytics = getAnalytics(app)
     logEvent(firebaseAnalytics, 'visit_website')
   } catch (error) {

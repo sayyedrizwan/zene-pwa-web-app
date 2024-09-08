@@ -13,7 +13,7 @@
     <div class="mt-14 xl:mt-20">
       <nav class="flex flex-wrap justify-center text-lg font-medium">
         <div class="px-5 py-2"><a href="/privacy-policy">Policy</a></div>
-        <div class="px-5 py-2"><a href="/home">About</a></div>
+        <div class="px-5 py-2"><a href="/about-us">About</a></div>
         <div class="px-5 py-2"><a href="/faq">FAQ</a></div>
         <div class="px-5 py-2"><a href="/download">Download</a></div>
         <div class="px-5 py-2"><a href="mailto:{support_mail_server}?subject=Feedback">Feedback</a></div>
