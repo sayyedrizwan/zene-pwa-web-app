@@ -9,7 +9,7 @@
     <h2 class="font-bold text-3xl xl:text-4xl leading-snug">
       Are you Ready?<br />To Dive into some fresh tunes.
     </h2>
-    <a class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white" href="/">Download Zene Now</a>
+    <a class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white" href="/#download">Download Zene Now</a>
     <div class="mt-14 xl:mt-20">
       <nav class="flex flex-wrap justify-center text-lg font-medium">
         <div class="px-5 py-2"><a href="/privacy-policy">Policy</a></div>
