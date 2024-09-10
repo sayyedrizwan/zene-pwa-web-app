@@ -4,7 +4,7 @@ import { auth } from "./-api-/utils/Utils.js";
 
 export async function load({ cookies, fetch }) {
   const email = await decTheData(cookies.get("u_id") ?? "", cookies.get("i_s") ?? "");
-  if (email == null) return { video: {}, songYouMayLike: {}, song_for_you: {} };
+  if (email == null) return { video: [], songYouMayLike: [], song_for_you: [] };
 
   let topVideoLists: MusicData[] = [];
   let songsYouMayLikeLists: MusicData[] = [];
@@ -16,11 +16,7 @@ export async function load({ cookies, fetch }) {
 
       const response = await fetch(apiLink, {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          auth: auth,
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Accept': 'application/json', auth: auth, 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email })
       });
       const data = (await response.json()) as MusicData[];
@@ -34,5 +30,5 @@ export async function load({ cookies, fetch }) {
       }
     })
   );
-  return { video: JSON.stringify(topVideoLists), songsYouMayLike: JSON.stringify(songsYouMayLikeLists), songsForYou: JSON.stringify(songsForYouList) };
+  return { video: topVideoLists, songsYouMayLike: songsYouMayLikeLists, songsForYou: songsForYouList };
 }

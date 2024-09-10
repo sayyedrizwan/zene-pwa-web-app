@@ -10,7 +10,7 @@
   let player: any;
   let isPlaying = false;
   let isBuffering = false;
-  let showPlayerView = true;
+  let showPlayerView = false;
   let songDuration = 0;
   let songTotalDuration = 0;
   let myTimeout: NodeJS.Timeout;
@@ -61,8 +61,13 @@
   }
 
   function pauseVideo() {
-    player.pauseVideo();
+    try {
+        player.pauseVideo();       
+    } catch (error) {
+        error
+    }
   }
+  
   function updateDuration(event: any) {
     player.seekTo(event.target.value);
   }
