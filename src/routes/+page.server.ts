@@ -12,7 +12,7 @@ export async function load({ cookies, fetch }) {
 
   await Promise.all(
     [0, 1, 2].map(async (i) => {
-      const apiLink = i == 0 ? "https://localhost:3419/-api-/top/videos" : i == 1 ? "https://localhost:3419/-api-/top/songs" : "https://localhost:3419/-api-/suggestedsongs";
+      const apiLink = i == 0 ? "/-api-/top/videos" : i == 1 ? "/-api-/top/songs" : "/-api-/suggestedsongs";
 
       const response = await fetch(apiLink, {
         method: 'POST',
