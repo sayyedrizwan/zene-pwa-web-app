@@ -1,4 +1,5 @@
 import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
+import type { MusicData } from "../../routes/-api-/ApiService/model/MusicData";
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE);
@@ -42,4 +43,10 @@ export function openAppOrRedirect(url: String) {
     document.removeEventListener("visibilitychange", onVisibilityChange);
     clearTimeout(redirectTimeout);
   }, 2000);
+}
+
+export let musicEvents = "MusicCustomEvents";
+export function sendMusicData(music: MusicData | undefined) {
+  const myEvent = new CustomEvent(musicEvents, { detail: music });
+  document.dispatchEvent(myEvent)
 }

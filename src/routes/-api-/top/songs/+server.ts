@@ -7,9 +7,8 @@ import { MongoDBLocalService } from '../../ApiService/dbmongo/MongoDBLocalServic
 export async function POST({ request }) {
     heartbeatAPI("top-songs");
     if (!verifyHeader(request)) return json([])
-
     const body = await request.json()
-
+    
     if (!body.email.includes("@") && body.email.length < 3) return json([])
     let songsID = await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email)
 

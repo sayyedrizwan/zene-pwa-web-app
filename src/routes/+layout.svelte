@@ -1,6 +1,18 @@
 <script lang="ts">
   import "../tailwind.css";
   import "$lib/firebase/firebase";
+  import { onMount } from "svelte";
+  import { musicEvents } from "$lib/utils/Utils";
+  import type { MusicData } from "./-api-/ApiService/model/MusicData";
+  import YtPlayer from "$lib/utils/YTPlayer.svelte";
+
+  let music: MusicData | undefined = undefined;
+
+  onMount(() => {
+    document.addEventListener(musicEvents, (event: any) => {
+      music = event.detail;
+    });
+  });
 </script>
 
 <div class="absolute left-0 top-0 z-30">
@@ -15,3 +27,7 @@
 </div>
 
 <slot />
+
+{#if music != undefined}
+  <YtPlayer {music} />
+{/if}
