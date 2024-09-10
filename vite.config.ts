@@ -3,9 +3,10 @@ import { defineConfig } from 'vite';
 import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
-	plugins: [sveltekit(), mkcert()],
+	plugins: [sveltekit()],
+	// plugins: [sveltekit(), mkcert()],
 	server: {
-        https: true,
+        // https: true,
         proxy: {},
 		port: 3419,
 		strictPort: false,
