@@ -45,7 +45,7 @@
       {#each videosLists as videos}
         <button class="flex-none py-6 px-3 first:pl-6 last:pr-6 cursor-pointer" on:click={() => sendMusicData(videos)}>
           <div class="flex flex-col items-center justify-center gap-3 w-[40vh]">
-            <img class="w-[37vh] h-15 rounded-md" src={`https://i.ytimg.com/vi/${videos.extra}/hq720.jpg`} alt={videos.name.toString()} />
+            <img class="w-[37vh] h-15 rounded-md" src={`https://i.ytimg.com/vi/${videos.id}/hq720.jpg`} alt={videos.name.toString()} />
             <p class="text-white text-base font-medium urbanist-regular line-clamp-1 text-center">{videos.name}</p>
             <p class="text-white text-sm font-medium -translate-y-2 line-clamp-1 text-center">{videos.artists}</p>
           </div>
