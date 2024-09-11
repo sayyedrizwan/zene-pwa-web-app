@@ -109,11 +109,13 @@
 </script>
 
 {#if music.type == "VIDEO"}
-  <div id="default-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-[89vh] bg-black bg-opacity-30 p-3">
-    <iframe class="z-20" width="100%" height="100%" src={`https://www.youtube.com/embed/${music.id.trim()}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <div class="h-full w-full bg-black fixed top-0 right-0 left-0 z-50 justify-center items-center bg-opacity-90">
+    <div id="default-modal" tabindex="-1" aria-hidden="true" class="w-full h-[85vh] bg-black bg-opacity-30 p-3">
+      <iframe class="z-20" width="100%" height="100%" src={`https://www.youtube.com/embed/${music.id.trim()}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-    <div class="fixed bottom-3 left-3 w-screen flex flex-row justify-center items-center">
-      <button on:click={() => sendMusicData(undefined)} class="mt-8 xl:mt-12 px-12 py-5 text-lg poppins-regular bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white">Close Player</button>
+      <div class="fixed bottom-5 left-3 w-screen flex flex-row justify-center items-center z-10">
+        <button on:click={() => sendMusicData(undefined)} class="mt-8 xl:mt-12 px-12 py-5 text-lg poppins-regular bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white">Close Player</button>
+      </div>
     </div>
   </div>
 {:else if music.type == "SONGS"}
