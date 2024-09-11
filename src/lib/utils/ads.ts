@@ -15,10 +15,14 @@ export function setK(v: String, k: String) {
   theSavedKe_yFor = v;
   eK = k;
 }
-export function gKEnc() {
+export function gKEnc(): string {
   const [firstHalf, secondHalf] = splitInHalf(theSavedKe_yFor);
   const m = `${genRan(6)}___${firstHalf}___${genRan(3)}___${secondHalf}___${genRan(3)}___${genRan(6)}`;
-  return CryptoJS.AES.encrypt(m, eK.toString()).toString().replaceAll("==", "");
+  return enTheVal(m)
+}
+
+export function enTheVal(v: string): string {
+  return CryptoJS.AES.encrypt(v, eK.toString()).toString().replaceAll("==", "");
 }
 
 function splitInHalf(str: String): [string, string] {

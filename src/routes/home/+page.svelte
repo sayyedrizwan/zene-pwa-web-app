@@ -1,14 +1,9 @@
 <script lang="ts">
   import HomeTopView from "$lib/components/HomeTopView.svelte";
   import Footer from "$lib/components/item/Footer.svelte";
-  import { onMount } from "svelte";
-  let showExtraTxt = false;
 
-  onMount(() => {
-    setTimeout(() => {
-      showExtraTxt = true;
-    }, 500);
-  });
+  export let data: any;
+
 </script>
 
 <svelte:head>
@@ -24,7 +19,7 @@
 </svelte:head>
 
 <div class="bg-black w-full">
-  <HomeTopView />
+  <HomeTopView data={data}/>
 
   <Footer />
 </div>

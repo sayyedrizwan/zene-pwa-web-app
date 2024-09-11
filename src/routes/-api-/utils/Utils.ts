@@ -57,8 +57,7 @@ export function verifyHeader(request: Request) {
   const key = request.headers.get("auth") ?? "";
   if (key == auth) return true;
   try {
-    const getData = CryptoJS.AES.decrypt(key, webEncKey);
-    const dataToNormal = getData.toString(CryptoJS.enc.Utf8);
+    const dataToNormal = decryptWebInfo(key);
     const parts = dataToNormal.split("___");
     const numberPart = parts[1] + parts[3];
     if (timeDifferenceInSeconds(parseInt(numberPart)) < 13) return true;
@@ -66,6 +65,12 @@ export function verifyHeader(request: Request) {
   } catch (error) {
     return false;
   }
+}
+
+export function decryptWebInfo(v: string) {
+  const getData = CryptoJS.AES.decrypt(v, webEncKey);
+  const dataToNormal = getData.toString(CryptoJS.enc.Utf8);
+  return dataToNormal;
 }
 
 export const BUNNY_IMG_HEADER = { AccessKey: "57a911cd-3810-42ea-bfa1b983b711-3256-4576", "Content-Type": "application/octet-stream" };

@@ -1,7 +1,7 @@
 import { getWebFcmToken } from "$lib/firebase/firebase";
 import axios from "axios";
 import { getAuth, GoogleAuthProvider, signInWithPopup, OAuthProvider, FacebookAuthProvider } from "firebase/auth";
-import { gKEnc } from "./ads";
+import { enTheVal, gKEnc } from "./ads";
 import { e_mail_info, setCookie } from "./Cookies";
 import { goto } from "$app/navigation";
 
@@ -38,8 +38,8 @@ async function loginWithAPI(email: String, name: String, photoURL: String) {
     await axios.post("/-api-/zuser/webusers", { email: email, name: name, photo: photoURL, ip: ip, token: token, info: window.navigator.userAgent }, { headers: { auth: gKEnc() } });
   } catch (error) {}
 
-  setCookie(e_mail_info, email);
-  goto("/")
+  setCookie(e_mail_info, enTheVal(email.toString()));
+  goto("/");
 }
 
 async function startSignIn(v: LOGIN_TYPE) {
