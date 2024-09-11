@@ -1,13 +1,13 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import { startAppleSignIn, startFacebookSignIn, startGoogleSignIn } from "$lib/utils/LoginUtils";
-  import { onMount } from "svelte";
 
   export let data: any;
 
   let showExtraTxt = false;
   let showLoginData = false;
 
-  onMount(() => {
+  if (browser) {
     if (data.loggedIn == true) {
       showLoginData = true;
     } else {
@@ -17,7 +17,7 @@
     setTimeout(() => {
       showExtraTxt = true;
     }, 500);
-  });
+  }
 </script>
 
 <div class="z-20 h-[85vh] w-full bg-maincolor">
@@ -39,7 +39,7 @@
             <h2 class="poppins-regular pt-2 text-left">{data.email}</h2>
           </div>
         </a>
-        <button class="p-4 text-center poppins-thin {showExtraTxt ? 'opacity-100' : 'opacity-0'} cursor-pointer justify-center items-center w-full" on:click={() => showLoginData = false}>Switch Account</button>
+        <button class="p-4 text-center poppins-thin {showExtraTxt ? 'opacity-100' : 'opacity-0'} cursor-pointer justify-center items-center w-full" on:click={() => (showLoginData = false)}>Switch Account</button>
       </div>
     {:else}
       <div class="flex flex-row justify-around items-center w-80 transition-all duration-500 {showExtraTxt ? 'opacity-100' : 'opacity-0'} mt-7">

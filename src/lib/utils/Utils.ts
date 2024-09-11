@@ -1,6 +1,8 @@
 import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
 import type { MusicData } from "../../routes/-api-/ApiService/model/MusicData";
 
+export const top_playlists = "top/playlists"
+
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE);
 }
