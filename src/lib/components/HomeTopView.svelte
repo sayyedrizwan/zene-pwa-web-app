@@ -4,7 +4,6 @@
   import GOOGLE_ICON from "$lib/assets/img/icon/ic_google.svg";
   import APPLE_ICON from "$lib/assets/img/icon/ic_apple.svg";
   import FB_ICON from "$lib/assets/img/icon/ic_facebook.svg";
-  import { enTheData, genRdString, setCookie } from "$lib/utils/EncDec";
   let showDescText = false;
 
   let content: string = "Zene";
@@ -29,10 +28,10 @@
   onDestroy(() => clearInterval(interval));
 
   async function loginIn(email: String, name: String, photoURL: String) {
-    const key = genRdString(26)
-    setCookie('i_s', key)
-    setCookie('u_id', await enTheData(email.toString(), key))
-    window.location.href = "/";
+    // const key = genRdString(26)
+    // setCookie('i_s', key)
+    // setCookie('u_id', await enTheData(email.toString(), key))
+    // window.location.href = "/";
   }
 
   async function googleSignIn() {

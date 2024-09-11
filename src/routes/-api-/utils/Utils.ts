@@ -52,7 +52,7 @@ export function isYear(str: string): boolean {
 }
 
 export function verifyHeader(request: Request) {
-  return true;
+  // return true;
   const key = request.headers.get("auth");
   if (key == auth) return true;
 

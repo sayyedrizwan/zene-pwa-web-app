@@ -246,18 +246,18 @@
 <br />
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   <div class="max-w-2xl mx-auto mb-10 lg:mb-14">
-    <h2 class="text-2xl font-bold md:text-4xl md:leading-tight text-white text-center">Answers to the most frequently asked questions.</h2>
+    <h2 class="text-2xl font-bold md:text-4xl md:leading-tight text-white text-center poppins-bold">Answers to the most frequently asked questions.</h2>
   </div>
 
   <div class="max-w-2xl mx-auto divide-y divide-gray-200 dark:divide-neutral-700">
     {#each faqsList as f}
       <div class="py-8 first:pt-0 last:pb-0">
         <div class="flex">
-          <svg class="shrink-0 mt-1 size-6 text-white dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+          <svg class="shrink-0 mt-1 size-6 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
           <h3>&nbsp;&nbsp;</h3>
           <div class="grow">
-            <h3 class="md:text-lg font-semibold text-white dark:text-neutral-200">{f.q}</h3>
-            <p class="mt-1 text-gray-300 dark:text-neutral-500">{f.a}</p>
+            <h3 class="md:text-lg poppins-regular text-white">{f.q}</h3>
+            <p class="mt-1 text-gray-300 poppins-light">{f.a}</p>
           </div>
         </div>
       </div>

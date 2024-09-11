@@ -1,6 +1,15 @@
 import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
 import type { MusicData } from "../../routes/-api-/ApiService/model/MusicData";
 
+let theSavedKe_yFor: String = "";
+
+export function getK() {
+  return theSavedKe_yFor;
+}
+export function setK(v: String) {
+  theSavedKe_yFor = v;
+}
+
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE);
 }
@@ -48,5 +57,5 @@ export function openAppOrRedirect(url: String) {
 export let musicEvents = "MusicCustomEvents";
 export function sendMusicData(music: MusicData | undefined) {
   const myEvent = new CustomEvent(musicEvents, { detail: music });
-  document.dispatchEvent(myEvent)
+  document.dispatchEvent(myEvent);
 }

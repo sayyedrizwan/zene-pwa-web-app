@@ -20,31 +20,31 @@
       <div class="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
         <div class="w-full flex-col justify-center items-start gap-8 flex">
           <div class="flex-col justify-start lg:items-start items-center gap-4 flex">
-            <h6 class="text-white text-base font-normal leading-relaxed">About Us</h6>
+            <h6 class="text-white text-base poppins-thin leading-relaxed">About Us</h6>
             <div class="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
-              <h2 class="text-white text-4xl font-bold font-manrope leading-normal lg:text-start text-center">A community for music lovers to connect and share</h2>
-              <p class="text-white text-base font-normal leading-relaxed lg:text-start text-center">Zene is your go-to destination for unlimited, ad-free music streaming. Discover a vast library of songs, artists, albums and playlists, curated to suit every mood and occasion. With Zene, you can enjoy your favorite tunes anytime, anywhere, on your terms. Our intuitive interface and high-quality audio ensure a seamless and immersive listening experience. Download Zene today and start exploring the world of music.</p>
+              <h2 class="text-white text-4xl poppins-semi-bold leading-normal lg:text-start text-center">A community for music lovers to connect and share</h2>
+              <p class="text-white text-base poppins-regular leading-relaxed lg:text-start text-center">Zene is your go-to destination for unlimited, ad-free music streaming. Discover a vast library of songs, artists, albums and playlists, curated to suit every mood and occasion. With Zene, you can enjoy your favorite tunes anytime, anywhere, on your terms. Our intuitive interface and high-quality audio ensure a seamless and immersive listening experience. Download Zene today and start exploring the world of music.</p>
             </div>
           </div>
           <div class="w-full flex-col justify-center items-start gap-6 flex">
             <div class="w-full justify-start items-center gap-8 grid md:grid-cols-2 grid-cols-1">
               <div class="w-full h-full p-3.5 rounded-xl border border-gray-200 hover:border-gray-400 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-                <h4 class="text-gray-300 text-2xl font-bold font-manrope leading-9">Discover and Explore</h4>
-                <p class="text-gray-300 text-base font-normal leading-relaxed">Our intelligent algorithms learn your tastes and suggest personalized playlists and tracks, ensuring there's always something new to discover.</p>
+                <h4 class="text-gray-300 text-2xl poppins-semi-bold leading-9">Discover and Explore</h4>
+                <p class="text-gray-300 text-base poppins-regular leading-relaxed">Our intelligent algorithms learn your tastes and suggest personalized playlists and tracks, ensuring there's always something new to discover.</p>
               </div>
               <div class="w-full h-full p-3.5 rounded-xl border border-gray-200 hover:border-gray-400 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-                <h4 class="text-gray-300 text-2xl font-bold font-manrope leading-9">Stream Without Limits</h4>
-                <p class="text-gray-300 text-base font-normal leading-relaxed">Enjoy ad-free music streaming, anytime, anywhere. Whether you're commuting, working, or relaxing, Zene is your constant companion.</p>
+                <h4 class="text-gray-300 text-2xl poppins-semi-bold leading-9">Stream Without Limits</h4>
+                <p class="text-gray-300 text-base poppins-regular leading-relaxed">Enjoy ad-free music streaming, anytime, anywhere. Whether you're commuting, working, or relaxing, Zene is your constant companion.</p>
               </div>
             </div>
             <div class="w-full h-full justify-start items-center gap-8 grid md:grid-cols-2 grid-cols-1">
               <div class="w-full p-3.5 rounded-xl border border-gray-200 hover:border-gray-400 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-                <h4 class="text-gray-300 text-2xl font-bold font-manrope leading-9">Experience Premium Sound</h4>
-                <p class="text-gray-300 text-base font-normal leading-relaxed">Our high-resolution audio ensures a listening experience that's rich, immersive, and truly unforgettable.</p>
+                <h4 class="text-gray-300 text-2xl poppins-semi-bold leading-9">Experience Premium Sound</h4>
+                <p class="text-gray-300 text-base poppins-regular leading-relaxed">Our high-resolution audio ensures a listening experience that's rich, immersive, and truly unforgettable. <br/><br/></p>
               </div>
               <div class="w-full h-full p-3.5 rounded-xl border border-gray-200 hover:border-gray-400 transition-all duration-700 ease-in-out flex-col justify-start items-start gap-2.5 inline-flex">
-                <h4 class="text-gray-300 text-2xl font-bold font-manrope leading-9">Connect and Share</h4>
-                <p class="text-gray-300 text-base font-normal leading-relaxed">Join a vibrant community of music enthusiasts and connect with like-minded individuals. Share your playlists, discover new artists, and engage as music lovers.</p>
+                <h4 class="text-gray-300 text-2xl poppins-semi-bold leading-9">Connect and Share</h4>
+                <p class="text-gray-300 text-base poppins-regular leading-relaxed">Join a vibrant community of music enthusiasts and connect with like-minded individuals. Share your playlists, discover new artists, and engage as music lovers.</p>
               </div>
             </div>
           </div>

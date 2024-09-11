@@ -1,32 +1,30 @@
 <script lang="ts">
   import Footer from "$lib/components/item/Footer.svelte";
-  import { decTheData, getCookie } from "$lib/utils/EncDec";
   import { onMount } from "svelte";
   import type { MusicData } from "./-api-/ApiService/model/MusicData";
   import { sendMusicData } from "$lib/utils/Utils";
   import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
-  import { goto } from "$app/navigation";
 
-  export let data: any;
-  let videos: MusicData[] = [];
-  let songsYouMayLike: MusicData[] = [];
-  let songsForYou: MusicData[] = [];
+  // export let data: any;
+  // let videos: MusicData[] = [];
+  // let songsYouMayLike: MusicData[] = [];
+  // let songsForYou: MusicData[] = [];
 
   onMount(async () => {
-    try {
-      videos = data.video as MusicData[];
-      songsYouMayLike = data.songsYouMayLike as MusicData[];
-      songsForYou = data.songsForYou as MusicData[];
-    } catch (error) {
-      error;
-    }
+    // try {
+    //   videos = data.video as MusicData[];
+    //   songsYouMayLike = data.songsYouMayLike as MusicData[];
+    //   songsForYou = data.songsForYou as MusicData[];
+    // } catch (error) {
+    //   error;
+    // }
 
-    const email = await decTheData(getCookie("u_id") ?? "", getCookie("i_s") ?? "");
-    if (email == null) {
-      window.location.href = "/home";
-    } else {
-      registerFirebaseEvents(AnalyticsEvents.STREAMING_WEB_LOGGED_IN);
-    }
+    // const email = await decTheData(getCookie("u_id") ?? "", getCookie("i_s") ?? "");
+    // if (email == null) {
+    //   window.location.href = "/home";
+    // } else {
+    //   registerFirebaseEvents(AnalyticsEvents.STREAMING_WEB_LOGGED_IN);
+    // }
   });
 
 </script>
@@ -64,7 +62,7 @@
   </form>
 
   <br /><br /><br /><br />
-
+<!-- 
   {#if songsYouMayLike.length <= 0}
     <p class="mt-4 text-xl leading-7 text-white mx-4 urbanist-semibold text-center">
       Look's like you are new here and Zene Web is in beta. So there is no song history so on that we can suggest you songs and video. Please listen to some songs in Zene app to generate history so we can suggest you.
@@ -129,7 +127,7 @@
         </button>
       {/each}
     </div>
-  {/if}
+  {/if} -->
 
   <Footer />
 </div>
