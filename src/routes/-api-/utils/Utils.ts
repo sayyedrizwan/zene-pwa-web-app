@@ -1,9 +1,11 @@
 import mysql from "mysql2/promise";
 import { MongoClient } from "mongodb";
+import CryptoJS from "crypto-js";
 import type { MusicData } from "../ApiService/model/MusicData";
 
 export const isDevDB = process.platform.toLowerCase() == "darwin";
 export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e";
+export const webEncKey = "rizwan_key_web_app";
 export const zenePlaylistsParam = "zene_p_";
 
 //aiven
@@ -52,14 +54,21 @@ export function isYear(str: string): boolean {
 }
 
 export function verifyHeader(request: Request) {
-  // return true;
-  const key = request.headers.get("auth");
+  const key = request.headers.get("auth") ?? "";
   if (key == auth) return true;
-
-  return false;
+  try {
+    const getData = CryptoJS.AES.decrypt(key, webEncKey);
+    const dataToNormal = getData.toString(CryptoJS.enc.Utf8);
+    const parts = dataToNormal.split("___");
+    const numberPart = parts[1] + parts[3];
+    if (timeDifferenceInSeconds(parseInt(numberPart)) < 13) return true;
+    return false;
+  } catch (error) {
+    return false;
+  }
 }
 
-export const BUNNY_IMG_HEADER = { AccessKey: "57a911cd-3810-42ea-bfa1b983b711-3256-4576", "Content-Type": "application/octet-stream" }
+export const BUNNY_IMG_HEADER = { AccessKey: "57a911cd-3810-42ea-bfa1b983b711-3256-4576", "Content-Type": "application/octet-stream" };
 
 export function bingNewsMostRecent(q: String): string {
   return `https://www.bing.com/news/search?q=${q.toLowerCase().replaceAll(" ", "+")}&qft=sortbydate%3d%221%22+interval%3d%227%22&form=YFNR`;
@@ -237,7 +246,6 @@ export function ytMusicBrowseIDWithParam(q: string, params: string): string {
   });
 }
 
-
 export function ytMusicQueryWithParam(q: string): string {
   return JSON.stringify({
     context: {
@@ -246,8 +254,8 @@ export function ytMusicQueryWithParam(q: string): string {
         clientVersion: clientNameYTMusicVersion,
       },
     },
-    query: q
-  })
+    query: q,
+  });
 }
 
 export function ytMusicIDWithParam(q: string, params: string): string {
@@ -302,6 +310,13 @@ export function timeDifferenceInHours(oldTimestamp: string) {
   const differenceInMs = currentTimestamp - oldDate;
 
   const hours = Math.floor((differenceInMs / (1000 * 60 * 60)) % 24);
+}
+
+function timeDifferenceInSeconds(oldTimestamp: number): number {
+  const currentTimestamp = new Date().getTime();
+  const differenceInMs = Math.floor(currentTimestamp - oldTimestamp);
+  const differenceInSeconds = differenceInMs / 1000;
+  return differenceInSeconds;
 }
 
 export function getRandomItem<T>(list: T[]): T {

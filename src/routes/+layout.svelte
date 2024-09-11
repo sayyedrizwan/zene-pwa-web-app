@@ -2,15 +2,21 @@
   import "../tailwind.css";
   import "$lib/firebase/firebase";
   import { onMount } from "svelte";
-  import { musicEvents, setK } from "$lib/utils/Utils";
+  import { musicEvents } from "$lib/utils/Utils";
   import type { MusicData } from "./-api-/ApiService/model/MusicData";
   import YtPlayer from "$lib/utils/YTPlayer.svelte";
+  import { setK, updateK } from "$lib/utils/ads";
 
   export let data: any;
   let music: MusicData | undefined = undefined;
 
   onMount(() => {
-    setK(window.atob(data.i))
+    setK(window.atob(data.i), window.atob(data.k))
+
+    setInterval(() => {
+      updateK()
+    }, 1000);
+
     document.addEventListener(musicEvents, (event: any) => {
       music = event.detail;
     });

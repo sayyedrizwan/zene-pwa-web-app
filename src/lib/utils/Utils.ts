@@ -1,15 +1,6 @@
 import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
 import type { MusicData } from "../../routes/-api-/ApiService/model/MusicData";
 
-let theSavedKe_yFor: String = "";
-
-export function getK() {
-  return theSavedKe_yFor;
-}
-export function setK(v: String) {
-  theSavedKe_yFor = v;
-}
-
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE);
 }
