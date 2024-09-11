@@ -62,19 +62,19 @@
 
   function pauseVideo() {
     try {
-        player.pauseVideo();       
+      player.pauseVideo();
     } catch (error) {
-        error
+      error;
     }
   }
-  
+
   function updateDuration(event: any) {
     player.seekTo(event.target.value);
   }
 
   function changedInfo() {
     if (music.type == "SONGS") {
-      registerFirebaseEvents(AnalyticsEvents.STREAMING_WEB_SONG_PLAYING)
+      registerFirebaseEvents(AnalyticsEvents.STREAMING_WEB_SONG_PLAYING);
       if (player == undefined) {
         const tag = document.createElement("script");
         tag.src = "https://www.youtube.com/iframe_api";
@@ -85,8 +85,8 @@
         player.loadVideoById(music.id);
       }
     } else if (music.type == "VIDEO") {
-        registerFirebaseEvents(AnalyticsEvents.STREAMING_WEB_VIDEO_PLAYING)
-        pauseVideo()
+      registerFirebaseEvents(AnalyticsEvents.STREAMING_WEB_VIDEO_PLAYING);
+      pauseVideo();
     }
   }
 
@@ -109,15 +109,12 @@
 </script>
 
 {#if music.type == "VIDEO"}
-  <div id="default-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full bg-black bg-opacity-30 p-12">
-    <iframe class="z-20" width="100%" height="100%" src={`https://www.youtube.com/embed/${music.extra.trim() == "" ? music.id : music.extra}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <div id="default-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-[89vh] bg-black bg-opacity-30 p-3">
+    <iframe class="z-20" width="100%" height="100%" src={`https://www.youtube.com/embed/${music.id.trim()}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-    <button on:click={() => sendMusicData(undefined)} type="button" class="fixed bottom-3 left-3 z-20 text-gray-400 bg-white hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
-      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-      </svg>
-      <span class="sr-only">Close modal</span>
-    </button>
+    <div class="fixed bottom-3 left-3 w-screen flex flex-row justify-center items-center">
+      <button on:click={() => sendMusicData(undefined)} class="mt-8 xl:mt-12 px-12 py-5 text-lg poppins-regular bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white">Close Player</button>
+    </div>
   </div>
 {:else if music.type == "SONGS"}
   <div id="player" class="fixed top-0 right-0 left-0 z-50" />

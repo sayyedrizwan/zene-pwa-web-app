@@ -11,6 +11,6 @@
   {:else if textType == TextType.MEDIUM}
     <h3 class="text-xl font-semibold text-white urbanist-regular">{title}</h3>
   {:else}
-    <h3 class="text-xl font-semibold text-white urbanist-regular">{title}</h3>
+    <h3 class="text-base font-semibold text-white urbanist-semi-bold">{title}</h3>
   {/if}
 </div>
