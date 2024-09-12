@@ -26,3 +26,34 @@ export class ZenePostsData {
 export enum FEEDTYPE {
     INSTAGRAM = "INSTAGRAM", YOUTUBE_POSTS = "YOUTUBE_POSTS", YOUTUBE_SHORTD = "YOUTUBE_SHORTS", NEWS = "NEWS"
 }
+
+export function convertEpochTime(timestamp: number | undefined): string {
+    if(timestamp == undefined) return ""
+    const now = Date.now();
+    const diff = now - timestamp;
+    const second = 1000;        
+    const minute = second * 60; 
+    const hour = minute * 60; 
+    const day = hour * 24; 
+    const week = day * 7;
+    const year = day * 365;
+
+    if (diff < minute) {
+        return `${Math.floor(diff / second)}s ago`;
+    }
+
+    if (diff < hour) {
+        return `${Math.floor(diff / minute)}m ago`;
+    }
+    if (diff < day) {
+        return `${Math.floor(diff / hour)}h ago`;
+    }
+    if (diff < week) {
+        return `${Math.floor(diff / day)}d ago`;
+    }
+    if (diff < year) {
+        return `${Math.floor(diff / week)}w ago`;
+    }
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}:${date.getFullYear()}`;
+}

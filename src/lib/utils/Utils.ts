@@ -8,6 +8,7 @@ export const top_songs = "top/songs"
 export const top_global_artists = "top/globalartists"
 export const suggested_songs = "suggestedsongs"
 export const search_s = "search"
+export const feeds_s = "feeds"
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE);

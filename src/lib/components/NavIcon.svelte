@@ -6,7 +6,7 @@
   import HOME_ICON from "$lib/assets/img/ic_home.svg";
 </script>
 
-<div class="w-full flex justify-end items-end">
+<div class="z-40 fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-end items-end">
   <div class="bg-white rounded-lg px-4 py-3 flex flex-row">
     {#if $page.url.pathname != "/"}
       <a href="/" class="size-7 mx-5 hover:p-1 hover-animation">

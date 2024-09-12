@@ -30,7 +30,6 @@
       response = (await res.data) as MusicDataSearch;
       isLoading = false;
     } catch (error) {
-      console.log(error);
       isLoading = false;
     }
   }
@@ -86,8 +85,8 @@
             {/each}
           </div>
         </div>
-      </div>
-    {/if}
+        </div>
+      {/if}
 
     <div class="mt-14" />
     {#if (response?.playlists?.length ?? 0) > 0}
