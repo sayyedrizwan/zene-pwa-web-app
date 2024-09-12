@@ -123,7 +123,7 @@ export const ytSearch = "https://www.youtube.com/youtubei/v1/search?prettyPrint=
 export const ytBrowse = "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false";
 
 const clientNameYTName = "WEB";
-const clientNameYTVersion = "2.20240724.03.00";
+const clientNameYTVersion = "2.20240911.01.00";
 
 export const YT_COMMUNITY_PARAMS = "Egljb21tdW5pdHnyBgQKAkoA";
 export const YT_SHORTS_PARAMS = "EgZzaG9ydHPyBgUKA5oBAA%3D%3D";
@@ -184,7 +184,7 @@ export const ytMusicMoodAndGenresCategoryParam = "FEmusic_moods_and_genres_categ
 export const ytMusicGridListParam = "ggMIegYIARoCAQI%3D";
 
 const clientNameYTMusicName = "WEB_REMIX";
-const clientNameYTMusicVersion = "1.20240812.01.00";
+const clientNameYTMusicVersion = "1.20240909.01.00";
 
 export const ytMusicNext = "https://music.youtube.com/youtubei/v1/next?prettyPrint=false";
 export const ytMusicPlayer = "https://music.youtube.com/youtubei/v1/player?prettyPrint=false";

@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import CardInfoTypeView from "$lib/components/CardInfoTypeView.svelte";
   import Footer from "$lib/components/item/Footer.svelte";
+  import NavIcon from "$lib/components/NavIcon.svelte";
   import { TextType } from "$lib/utils/model/TextType";
   import { suggested_songs, top_albums, top_global_artists, top_playlists, top_songs, top_videos } from "$lib/utils/Utils";
   import { onMount } from "svelte";
@@ -28,6 +29,7 @@
 </svelte:head>
 
 <div class="bg-black w-full mt-32">
+  <NavIcon />
   <center class="my-10">
     <h2 class="poppins-regular text-center text-white">Zene Web is in Beta. But you can enjoy.</h2>
   </center>

@@ -3,7 +3,6 @@ import axios from "axios";
 import { getAuth, GoogleAuthProvider, signInWithPopup, OAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { enTheVal, gKEnc } from "./ads";
 import { e_mail_info, setCookie } from "./Cookies";
-import { goto } from "$app/navigation";
 
 enum LOGIN_TYPE {
   GOOGLE,
@@ -39,7 +38,7 @@ async function loginWithAPI(email: String, name: String, photoURL: String) {
   } catch (error) {}
 
   setCookie(e_mail_info, enTheVal(email.toString()));
-  goto("/");
+  window.location.href = "/"
 }
 
 async function startSignIn(v: LOGIN_TYPE) {
