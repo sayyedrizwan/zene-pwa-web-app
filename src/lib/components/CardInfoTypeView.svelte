@@ -58,7 +58,7 @@
     </div>
   {:else}
     <div class="relative rounded-xl overflow-auto no-scrollbar">
-      <div class="w-full bg- shadow-xl">
+      <div class="w-full shadow-xl">
         <div class="overflow-x-auto flex no-scrollbar">
           {#each response as m}
             {#if m.type == MUSICTYPE.VIDEO}
