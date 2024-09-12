@@ -4,7 +4,7 @@
   $: d = new Date();
 </script>
 
-<footer class="mt-20 xl:mt-32 mx-auto w-full relative text-center bg-maincolor text-white">
+<footer class="mt-20 xl:mt-32 mx-auto pb-28 w-full relative text-center bg-maincolor text-white">
   <div class="px-6 py-8 md:py-14 xl:pt-20 xl:pb-12">
     <h2 class="poppins-bold text-3xl xl:text-4xl leading-snug">Are you Ready?<br />To Dive into some fresh tunes.</h2>
     <a class="mt-8 xl:mt-12 px-12 py-5 text-lg poppins-regular leading-tight inline-block bg-lightblue rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-950 text-black hover:text-white" href="home/#download">Download Zene Now</a>
