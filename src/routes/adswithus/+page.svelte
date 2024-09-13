@@ -21,7 +21,7 @@
 
 <div class="relative mx-auto w-full pt-20 text-center pb-24 text-white rounded-lg">
   <h1 class="text-7xl tracking-tight text-slate-900">Don't Just Advertise, Sell your Stories...</h1>
-  <h3 class="text-lg urbanist-bold text-white mt-5 mx-2">Forget skippable ads! Zene Captivating stories, one brand ad/story at a time on all our platform. Stand out, not interrupt. #ZeneAds</h3>
+  <h3 class="text-lg poppins-semi-bold text-white mt-5 mx-2">Forget skippable ads! Zene Captivating stories, one brand ad/story at a time on all our platform. Stand out, not interrupt. #ZeneAds</h3>
 
   <a class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-maincolor rounded-full shadow-xl border border-transparent hover-animation hover:bg-gray-600 text-white hover:text-white" href="mailto:{support_mail_server}?subject=Rent Dynamic Ad Space">Contact us on {support_mail_server}</a>
 

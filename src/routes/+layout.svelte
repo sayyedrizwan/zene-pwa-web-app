@@ -1,12 +1,13 @@
 <script lang="ts">
   import "../tailwind.css";
   import "$lib/firebase/firebase";
-  import { musicEvents, sendMusicData } from "$lib/utils/Utils";
+  import { musicEvents, sendMusicData, z_song_history } from "$lib/utils/Utils";
   import type { MusicData } from "./-api-/ApiService/model/MusicData";
   import YtPlayer from "$lib/components/player/YTPlayer.svelte";
-  import { deTheVal, setK, updateK } from "$lib/utils/ad_ss";
+  import { deTheVal, gKEnc, setK, updateK } from "$lib/utils/ad_ss";
   import { browser } from "$app/environment";
-  import { getCookie, player_info_info } from "$lib/utils/Cookies";
+  import { getCookie, player_info_info, setCookie } from "$lib/utils/Cookies";
+  import axios from "axios";
 
   export let data: any;
   let music: MusicData | undefined = undefined;
@@ -14,7 +15,6 @@
 
   if (browser) {
     setK(window.atob(data.i), window.atob(data.k), window.atob(data.mk));
-
     setInterval(() => {
       updateK();
     }, 1000);
@@ -27,9 +27,12 @@
       }
     }, 1000);
 
-    document.addEventListener(musicEvents, (event: any) => {
+    document.addEventListener(musicEvents, async (event: any) => {
       isOldSong = false;
       music = event.detail;
+      if (music != undefined) {
+        await axios.post(`/-api-/${z_song_history}`, { params: { songID: music.id, email: data.email, device: navigator.userAgent }, headers: { auth: gKEnc() } });
+      }
     });
   }
 </script>
@@ -39,7 +42,7 @@
     <a href="/" class="relative flex items-center">
       <img src="/logo820.png" alt="zene" class="w-14" />
       <div class="ml-auto flex items-center ms-4">
-        <p class="text-white urbanist-bold text-xl" data-svelte-h="svelte-15t1ev0">Zene</p>
+        <p class="text-white antro-vectra text-4xl translate-y-2" data-svelte-h="svelte-15t1ev0">Zene</p>
       </div>
     </a>
   </div>

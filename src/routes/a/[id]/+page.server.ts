@@ -2,9 +2,13 @@ import { decryptSharingData } from "../../-api-/utils/EncrypDecrypt.js"
 import { LastFMService } from "../../-api-/ApiService/lastfm/LastFMService.js"
 import { MusicData, MUSICTYPE } from "../../-api-/ApiService/model/MusicData.js"
 import { YoutubeMusicService } from "../../-api-/ApiService/youtubemusic/YoutubeMusicService.js"
+import { auth } from "../../-api-/utils/Utils.js"
 
-export async function load({ params }) {
+export async function load({ params, fetch }) {
   const name = await decryptSharingData(params.id)
+
+  const response = await fetch('/-api-/artistsdata/info', { method: 'POST', headers: { auth: auth }, body: JSON.stringify({ name: name}) });
+  return { data: await response.json(), url: params.id}
 
   const ytMusicURL = await YoutubeMusicService.instance.searchArtistsSpecific(name)
   const lastFMURL = await LastFMService.instance.searchArtists(name)

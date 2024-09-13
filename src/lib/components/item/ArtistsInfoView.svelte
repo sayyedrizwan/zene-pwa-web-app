@@ -7,7 +7,7 @@
 
   async function managePageDestination() {
     if (m.type == MUSICTYPE.ARTISTS) {
-      goto(`/a/${await encsMainUp(m.id.toString())}`);
+      goto(`/a/${await encsMainUp(m.name.toString())}`);
     }
   }
 </script>
