@@ -3,7 +3,7 @@
   import "$lib/firebase/firebase";
   import { musicEvents, sendMusicData } from "$lib/utils/Utils";
   import type { MusicData } from "./-api-/ApiService/model/MusicData";
-  import YtPlayer from "$lib/utils/YTPlayer.svelte";
+  import YtPlayer from "$lib/components/player/YTPlayer.svelte";
   import { deTheVal, setK, updateK } from "$lib/utils/ads";
   import { browser } from "$app/environment";
   import { getCookie, player_info_info } from "$lib/utils/Cookies";

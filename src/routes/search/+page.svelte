@@ -19,7 +19,7 @@
 
   async function searchInput() {
     let value = (document.getElementById("default-search") as HTMLInputElement).value;
-    if (value.length <= 3) {
+    if (value.length < 3) {
       showToast = true;
       return;
     }
