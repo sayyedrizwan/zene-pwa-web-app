@@ -2,18 +2,23 @@ import CryptoJS from "crypto-js";
 
 let theSavedKe_yFor: String = "";
 let eK: String = "";
+let mKe: String = "";
 
 export function getK() {
   return theSavedKe_yFor;
+}
+export function getMKee() {
+  return mKe;
 }
 
 export function updateK() {
   theSavedKe_yFor = `${parseInt(theSavedKe_yFor.toString()) + 1000}`;
 }
 
-export function setK(v: String, k: String) {
+export function setK(v: String, k: String, mk: String) {
   theSavedKe_yFor = v;
   eK = k;
+  mKe = mk;
 }
 export function gKEnc(): string {
   const [firstHalf, secondHalf] = splitInHalf(theSavedKe_yFor);
@@ -50,4 +55,24 @@ function genRan(length: number): string {
   }
 
   return result;
+}
+
+
+const ALGORITHM = { name: "AES-CBC", length: 256 };
+const iv = new Uint8Array(16);
+
+export async function encsMainUp(txt: string): Promise<string> {
+  const keyMaterial = await window.crypto.subtle.importKey(
+    "raw", new TextEncoder().encode(getMKee().toString()), ALGORITHM, false, ["encrypt"]
+  );
+
+  const cipherText = await window.crypto.subtle.encrypt(
+    { name: "AES-CBC", iv: iv }, keyMaterial, new TextEncoder().encode(txt)
+  );
+
+  const base64String = btoa(
+    String.fromCharCode(...new Uint8Array(cipherText))
+  ).replace(/=+$/, "").replace(/\//g, "__");
+
+  return base64String;
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import LoadingCardItemsView from "$lib/components/item/LoadingCardItemsView.svelte";
   import NavIcon from "$lib/components/NavIcon.svelte";
-  import { gKEnc } from "$lib/utils/ads";
+  import { gKEnc } from "$lib/utils/ad_ss";
   import { feeds_s } from "$lib/utils/Utils";
   import axios from "axios";
   import { onMount } from "svelte";

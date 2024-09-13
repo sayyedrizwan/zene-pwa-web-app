@@ -5,7 +5,7 @@
   import { MusicData, MUSICTYPE } from "../-api-/ApiService/model/MusicData";
   import axios from "axios";
   import { z_playlists, z_song_history } from "$lib/utils/Utils";
-  import { gKEnc } from "$lib/utils/ads";
+  import { gKEnc } from "$lib/utils/ad_ss";
   import type { DBPlaylists } from "../-api-/ApiService/dbmongo/model/DBPlaylistInfo";
   import { browser } from "$app/environment";
   import CardInfoView from "$lib/components/item/CardInfoView.svelte";

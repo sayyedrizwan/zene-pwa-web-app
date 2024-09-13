@@ -1,7 +1,8 @@
 import * as crypto from "crypto";
 
+export const ENC_DEC_KEY = "zene_rizwan_app0";
 const ALGORITHM = "AES-CBC";
-const KEY = new TextEncoder().encode("zene_rizwan_app0");
+const KEY = new TextEncoder().encode(ENC_DEC_KEY);
 const IV = new Uint8Array(16);
 
 export async function decryptSharingData(cipherText: string): Promise<string> {

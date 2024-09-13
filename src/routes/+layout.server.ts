@@ -1,6 +1,7 @@
 import { e_mail_info } from "$lib/utils/Cookies.js";
 import axios from "axios";
 import { auth, decryptWebInfo, webEncKey } from "./-api-/utils/Utils.js";
+import { ENC_DEC_KEY } from "./-api-/utils/EncrypDecrypt.js";
 
 export const ssr = true;
 export const csr = true;
@@ -17,7 +18,7 @@ export async function load({ cookies }) {
   if (data == undefined) return { i: date, k: btoa(webEncKey), loggedIn: false };
 
   let email = decryptWebInfo(data);
-  if (!email.includes("@") && email.trim().length <= 2) return { i: date, k: btoa(webEncKey), loggedIn: false };
+  if (!email.includes("@") && email.trim().length <= 2) return { i: date, mk: btoa(ENC_DEC_KEY), k: btoa(webEncKey), loggedIn: false };
 
   try {
     const response = await axios.get("http://localhost:3419/-api-/zuser/users", { params: { user: email }, headers: { auth: auth } });
@@ -25,8 +26,8 @@ export async function load({ cookies }) {
     name = user.name;
     profilePic = user.profile_photo;
 
-    return { i: date, k: btoa(webEncKey), loggedIn: true, name: name, photo: profilePic, email: email };
+    return { i: date, mk: btoa(ENC_DEC_KEY), k: btoa(webEncKey), loggedIn: true, name: name, photo: profilePic, email: email };
   } catch (error) {
-    return { i: date, k: btoa(webEncKey), loggedIn: false };
+    return { i: date, mk: btoa(ENC_DEC_KEY), k: btoa(webEncKey), loggedIn: false };
   }
 }

@@ -2,7 +2,7 @@
   import NavIcon from "$lib/components/NavIcon.svelte";
   import axios from "axios";
   import { MUSICTYPE, type MusicData } from "../-api-/ApiService/model/MusicData";
-  import { gKEnc } from "$lib/utils/ads";
+  import { gKEnc } from "$lib/utils/ad_ss";
   import { search_s } from "$lib/utils/Utils";
   import ToastsView from "$lib/components/ToastsView.svelte";
   import TextStyleView from "$lib/components/item/TextStyleView.svelte";

@@ -1,6 +1,6 @@
 import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
 import type { MusicData } from "../../routes/-api-/ApiService/model/MusicData";
-import { enTheVal } from "./ads";
+import { enTheVal } from "./ad_ss";
 import { setCookie } from "./Cookies";
 
 export const top_playlists = "top/playlists"

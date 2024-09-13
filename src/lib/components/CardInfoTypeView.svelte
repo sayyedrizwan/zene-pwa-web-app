@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { MusicData, MUSICTYPE } from "../../routes/-api-/ApiService/model/MusicData";
   import axios from "axios";
-  import { gKEnc } from "$lib/utils/ads";
+  import { gKEnc } from "$lib/utils/ad_ss";
   import LoadingCardItemsView from "./item/LoadingCardItemsView.svelte";
   import type { TextType } from "$lib/utils/model/TextType";
   import TextStyleView from "./item/TextStyleView.svelte";

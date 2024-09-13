@@ -1,7 +1,7 @@
 import { getWebFcmToken } from "$lib/firebase/firebase";
 import axios from "axios";
 import { getAuth, GoogleAuthProvider, signInWithPopup, OAuthProvider, FacebookAuthProvider } from "firebase/auth";
-import { enTheVal, gKEnc } from "./ads";
+import { enTheVal, gKEnc } from "./ad_ss";
 import { e_mail_info, setCookie } from "./Cookies";
 
 enum LOGIN_TYPE {
