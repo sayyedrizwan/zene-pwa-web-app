@@ -1,4 +1,5 @@
 export const e_mail_info = "m_e_m"
+export const player_info_info = "p_nn"
 
 export function setCookie(name: String, value: String, days: number = 365) {
   var expires = "";

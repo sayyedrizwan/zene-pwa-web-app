@@ -1,5 +1,7 @@
 import { AnalyticsEvents, registerFirebaseEvents } from "$lib/firebase/registerAnalytics";
 import type { MusicData } from "../../routes/-api-/ApiService/model/MusicData";
+import { enTheVal } from "./ads";
+import { setCookie } from "./Cookies";
 
 export const top_playlists = "top/playlists"
 export const top_albums = "top/albums"
@@ -58,6 +60,7 @@ export function openAppOrRedirect(url: String) {
 
 export let musicEvents = "MusicCustomEvents";
 export function sendMusicData(music: MusicData | undefined) {
+  setCookie("p_nn", enTheVal(JSON.stringify(music)))
   const myEvent = new CustomEvent(musicEvents, { detail: music });
   document.dispatchEvent(myEvent);
 }

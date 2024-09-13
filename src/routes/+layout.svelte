@@ -1,20 +1,32 @@
 <script lang="ts">
   import "../tailwind.css";
   import "$lib/firebase/firebase";
-  import { musicEvents } from "$lib/utils/Utils";
+  import { musicEvents, sendMusicData } from "$lib/utils/Utils";
   import type { MusicData } from "./-api-/ApiService/model/MusicData";
   import YtPlayer from "$lib/utils/YTPlayer.svelte";
-  import { setK, updateK } from "$lib/utils/ads";
+  import { deTheVal, setK, updateK } from "$lib/utils/ads";
   import { browser } from "$app/environment";
+  import { getCookie, player_info_info } from "$lib/utils/Cookies";
+  import { onMount } from "svelte";
 
   export let data: any;
   let music: MusicData | undefined = undefined;
+  let isOldSong = false
 
+  onMount(() => {});
   if (browser) {
     setK(window.atob(data.i), window.atob(data.k));
 
     setInterval(() => {
       updateK();
+    }, 1000);
+
+    setTimeout(() => {
+      if (getCookie(player_info_info) != null) {
+        const player = deTheVal(getCookie(player_info_info)!)
+        isOldSong = true
+        sendMusicData(JSON.parse(player) as MusicData)
+      }
     }, 1000);
 
     document.addEventListener(musicEvents, (event: any) => {
@@ -37,5 +49,5 @@
 <slot />
 
 {#if music != undefined}
-  <YtPlayer {music} />
+  <YtPlayer {music} {isOldSong}/>
 {/if}

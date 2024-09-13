@@ -7,6 +7,7 @@
   import LoadingView from "$lib/components/item/LoadingView.svelte";
 
   export let music: MusicData;
+  export let isOldSong: Boolean;
 
   $: music.id, changedInfo();
   let player: any;
@@ -50,6 +51,11 @@
     if (event.data == 1) {
       isBuffering = false;
       isPlaying = true;
+      if(isOldSong) {
+        pauseVideo()
+        isOldSong = false
+      }
+      
     } else if (event.data == 3) {
       isBuffering = true;
     } else {
@@ -131,9 +137,9 @@
         {#if isBuffering}
           <LoadingView />
         {:else if isPlaying}
-          <img src={PAUSE_ICON} alt="play" class="size-7" />
+          <img src={PAUSE_ICON} alt="play" class="size-8" />
         {:else}
-          <img src={PLAY_ICON} alt="play" class="size-7" />
+          <img src={PLAY_ICON} alt="play" class="size-8" />
         {/if}
       </div>
     </div>

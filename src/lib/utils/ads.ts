@@ -25,6 +25,13 @@ export function enTheVal(v: string): string {
   return CryptoJS.AES.encrypt(v, eK.toString()).toString().replaceAll("==", "");
 }
 
+
+export function deTheVal(v: string) {
+  const getData = CryptoJS.AES.decrypt(v, eK.toString());
+  const dataToNormal = getData.toString(CryptoJS.enc.Utf8);
+  return dataToNormal;
+}
+
 function splitInHalf(str: String): [string, string] {
   const mid = Math.ceil(str.length / 2);
   const firstHalf = str.slice(0, mid);
