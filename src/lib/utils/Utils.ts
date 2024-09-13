@@ -13,7 +13,9 @@ export const search_s = "search"
 export const feeds_s = "feeds"
 export const z_playlists = "zuser/playlists"
 export const z_song_history = "zuser/songhistory"
+export const z_my_playlists = "zuser/myplaylists"
 export const player_suggestedsongs = "player/suggestedsongs"
+export const playlistsapi = "playlists"
 
 export function onBrowser() {
   registerFirebaseEvents(AnalyticsEvents.OPEN_WEBSITE);
