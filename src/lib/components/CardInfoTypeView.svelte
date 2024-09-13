@@ -74,3 +74,7 @@
     </div>
   {/if}
 {/if}
+
+{#if title == "Songs you may like" && response.length <= 0}
+  <h3 class="text-xl font-semibold text-white urbanist-regular text-center">You currently have no listening history. Start playing some songs, and we'll be able to suggest playlists, songs, albums, and artists tailored to your preferences from the Web or App.</h3>
+{/if}

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import CardInfoTypeView from "$lib/components/CardInfoTypeView.svelte";
+  import AdsView from "$lib/components/item/AdsView.svelte";
   import Footer from "$lib/components/item/Footer.svelte";
   import NavIcon from "$lib/components/NavIcon.svelte";
   import { TextType } from "$lib/utils/model/TextType";
@@ -33,15 +34,22 @@
   <center class="my-10">
     <h2 class="poppins-regular text-center text-white">Zene Web is in Beta. But you can enjoy.</h2>
   </center>
+
   <CardInfoTypeView title={"Recommended Playlists"} textType={TextType.LARGE} url={top_playlists} email={data.email} />
   <div class="mt-28" />
   <CardInfoTypeView title={"Albums picked for you"} textType={TextType.SMALL} url={top_albums} email={data.email} />
+  <div class="mt-28" />
+  <AdsView />
   <div class="mt-28" />
   <CardInfoTypeView title={"Videos you may like"} textType={TextType.SMALL} url={top_videos} email={data.email} />
   <div class="mt-28" />
   <CardInfoTypeView title={"Songs you may like"} textType={TextType.SMALL} url={top_songs} email={data.email} />
   <div class="mt-28" />
+  <AdsView />
+  <div class="mt-28" />
   <CardInfoTypeView title={"Global top artists"} textType={TextType.SMALL} url={top_global_artists} email={data.email} isGet={true} />
+  <div class="mt-28" />
+  <AdsView />
   <div class="mt-28" />
   <CardInfoTypeView title={"Songs for you"} textType={TextType.SMALL} url={suggested_songs} email={data.email} dynamicList={true} />
 
