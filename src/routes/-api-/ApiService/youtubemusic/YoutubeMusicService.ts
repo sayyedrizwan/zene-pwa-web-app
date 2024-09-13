@@ -608,12 +608,12 @@ export class YoutubeMusicService {
       if (e.id == VID && m == undefined) m = e;
     });
 
-    if (m == undefined) {
-      const infoVID = await YoutubeAPIService.instance.searchVideos(VID, false);
-      infoVID.forEach((e) => {
-        if (e.id == VID && m == undefined) m = e;
-      });
-    }
+    // if (m == undefined) {
+    //   const infoVID = await YoutubeAPIService.instance.searchVideos(VID, false);
+    //   infoVID.forEach((e) => {
+    //     if (e.id == VID && m == undefined) m = e;
+    //   });
+    // }
 
     if (m != undefined) return m;
 

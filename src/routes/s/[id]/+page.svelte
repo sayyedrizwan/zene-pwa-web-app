@@ -1,10 +1,10 @@
 <script lang="ts">
   import Footer from "$lib/components/item/Footer.svelte";
-  import { openAppOrRedirect } from "$lib/utils/Utils";
+  import { openAppOrRedirect, sendMusicData } from "$lib/utils/Utils";
   import type { MusicData } from "../../-api-/ApiService/model/MusicData";
 
   export let data: any;
-  let songInfo: MusicData | undefined = JSON.parse(data.data)
+  let songInfo: MusicData | undefined = data.data
 
   function openURLApp(noFound : Boolean) {
     if(noFound) openAppOrRedirect(window.location.origin)
@@ -38,18 +38,18 @@
   <main class="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">
     <div class="text-center">
       <h2 class="text-center text-white text-3xl xl:text-5xl leading-snug urbanist-semibold mt-6 mb-4">No Song Found</h2>
-      <h2 class="text-center text-white text-sm xl:text-xl leading-snug urbanist-regular lg:mt-2 mb-7">visit zene app on Android and IOS to stream music.</h2>
+      <h2 class="text-center text-white text-sm xl:text-xl leading-snug urbanist-regular lg:mt-2 mb-7">visit zene app on Android and IOS or Zene Web to stream music.</h2>
 
-      <button class="border-solid border rounded-md text-base border-sky-500 bg-maincolor text-white px-5 py-3 hover:px-7 hover:py-4 hover-animation" on:click={() => openURLApp(true)}> Open Zene App </button>
+      <a href="/" class="border-solid border rounded-md text-base border-sky-500 bg-maincolor text-white px-5 py-3 hover:px-7 hover:py-4 hover-animation">Go to Zene Web</a>
     </div>
   </main>
 {:else}
   <div class="flex flex-col justify-center items-center mt-24 mx-4 mb-72">
-    <img src={songInfo.thumbnail.toString()} alt={songInfo.name.toString()} class="sm:w-5/6 md:w-3/5 sm:h-5/6 md:h-3/5 object-cover" />
+    <img src={songInfo.thumbnail.toString()} alt={songInfo.name.toString()} class="object-cover" />
     <h2 class="text-center text-white text-3xl xl:text-5xl leading-snug urbanist-semibold mt-6 mb-2">{songInfo.name}</h2>
     <h2 class="text-center text-white text-sm xl:text-xl leading-snug urbanist-regular lg:mt-2 mb-4">{songInfo.artists}</h2>
 
-    <button class="border-solid border rounded-md text-base border-sky-500 bg-maincolor text-white px-5 py-3 hover:px-7 hover:py-4 hover-animation" on:click={() => openURLApp(false)}> Play on Zene App </button>
+    <button class="border-solid border rounded-md text-base border-sky-500 bg-maincolor text-white px-5 py-3 hover:px-7 hover:py-4 hover-animation mt-7" on:click={() => sendMusicData(songInfo)}>Play</button>
   </div>
 {/if}
 

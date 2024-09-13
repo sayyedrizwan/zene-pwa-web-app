@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import Footer from "$lib/components/item/Footer.svelte";
   import { openAppOrRedirect } from "$lib/utils/Utils";
   import { MUSICTYPE, type MusicData } from "../../-api-/ApiService/model/MusicData";
 
   export let data: any;
   let songInfo: MusicData | undefined = JSON.parse(data.data);
+  let songLists: MusicData[] = []
 
   function openURLApp(noFound: Boolean) {
     if (noFound) openAppOrRedirect(window.location.origin);

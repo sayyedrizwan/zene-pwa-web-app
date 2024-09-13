@@ -23,11 +23,12 @@
       if (getCookie(player_info_info) != null) {
         const player = deTheVal(getCookie(player_info_info)!);
         isOldSong = true;
-        sendMusicData(JSON.parse(player) as MusicData);
+        music = JSON.parse(player) as MusicData;
       }
     }, 1000);
 
     document.addEventListener(musicEvents, (event: any) => {
+      isOldSong = false;
       music = event.detail;
     });
   }
