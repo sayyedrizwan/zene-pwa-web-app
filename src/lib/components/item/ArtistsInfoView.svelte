@@ -1,7 +1,6 @@
 <script lang="ts">
   import { goto, invalidate, invalidateAll } from "$app/navigation";
-  import { encsMainUp } from "$lib/utils/ad_ss";
-  import { redirect } from "@sveltejs/kit";
+  import { encsMainUp, genRan } from "$lib/utils/ad_ss";
   import { MUSICTYPE, type MusicData } from "../../../routes/-api-/ApiService/model/MusicData";
 
   export let m: MusicData;
@@ -9,36 +8,7 @@
   async function managePageDestination() {
     if (m.type == MUSICTYPE.ARTISTS) {
       const artistsPath = `/a/${await encsMainUp(m.name.toString())}`;
-
-      const thisPage = window.location.pathname;
-
-      console.log("goto " + thisPage);
-
-      const nextURL = artistsPath;
-      const nextTitle = 'My new page title';
-      const nextState = { additionalInformation: 'Updated the URL with JS' };
-
-      const redirect = (url: string, asLink = true) =>
-        asLink ? (window.location.href = url) : window.location.replace(url);
-
-      // This will create a new entry in the browser's history, without reloading
-      // window.history.pushState(nextState, nextTitle, nextURL);
-      // invalidateAll()
-
-      // This will replace the current entry in the browser's history, without reloading
-      // window.history.replaceState(nextState, nextTitle, nextURL);
-
-      // goto(artistsPath).then(() => goto(thisPage));
-
-      // goto(artistsPath, { replaceState: true });
-      // invalidate(artistsPath)
-      // setTimeout(() => goto(artistsPath), 0);
-      // goto(artistsPath);
-
-      // const url = new URL(`/a/${await encsMainUp(m.name.toString())}`);
-
-      // goto(url.href);
-      // goto(url.href, { replaceState: true });
+      goto(artistsPath, { replaceState: true });
     }
   }
 </script>

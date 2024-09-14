@@ -5,5 +5,7 @@ export async function load({ params, fetch }) {
   const name = await decryptSharingData(params.id)
 
   const response = await fetch('/-api-/artistsdata/info', { method: 'POST', headers: { auth: auth }, body: JSON.stringify({ name: name}) });
-  return { data: JSON.stringify(await response.json()), url: params.id}
+  const data = await response.json()
+  console.log(data)
+  return { data: JSON.stringify(data), url: params.id}
 }

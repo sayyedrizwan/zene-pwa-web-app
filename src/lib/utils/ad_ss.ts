@@ -46,7 +46,7 @@ function splitInHalf(str: String): [string, string] {
   return [firstHalf, secondHalf];
 }
 
-function genRan(length: number): string {
+export function genRan(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
 

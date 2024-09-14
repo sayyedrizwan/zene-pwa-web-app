@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { encsMainUp } from "$lib/utils/ad_ss";
+  import { encsMainUp, genRan } from "$lib/utils/ad_ss";
   import { sendMusicData } from "$lib/utils/Utils";
   import { MUSICTYPE, type MusicData } from "../../../routes/-api-/ApiService/model/MusicData";
 
@@ -11,7 +11,7 @@
     if (m.type == MUSICTYPE.SONGS || m.type == MUSICTYPE.VIDEO) {
       sendMusicData(m);
     } else if (m.type == MUSICTYPE.PLAYLIST || m.type == MUSICTYPE.ALBUMS) {
-      goto(`/p/${await encsMainUp(m.id.toString())}`);
+      goto(`/p/${await encsMainUp(m.id.toString())}}`);
     } else if (m.type == MUSICTYPE.ARTISTS) {
       goto(`/a/${await encsMainUp(m.id.toString())}`);
     }

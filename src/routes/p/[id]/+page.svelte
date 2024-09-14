@@ -2,7 +2,6 @@
   import { browser } from "$app/environment";
   import Footer from "$lib/components/item/Footer.svelte";
   import { openAppOrRedirect, playlistsapi, z_my_playlists } from "$lib/utils/Utils";
-  import { onMount } from "svelte";
   import { MUSICTYPE, type MusicData } from "../../-api-/ApiService/model/MusicData";
   import axios from "axios";
   import { gKEnc } from "$lib/utils/ad_ss";
@@ -18,6 +17,21 @@
   let isLoading = false;
   let pageData = 0;
 
+  $: data.url, newValue();
+
+  async function newValue() {
+    if (browser) {
+      if (dataInfo?.id != undefined) {
+        if (String(data.id).includes("zene_p_")) {
+          await moreLoadSongs();
+        } else {
+          const res = await axios.get(`/-api-/${playlistsapi}`, { params: { id: data.id, email: data.email }, headers: { auth: gKEnc() } });
+          songLists = (await res.data).songs;
+        }
+      }
+    }
+  }
+
   function openURLApp(noFound: Boolean) {
     if (noFound) openAppOrRedirect(window.location.origin);
     else openAppOrRedirect(window.location.href);
@@ -25,28 +39,17 @@
 
   async function moreLoadSongs() {
     try {
-      isLoading = true
+      isLoading = true;
       const res = await axios.get(`/-api-/${z_my_playlists}`, { params: { playlistID: data.id, page: pageData }, headers: { auth: gKEnc() } });
       const response = (await res.data) as MusicData[];
-      showMoreButton = response.length > 25
-      pageData =+ 1
+      showMoreButton = response.length > 25;
+      pageData = +1;
       songLists = [...songLists, ...response];
-      isLoading = false
+      isLoading = false;
     } catch (error) {
-      isLoading = false
+      isLoading = false;
     }
   }
-
-  onMount(async () => {
-    if (dataInfo?.id != undefined) {
-      if (String(data.id).includes("zene_p_")) {
-        await moreLoadSongs();
-      } else {
-        const res = await axios.get(`/-api-/${playlistsapi}`, { params: { id: data.id, email: data.email }, headers: { auth: gKEnc() } });
-        songLists = (await res.data).songs;
-      }
-    }
-  });
 </script>
 
 <svelte:head>
@@ -105,19 +108,19 @@
 </div>
 
 <div class="w-full flex justify-center items-center">
-{#if String(data.id).includes("zene_p_")}
-  {#if isLoading}
-    <LoadingView />
+  {#if String(data.id).includes("zene_p_")}
+    {#if isLoading}
+      <LoadingView />
+    {/if}
+
+    {#if showMoreButton && !isLoading}
+      <div class="flex flex-row poppins-regular mt-4 text-white justify-center items-center">
+        <button on:click={moreLoadSongs} class="border border-white rounded-3xl bg-charcoal cursor-pointer m-2">
+          <h2 class="poppins-regular px-6 py-3 text-left">Load More</h2>
+        </button>
+      </div>
+    {/if}
   {/if}
-  
-  {#if showMoreButton && !isLoading}
-  <div class="flex flex-row poppins-regular mt-4 text-white justify-center items-center">
-    <button on:click={moreLoadSongs} class="border border-white rounded-3xl bg-charcoal cursor-pointer m-2">
-      <h2 class="poppins-regular px-6 py-3 text-left">Load More</h2>
-    </button>
-  </div>
-  {/if}
-{/if}
 </div>
 
 <Footer />

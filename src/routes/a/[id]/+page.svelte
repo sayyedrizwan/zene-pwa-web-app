@@ -14,11 +14,27 @@
   import NewsViewItems from "$lib/components/item/NewsViewItems.svelte";
   import VideoInfoView from "$lib/components/item/VideoInfoView.svelte";
   import ArtistsInfoView from "$lib/components/item/ArtistsInfoView.svelte";
+  import { browser } from "$app/environment";
 
   export let data: any;
-  let info: ArtistsDataInfo | undefined = JSON.parse(data.data);
+  let info: ArtistsDataInfo | undefined = undefined;
   let infoData: ArtistsData | undefined = undefined;
   let showFullDesc = false;
+
+  $: data.name, newValue();
+
+  async function newValue() {
+    if (browser) {
+      info = JSON.parse(data.data);
+
+      try {
+        const res = await axios.post(`/-api-/${artistsdataapi}`, { name: info?.name }, { headers: { auth: gKEnc() } });
+        infoData = await res.data;
+      } catch (error) {
+        infoData = new ArtistsData([], [], [], [], [], []);
+      }
+    }
+  }
 
   function openURLApp(noFound: Boolean) {
     if (noFound) openAppOrRedirect(window.location.origin);
@@ -32,16 +48,6 @@
       sendMusicData(music);
     }
   }
-
-  onMount(async () => {
-    console.log(info);
-    try {
-      const res = await axios.post(`/-api-/${artistsdataapi}`, { name: info?.name }, { headers: { auth: gKEnc() } });
-      infoData = await res.data;
-    } catch (error) {
-      infoData = new ArtistsData([], [], [], [], [], []);
-    }
-  });
 </script>
 
 <svelte:head>
@@ -112,7 +118,7 @@
         <a href={social.url} target="_blank">
           {#if !social.url?.toString().includes("or the url to your profile")}
             <div class="bg-gray-700 rounded-lg p-4">
-              <h3 class="text-base text-start text-white poppins-regular w-full">{social.title == undefined || social.title == ""  ? social.network : social.title}</h3>
+              <h3 class="text-base text-start text-white poppins-regular w-full">{social.title == undefined || social.title == "" ? social.network : social.title}</h3>
               <h3 class="text-base text-start text-white poppins-thin w-full mt-4">/{getLastOrSecondLastPart(social.url ?? "")}</h3>
             </div>
           {/if}
