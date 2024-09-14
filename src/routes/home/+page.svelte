@@ -1,9 +1,10 @@
 <script lang="ts">
   import HomeTopView from "$lib/components/HomeTopView.svelte";
   import Footer from "$lib/components/item/Footer.svelte";
+  import CardItemView from "./CardItemView.svelte";
+  import FansReviewView from "./FansReviewView.svelte";
 
   export let data: any;
-
 </script>
 
 <svelte:head>
@@ -19,7 +20,19 @@
 </svelte:head>
 
 <div class="bg-black w-full">
-  <HomeTopView data={data}/>
+  <HomeTopView {data} />
+
+  <div class="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
+    <div class="mt-16 grid divide-x divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden rounded-3xl border border-gray-100 text-gray-600 dark:border-gray-700 sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
+      <CardItemView title={"Unlimited Ad-Free Music Streaming"} desc={"Enjoy unlimited music with no ads. Personalized playlists, offline listening, and more."} emoji={"🎉"} img={"https://cdn-icons-png.flaticon.com/512/17728/17728523.png"} />
+      <CardItemView title={"Music Anywhere Anytime"} desc={"Stream music seamlessly across all your devices. Enjoy ad-free, personalized playlists."} emoji={"💻"} img={"https://cdn-icons-png.flaticon.com/512/3659/3659784.png"} />
+      <CardItemView title={"Stream High-Quality Music"} desc={"Experience premium sound quality. Enjoy ad-free, high-definition music on any device."} emoji={"🎺"} img={"https://cdn-icons-png.flaticon.com/512/11125/11125966.png"} />
+      <CardItemView title={"Handpicked Personal Soundtrack"} desc={"Get personalized song suggestions tailored to your taste."} emoji={"💭"} img={"https://cdn-icons-png.flaticon.com/512/1027/1027567.png"} />
+    </div>
+  </div>
+
+  <FansReviewView />
+  
 
   <Footer />
 </div>
