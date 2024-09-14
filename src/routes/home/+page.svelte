@@ -37,7 +37,7 @@
 
   <FansReviewView />
 
-  <section class="m-auto flex max-w-screen-2xl grow flex-col justify-center bg-slate-50 lg:flex-row mt-7">
+  <section class="m-auto flex max-w-screen-2xl grow flex-col justify-center bg-slate-50 lg:flex-row mt-7" id="download">
     <div class="flex h-full flex-col items-center justify-center md:min-w-[589px]">
       <img src={IPHONE_MOCKUP_ICON} role="presentation" alt="" class="pt-6 h-[90vh] lg:pt-12" />
     </div>
@@ -48,10 +48,14 @@
         <h4 class="text-lg font-normal leading-7 text-white">Discover the ultimate music experience with Zene! Available on all major platforms, our app lets you enjoy your favorite tunes anytime, anywhere. Download Zene now and take your music with you wherever you go!</h4>
       </div>
       <div class="flex flex-wrap gap-5 justify-center items-center w-full">
-        <img src={GOOGLE_PLAY_ICON} class="h-12 object-contain" alt="zene google play"/>
-        <img src={APPLE_PLAY_ICON} class="h-12 object-contain" alt="zene app store"/>
+        <a href="https://play.google.com/store/apps/details?id=com.rizwansayyed.zene">
+          <img src={GOOGLE_PLAY_ICON} class="h-12 object-contain" alt="zene google play" />
+        </a>
+        <a href="https://apps.apple.com/us/app/zene-a-music-app/id6504202797">
+          <img src={APPLE_PLAY_ICON} class="h-12 object-contain" alt="zene app store" />
+        </a>
 
-        <div class="flex flex-row gap-4 w-full justify-center items-center mt-3">
+        <a href="/download" class="flex flex-row gap-4 w-full justify-center items-center mt-3">
           <button type="button" aria-disabled="false" class="flex flex-row justify-center items-center rounded-lg py-6 px-6 text-sm poppins-regular transition-all duration-300 ease-in-out bg-blue text-white hover:bg-maincolor h-11 w-52 gap-2">
             <div>Download More</div>
             <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" class="size-6 stroke-inherit">
@@ -59,7 +63,7 @@
               <circle cx="12" cy="12" r="9"></circle>
             </svg>
           </button>
-        </div>
+        </a>
       </div>
     </div>
   </section>
