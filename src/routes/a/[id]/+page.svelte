@@ -1,22 +1,31 @@
 <script lang="ts">
   import Footer from "$lib/components/item/Footer.svelte";
-  import { getLastOrSecondLastPart, openAppOrRedirect } from "$lib/utils/Utils";
-  import { onMount } from "svelte";
-  import type { ArtistsDataInfo } from "../../-api-/ApiService/model/ArtistsData";
   import TextStyleView from "$lib/components/item/TextStyleView.svelte";
   import { TextType } from "$lib/utils/model/TextType";
   import ARROW_ICON from "$lib/assets/img/ic_arrow.svg";
+  import { formatNumber, getLastOrSecondLastPart, openAppOrRedirect, sendMusicData } from "$lib/utils/Utils";
+  import type { ArtistsDataInfo } from "../../-api-/ApiService/model/ArtistsData";
+  import { MusicData, MUSICTYPE } from "../../-api-/ApiService/model/MusicData";
+  import CardInfoView from "$lib/components/item/CardInfoView.svelte";
+
 
   export let data: any;
-  let info: ArtistsDataInfo | undefined = data.data;
+  let info: ArtistsDataInfo | undefined = JSON.parse(data.data);
   let showFullDesc = false;
+
 
   function openURLApp(noFound: Boolean) {
     if (noFound) openAppOrRedirect(window.location.origin);
     else openAppOrRedirect(window.location.href);
   }
 
-  onMount(() => {});
+  function startRadio() {
+    if (info?.radioID != null) {
+      const randomIndex = Math.floor(Math.random() * info?.img.length);
+      let music = new MusicData(`${info?.name}`, info?.name ?? "", info?.radioID, info?.img[randomIndex], MUSICTYPE.SONGS, "_radio_");
+      sendMusicData(music);
+    }
+  }
 </script>
 
 <svelte:head>
@@ -75,7 +84,13 @@
     </button>
   </div>
 
-  <div class="flex flex-row overflow-x-auto no-scrollbar mt-8">
+   <h3 class="text-base text-center text-white poppins-thin w-full my-11">Followed by {formatNumber(info.followers)}</h3>
+
+  <div class="w-full flex justify-center items-center">
+    <button on:click={startRadio} class="mt-8 xl:mt-12 px-12 py-5 hover:px-16 hover-animation text-lg poppins-regular text-white inline-block bg-maincolor rounded-xl">Start Radio</button>
+  </div>
+
+  <div class="flex flex-row overflow-x-auto no-scrollbar mt-14">
     {#each info?.socialMedia ?? [] as social}
       <div class="flex-none px-2 first:pl-3 last:pr-3">
         <a href={social.url} target="_blank">
@@ -87,6 +102,22 @@
       </div>
     {/each}
   </div>
+
+  {#if info?.topSongs.length ?? 0 > 0}
+    <div class="h-28" />
+    <TextStyleView textType={TextType.SMALL} title={"Top Songs"} />
+    <div class="relative rounded-xl overflow-auto no-scrollbar">
+      <div class="w-full shadow-xl">
+        <div class="overflow-x-auto flex no-scrollbar">
+          {#each info?.topSongs ?? [] as m}
+            <CardInfoView dynamicList={false} {m} />
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
 {/if}
+
+<div class="h-44" />
 
 <Footer />

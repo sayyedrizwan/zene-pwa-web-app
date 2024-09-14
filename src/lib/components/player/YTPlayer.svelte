@@ -112,6 +112,10 @@
   }
 
   async function getSongReleatedSongs() {
+    if(music.extra == "_radio_") {
+      similarSongs = []
+      return
+    }
     try {
       similarSongs = null;
       const res = await axios.get(`/-api-/${player_suggestedsongs}`, { params: { s: music.id }, headers: { auth: gKEnc() } });

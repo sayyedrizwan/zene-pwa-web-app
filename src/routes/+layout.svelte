@@ -30,7 +30,7 @@
     document.addEventListener(musicEvents, async (event: any) => {
       isOldSong = false;
       music = event.detail;
-      if (music != undefined) {
+      if (music != undefined && music.extra != "_radio_") {
         await axios.post(`/-api-/${z_song_history}`, { params: { songID: music.id, email: data.email, device: navigator.userAgent }, headers: { auth: gKEnc() } });
       }
     });
