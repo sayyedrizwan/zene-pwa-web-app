@@ -3,6 +3,7 @@
   import Footer from "$lib/components/item/Footer.svelte";
   import CardItemView from "./CardItemView.svelte";
   import FansReviewView from "./FansReviewView.svelte";
+  import FollowUsOn from "./FollowUsOn.svelte";
 
   export let data: any;
 </script>
@@ -33,6 +34,8 @@
 
   <FansReviewView />
   
+
+  <FollowUsOn />
 
   <Footer />
 </div>
