@@ -4,9 +4,9 @@
   import { musicEvents, sendMusicData, z_song_history } from "$lib/utils/Utils";
   import type { MusicData } from "./-api-/ApiService/model/MusicData";
   import YtPlayer from "$lib/components/player/YTPlayer.svelte";
-  import { deTheVal, gKEnc, setK, updateK } from "$lib/utils/ad_ss";
+  import { deTheVal, gKEnc, setK } from "$lib/utils/ad_ss";
   import { browser } from "$app/environment";
-  import { getCookie, player_info_info, setCookie } from "$lib/utils/Cookies";
+  import { getCookie, player_info_info } from "$lib/utils/Cookies";
   import axios from "axios";
 
   export let data: any;
@@ -15,10 +15,7 @@
 
   if (browser) {
     setK(window.atob(data.i), window.atob(data.k), window.atob(data.mk));
-    setInterval(() => {
-      updateK();
-    }, 1000);
-
+    
     setTimeout(() => {
       if (getCookie(player_info_info) != null) {
         const player = deTheVal(getCookie(player_info_info)!);

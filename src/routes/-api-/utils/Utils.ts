@@ -60,7 +60,7 @@ export function verifyHeader(request: Request) {
     const dataToNormal = decryptWebInfo(key);
     const parts = dataToNormal.split("___");
     const numberPart = parts[1] + parts[3];
-    if (timeDifferenceInSeconds(parseInt(numberPart)) < 13) return true;
+    if (timeDifferenceInHours(parseInt(numberPart)) < 13) return true;
     return false;
   } catch (error) {
     return false;
@@ -309,12 +309,11 @@ export function timeDifferenceIs24Hours(oldTimestamp: string): Boolean {
   return false;
 }
 
-export function timeDifferenceInHours(oldTimestamp: string) {
+export function timeDifferenceInHours(oldTimestamp: number) {
   const currentTimestamp = new Date().getTime();
-  const oldDate = new Date(oldTimestamp).getTime();
-  const differenceInMs = currentTimestamp - oldDate;
-
+  const differenceInMs = Math.floor(currentTimestamp - oldTimestamp);
   const hours = Math.floor((differenceInMs / (1000 * 60 * 60)) % 24);
+  return hours
 }
 
 function timeDifferenceInSeconds(oldTimestamp: number): number {
