@@ -6,6 +6,7 @@
   import FollowUsOn from "./FollowUsOn.svelte";
   import GOOGLE_PLAY_ICON from "$lib/assets/img/get_on_google_play.png";
   import APPLE_PLAY_ICON from "$lib/assets/img/get_on_app_store.svg";
+  import IPHONE_MOCKUP_ICON from "$lib/assets/img/iphone_mockup_app.png";
 
   export let data: any;
 </script>
@@ -37,8 +38,8 @@
   <FansReviewView />
 
   <section class="m-auto flex max-w-screen-2xl grow flex-col justify-center bg-slate-50 lg:flex-row mt-7">
-    <div class="flex h-full flex-col items-center md:min-w-[589px]">
-      <img src="https://www.tailframes.com/images/mobile-mockup.webp" role="presentation" alt="" width="589" height="702" class="pt-6 lg:mb-0 lg:h-auto lg:w-[589px] lg:pt-12" />
+    <div class="flex h-full flex-col items-center justify-center md:min-w-[589px]">
+      <img src={IPHONE_MOCKUP_ICON} role="presentation" alt="" class="pt-6 h-[90vh] lg:pt-12" />
     </div>
     <div class="flex flex-1 flex-col items-center gap-12 bg-black py-12 text-center md:gap-8 lg:items-start lg:py-16 lg:pb-0 lg:text-start xl:pt-24 2xl:gap-12 px-3 sm:px-8 lg:px-16 xl:px-32">
       <span class="inline-flex rounded-[64px] border text-center font-semibold transition-all duration-300 ease-in-out h-7 px-3 py-1 text-sm border-blue-300 bg-lightblack text-white">Zene Music Apps</span>
@@ -46,13 +47,12 @@
         <h3 class="text-4xl poppins-semi-bold text-white md:text-6xl">Get Zene on Your Favorite Platform!</h3>
         <h4 class="text-lg font-normal leading-7 text-white">Discover the ultimate music experience with Zene! Available on all major platforms, our app lets you enjoy your favorite tunes anytime, anywhere. Download Zene now and take your music with you wherever you go!</h4>
       </div>
-      <div class="flex flex-row gap-8">
-
+      <div class="flex flex-wrap gap-5 justify-center items-center w-full">
         <img src={GOOGLE_PLAY_ICON} class="h-12 object-contain" alt="zene google play"/>
         <img src={APPLE_PLAY_ICON} class="h-12 object-contain" alt="zene app store"/>
 
-        <div class="flex gap-4">
-          <button type="button" aria-disabled="false" class="flex flex-row justify-center items-center rounded-lg py-6 px-6 text-sm poppins-regular transition-all duration-300 ease-in-out bg-blue text-white hover:bg-maincolor h-[42px] min-w-[42px] gap-2">
+        <div class="flex flex-row gap-4 w-full justify-center items-center mt-3">
+          <button type="button" aria-disabled="false" class="flex flex-row justify-center items-center rounded-lg py-6 px-6 text-sm poppins-regular transition-all duration-300 ease-in-out bg-blue text-white hover:bg-maincolor h-11 w-52 gap-2">
             <div>Download More</div>
             <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" class="size-6 stroke-inherit">
               <path d="M11 16L15 12L11 8" stroke-linecap="round" stroke-linejoin="round"></path>
