@@ -50,7 +50,7 @@ export class LastFMService {
 
       root.querySelectorAll(".image-list-item-wrapper")?.forEach((html) => {
         const src = html.querySelector("img")?.getAttribute("src");
-        if (src != undefined) list.push(`https://lastfm.freetls.fastly.net/i/u/770x0/${src.split("/").pop()}`);
+        if (src != undefined) list.push(`https://lastfm.freetls.fastly.net/i/u/${src.split("/").pop()}`);
       });
       return list;
     } catch (error) {

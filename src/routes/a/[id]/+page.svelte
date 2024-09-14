@@ -3,16 +3,22 @@
   import TextStyleView from "$lib/components/item/TextStyleView.svelte";
   import { TextType } from "$lib/utils/model/TextType";
   import ARROW_ICON from "$lib/assets/img/ic_arrow.svg";
-  import { formatNumber, getLastOrSecondLastPart, openAppOrRedirect, sendMusicData } from "$lib/utils/Utils";
-  import type { ArtistsDataInfo } from "../../-api-/ApiService/model/ArtistsData";
+  import { artistsdataapi, formatNumber, getLastOrSecondLastPart, openAppOrRedirect, sendMusicData } from "$lib/utils/Utils";
+  import { ArtistsData, type ArtistsDataInfo } from "../../-api-/ApiService/model/ArtistsData";
   import { MusicData, MUSICTYPE } from "../../-api-/ApiService/model/MusicData";
   import CardInfoView from "$lib/components/item/CardInfoView.svelte";
-
+  import { onMount } from "svelte";
+  import axios from "axios";
+  import { gKEnc } from "$lib/utils/ad_ss";
+  import LoadingView from "$lib/components/item/LoadingView.svelte";
+  import NewsViewItems from "$lib/components/item/NewsViewItems.svelte";
+  import VideoInfoView from "$lib/components/item/VideoInfoView.svelte";
+  import ArtistsInfoView from "$lib/components/item/ArtistsInfoView.svelte";
 
   export let data: any;
   let info: ArtistsDataInfo | undefined = JSON.parse(data.data);
+  let infoData: ArtistsData | undefined = undefined;
   let showFullDesc = false;
-
 
   function openURLApp(noFound: Boolean) {
     if (noFound) openAppOrRedirect(window.location.origin);
@@ -26,6 +32,16 @@
       sendMusicData(music);
     }
   }
+
+  onMount(async () => {
+    console.log(info);
+    try {
+      const res = await axios.post(`/-api-/${artistsdataapi}`, { name: info?.name }, { headers: { auth: gKEnc() } });
+      infoData = await res.data;
+    } catch (error) {
+      infoData = new ArtistsData([], [], [], [], [], []);
+    }
+  });
 </script>
 
 <svelte:head>
@@ -65,7 +81,7 @@
       {#each info?.img ?? [] as img}
         <div class="flex-none px-2 first:pl-3 last:pr-3">
           <div class="flex flex-col items-center justify-center">
-            <img class="h-[65vh] w-[45vh] object-cover" src={img.toString()} alt={info.name.toString()} />
+            <img class="h-[65vh] w-[45vh] object-cover" src={img.toString()} alt={info.name.toString()} referrerpolicy="no-referrer" loading="lazy" />
           </div>
         </div>
       {/each}
@@ -84,7 +100,7 @@
     </button>
   </div>
 
-   <h3 class="text-base text-center text-white poppins-thin w-full my-11">Followed by {formatNumber(info.followers)}</h3>
+  <h3 class="text-base text-center text-white poppins-thin w-full my-11">Followed by {formatNumber(info.followers)}</h3>
 
   <div class="w-full flex justify-center items-center">
     <button on:click={startRadio} class="mt-8 xl:mt-12 px-12 py-5 hover:px-16 hover-animation text-lg poppins-regular text-white inline-block bg-maincolor rounded-xl">Start Radio</button>
@@ -94,10 +110,12 @@
     {#each info?.socialMedia ?? [] as social}
       <div class="flex-none px-2 first:pl-3 last:pr-3">
         <a href={social.url} target="_blank">
-          <div class="bg-gray-700 rounded-lg p-4">
-            <h3 class="text-base text-start text-white poppins-regular w-full">{social.title}</h3>
-            <h3 class="text-base text-start text-white poppins-thin w-full mt-4">/{getLastOrSecondLastPart(social.url ?? "")}</h3>
-          </div>
+          {#if !social.url?.toString().includes("or the url to your profile")}
+            <div class="bg-gray-700 rounded-lg p-4">
+              <h3 class="text-base text-start text-white poppins-regular w-full">{social.title == undefined || social.title == ""  ? social.network : social.title}</h3>
+              <h3 class="text-base text-start text-white poppins-thin w-full mt-4">/{getLastOrSecondLastPart(social.url ?? "")}</h3>
+            </div>
+          {/if}
         </a>
       </div>
     {/each}
@@ -111,6 +129,100 @@
         <div class="overflow-x-auto flex no-scrollbar">
           {#each info?.topSongs ?? [] as m}
             <CardInfoView dynamicList={false} {m} />
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
+{/if}
+
+{#if infoData == undefined}
+  <div class="w-full flex justify-center items-center">
+    <LoadingView />
+  </div>
+{:else}
+  {#if infoData.news.length > 0}
+    <div class="h-28" />
+    <TextStyleView textType={TextType.SMALL} title={"News"} />
+
+    <div class="rounded-xl overflow-auto no-scrollbar">
+      <div class="w-full shadow-xl">
+        <div class="overflow-x-auto flex no-scrollbar gap-3">
+          {#each infoData.news as m}
+            <NewsViewItems {m} />
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
+
+  {#if infoData.videos.length > 0}
+    <div class="h-28" />
+    <TextStyleView textType={TextType.SMALL} title={"Videos"} />
+
+    <div class="rounded-xl overflow-auto no-scrollbar">
+      <div class="w-full shadow-xl">
+        <div class="overflow-x-auto flex no-scrollbar gap-3">
+          {#each infoData.videos as m}
+            {#if m.type == MUSICTYPE.VIDEO}
+              <VideoInfoView {m} />
+            {/if}
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
+
+  {#if infoData.playlists.length > 0}
+    <div class="h-28" />
+    <TextStyleView textType={TextType.SMALL} title={"Playlists"} />
+
+    <div class="rounded-xl overflow-auto no-scrollbar">
+      <div class="w-full shadow-xl">
+        <div class="overflow-x-auto flex no-scrollbar gap-3">
+          {#each infoData.playlists as m}
+            <CardInfoView dynamicList={false} {m} />
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
+
+  {#if infoData.albums.length > 0}
+    <div class="h-28" />
+    <TextStyleView textType={TextType.SMALL} title={"Albums"} />
+
+    <div class="rounded-xl overflow-auto no-scrollbar">
+      <div class="w-full shadow-xl">
+        <div class="overflow-x-auto flex no-scrollbar gap-3">
+          {#each infoData.albums as m}
+            <CardInfoView dynamicList={false} {m} />
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
+
+  {#if infoData.songs.length > 0}
+    <div class="h-28" />
+    <TextStyleView textType={TextType.SMALL} title={"Songs"} />
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {#each infoData.songs as m}
+        <CardInfoView dynamicList={true} {m} />
+      {/each}
+    </div>
+  {/if}
+
+  {#if infoData.artists.length > 0}
+    <div class="h-28" />
+    <TextStyleView textType={TextType.SMALL} title={"Similar Artists"} />
+
+    <div class="rounded-xl overflow-auto no-scrollbar">
+      <div class="w-full shadow-xl">
+        <div class="overflow-x-auto flex no-scrollbar gap-3">
+          {#each infoData.artists as m}
+            <ArtistsInfoView {m} />
           {/each}
         </div>
       </div>

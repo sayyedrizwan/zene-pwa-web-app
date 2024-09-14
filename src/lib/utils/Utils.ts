@@ -15,6 +15,7 @@ export const z_playlists = "zuser/playlists"
 export const z_song_history = "zuser/songhistory"
 export const z_my_playlists = "zuser/myplaylists"
 export const player_suggestedsongs = "player/suggestedsongs"
+export const artistsdataapi = "artistsdata/data"
 export const playlistsapi = "playlists"
 
 export function onBrowser() {
@@ -85,5 +86,14 @@ export function formatNumber(num: number): string {
       return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
   } else {
       return num.toString();
+  }
+}
+
+export function getDomainFromUrl(url: string): string {
+  try {
+      const parsedUrl = new URL(url);
+      return parsedUrl.hostname.replaceAll("www.", "");
+  } catch (error) {
+      return '';
   }
 }
