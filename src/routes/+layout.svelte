@@ -8,12 +8,13 @@
   import { browser } from "$app/environment";
   import { getCookie, player_info_info } from "$lib/utils/Cookies";
   import axios from "axios";
+  import { onMount } from "svelte";
 
   export let data: any;
   let music: MusicData | undefined = undefined;
   let isOldSong = false;
 
-  if (browser) {
+  onMount(() => {
     setK(window.atob(data.i), window.atob(data.k), window.atob(data.mk));
     
     setTimeout(() => {
@@ -31,7 +32,7 @@
         await axios.post(`/-api-/${z_song_history}`, { params: { songID: music.id, email: data.email, device: navigator.userAgent }, headers: { auth: gKEnc() } });
       }
     });
-  }
+  })
 </script>
 
 <div class="absolute left-0 top-0 z-30">

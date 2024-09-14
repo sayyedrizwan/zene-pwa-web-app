@@ -15,13 +15,13 @@ export async function load({ cookies }) {
   let name: String = "";
   let profilePic: String = "";
 
-  if (data == undefined) return { i: date, k: btoa(webEncKey), loggedIn: false };
+  if (data == undefined) return { i: date, k: btoa(webEncKey), loggedIn: false, mk: btoa(ENC_DEC_KEY), };
 
   let email = decryptWebInfo(data);
   if (!email.includes("@") && email.trim().length <= 2) return { i: date, mk: btoa(ENC_DEC_KEY), k: btoa(webEncKey), loggedIn: false };
 
   try {
-    const response = await axios.get("http://localhost:3419/-api-/zuser/users", { params: { user: email }, headers: { auth: auth } });
+    const response = await axios.get("https://zenemusic.co/-api-/zuser/users", { params: { user: email }, headers: { auth: auth } });
     const user = (await response.data) as any;
     name = user.name;
     profilePic = user.profile_photo;
