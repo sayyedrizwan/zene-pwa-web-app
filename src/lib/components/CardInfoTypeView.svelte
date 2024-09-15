@@ -21,20 +21,22 @@
   let response: MusicData[] = [];
 
   onMount(async () => {
-    isLoading = true;
-    try {
-      if (isGet) {
-        const res = await axios.get(`/-api-/${url}`, { headers: { auth: gKEnc() } });
-        response = (await res.data) as MusicData[];
-      } else {
-        const res = await axios.post(`/-api-/${url}`, { email: email }, { headers: { auth: gKEnc() } });
-        response = (await res.data) as MusicData[];
+    setTimeout(async () => {
+      isLoading = true;
+      try {
+        if (isGet) {
+          const res = await axios.get(`/-api-/${url}`, { headers: { auth: gKEnc() } });
+          response = (await res.data) as MusicData[];
+        } else {
+          const res = await axios.post(`/-api-/${url}`, { email: email }, { headers: { auth: gKEnc() } });
+          response = (await res.data) as MusicData[];
+        }
+        isLoading = false;
+      } catch (error) {
+        console.log(error);
+        isLoading = false;
       }
-      isLoading = false;
-    } catch (error) {
-      console.log(error);
-      isLoading = false;
-    }
+    }, 500);
   });
 </script>
 
