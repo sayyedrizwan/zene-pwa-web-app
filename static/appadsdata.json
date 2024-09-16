@@ -1,0 +1,30 @@
+{
+  "ios": {
+    "showAds": true,
+    "title": "Helloo soo what's up",
+    "img": [
+      {
+        "title": "",
+        "img": ""
+      },
+      {
+        "title": "",
+        "img": ""
+      }
+    ]
+  },
+  "android": {
+    "showAds": true,
+    "title": "Helloo soo what's up",
+    "img": [
+      {
+        "title": "",
+        "img": ""
+      },
+      {
+        "title": "",
+        "img": ""
+      }
+    ]
+  }
+}
