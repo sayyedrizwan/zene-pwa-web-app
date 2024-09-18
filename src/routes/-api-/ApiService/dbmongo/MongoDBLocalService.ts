@@ -192,6 +192,9 @@ export class MongoDBLocalService {
         const id = (e as DBMusicHistory).id;
         if (!list.some((item) => item === id)) list.push(id);
       });
+      const end1 = Date.now();
+      const timeTaken1 = (end1 - start) / 1000;
+      console.log(`Execution time: ${timeTaken1.toFixed(4)} seconds ${email}`);
 
       const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
       dataTop.forEach((e: any) => {
