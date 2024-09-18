@@ -19,6 +19,8 @@ export async function POST({ request }) {
 
     await Promise.all(songsID.map(async (id: String) => {
         try {
+            console.log("----")
+            console.log(id)
             const song = await YoutubeMusicService.instance.songInfo(id.toString())
             if (song != undefined) {
                 const videoID = await YoutubeAPIService.instance.searchVideoIDFirst(`${song.name} - ${filterArtistsName(song.artists)} Official Video`)

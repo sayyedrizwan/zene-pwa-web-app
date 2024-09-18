@@ -18,6 +18,8 @@ export async function POST({ request }) {
 
     await Promise.all(songsID.map(async (id: String) => {
         try {
+            console.log("----")
+            console.log(id)
             const playlist = await YoutubeMusicService.instance.similarPlaylist(id.toString())
             playlist?.forEach((p, i) => {
                 if (body.length >= 7) {

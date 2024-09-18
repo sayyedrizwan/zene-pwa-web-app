@@ -17,6 +17,8 @@ export async function POST({ request }) {
 
     await Promise.all(songsID.map(async (id: String) => {
         try {
+            console.log("----")
+            console.log(id)
             const sSongs = await YoutubeMusicService.instance.similarSongs(id.toString())
             const nSongs = await YoutubeMusicService.instance.upNextSongs(id.toString())
             sSongs?.forEach((p, i) => {
