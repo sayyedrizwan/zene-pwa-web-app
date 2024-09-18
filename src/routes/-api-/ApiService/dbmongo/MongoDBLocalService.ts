@@ -194,7 +194,7 @@ export class MongoDBLocalService {
       });
       const end1 = Date.now();
       const timeTaken1 = (end1 - start) / 1000;
-      console.log(`Execution time: ${timeTaken1.toFixed(4)} seconds ${email}`);
+      console.log(`Execution time: latest ${timeTaken1.toFixed(4)} seconds ${email}`);
 
       const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
       dataTop.forEach((e: any) => {
@@ -203,7 +203,7 @@ export class MongoDBLocalService {
       });
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-      console.log(`Execution time: ${timeTaken.toFixed(4)} seconds ${email}`);
+      console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
       return shuffleString(list);
     } catch (error) {
       return [];
