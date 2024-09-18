@@ -196,14 +196,14 @@ export class MongoDBLocalService {
       const timeTaken1 = (end1 - start) / 1000;
       console.log(`Execution time: latest ${timeTaken1.toFixed(4)} seconds ${email}`);
 
-      const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
-      dataTop.forEach((e: any) => {
-        const id = (e as DBMusicHistory).id;
-        if (!list.some((item) => item === id)) list.push(id);
-      });
-      const end = Date.now();
-      const timeTaken = (end - start) / 1000;
-      console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+      // const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
+      // dataTop.forEach((e: any) => {
+      //   const id = (e as DBMusicHistory).id;
+      //   if (!list.some((item) => item === id)) list.push(id);
+      // });
+      // const end = Date.now();
+      // const timeTaken = (end - start) / 1000;
+      // console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
       return shuffleString(list);
     } catch (error) {
       return [];

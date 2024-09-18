@@ -19,9 +19,6 @@ export async function POST({ request }) {
       try {
         if (id != null || id != undefined) {
           const playlist = await YoutubeMusicService.instance.similarPlaylist(id.toString());
-          if(body.email == "sayyedrizwanahmed@gmail.com") {
-            console.log(`donee 3 ${playlist}`)
-          }
           playlist?.forEach((p, i) => {
             if (body.length >= 7) {
               if (i <= 1 && !list.some((item) => item.id === p.id)) list.push(p);
