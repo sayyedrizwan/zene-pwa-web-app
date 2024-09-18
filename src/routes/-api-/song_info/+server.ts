@@ -7,7 +7,7 @@ export async function GET({ url, request }) {
   if (!verifyHeader(request)) return json([]);
   const s = url.searchParams.get("id") ?? "";
   if (s == "") return json([]);
-
+  console.log(s)
   const data = await YoutubeMusicService.instance.songInfo(s);
   if (data == undefined) return json({});
   return json(data);
