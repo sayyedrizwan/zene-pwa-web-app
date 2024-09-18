@@ -6,10 +6,10 @@ export async function GET({ url, request }) {
   heartbeatAPI("zuser-get-user");
   if (!verifyHeader(request)) return json({});
 
-  const email = url.searchParams.get("user") ?? "";
-  if (!email.includes("@") && email.length < 3) return json({});
-
   try {
+    const email = url.searchParams.get("user") ?? "";
+    if (!email.includes("@") && email.length < 3) return json({});
+
     const userInfo = await MySqlLocalService.instance.searchUser(email);
     return json(userInfo);
   } catch (err) {
@@ -23,10 +23,9 @@ export async function POST({ request }) {
 
   const body = await request.json();
   const email = body.email as string;
-
-  if (!email.includes("@") && email.length < 3) return json({ status: "error" });
-
   try {
+    if (!email.includes("@") && email.length < 3) return json({ status: "error" });
+
     const [results] = await mysqlpool.query("SELECT * FROM `users` WHERE email = ?", [email]);
 
     const profilePic = body.photo.toString().length > 6 ? body.photo.toString() : `https://ui-avatars.com/api/?name=${body.name.replaceAll(" ", "+")}&background=2F3C7E&color=fff&size=128&length=2`;
