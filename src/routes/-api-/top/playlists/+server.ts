@@ -11,7 +11,15 @@ export async function POST({ request }) {
   const body = await request.json();
   if (!body.email.includes("@") && body.email.length < 3) return json([]);
 
+  if(body.email == "sayyedrizwanahmed@gmail.com") {
+    console.log('donee 111')
+  }
+
   let songsID = await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email);
+
+  if(body.email == "sayyedrizwanahmed@gmail.com") {
+    console.log(`donee 2 ${songsID}`)
+  }
 
   let list: MusicData[] = [];
 
@@ -20,6 +28,9 @@ export async function POST({ request }) {
       try {
         if (id != null || id != undefined) {
           const playlist = await YoutubeMusicService.instance.similarPlaylist(id.toString());
+          if(body.email == "sayyedrizwanahmed@gmail.com") {
+            console.log(`donee 3 ${playlist}`)
+          }
           playlist?.forEach((p, i) => {
             if (body.length >= 7) {
               if (i <= 1 && !list.some((item) => item.id === p.id)) list.push(p);
