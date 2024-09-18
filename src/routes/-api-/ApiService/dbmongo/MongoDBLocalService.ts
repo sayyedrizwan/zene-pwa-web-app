@@ -200,7 +200,7 @@ export class MongoDBLocalService {
       });
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-      console.log(`Execution time: ${timeTaken.toFixed(4)} seconds`);
+      console.log(`Execution time: ${timeTaken.toFixed(4)} seconds ${email}`);
       return shuffleString(list);
     } catch (error) {
       return [];
