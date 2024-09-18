@@ -8,6 +8,7 @@ export class MongoDBLocalService {
   static instance = new MongoDBLocalService();
 
   static limitPagination = 26;
+  static isIndexed = false;
 
   mainDBName = isDevDB ? "zenemusic" : "zenemusicnosql_zooofficer";
   userSongHistoryDB = "song_history";
@@ -17,6 +18,12 @@ export class MongoDBLocalService {
   collectionSongHistory = mongoDBClient.db(this.mainDBName).collection(this.userSongHistoryDB);
   collectionPlaylists = mongoDBClient.db(this.mainDBName).collection(this.userPlaylistsDB);
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
+
+  async indexing() {
+    if (MongoDBLocalService.isIndexed) return;
+    await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1 });
+    MongoDBLocalService.isIndexed = true;
+  }
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
     try {
@@ -184,6 +191,7 @@ export class MongoDBLocalService {
   }
 
   async topFifteenSongsOfUsers(email: String): Promise<String[]> {
+    await this.indexing();
     try {
       const start = Date.now();
       const list: String[] = [];
@@ -192,18 +200,14 @@ export class MongoDBLocalService {
         const id = (e as DBMusicHistory).id;
         if (!list.some((item) => item === id)) list.push(id);
       });
-      const end1 = Date.now();
-      const timeTaken1 = (end1 - start) / 1000;
-      console.log(`Execution time: latest ${timeTaken1.toFixed(4)} seconds ${email}`);
-
-      // const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
-      // dataTop.forEach((e: any) => {
-      //   const id = (e as DBMusicHistory).id;
-      //   if (!list.some((item) => item === id)) list.push(id);
-      // });
-      // const end = Date.now();
-      // const timeTaken = (end - start) / 1000;
-      // console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+      const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
+      dataTop.forEach((e: any) => {
+        const id = (e as DBMusicHistory).id;
+        if (!list.some((item) => item === id)) list.push(id);
+      });
+      const end = Date.now();
+      const timeTaken = (end - start) / 1000;
+      console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
       return shuffleString(list);
     } catch (error) {
       return [];

@@ -28,6 +28,7 @@ export const mysqlpool: any = mysql.createPool({
 export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/?retryWrites=true&w=majority&appName=zene` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`);
 await mongoDBClient.connect();
 
+
 export const shuffle = (array: MusicData[]) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

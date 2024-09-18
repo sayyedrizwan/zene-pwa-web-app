@@ -13,7 +13,6 @@ export async function POST({ request }) {
   let songsID = await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email);
 
   let list: MusicData[] = [];
-
   await Promise.all(
     songsID.map(async (id: String) => {
       try {
