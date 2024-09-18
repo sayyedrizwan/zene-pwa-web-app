@@ -23,6 +23,7 @@ export class MongoDBLocalService {
     if (MongoDBLocalService.isIndexed) return;
     await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1 });
     MongoDBLocalService.isIndexed = true;
+    await this.collectionSongHistory.deleteMany({ id: null});
   }
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
