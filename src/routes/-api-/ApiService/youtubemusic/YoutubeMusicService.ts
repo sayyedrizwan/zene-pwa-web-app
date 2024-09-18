@@ -604,9 +604,7 @@ export class YoutubeMusicService {
     const info = await this.searchSongs(VID, false);
 
     let m: MusicData | undefined = undefined;
-    console.log(info)
     info.forEach((e) => {
-      console.log(e)
       if (e.id == VID && m == undefined) m = e;
     });
 
