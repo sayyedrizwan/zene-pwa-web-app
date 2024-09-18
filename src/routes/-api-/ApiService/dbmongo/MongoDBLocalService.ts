@@ -185,6 +185,7 @@ export class MongoDBLocalService {
 
   async topFifteenSongsOfUsers(email: String): Promise<String[]> {
     try {
+      const start = Date.now();
       const list: String[] = [];
       const dataLatest = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(10).toArray();
       dataLatest.forEach((e: any) => {
@@ -197,7 +198,9 @@ export class MongoDBLocalService {
         const id = (e as DBMusicHistory).id;
         if (!list.some((item) => item === id)) list.push(id);
       });
-
+      const end = Date.now();
+      const timeTaken = (end - start) / 1000;
+      console.log(`Execution time: ${timeTaken.toFixed(4)} seconds`);
       return shuffleString(list);
     } catch (error) {
       return [];

@@ -6,6 +6,5 @@ export async function load({ params, fetch }) {
 
   const response = await fetch('/-api-/artistsdata/info', { method: 'POST', headers: { auth: auth }, body: JSON.stringify({ name: name}) });
   const data = await response.json()
-  console.log(data)
   return { data: JSON.stringify(data), url: params.id}
 }
