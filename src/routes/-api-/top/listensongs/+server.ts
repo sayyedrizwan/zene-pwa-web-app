@@ -4,7 +4,6 @@ import { YoutubeMusicService } from "../../ApiService/youtubemusic/YoutubeMusicS
 import { LastFMService } from "../../ApiService/lastfm/LastFMService.js";
 import { MusicData } from "../../ApiService/model/MusicData.js";
 import { MySqlLocalService } from "../../ApiService/dbmysql/MySqlLocalService.js";
-import axios from "axios";
 
 export async function GET({ request }) {
   heartbeatAPI("top-listen-songs");
@@ -22,10 +21,12 @@ export async function GET({ request }) {
   await Promise.all(
     items.results.artist.map(async (artists) => {
       try {
+        if (artists != null || artists != undefined) {
         const song = await YoutubeMusicService.instance.searchSongs(`${artists.tracks[0].name} - ${artists.name}`);
         const m = song[0];
         m.extra = artists.listeners;
         temps.push(m);
+        }
       } catch (error) {
         console.log(error);
       }

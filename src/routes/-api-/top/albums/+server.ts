@@ -17,6 +17,7 @@ export async function POST({ request }) {
 
     await Promise.all(songsID.map(async (id: String) => {
         try {
+            if (id != null || id != undefined) {
             const playlist = await YoutubeMusicService.instance.similarAlbums(id.toString())
             playlist?.forEach((p, i) => {
                 if (body.length >= 7) {
@@ -25,6 +26,7 @@ export async function POST({ request }) {
                     if (i <= 3 && !list.some((item) => item.id === p.id)) list.push(p)
                 }
             })
+        }
         } catch (error) {
             console.log(error)
         }
