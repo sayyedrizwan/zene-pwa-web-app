@@ -16,6 +16,7 @@ export async function POST({ request }) {
 
 		return json({ "status": "success" })
 	} catch (err) {
+		console.log(err);
 		return json({ "status": "error" })
 	}
 }

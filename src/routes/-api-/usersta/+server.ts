@@ -18,20 +18,23 @@ export async function GET({ setHeaders }) {
 
   await Promise.all(
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(async (i) => {
-      if (i == 1) usersinLast24Hours = await MySqlLocalService.instance.today24HourUsers();
-      if (i == 2) yesterday24HourUsers = await MySqlLocalService.instance.yesterday24HourUsers();
-      if (i == 3) last7DaysUsers = await MySqlLocalService.instance.last7DaysUsers();
-      if (i == 4) totalUsers = await MySqlLocalService.instance.totalUsers();
-      if (i == 5) oldUsers = await MySqlLocalService.instance.oldUsers();
-      if (i == 6) newUsers = await MySqlLocalService.instance.newUsers();
-      if (i == 7) countrywithcity = await MySqlLocalService.instance.allCountriesCityofUsers();
+      try {
+        if (i == 1) usersinLast24Hours = await MySqlLocalService.instance.today24HourUsers();
+        if (i == 2) yesterday24HourUsers = await MySqlLocalService.instance.yesterday24HourUsers();
+        if (i == 3) last7DaysUsers = await MySqlLocalService.instance.last7DaysUsers();
+        if (i == 4) totalUsers = await MySqlLocalService.instance.totalUsers();
+        if (i == 5) oldUsers = await MySqlLocalService.instance.oldUsers();
+        if (i == 6) newUsers = await MySqlLocalService.instance.newUsers();
+        if (i == 7) countrywithcity = await MySqlLocalService.instance.allCountriesCityofUsers();
 
-      if (i == 8) songPlayedToday = await MongoDBLocalService.instance.songPlayedToday();
-      if (i == 9) songPlayedYesterday = await MongoDBLocalService.instance.songPlayedYesterday();
-      if (i == 10) totalSongPlayed = await MongoDBLocalService.instance.totalSongPlayed();
+        if (i == 8) songPlayedToday = await MongoDBLocalService.instance.songPlayedToday();
+        if (i == 9) songPlayedYesterday = await MongoDBLocalService.instance.songPlayedYesterday();
+        if (i == 10) totalSongPlayed = await MongoDBLocalService.instance.totalSongPlayed();
 
-
-      if (i == 11) country = await MySqlLocalService.instance.allCountriesUsers();
+        if (i == 11) country = await MySqlLocalService.instance.allCountriesUsers();
+      } catch (error) {
+        error;
+      }
     })
   );
 
@@ -54,7 +57,7 @@ async function htmlTable(usersinLast24Hours: number, yesterday24HourUsers: numbe
 
   await Promise.all(
     countrywithcity.map(async (e) => {
-        countrywithCityString += `<tr>
+      countrywithCityString += `<tr>
         <td>${e.city} - ${e.country}</td>
         <td>${e.count}</td>
     </tr>`;
