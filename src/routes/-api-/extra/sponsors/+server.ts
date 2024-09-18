@@ -39,8 +39,9 @@ export async function GET() {
     },
 
     bottom: {
-      title: "Helloo soo what's up",
-      imgs: imgsData,
+      title: "Helloo soo what's up, so buy nowww",
+      link: "https://www.google.com/",
+      media: "https://cdn.pixabay.com/video/2023/06/25/168788-839828005_large.mp4",
     },
   };
 
