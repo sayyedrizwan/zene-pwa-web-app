@@ -3,7 +3,7 @@ import { json } from "@sveltejs/kit";
 export async function GET() {
   const jsonData = {
     ios: {
-      appVersion : "1.0"
+      appVersion : "2.06.437"
     },
     android: {
       appVersion : "3.2.724"
