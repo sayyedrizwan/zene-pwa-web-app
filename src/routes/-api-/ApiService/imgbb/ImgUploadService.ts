@@ -25,7 +25,6 @@ export class ImgUploadService {
   async uploadToBunnyNet(file: any, id: String): Promise<String> {
     try {
       const fileBuffer = Buffer.from(await file.arrayBuffer());
-
       const path = `${isDevDB ? `TEMP_ZENE_PLAYLISTS_IMAGES_TEMP` : `ZENE_PLAYLISTS_IMAGES`}/${id}.png`;
 
       const response = await axios.request({ method: "PUT", url: `https://sg.storage.bunnycdn.com/zene-files/${path}`, data: fileBuffer, headers: BUNNY_IMG_HEADER });

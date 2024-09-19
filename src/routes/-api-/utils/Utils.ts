@@ -3,8 +3,7 @@ import { MongoClient } from "mongodb";
 import CryptoJS from "crypto-js";
 import type { MusicData } from "../ApiService/model/MusicData";
 
-export const isDevDB = false
-// process.platform.toLowerCase() == "darwin";
+export const isDevDB = process.platform.toLowerCase() == "darwin";
 export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e";
 export const webEncKey = "rizwan_key_web_app";
 export const zenePlaylistsParam = "zene_p_";
@@ -26,7 +25,7 @@ export const mysqlpool: any = mysql.createPool({
   keepAliveInitialDelay: 0,
 });
 
-export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/?retryWrites=true&w=majority&appName=zene` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`);
+export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`);
 await mongoDBClient.connect();
 
 

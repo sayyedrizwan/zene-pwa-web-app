@@ -208,7 +208,8 @@ export class MongoDBLocalService {
       });
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-      console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+      if(!isDevDB) console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+      
       return shuffleString(list);
     } catch (error) {
       return [];
