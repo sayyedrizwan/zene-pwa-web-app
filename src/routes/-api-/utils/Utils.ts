@@ -8,6 +8,9 @@ export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e";
 export const webEncKey = "rizwan_key_web_app";
 export const zenePlaylistsParam = "zene_p_";
 
+
+export const zeneFMThumbnail = "https://zenemusic.co/zene_fm_thumbnail.png";
+
 //aiven
 //filess.io
 export const mysqlpool: any = mysql.createPool({
