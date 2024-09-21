@@ -1,7 +1,6 @@
 import { json } from "@sveltejs/kit";
 import { RadioAPIService } from "../../ApiService/radio/RadioAPIService.js";
 import { heartbeatAPI, verifyHeader } from "../../utils/Utils.js";
-import { MoodplaylistDataItems } from "../../ApiService/model/MoodplaylistData.js";
 
 export async function POST({ request }) {
   heartbeatAPI("radio-top");
