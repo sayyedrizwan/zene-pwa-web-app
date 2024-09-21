@@ -4,6 +4,7 @@ import util from "util";
 import { timeDifferenceInHours, zeneFMThumbnail } from "../../utils/Utils";
 import type { RadioItemResponse } from "./model/RadioItemResponse";
 import { MusicData, MUSICTYPE } from "../model/MusicData";
+import { getCountryNameViaCode } from "../../radio/countries/countries_codes";
 const resolveSrv = util.promisify(dns.resolveSrv);
 
 let radioURL: string | undefined = undefined;
@@ -49,6 +50,21 @@ export class RadioAPIService {
       const response = await axios.get(`${baseURL}/json/languages`, { params: { limit: radioLimit, hidebroken: true, order: "stationcount", reverse: true } });
       const data = (await response.data) as any;
       const lists = data.map((r: any) => new MusicData(r.name ?? "", r.stationcount ?? "", r.iso_639 ?? "", "", MUSICTYPE.RADIO_LANG));
+
+      return lists;
+    } catch (error) {
+      return [];
+    }
+  }
+
+
+  async allCountriesLists(): Promise<MusicData[]> {
+    try {
+      let baseURL = await this.getBaseURL();
+
+      const response = await axios.get(`${baseURL}/json/countrycodes`, { params: { limit: radioLimit, hidebroken: true, order: "stationcount", reverse: true } });
+      const data = (await response.data) as any;
+      const lists = data.map((r: any) => new MusicData(getCountryNameViaCode(r.name ?? ""), r.stationcount ?? "", r.name ?? "", `https://flagsapi.com/${r.name}/shiny/64.png`, MUSICTYPE.RADIO_COUNTRIES));
 
       return lists;
     } catch (error) {
