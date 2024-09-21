@@ -12,6 +12,11 @@ export async function POST({ request }) {
 
   const lists: MoodplaylistDataItems[] = [];
 
+
+  const radios = await RadioAPIService.instance.trendingClickcountRadio(countryID, 0);
+  lists.push(new MoodplaylistDataItems("Trending Now", radios));
+
+
   await Promise.all(
     ["music", "news", "radio", "pop", "hits", "religious"].map(async (n) => {
       const titleName = n == "music" ? "Music FM" : n == "news" ? "News Channels" : n == "radio" ? "Radios" : n == "pop" ? "Pop Music" : n == "hits" ? "Top Hits": n == "religious" ? "Religious FM" : "" 
@@ -19,6 +24,6 @@ export async function POST({ request }) {
       lists.push(new MoodplaylistDataItems(titleName, radios));
     })
   );
-
+ 
   return json(lists);
 }
