@@ -29,6 +29,20 @@ export class RadioAPIService {
     }
   }
 
+  async radioForCountriesViaTrend(countryCode: String, page: number): Promise<MusicData[]> {
+    try {
+      let baseURL = await this.getBaseURL();
+
+      const response = await axios.get(`${baseURL}/json/stations/search`, { params: { offset: page * radioLimit, limit: radioLimit, hidebroken: true, order: "clicktrend", reverse: true, countrycode: countryCode } });
+      const data = (await response.data) as RadioItemResponse;
+      const lists = data.map((r) => new MusicData(r.name ?? "", r.language ?? r.tags ?? "", r.stationuuid ?? "", (r.favicon ?? "").length > 3 ? r.favicon ?? "" : zeneFMThumbnail, MUSICTYPE.RADIO, r.url_resolved ?? ""));
+
+      return lists;
+    } catch (error) {
+      return [];
+    }
+  }
+
   async trendingClickcountRadio(countryCode: String, page: number): Promise<MusicData[]> {
     try {
       let baseURL = await this.getBaseURL();
