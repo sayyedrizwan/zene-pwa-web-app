@@ -34,8 +34,6 @@ export async function POST({ request }) {
 
   let photoURL: String = "";
 
-  console.log("aaaaa")
-
   if (id != null) {
     const playlistInfo = await YoutubeMusicService.instance.playlistsData(id.toString());
     photoURL = playlistInfo[0]?.thumbnail ?? "";

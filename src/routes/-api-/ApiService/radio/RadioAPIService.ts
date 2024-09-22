@@ -71,6 +71,19 @@ export class RadioAPIService {
     }
   }
 
+  async allRadioByLanguages(language: String, countryCode: String): Promise<MusicData[]> {
+    try {
+      let baseURL = await this.getBaseURL();
+
+      const response = await axios.get(`${baseURL}/json/stations/search`, { params: { language: language, limit: radioLimit, hidebroken: true, order: "stationcount", reverse: true, countrycode : countryCode } });
+      const data = (await response.data) as RadioItemResponse;
+      const lists = data.map((r) => new MusicData(r.name ?? "", r.language ?? r.tags ?? "", r.stationuuid ?? "", (r.favicon ?? "").length > 3 ? r.favicon ?? "" : zeneFMThumbnail, MUSICTYPE.RADIO, r.url_resolved ?? ""));
+      return lists;
+    } catch (error) {
+      return [];
+    }
+  }
+
 
   async allCountriesLists(): Promise<MusicData[]> {
     try {
