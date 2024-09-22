@@ -68,7 +68,7 @@ export async function encsMainUp(txt: string): Promise<string> {
   );
 
   const cipherText = await window.crypto.subtle.encrypt(
-    { name: "AES-CBC", iv: iv }, keyMaterial, new TextEncoder().encode(txt)
+    { name: "AES-CBC", iv: iv }, keyMaterial, new TextEncoder().encode(txt.trim())
   );
 
   const base64String = btoa(

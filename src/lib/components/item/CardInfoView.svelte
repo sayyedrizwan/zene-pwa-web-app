@@ -11,9 +11,9 @@
     if (m.type == MUSICTYPE.SONGS || m.type == MUSICTYPE.VIDEO) {
       sendMusicData(m);
     } else if (m.type == MUSICTYPE.PLAYLIST || m.type == MUSICTYPE.ALBUMS) {
-      goto(`/p/${await encsMainUp(m.id.toString())}}`);
+      goto(`/p/${(await encsMainUp(m.id.toString())).trim()}`);
     } else if (m.type == MUSICTYPE.ARTISTS) {
-      goto(`/a/${await encsMainUp(m.id.toString())}`);
+      goto(`/a/${(await encsMainUp(m.id.toString())).trim()}`);
     }
   }
 </script>

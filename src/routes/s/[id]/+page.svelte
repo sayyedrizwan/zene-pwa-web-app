@@ -51,6 +51,10 @@
 
     <button class="border-solid border rounded-md text-base border-sky-500 bg-maincolor text-white px-5 py-3 hover:px-7 hover:py-4 hover-animation mt-7" on:click={() => sendMusicData(songInfo)}>Play</button>
   </div>
+
+  <div class="my-10 flex justify-center items-center">
+    <button class="border-solid border rounded-md text-base border-sky-500 bg-maincolor text-white px-5 py-3 hover:px-7 hover:py-4 hover-animation mt-7" on:click={() => openURLApp(false)}>Open in App</button>
+  </div>
 {/if}
 
 <Footer />

@@ -7,7 +7,7 @@
   
   async function managePageDestination() {
     if (m.type == MUSICTYPE.ARTISTS) {
-      const artistsPath = `/a/${await encsMainUp(m.name.toString())}`;
+      const artistsPath = `/a/${(await encsMainUp(m.name.toString())).trim()}`;
       goto(artistsPath, { replaceState: true });
     }
   }
