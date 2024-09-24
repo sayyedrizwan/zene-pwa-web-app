@@ -63,7 +63,7 @@ export class RadioAPIService {
 
       const response = await axios.get(`${baseURL}/json/languages`, { params: { limit: radioLimit, hidebroken: true, order: "stationcount", reverse: true } });
       const data = (await response.data) as any;
-      const lists = data.map((r: any) => new MusicData(r.name ?? "", r.stationcount ?? "", r.iso_639 ?? "", "", MUSICTYPE.RADIO_LANG));
+      const lists = data.map((r: any) => new MusicData(r.name ?? "", `${r.stationcount}`, r.iso_639 ?? "", "", MUSICTYPE.RADIO_LANG));
 
       return lists;
     } catch (error) {
@@ -91,7 +91,7 @@ export class RadioAPIService {
 
       const response = await axios.get(`${baseURL}/json/countrycodes`, { params: { limit: radioLimit, hidebroken: true, order: "stationcount", reverse: true } });
       const data = (await response.data) as any;
-      const lists = data.map((r: any) => new MusicData(getCountryNameViaCode(r.name ?? ""), r.stationcount ?? "", r.name ?? "", `https://flagsapi.com/${r.name}/shiny/64.png`, MUSICTYPE.RADIO_COUNTRIES));
+      const lists = data.map((r: any) => new MusicData(getCountryNameViaCode(r.name ?? ""), `${r.stationcount}`, r.name ?? "", `https://flagsapi.com/${r.name}/shiny/64.png`, MUSICTYPE.RADIO_COUNTRIES));
 
       return lists;
     } catch (error) {
