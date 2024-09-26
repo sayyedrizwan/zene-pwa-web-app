@@ -85,6 +85,23 @@ export class RadioAPIService {
   }
 
 
+  async radioInfo(id: String): Promise<MusicData | undefined> {
+    try {
+      let baseURL = await this.getBaseURL();
+      const response = await axios.get(`${baseURL}/json/stations/byuuid/${id}`);
+      const data = (await response.data) as RadioItemResponse;
+      let musicData: MusicData | undefined = undefined
+      if(data.length > 0) {
+        const r = data[0]
+        musicData = new MusicData(r.name ?? "", r.language ?? r.tags ?? "", r.stationuuid ?? "", (r.favicon ?? "").length > 3 ? r.favicon ?? "" : zeneFMThumbnail, MUSICTYPE.RADIO, r.url_resolved ?? "")
+      }
+      return musicData;
+    } catch (error) {
+      return undefined;
+    }
+  }
+
+
   async allCountriesLists(): Promise<MusicData[]> {
     try {
       let baseURL = await this.getBaseURL();

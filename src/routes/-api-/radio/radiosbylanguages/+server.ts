@@ -3,7 +3,7 @@ import { RadioAPIService } from "../../ApiService/radio/RadioAPIService.js";
 import { heartbeatAPI, verifyHeader } from "../../utils/Utils.js";
 
 export async function POST({ request }) {
-  heartbeatAPI("radio-top");
+  heartbeatAPI("radio-radiosbylanguages");
   if (!verifyHeader(request)) return json([]);
 
   const body = await request.json();

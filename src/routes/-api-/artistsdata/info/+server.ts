@@ -44,7 +44,7 @@ export async function POST({ request }) {
               if (song[0] != undefined) {
                 const s = song[0];
                 s.extra = songs[1];
-                topSongs.push(s);
+                if (!topSongs.some((item) => item.id === (s.id ?? ""))) topSongs.push(s);
               }
             })
           );
