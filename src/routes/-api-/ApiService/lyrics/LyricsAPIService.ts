@@ -27,9 +27,10 @@ export class LyricsAPIService {
         const rootSubtitle = parse(resSubtitle)
         const subtitles = rootSubtitle.querySelector("#ctl00_ContentPlaceHolder1_lbllyrics_simple")
         const text = substringAfter(subtitles?.innerHTML.toString() ?? "", "(.LRC)".trim())
-        const t = text.replace("by RentAnAdviser.com", "🎶 🎵").replace("by rentanadviser.com", "🎶 🎵")
-                .replace("by RentAnAdviser.com", "🎶 🎵").replace("www.RentAnAdviser.com", "🎶 🎵")
-                .replace("\r\n", "").replace("</h3>", "")
+        const t = text.replaceAll("by RentAnAdviser.com", "🎶 🎵").replaceAll("by rentanadviser.com", "🎶 🎵")
+                .replaceAll("by RentAnAdviser.com", "🎶 🎵").replaceAll("www.RentAnAdviser.com", "🎶 🎵")
+                .replaceAll("By RentAnAdviser.com", "🎶 🎵")
+                .replaceAll("\r\n", "").replaceAll("</h3>", "")
 
         return new MusicLyricsData(t, true)
     }
