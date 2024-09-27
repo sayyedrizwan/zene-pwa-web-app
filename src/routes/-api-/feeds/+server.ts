@@ -15,7 +15,7 @@ export async function POST({ request }) {
     if (!verifyHeader(request)) return json({})
 
     const body = await request.json()
-    const email = body.email
+    const email = String(body.email)
 
     if (!email.includes("@") && email.length < 3) return json({})
 
