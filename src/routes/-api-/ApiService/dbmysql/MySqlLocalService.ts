@@ -48,7 +48,7 @@ export class MySqlLocalService {
   async selectUserWhoNotReceivedMails(): Promise<any> {
     try {
       const nodejsTimestamp = Date.now();
-      const [results] = await mysqlpool.query(`SELECT u.* FROM ${this.userDB} u LEFT JOIN ${this.unsubscribeMailDB} e ON u.email COLLATE utf8mb4_general_ci = e.email COLLATE utf8mb4_general_ci WHERE (u.last_mail_send IS NULL OR u.last_mail_send > ?) AND u.last_seen < ? AND e.email IS NULL ORDER BY u.last_seen ASC LIMIT 11;`, [nodejsTimestamp, nodejsTimestamp - 9 * 24 * 60 * 60 * 1000]);
+      const [results] = await mysqlpool.query(`SELECT u.* FROM ${this.userDB} u LEFT JOIN ${this.unsubscribeMailDB} e ON u.email COLLATE utf8mb4_general_ci = e.email COLLATE utf8mb4_general_ci WHERE (u.last_mail_send IS NULL OR u.last_mail_send > ?) AND u.last_seen < ? AND e.email IS NULL ORDER BY u.last_seen ASC LIMIT 19;`, [nodejsTimestamp, nodejsTimestamp - 9 * 24 * 60 * 60 * 1000]);
       return results;
     } catch (error) {
       console.log(error);
