@@ -20,7 +20,7 @@ export async function GET({ request, url }) {
 			const yt = await YoutubeMusicService.instance.songInfo(n.songId.toString())
 			if (yt != undefined) songs.push(yt)
 		} catch (error) {
-			console.log(error)
+			//console.log(error)
 		}
 	}))
 

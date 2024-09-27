@@ -36,7 +36,7 @@ export async function GET({ url, request }) {
                 else songs.push(e)
             }
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
     }))
 

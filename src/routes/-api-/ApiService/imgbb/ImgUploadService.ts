@@ -17,7 +17,7 @@ export class ImgUploadService {
       let url = imgbb.data?.image?.url ?? "";
       return url;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return "";
     }
   }

@@ -51,7 +51,7 @@ export class PinterestAPIService {
 
             return [imgs, data.resource_response?.bookmark ?? ""]
         } catch (error) {
-            console.log(error)
+            //console.log(error)
             return [[], ""]
         }
     }

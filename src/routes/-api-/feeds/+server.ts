@@ -48,7 +48,7 @@ export async function POST({ request }) {
             // const ytCommunity = await YoutubeAPIService.instance.youtubeCommunity(name)
             // ytCommunity.forEach(i => posts.push(i))
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
 
     }

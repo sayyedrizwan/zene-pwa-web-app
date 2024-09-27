@@ -28,7 +28,7 @@ export async function GET({ request }) {
         temps.push(m);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     })
   );

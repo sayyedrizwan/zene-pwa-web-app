@@ -22,7 +22,7 @@ export class MySqlLocalService {
         }
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
 
     return list;
@@ -32,7 +32,7 @@ export class MySqlLocalService {
     try {
       await mysqlpool.query(`DELETE FROM ${this.tempHolderDB} WHERE category = ?`, [category]);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -41,7 +41,7 @@ export class MySqlLocalService {
     try {
       await mysqlpool.query(`UPDATE ${this.userDB} SET last_mail_send = ? WHERE email = ?`, [currentTimestamp, email]);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -51,7 +51,7 @@ export class MySqlLocalService {
       const [results] = await mysqlpool.query(`SELECT u.* FROM ${this.userDB} u LEFT JOIN ${this.unsubscribeMailDB} e ON u.email COLLATE utf8mb4_general_ci = e.email COLLATE utf8mb4_general_ci WHERE (u.last_mail_send IS NULL OR u.last_mail_send > ?) AND u.last_seen < ? AND e.email IS NULL ORDER BY u.last_seen ASC LIMIT 19;`, [nodejsTimestamp, nodejsTimestamp - 9 * 24 * 60 * 60 * 1000]);
       return results;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return [];
     }
   }
@@ -62,7 +62,7 @@ export class MySqlLocalService {
     try {
       await mysqlpool.query("INSERT INTO " + this.tempHolderDB + "(`name`, `artists`, `ids`, `thumbnail`, `type`, `category`, `timestamp`, `extra`)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [m.name, m.artists, m.id, m.thumbnail, m.type, category, currentTimestamp.toString(), m.extra]);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -94,7 +94,7 @@ export class MySqlLocalService {
       const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ?`, [startOfTodayEpoch]);
       return results[0].count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -110,7 +110,7 @@ export class MySqlLocalService {
       const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ?`, [startOfPreviousDayEpoch, startOfTodayEpoch]);
       return results[0].count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -125,7 +125,7 @@ export class MySqlLocalService {
       const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ?`, [startOfSevenDaysAgoEpochMs, startOfTodayEpochMs]);
       return results[0].count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -135,7 +135,7 @@ export class MySqlLocalService {
       const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB}`);
       return results[0].count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -151,7 +151,7 @@ export class MySqlLocalService {
       const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ? AND sign_up_date < ?`, [last24HoursEpochMs, startOfTodayEpochMs, twoDaysAgoEpochMs]);
       return results[0].count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -168,7 +168,7 @@ export class MySqlLocalService {
       const [results, i] = await mysqlpool.query(`SELECT COUNT(*) as count FROM ${this.userDB} WHERE last_seen >= ? AND last_seen < ? AND sign_up_date >= ? AND sign_up_date < ?`, [last24HoursEpochMs, startOfTodayEpochMs, twoDaysAgoEpochMs, startOfTodayEpochMs]);
       return results[0].count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -187,7 +187,7 @@ export class MySqlLocalService {
       const [results, i] = await mysqlpool.query(` SELECT TRIM(SUBSTRING_INDEX(country, ',', -1)) AS country_name, COUNT(*) AS count FROM ${this.userDB} GROUP BY country_name ORDER BY count DESC; `);
       return results;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return [];
     }
   }

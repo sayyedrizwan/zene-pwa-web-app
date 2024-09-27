@@ -74,13 +74,13 @@ export class SoundAPIService {
                         clientID = id.trim() ?? ""
                     }
                 } catch (error) {
-                    console.log(error)
+                    //console.log(error)
                 }
             }))
 
             return clientID
         } catch (error) {
-            console.log(error)
+            //console.log(error)
             return ""
         }
     }

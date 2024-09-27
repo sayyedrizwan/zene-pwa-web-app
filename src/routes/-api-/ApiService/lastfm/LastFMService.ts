@@ -22,7 +22,7 @@ export class LastFMService {
     //   const client = wrapper(axios.create({ jar, withCredentials: true }));
 
       const response = await axios.get(lastFMLSearchArtists, { params: { q: name }, withCredentials: true, headers : { Host : 'www.last.fm'} })
-    //   console.log((sss).data)
+    //   //console.log((sss).data)
 
     //   return "";
     //   const response = await axios.get(lastFMLSearchArtists, { params: { q: name } });

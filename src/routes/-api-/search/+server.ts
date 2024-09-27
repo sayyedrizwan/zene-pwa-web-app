@@ -25,7 +25,7 @@ export async function GET({ url, request }) {
             else if (id == 4) songs = await YoutubeMusicService.instance.searchSongs(s, true)
             else if (id == 5) video = await YoutubeAPIService.instance.searchVideos(`${s} songs`, true)
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
     }))
 

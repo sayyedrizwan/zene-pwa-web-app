@@ -34,7 +34,7 @@ export class MongoDBLocalService {
       }
       await this.collectionPlaylists.insertOne(data);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -43,7 +43,7 @@ export class MongoDBLocalService {
       await this.collectionPlaylists.deleteMany({ id: id, email: email });
       await this.collectionPlaylistsSongs.deleteMany({ playlistId: id });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -148,7 +148,7 @@ export class MongoDBLocalService {
       const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, Date.now(), playTime, "SONGS");
       const info = await this.collectionSongHistory.insertOne(data);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -167,7 +167,7 @@ export class MongoDBLocalService {
         $and: [{ timestamp: { $lt: twoWeekAgo } }, { _id: { $nin: top5PlaytimesArray } }],
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -177,7 +177,7 @@ export class MongoDBLocalService {
       await this.collectionSongHistory.deleteMany({ id: songID, email: email });
       return data as any;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -208,7 +208,7 @@ export class MongoDBLocalService {
       });
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-      if(!isDevDB) console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+      // if(!isDevDB) console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
       
       return shuffleString(list);
     } catch (error) {
@@ -254,7 +254,7 @@ export class MongoDBLocalService {
 
       return count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -274,7 +274,7 @@ export class MongoDBLocalService {
 
       return count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }
@@ -284,7 +284,7 @@ export class MongoDBLocalService {
       const count = await this.collectionSongHistory.estimatedDocumentCount();
       return count;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return -1;
     }
   }

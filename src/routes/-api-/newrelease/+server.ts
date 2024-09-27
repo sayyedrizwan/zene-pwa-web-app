@@ -26,7 +26,7 @@ export async function GET({ url, request }) {
 			
 			await MySqlLocalService.instance.insertTempData(song[0], `${NEW_RELEASE_SONGS}_${i}`)
 		} catch (error) {
-			console.log(error)
+			//console.log(error)
 		}
 	}))
 

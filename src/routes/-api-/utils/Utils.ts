@@ -65,11 +65,11 @@ export function verifyHeader(request: Request) {
     const dataToNormal = decryptWebInfo(key);
     const parts = dataToNormal.split("___");
     const numberPart = parts[1] + parts[3];
-    console.log(numberPart)
+    //console.log(numberPart)
     if (timeDifferenceInHours(parseInt(numberPart)) < 13) return true;
     return false;
   } catch (error) {
-    console.log(error)
+    //console.log(error)
     return false;
   }
 }
@@ -345,10 +345,10 @@ export function toDate(time: number) {
 export function heartbeatAPI(value: String) {
   // axios.get(`https://cronitor.link/p/861fac53851d4388a9f044db41b3bac8/api-${value}`).then(function (response) {
   //   // handle success
-  //   console.log(response);
+  //   //console.log(response);
   // })
   // .catch(function (error) {
   //   // handle error
-  //   console.log(error);
+  //   //console.log(error);
   // })
 }

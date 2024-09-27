@@ -93,7 +93,7 @@ export class YoutubeMusicService {
       });
       return lists;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return [];
     }
   }
@@ -179,7 +179,7 @@ export class YoutubeMusicService {
         }
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
     return lists;
   }
@@ -213,7 +213,7 @@ export class YoutubeMusicService {
         if (t?.tabRenderer?.title?.toLocaleLowerCase() == "lyrics" && similar.lyrics == "") similar.lyrics = t.tabRenderer.endpoint?.browseEndpoint?.browseId ?? "";
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
     return similar;
   }

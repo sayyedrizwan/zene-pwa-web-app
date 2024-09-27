@@ -36,7 +36,7 @@ export async function GET({ url, request }) {
             }
 
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
     }))
     const isPresent = await MongoDBLocalService.instance.isPlaylistPresent(email, id)

@@ -1,4 +1,3 @@
-import axios from "axios";
 import nodemailer from "nodemailer";
 import { encryptSharingData } from "../../utils/EncrypDecrypt";
 import { MusicData } from "../model/MusicData";
@@ -228,7 +227,7 @@ export class SendMailService {
       }
       return true;
     } catch (error) {
-      console.log(error)
+      //console.log(error)
       return false;
     }
   }

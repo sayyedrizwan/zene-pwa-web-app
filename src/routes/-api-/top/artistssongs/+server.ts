@@ -28,7 +28,7 @@ export async function POST({ request }) {
                 list.push(new MusicDataWithArtists(artists[0], artistsSongs, artistsPlaylists, artistsVideo))
             
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
     }))
 
