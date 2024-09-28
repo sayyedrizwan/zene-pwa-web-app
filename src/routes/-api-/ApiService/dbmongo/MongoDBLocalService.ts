@@ -144,9 +144,11 @@ export class MongoDBLocalService {
   }
 
   async updateOrInsertSongHistory(music: MusicData, email: String, deviceInfo: String, playTime: number) {
+    if(music.id == null || music.id == undefined) return
+    if(music.id.trim().length < 3) return
     try {
       const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, Date.now(), playTime, "SONGS");
-      const info = await this.collectionSongHistory.insertOne(data);
+      await this.collectionSongHistory.insertOne(data);
     } catch (error) {
       //console.log(error);
     }
