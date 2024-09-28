@@ -1,5 +1,5 @@
 import type { MusicData } from "../model/MusicData";
-import { isDevDB, mongoDBClient, shuffleString } from "../../utils/Utils";
+import { isDevDB, mongoDBClient, shuffleString, timeDifferenceInHours, timeDifferenceInSeconds } from "../../utils/Utils";
 import { DBMusicHistory } from "./model/DBMusicHistory";
 import { DBPlaylists } from "./model/DBPlaylistInfo";
 import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo";
@@ -8,7 +8,7 @@ export class MongoDBLocalService {
   static instance = new MongoDBLocalService();
 
   static limitPagination = 26;
-  static isIndexed = false;
+  static lastIndexed = 1709141282000;
 
   mainDBName = isDevDB ? "zenemusic" : "zenemusicnosql_zooofficer";
   userSongHistoryDB = "song_history";
@@ -20,9 +20,10 @@ export class MongoDBLocalService {
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
 
   async indexing() {
-    if (MongoDBLocalService.isIndexed) return;
+    if (timeDifferenceInSeconds(MongoDBLocalService.lastIndexed) < 600) return;
     await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1 });
-    MongoDBLocalService.isIndexed = true;
+    MongoDBLocalService.lastIndexed = Date.now();
+    console.log("Indexed")
     await this.collectionSongHistory.deleteMany({ id: null});
   }
 

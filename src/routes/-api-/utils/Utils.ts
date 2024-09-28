@@ -323,7 +323,7 @@ export function timeDifferenceInHours(oldTimestamp: number) {
   return hours
 }
 
-function timeDifferenceInSeconds(oldTimestamp: number): number {
+export function timeDifferenceInSeconds(oldTimestamp: number): number {
   const currentTimestamp = new Date().getTime();
   const differenceInMs = Math.floor(currentTimestamp - oldTimestamp);
   const differenceInSeconds = differenceInMs / 1000;
