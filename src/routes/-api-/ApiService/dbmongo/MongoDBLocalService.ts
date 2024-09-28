@@ -20,11 +20,10 @@ export class MongoDBLocalService {
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
 
   async indexing() {
-    // if (MongoDBLocalService.isIndexed) return;
+    if (MongoDBLocalService.isIndexed) return;
     await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1 });
     MongoDBLocalService.isIndexed = true;
     await this.collectionSongHistory.deleteMany({ id: null});
-    console.log('done indexing')
   }
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
