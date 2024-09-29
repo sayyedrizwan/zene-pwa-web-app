@@ -21,7 +21,7 @@ export class MongoDBLocalService {
 
   async indexing() {
     if (timeDifferenceInSeconds(MongoDBLocalService.lastIndexed) < 600) return;
-    await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1, timestamp: -1 });
+    await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
     await this.collectionPlaylists.createIndex({ email: 1, timestamp: -1 });
     await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
     MongoDBLocalService.lastIndexed = Date.now();
