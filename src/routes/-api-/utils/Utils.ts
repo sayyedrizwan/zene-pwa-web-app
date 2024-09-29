@@ -352,3 +352,7 @@ export function heartbeatAPI(value: String) {
   //   //console.log(error);
   // })
 }
+
+export function delay(ms: number = 700): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

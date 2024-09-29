@@ -23,8 +23,8 @@ export class MongoDBLocalService {
     if (timeDifferenceInSeconds(MongoDBLocalService.lastIndexed) < 600) return;
     await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1 });
     MongoDBLocalService.lastIndexed = Date.now();
-    console.log("Indexed")
-    await this.collectionSongHistory.deleteMany({ id: null});
+    console.log("Indexed");
+    await this.collectionSongHistory.deleteMany({ id: null });
   }
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
@@ -145,8 +145,8 @@ export class MongoDBLocalService {
   }
 
   async updateOrInsertSongHistory(music: MusicData, email: String, deviceInfo: String, playTime: number) {
-    if(music.id == null || music.id == undefined) return
-    if(music.id.trim().length < 3) return
+    if (music.id == null || music.id == undefined) return;
+    if (music.id.trim().length < 3) return;
     try {
       const data = new DBMusicHistory(email, music.name, music.artists, music.id, music.thumbnail, deviceInfo, Date.now(), playTime, "SONGS");
       await this.collectionSongHistory.insertOne(data);
@@ -194,10 +194,22 @@ export class MongoDBLocalService {
     }
   }
 
+  topSongsOfUsers = new Map();
+
   async topFifteenSongsOfUsers(email: String): Promise<String[]> {
     await this.indexing();
     try {
       const start = Date.now();
+
+      if (this.topSongsOfUsers.size > 100) this.topSongsOfUsers.clear();
+
+      if (this.topSongsOfUsers.has(email)) {
+        const end = Date.now();
+        const timeTaken = (end - start) / 1000;
+        if (!isDevDB) console.log(`Execution time: data cache ${timeTaken.toFixed(4)} seconds ${email}`);
+        return this.topSongsOfUsers.get(email);
+      }
+
       const list: String[] = [];
       const dataLatest = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(10).toArray();
       dataLatest.forEach((e: any) => {
@@ -211,9 +223,10 @@ export class MongoDBLocalService {
       });
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-      if(!isDevDB) console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
-      
-      return shuffleString(list);
+      if (!isDevDB) console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+      const lists = shuffleString(list);
+      this.topSongsOfUsers.set(email, lists);
+      return lists;
     } catch (error) {
       return [];
     }
