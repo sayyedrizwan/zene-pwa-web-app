@@ -3,8 +3,7 @@ import { MongoClient } from "mongodb";
 import CryptoJS from "crypto-js";
 import type { MusicData } from "../ApiService/model/MusicData";
 
-export const isDevDB = false
-// process.platform.toLowerCase() == "darwin";
+export const isDevDB = process.platform.toLowerCase() == "darwin";
 export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e";
 export const webEncKey = "rizwan_key_web_app";
 export const zenePlaylistsParam = "zene_p_";
