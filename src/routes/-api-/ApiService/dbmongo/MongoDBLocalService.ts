@@ -210,17 +210,26 @@ export class MongoDBLocalService {
         return this.topSongsOfUsers.get(email);
       }
 
-      const list: String[] = [];
-      const dataLatest = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(10).toArray();
-      dataLatest.forEach((e: any) => {
-        const id = (e as DBMusicHistory).id;
-        if (!list.some((item) => item === id)) list.push(id);
-      });
-      const dataTop = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
-      dataTop.forEach((e: any) => {
-        const id = (e as DBMusicHistory).id;
-        if (!list.some((item) => item === id)) list.push(id);
-      });
+      const data = await this.collectionSongHistory.aggregate([
+         // Get the latest songs sorted by timestamp
+        { $match: { email: email } },
+        { $sort: { timestamp: -1 } },
+        { $limit: 10 },
+        // Union with the top songs sorted by timesItsPlayed
+        {
+          $unionWith: {
+            coll: this.userSongHistoryDB,
+            pipeline: [
+              { $match: { email: email } },
+              { $sort: { timesItsPlayed: -1 } },
+              { $limit: 5 }
+            ]
+          }
+        }
+      ]).toArray();
+      
+      const list = data.map((e: any) => e.id) 
+
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
       if (!isDevDB) console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
