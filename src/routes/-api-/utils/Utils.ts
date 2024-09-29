@@ -8,7 +8,6 @@ export const auth = "qtASBDg887XCIJBVB112Pl.AYuhn2e";
 export const webEncKey = "rizwan_key_web_app";
 export const zenePlaylistsParam = "zene_p_";
 
-
 export const zeneFMThumbnail = "https://zenemusic.co/zene_fm_thumbnail.png";
 
 //aiven
@@ -29,8 +28,15 @@ export const mysqlpool: any = mysql.createPool({
 });
 
 export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`);
-await mongoDBClient.connect();
+async function startMongoDB() {
+  try {
+    await mongoDBClient.connect();
+  } catch (error) {
+    console.log(error)
+  }
+}
 
+startMongoDB()
 
 export const shuffle = (array: MusicData[]) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -58,7 +64,7 @@ export function isYear(str: string): boolean {
 }
 
 export function verifyHeader(request: Request) {
-  return true
+  return true;
   const key = request.headers.get("auth") ?? "";
   if (key == auth) return true;
   try {
@@ -320,7 +326,7 @@ export function timeDifferenceInHours(oldTimestamp: number) {
   const currentTimestamp = new Date().getTime();
   const differenceInMs = Math.floor(currentTimestamp - oldTimestamp);
   const hours = Math.floor((differenceInMs / (1000 * 60 * 60)) % 24);
-  return hours
+  return hours;
 }
 
 export function timeDifferenceInSeconds(oldTimestamp: number): number {
@@ -354,5 +360,5 @@ export function heartbeatAPI(value: String) {
 }
 
 export function delay(ms: number = 700): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
