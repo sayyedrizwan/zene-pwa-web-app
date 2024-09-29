@@ -21,9 +21,9 @@ export class MongoDBLocalService {
 
   async indexing() {
     if (timeDifferenceInSeconds(MongoDBLocalService.lastIndexed) < 600) return;
-    await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1 });
+    // await this.collectionSongHistory.createIndex({ email: 1, timesItsPlayed: -1 });
     MongoDBLocalService.lastIndexed = Date.now();
-    console.log("Indexed");
+    console.log("deleted null");
     await this.collectionSongHistory.deleteMany({ id: null });
   }
 
@@ -201,7 +201,7 @@ export class MongoDBLocalService {
     try {
       const start = Date.now();
 
-      if (this.topSongsOfUsers.size > 100) this.topSongsOfUsers.clear();
+      if (this.topSongsOfUsers.size > 1000) this.topSongsOfUsers.clear();
 
       if (this.topSongsOfUsers.has(email)) {
         const end = Date.now();
