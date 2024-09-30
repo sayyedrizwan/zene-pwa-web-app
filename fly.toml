@@ -17,5 +17,5 @@ primary_region = 'syd'
   processes = ['app']
 
 [[vm]]
-  size = 'shared-cpu-2x'
+  size = 'shared-cpu-1x'
   memory = "512MB"
