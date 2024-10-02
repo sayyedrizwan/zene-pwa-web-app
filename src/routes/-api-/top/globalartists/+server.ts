@@ -22,7 +22,7 @@ export async function GET({ request }) {
     list.map(async (n) => {
       if (n != undefined) {
         const data = await YoutubeMusicService.instance.searchArtists(n);
-        artists.push(data[0]);
+        if (!artists.some((item) => item === data[0])) artists.push(data[0]);
       }
     })
   );
