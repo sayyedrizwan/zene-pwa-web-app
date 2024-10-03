@@ -31,7 +31,7 @@ import type { YTMusicSearch } from "./model/YTMusicSearch";
 import type { YTMusicReleasePlaylists } from "./model/YTMusicReleasePlaylists";
 import type { YTMusicMood } from "./model/YTMusicMood";
 import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo";
-import { filterArtistsArrayName, filterThumbnailURL } from "../../utils/extension/String";
+import { filterArtistsArrayName, filterThumbnailURL, substringBeforeLast } from "../../utils/extension/String";
 import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
 import type { YTMusicSearchPagination } from "./model/YTMusicSearchPagination";
 import type { YTMusicSearchSuggestions } from "./model/YTMusicSearchSuggestions";
@@ -40,6 +40,7 @@ import type { YTArtistsData } from "./model/YTArtistsData";
 import { YTArtistsSaveData } from "./model/YTArtistsSaveData";
 import type { YTSearchWholeInfoData } from "./model/YTSearchWholeInfoData";
 import { YoutubeAPIService } from "../youtube/YoutubeAPIService";
+import { parse } from "node-html-parser";
 
 export class YoutubeMusicService {
   static instance = new YoutubeMusicService();
@@ -600,38 +601,19 @@ export class YoutubeMusicService {
     }
   }
 
-  async songInfo(VID: string): Promise<MusicData | any> {
-    const info = await this.searchSongs(VID, false);
+  async songInfo(VID: string): Promise<MusicData | undefined> {
+    const response = await axios.get(`https://music.youtube.com/watch?v=${VID}`);
+    const data = await response.data;
+    const root = parse(data);
 
-    let m: MusicData | undefined = undefined;
-    info.forEach((e) => {
-      if (e.id == VID && m == undefined) m = e;
-    });
+    const metaTagsTitle = root.querySelector('meta[property="og:title"]');
+    if (metaTagsTitle?.getAttribute("content") == undefined) return undefined;
 
-    // if (m == undefined) {
-    //   const infoVID = await YoutubeAPIService.instance.searchVideos(VID, false);
-    //   infoVID.forEach((e) => {
-    //     if (e.id == VID && m == undefined) m = e;
-    //   });
-    // }
+    const name = substringBeforeLast(metaTagsTitle?.getAttribute("content") ?? "", "- YouTube");
+    const artists = root.querySelector('meta[property="og:video:tag"]')?.getAttribute("content")
+    const thumbnail = root.querySelector('meta[property="og:image"]')?.getAttribute("content")
 
-    if (m != undefined) return m;
-
-    try {
-      let config = { method: "post", url: ytMusicPlayer, headers: ytMusicHeader, data: ytMusicSongID(VID) };
-      const response = await axios.request(config);
-      const data = (await response.data) as YTMusicSongsDetails;
-
-      const id = data.videoDetails?.videoId;
-      const name = data.videoDetails?.title;
-      const thumbnail = data.videoDetails?.thumbnail?.thumbnails ?? [];
-      const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
-      const artists = data.videoDetails?.author?.replaceAll(" and ", " & ") ?? "";
-
-      return id != undefined && name != undefined ? new MusicData(name, artists, id, highestThumbnail, MUSICTYPE.SONGS) : {};
-    } catch (error) {
-      return {};
-    }
+    return new MusicData(name, artists ?? "", thumbnail ?? "", VID, MUSICTYPE.SONGS)
   }
 
   async songInfoViaSearch(VID: string): Promise<MusicData | undefined> {
