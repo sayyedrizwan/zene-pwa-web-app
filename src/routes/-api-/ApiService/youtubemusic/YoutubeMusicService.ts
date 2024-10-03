@@ -613,7 +613,7 @@ export class YoutubeMusicService {
     const artists = root.querySelector('meta[property="og:video:tag"]')?.getAttribute("content")
     const thumbnail = root.querySelector('meta[property="og:image"]')?.getAttribute("content")
 
-    return new MusicData(name, artists ?? "", thumbnail ?? "", VID, MUSICTYPE.SONGS)
+   return new MusicData(name, artists ?? "", VID, `${thumbnail}=w512-h512-l90-rj`, MUSICTYPE.SONGS)
   }
 
   async songInfoViaSearch(VID: string): Promise<MusicData | undefined> {

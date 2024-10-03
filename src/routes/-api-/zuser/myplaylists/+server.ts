@@ -5,7 +5,7 @@ import { MusicData, MUSICTYPE } from '../../ApiService/model/MusicData.js'
 import { YoutubeMusicService } from '../../ApiService/youtubemusic/YoutubeMusicService.js'
 
 export async function GET({ request, url }) {
-    heartbeatAPI("zuser-read-my-playlists");
+    heartbeatAPI("zuser-read-my-songs");
 	if (!verifyHeader(request)) return json([])
 
 	const pID = url.searchParams.get('playlistID') ?? ""
