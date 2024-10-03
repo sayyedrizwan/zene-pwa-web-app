@@ -12,7 +12,6 @@ export async function GET({ request, url }) {
 	const page = url.searchParams.get('page') ?? 0
 
 	const list = await MongoDBLocalService.instance.playlistSong(pID, page as number)
-
 	const songs: MusicData[] = []
 
 	await Promise.all(list.map(async n => {

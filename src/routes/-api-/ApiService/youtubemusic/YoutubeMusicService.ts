@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import {
   isYear,
   ytMusicBrowse,
@@ -31,7 +31,7 @@ import type { YTMusicSearch } from "./model/YTMusicSearch";
 import type { YTMusicReleasePlaylists } from "./model/YTMusicReleasePlaylists";
 import type { YTMusicMood } from "./model/YTMusicMood";
 import type { YTMusicMoodInfo } from "./model/YTMusicMoodInfo";
-import { filterArtistsArrayName, filterThumbnailURL, substringBeforeLast } from "../../utils/extension/String";
+import { filterArtistsArrayName, filterThumbnailURL, substringAfter, substringBefore, substringBeforeLast } from "../../utils/extension/String";
 import type { YTMusicSongsDetails } from "./model/YTMusicSongsDetails";
 import type { YTMusicSearchPagination } from "./model/YTMusicSearchPagination";
 import type { YTMusicSearchSuggestions } from "./model/YTMusicSearchSuggestions";
@@ -602,18 +602,25 @@ export class YoutubeMusicService {
   }
 
   async songInfo(VID: string): Promise<MusicData | undefined> {
-    const response = await axios.get(`https://music.youtube.com/watch?v=${VID}`);
+    // const response = await fetch(`https://youtube.com/watch?v=${VID}`)
+    // const data = await response.text();
+    const response = await axios.get(`https://youtube.com/watch?v=${VID}`, ytMusicHeader as AxiosRequestConfig<any>);
     const data = await response.data;
+    console.log(data)
     const root = parse(data);
 
     const metaTagsTitle = root.querySelector('meta[property="og:title"]');
+
+    console.log(metaTagsTitle)
     if (metaTagsTitle?.getAttribute("content") == undefined) return undefined;
 
     const name = substringBeforeLast(metaTagsTitle?.getAttribute("content") ?? "", "- YouTube");
     const artists = root.querySelector('meta[property="og:video:tag"]')?.getAttribute("content")
-    const thumbnail = root.querySelector('meta[property="og:image"]')?.getAttribute("content")
+    // const thumbnail = root.querySelector('meta[property="og:image"]')?.getAttribute("content")
+    const thumbnail = substringAfter(data, `[{"videoAttributeViewModel":{"image":{"sources":[{"url":"`)
+    const thumbnailURL = substringBefore(thumbnail, `"}]},`)
 
-   return new MusicData(name, artists ?? "", VID, `${thumbnail}=w512-h512-l90-rj`, MUSICTYPE.SONGS)
+   return new MusicData(name, artists ?? "", VID, `${thumbnailURL}=w512-h512-l90-rj`, MUSICTYPE.SONGS)
   }
 
   async songInfoViaSearch(VID: string): Promise<MusicData | undefined> {
