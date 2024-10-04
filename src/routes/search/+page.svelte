@@ -149,8 +149,8 @@
     {/if}
 
     <div class="mt-14" />
-    {#if (response?.videos?.length ?? 0) > 0}
-      <TextStyleView textType={TextType.SMALL} title={"Videos"} />
+    {#if (response?.songs?.length ?? 0) > 0}
+      <TextStyleView textType={TextType.SMALL} title={"Songs"} />
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {#each response?.songs ?? [] as m}
           <CardInfoView dynamicList={true} {m} />
