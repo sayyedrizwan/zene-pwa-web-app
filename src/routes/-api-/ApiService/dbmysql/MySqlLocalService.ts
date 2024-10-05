@@ -1,10 +1,10 @@
-import { isDevDB, mysqlpool, timeDifferenceIs24Hours } from "../../utils/Utils";
+import {  mysqlpool, timeDifferenceIs24Hours } from "../../utils/Utils";
 import { MusicData } from "../model/MusicData";
 
 export class MySqlLocalService {
   static instance = new MySqlLocalService();
-  tempHolderDB = "`temp_holder`";
-  userDB = "`users`";
+  tempHolderDB = "temp_holder";
+  userDB = "users";
   unsubscribeMailDB = "`unsubscribe_mail`";
   
 
@@ -40,7 +40,7 @@ export class MySqlLocalService {
     try {
       await mysqlpool.query(`DELETE FROM ${this.tempHolderDB}`);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
 
