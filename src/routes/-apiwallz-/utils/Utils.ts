@@ -14,4 +14,8 @@ export const mysqlpoolWallz: any = mysql.createPool({
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
   });
+
+
+  export const PINTEREST_GET_API = "https://pinterest.com/resource/BaseSearchResource/get/"
+  export const BING_SEARCH_API = "https://www.bing.com/AS/Suggestions"
   

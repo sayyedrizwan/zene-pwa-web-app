@@ -1,8 +1,8 @@
 import { json } from "@sveltejs/kit";
 import { verifyHeader } from "../../-api-/utils/Utils";
-import { WallzPinterestServices } from "../WallzPinterestServices/WallzPinterestServices";
+import { WallzPinterestServices } from "../WallzApiService/WallzPinterestServices/WallzPinterestServices";
 import axios from "axios";
-import type { WallpaperData } from "../WallzApiService/model/WallpaperData";
+import type { WallpaperData } from "../WallzApiService/MySQLService/model/WallpaperData";
 
 export async function GET({ request, url }) {
   if (!verifyHeader(request)) return json([]);

@@ -1,4 +1,4 @@
-import { mysqlpoolWallz } from "../utils/Utils";
+import { mysqlpoolWallz } from "../../utils/Utils";
 import type { WallpaperData } from "./model/WallpaperData";
 
 export class WallzMySqlService {
