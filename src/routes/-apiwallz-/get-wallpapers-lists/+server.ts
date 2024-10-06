@@ -28,5 +28,9 @@ export async function GET({ request, url }) {
     })
   )
 
-  return json(shuffle(lists));
+  const shuffleOne = shuffle(lists)
+  const shuffleTwo = shuffle(shuffleOne)
+  const shuffleThree = shuffle(shuffleTwo)
+
+  return json(shuffle(shuffleThree));
 }
