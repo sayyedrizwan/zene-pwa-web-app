@@ -26,6 +26,7 @@ export const mysqlpoolWallz: any = mysql.createPool({
   export const WALLPAPERCOM_SEARCH_API = "https://wallpapers.com/search/"
   export const WALLPAPERCOM_MAIN_API = "https://wallpapers.com"
   export const PEAKPX_MAIN_API = "https://www.peakpx.com"
+  export const SEARCH_WALLPAPERS_CO_API = "https://search.wallpapers.com/autosuggest"
   
   
 

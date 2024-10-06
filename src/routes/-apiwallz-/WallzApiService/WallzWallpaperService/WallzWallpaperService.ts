@@ -1,11 +1,23 @@
 import axios from "axios";
 import { parse } from "node-html-parser";
-import { PEAKPX_MAIN_API, WALLPAPERCAVE_API, WALLPAPERCAVE_MAIN_API, WALLPAPERCOM_MAIN_API, WALLPAPERCOM_SEARCH_API, WALLPAPERFLARE_API, WALLPAPERFLARE_MAIN_API } from "../../utils/Utils";
+import { PEAKPX_MAIN_API, SEARCH_WALLPAPERS_CO_API, WALLPAPERCAVE_API, WALLPAPERCAVE_MAIN_API, WALLPAPERCOM_MAIN_API, WALLPAPERCOM_SEARCH_API, WALLPAPERFLARE_API, WALLPAPERFLARE_MAIN_API } from "../../utils/Utils";
 import { WallpaperData } from "../MySQLService/model/WallpaperData";
+import type { WallzWallpaperComSearch } from "./model/WallzWallpaperComSearch";
 
 export class WallzWallpaperService {
   static instance = new WallzWallpaperService();
 
+  async wallpaperComSearch(q: String): Promise<WallpaperData[]> {
+    try {
+      const response = await axios.post(SEARCH_WALLPAPERS_CO_API, { suggest: { words: { prefix: q, completion: { field: "name.suggest", skip_duplicates: true } } } });
+      const data = (await response.data) as WallzWallpaperComSearch;
+
+      const lists = data.suggest?.words?.[0]?.options?.map((e) => new WallpaperData(e._id, e.text, `https://wallpapers.com/images/featured/${e._source?.meta?.thumbnail?.[0].value}.png`, e._source?.description))
+      return lists ?? []
+    } catch (error) {
+        return [];
+    }
+  }
   async WallpaperflareSearch(q: String): Promise<WallpaperData[]> {
     let lists: WallpaperData[] = [];
 
@@ -18,7 +30,7 @@ export class WallzWallpaperService {
           const root = parse(data);
 
           if (root.querySelector("h1.portal_h1") == null) {
-            const figureList = root.querySelectorAll("figure").map((f) => (f.querySelector("img")?.getAttribute("alt") != undefined ? new WallpaperData(f.querySelector("a")?.getAttribute("href"), f.querySelector("img")?.getAttribute("alt")!, f.querySelector("img")?.getAttribute("data-src"), f.querySelector('meta[itemprop="keywords"]')?.getAttribute("content")) : null));
+            const figureList = root.querySelectorAll("figure").map((f) => (f.querySelector("img")?.getAttribute("alt") != undefined ? new WallpaperData(f.querySelector("a")?.getAttribute("href"), f.querySelector("img")?.getAttribute("alt")!, f.querySelector("img")?.getAttribute("data-src"), f.querySelector('meta[itemprop="keywords"]')?.getAttribute("content"), page) : null));
             figureList?.filter((s) => s != undefined).map((item) => lists.push(item));
           }
         } catch (error) {
@@ -37,19 +49,18 @@ export class WallzWallpaperService {
       const root = parse(data);
       const links = root.querySelectorAll("#content #popular a");
       await Promise.all(
-        links.map(async (path) => {
+        links.map(async (path, i) => {
           const responsePage = await axios.get(`${WALLPAPERCAVE_MAIN_API}${path.getAttribute("href")}`, { headers: { Host: "wallpapercave.com", "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36" } });
           const dataPage = await responsePage.data;
           const root = parse(dataPage);
 
-          const picturesList = root.querySelectorAll(".wallpaper").map((p) => (p.querySelector(".wimg")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${p.querySelector(".wpinkw")?.getAttribute("href")}`, p.querySelector(".wimg")?.getAttribute("alt"), `${WALLPAPERCAVE_MAIN_API}${p.querySelector(".wimg")?.getAttribute("data-cfsrc")}`, "") : null));
+          const picturesList = root.querySelectorAll(".wallpaper").map((p) => (p.querySelector(".wimg")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${p.querySelector(".wpinkw")?.getAttribute("href")}`, p.querySelector(".wimg")?.getAttribute("alt"), `${WALLPAPERCAVE_MAIN_API}${p.querySelector(".wimg")?.getAttribute("data-cfsrc")}`, "", i + 1) : null));
           picturesList?.filter((s) => s != undefined).map((item) => lists.push(item));
         })
       );
     } catch (error) {
       console.log(error);
     }
-
     return lists;
   }
 
@@ -66,7 +77,7 @@ export class WallzWallpaperService {
           const links = root.querySelectorAll(".content-container ul li");
 
           const picturesList = links.map((p) =>
-            p.querySelector("figure")?.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("figure")?.querySelector("a")?.getAttribute("href"), p.querySelector("figure")?.getAttribute("data-title"), `${WALLPAPERCOM_MAIN_API}${p.querySelector("figure")?.querySelector("img")?.getAttribute("data-src")}`, p.querySelector("figure")?.getAttribute("data-desc")?.replace("</p>", "")?.replace("<p>", "")) : null
+            p.querySelector("figure")?.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("figure")?.querySelector("a")?.getAttribute("href"), p.querySelector("figure")?.getAttribute("data-title"), `${WALLPAPERCOM_MAIN_API}${p.querySelector("figure")?.querySelector("img")?.getAttribute("data-src")}`, p.querySelector("figure")?.getAttribute("data-desc")?.replace("</p>", "")?.replace("<p>", ""), page) : null
           );
           picturesList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
