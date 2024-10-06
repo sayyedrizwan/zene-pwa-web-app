@@ -18,4 +18,10 @@ export const mysqlpoolWallz: any = mysql.createPool({
 
   export const PINTEREST_GET_API = "https://pinterest.com/resource/BaseSearchResource/get/"
   export const BING_SEARCH_API = "https://www.bing.com/AS/Suggestions"
+  export const WALLPAPERFLARE_API = "https://www.wallpaperflare.com/search"
+  export const WALLPAPERCAVE_API = "https://wallpapercave.com/search"
+  export const WALLPAPERCAVE_MAIN_API = "https://wallpapercave.com"
+  export const WALLPAPERCOM_SEARCH_API = "https://wallpapers.com/search/"
+  export const WALLPAPERCOM_MAIN_API = "https://wallpapers.com"
+  
   

@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit'
 import { verifyHeader } from '../../-api-/utils/Utils';
-import { WallzMySqlService } from '../WallzApiService/MySQLService/WallzMySqlService';
 import { WallzBingService } from '../WallzApiService/WallzBingService/WallzBingService';
+import { WallzWallpaperService } from '../WallzApiService/WallzWallpaperService/WallzWallpaperService';
 
 export async function GET({ request, url }) {
     if (!verifyHeader(request)) return json({})

@@ -16,10 +16,9 @@ export class WallzPinterestServices {
 
       const headers = await this.getSetHeaderString();
       const response = await axios.post(PINTEREST_GET_API, body, { headers: { "x-csrftoken": headers, "x-app-version": "8b36052", "user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36", cookie: `csrftoken=${headers};` } });
-      console.log((await response.data))
       const data = (await response.data) as PinterestGetResponse;
-      const lists = data.resource_response?.data?.results?.map((r) => new WallpaperData(r.id, r.description, r.images?.["736x"]?.url, r.alt_text, r.videos != null, getVideoURLPinterest(r.videos)));
-      return [lists ?? [], data.resource_response?.bookmark ?? ""];
+      // const lists = data.resource_response?.data?.results?.map((r) => new WallpaperData(r.id, r.description, r.images?.["736x"]?.url, r.alt_text, r.videos != null, getVideoURLPinterest(r.videos)));
+      return [[], data.resource_response?.bookmark ?? ""];
     } catch (error) {
       return [[], ""];
     }

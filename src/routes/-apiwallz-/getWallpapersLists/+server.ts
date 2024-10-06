@@ -1,8 +1,7 @@
 import { json } from "@sveltejs/kit";
 import { verifyHeader } from "../../-api-/utils/Utils";
-import { WallzPinterestServices } from "../WallzApiService/WallzPinterestServices/WallzPinterestServices";
-import axios from "axios";
 import type { WallpaperData } from "../WallzApiService/MySQLService/model/WallpaperData";
+import { WallzWallpaperService } from "../WallzApiService/WallzWallpaperService/WallzWallpaperService";
 
 export async function GET({ request, url }) {
   if (!verifyHeader(request)) return json([]);
@@ -11,13 +10,22 @@ export async function GET({ request, url }) {
 
   if (name.length < 3) return json([]);
 
-  let lists: WallpaperData[] = [];
-  let latestTokens = "";
+  const lists : WallpaperData[] = []
 
-  for (let i = 0; i < Array.from({ length: 3 }).length; i++) {
-    const response = await WallzPinterestServices.instance.getSearch(`${name} latest ${new Date().getFullYear()} wallpapers`, latestTokens);
-    latestTokens = response[1].toString();
-    response[0].map((w) => { (!lists.some((item) => item.id === w.id)) ? lists.push(w) : null})
-  }
+  await Promise.all(
+    Array.from({ length: 3 }, (_, index) => index).map(async (n) => {
+      if(n == 0) {
+        const list = await WallzWallpaperService.instance.WallpaperflareSearch(name)
+        list.map((w) => (!lists.some((item) => item.thumbnail == w.thumbnail)) ? lists.push(w) : null);
+      } else if(n == 1) {
+        const list = await WallzWallpaperService.instance.WallpapercaveSearch(name)
+        list.map((w) => (!lists.some((item) => item.thumbnail == w.thumbnail)) ? lists.push(w) : null);
+      } else if(n == 2) {
+        const list = await WallzWallpaperService.instance.WallpaperComSearch(name)
+        list.map((w) => (!lists.some((item) => item.thumbnail == w.thumbnail)) ? lists.push(w) : null);
+      }
+    })
+  )
+
   return json(lists);
 }

@@ -3,15 +3,11 @@ export class WallpaperData {
   name?: String;
   thumbnail?: String;
   desc?: String;
-  isVideo?: Boolean;
-  videoPath?: String;
 
-  constructor(id?: String, name?: String, thumbnail?: String, desc?: String, isVideo?: Boolean, videoPath?: String) {
+  constructor(id?: String, name?: String, thumbnail?: String, desc?: String) {
     this.id = id;
     this.name = name;
     this.thumbnail = thumbnail;
-    this.desc = desc;
-    this.isVideo = isVideo;
-    this.videoPath = videoPath;
+    this.desc = desc
   }
 }

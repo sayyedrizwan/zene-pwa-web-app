@@ -39,8 +39,6 @@ import { MoodplaylistData, MoodplaylistDataItems } from "../model/MoodplaylistDa
 import type { YTArtistsData } from "./model/YTArtistsData";
 import { YTArtistsSaveData } from "./model/YTArtistsSaveData";
 import type { YTSearchWholeInfoData } from "./model/YTSearchWholeInfoData";
-import { YoutubeAPIService } from "../youtube/YoutubeAPIService";
-import { parse } from "node-html-parser";
 
 export class YoutubeMusicService {
   static instance = new YoutubeMusicService();
