@@ -12,6 +12,10 @@ export class WallzWallpaperService {
     return url.replaceAll("/high/", "/hd/");
   }
 
+  async wallpaperCaveInfo(url: String): Promise<String> {
+    return url
+  }
+
   async wallpaperflareInfo(url: String): Promise<String> {
     try {
       const response = await axios.get(url.toString());
@@ -20,20 +24,17 @@ export class WallzWallpaperService {
 
       const lists : WallpaperData[] = []  
 
-      root.querySelector(".res_resize.res_zone")?.querySelectorAll("li").map((v) => v.text == "1440x2160" && v.querySelector("a")?.getAttribute("href") != undefined ? lists.push(new WallpaperData(v.querySelector("a")?.getAttribute("href"), v.text)) : null)
+      root.querySelector(".res_resize.res_zone")?.querySelectorAll("li").map((v) => v.text == "2160x1440" && v.querySelector("a")?.getAttribute("href") != undefined ? lists.push(new WallpaperData(v.querySelector("a")?.getAttribute("href"), v.text)) : null)
       const path = findLargestResolution(lists)
       const responsePath = await axios.get(path?.toString() ?? "", { headers : { "Host": "www.wallpaperflare.com"}});
       const dataPath = await responsePath.data;
       const rootPath = parse(dataPath);
 
-    rootPath.querySelectorAll("img").forEach(element => {
-      console.log(substringAfterLast(element.getAttribute("data-srcset") ?? "", ","))
-    });
+      const urlImg = rootPath.querySelector("#dld_thumb")?.getAttribute("src")
+      return urlImg ?? ""
     } catch (error) {
       return ""
     }
-
-    return url.replaceAll("/high/", "/hd/");
   }
 
   async wallpaperComSearch(q: String): Promise<WallpaperData[]> {
