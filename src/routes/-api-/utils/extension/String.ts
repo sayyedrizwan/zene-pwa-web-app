@@ -4,6 +4,13 @@ export function substringBeforeLast(text: String, char: string): string {
     return text.slice(0, lastIndex)
 }
 
+export function substringAfterLast(input: string, char: string): string {
+    const lastIndex = input.lastIndexOf(char);
+
+    if (lastIndex === -1) return input
+    return input.substring(lastIndex + 1).trim();
+  }
+
 export function substringBefore(text: String, char: String): String {
     const brIndex = text.indexOf(char.toString())
     if (brIndex !== -1) {

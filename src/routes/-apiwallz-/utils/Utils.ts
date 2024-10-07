@@ -37,3 +37,20 @@ export const shuffle = (array: WallpaperData[]) => {
   }
   return array;
 };
+
+export function findLargestResolution(data: WallpaperData[]): String {
+  let largestData = data[0];
+  let maxArea = 0;
+
+  for (const resData of data) {
+    const [width, height] = (resData.name ?? "0x0").split('x').map(Number);
+    const currentArea = width * height;
+
+    if (currentArea > maxArea) {
+      maxArea = currentArea;
+      largestData = resData;
+    }
+  }
+
+  return largestData.id ?? "";
+}

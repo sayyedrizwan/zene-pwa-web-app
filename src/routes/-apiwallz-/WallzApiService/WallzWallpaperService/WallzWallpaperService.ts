@@ -1,21 +1,50 @@
 import axios from "axios";
 import { parse } from "node-html-parser";
-import { PEAKPX_MAIN_API, SEARCH_WALLPAPERS_CO_API, WALLPAPERCAVE_API, WALLPAPERCAVE_MAIN_API, WALLPAPERCOM_MAIN_API, WALLPAPERCOM_SEARCH_API, WALLPAPERFLARE_API, WALLPAPERFLARE_MAIN_API } from "../../utils/Utils";
+import { findLargestResolution, PEAKPX_MAIN_API, SEARCH_WALLPAPERS_CO_API, WALLPAPERCAVE_API, WALLPAPERCAVE_MAIN_API, WALLPAPERCOM_MAIN_API, WALLPAPERCOM_SEARCH_API, WALLPAPERFLARE_API, WALLPAPERFLARE_MAIN_API } from "../../utils/Utils";
 import { WallpaperData } from "../MySQLService/model/WallpaperData";
 import type { WallzWallpaperComSearch } from "./model/WallzWallpaperComSearch";
+import { substringAfter, substringAfterLast } from "../../../-api-/utils/extension/String";
 
 export class WallzWallpaperService {
   static instance = new WallzWallpaperService();
+
+  async wallpaperComInfo(url: String): Promise<String> {
+    return url.replaceAll("/high/", "/hd/");
+  }
+
+  async wallpaperflareInfo(url: String): Promise<String> {
+    try {
+      const response = await axios.get(url.toString());
+      const data = await response.data;
+      const root = parse(data);
+
+      const lists : WallpaperData[] = []  
+
+      root.querySelector(".res_resize.res_zone")?.querySelectorAll("li").map((v) => v.text == "1440x2160" && v.querySelector("a")?.getAttribute("href") != undefined ? lists.push(new WallpaperData(v.querySelector("a")?.getAttribute("href"), v.text)) : null)
+      const path = findLargestResolution(lists)
+      const responsePath = await axios.get(path?.toString() ?? "", { headers : { "Host": "www.wallpaperflare.com"}});
+      const dataPath = await responsePath.data;
+      const rootPath = parse(dataPath);
+
+    rootPath.querySelectorAll("img").forEach(element => {
+      console.log(substringAfterLast(element.getAttribute("data-srcset") ?? "", ","))
+    });
+    } catch (error) {
+      return ""
+    }
+
+    return url.replaceAll("/high/", "/hd/");
+  }
 
   async wallpaperComSearch(q: String): Promise<WallpaperData[]> {
     try {
       const response = await axios.post(SEARCH_WALLPAPERS_CO_API, { suggest: { words: { prefix: q, completion: { field: "name.suggest", skip_duplicates: true } } } });
       const data = (await response.data) as WallzWallpaperComSearch;
 
-      const lists = data.suggest?.words?.[0]?.options?.map((e) => new WallpaperData(e._id, e.text, `https://wallpapers.com/images/featured/${e._source?.meta?.thumbnail?.[0].value}.png`, e._source?.description))
-      return lists ?? []
+      const lists = data.suggest?.words?.[0]?.options?.map((e) => new WallpaperData(e._id, e.text, `https://wallpapers.com/images/featured/${e._source?.meta?.thumbnail?.[0].value}.png`, e._source?.description));
+      return lists ?? [];
     } catch (error) {
-        return [];
+      return [];
     }
   }
   async WallpaperflareSearch(q: String): Promise<WallpaperData[]> {
