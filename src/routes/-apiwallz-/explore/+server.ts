@@ -3,7 +3,7 @@ import { verifyHeader } from "../../-api-/utils/Utils";
 import { WallzWallpaperService } from "../WallzApiService/WallzWallpaperService/WallzWallpaperService";
 import type { WallpaperData } from "../WallzApiService/MySQLService/model/WallpaperData";
 
-export async function GET({ request }) {
+export async function POST({ request }) {
   if (!verifyHeader(request)) return json([]);
 
   const wholeLists : WallpaperData[] = []
