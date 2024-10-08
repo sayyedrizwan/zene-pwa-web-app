@@ -17,5 +17,6 @@ export async function GET({ request, url }) {
   else if(path.includes("wallpaperflare.com")) wallpaper = await WallzWallpaperService.instance.wallpaperflareInfo(path)
   else if(path.includes("wallpapercave.com")) wallpaper = await WallzWallpaperService.instance.wallpaperCaveInfo(path)
   
+    
   return json(wallpaper == undefined ? {} : new WallpaperData("", "", wallpaper, ""));
 }

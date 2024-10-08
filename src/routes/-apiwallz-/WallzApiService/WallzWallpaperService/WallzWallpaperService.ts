@@ -9,11 +9,15 @@ export class WallzWallpaperService {
   static instance = new WallzWallpaperService();
 
   async wallpaperComInfo(url: String): Promise<String> {
-    return url.replaceAll("/high/", "/hd/");
+    const response = await axios.get(url.toString());
+    const data = await response.data;
+    const root = parse(data);
+    const img = root.querySelector('meta[property="og:image"]').getAttribute("content")
+    return img.replaceAll("/high/", "/hd/");
   }
 
   async wallpaperCaveInfo(url: String): Promise<String> {
-    return url
+    return url;
   }
 
   async wallpaperflareInfo(url: String): Promise<String> {
@@ -22,18 +26,21 @@ export class WallzWallpaperService {
       const data = await response.data;
       const root = parse(data);
 
-      const lists : WallpaperData[] = []  
+      const lists: WallpaperData[] = [];
 
-      root.querySelector(".res_resize.res_zone")?.querySelectorAll("li").map((v) => v.text == "2160x1440" && v.querySelector("a")?.getAttribute("href") != undefined ? lists.push(new WallpaperData(v.querySelector("a")?.getAttribute("href"), v.text)) : null)
-      const path = findLargestResolution(lists)
-      const responsePath = await axios.get(path?.toString() ?? "", { headers : { "Host": "www.wallpaperflare.com"}});
+      root
+        .querySelector(".res_resize.res_zone")
+        ?.querySelectorAll("li")
+        .map((v) => (v.text == "2160x1440" && v.querySelector("a")?.getAttribute("href") != undefined ? lists.push(new WallpaperData(v.querySelector("a")?.getAttribute("href"), v.text)) : null));
+      const path = findLargestResolution(lists);
+      const responsePath = await axios.get(path?.toString() ?? "", { headers: { Host: "www.wallpaperflare.com" } });
       const dataPath = await responsePath.data;
       const rootPath = parse(dataPath);
 
-      const urlImg = rootPath.querySelector("#dld_thumb")?.getAttribute("src")
-      return urlImg ?? ""
+      const urlImg = rootPath.querySelector("#dld_thumb")?.getAttribute("src");
+      return urlImg ?? "";
     } catch (error) {
-      return ""
+      return "";
     }
   }
 
