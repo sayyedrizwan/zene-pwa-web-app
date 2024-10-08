@@ -1,7 +1,6 @@
 <script lang="ts">
   import Footer from "$lib/components/item/Footer.svelte";
   import { support_mail_server } from "$lib/utils/Utils";
-
 </script>
 
 <svelte:head>
@@ -27,7 +26,7 @@
     }
 
     li::before {
-      content: '• ';
+      content: "• ";
       color: white;
     }
 
@@ -48,20 +47,20 @@
   <h2 class="font-extrabold mt-24 mb-5 text-2xl">Use of Third-Party APIs</h2>
   <p>The App utilizes authorized APIs from Content Providers to access and display their Content. We comply with the terms and conditions established by each Content Provider's API usage guidelines. You can find links to each Content Provider's privacy policy and API terms of service below:</p>
   <ul>
-    <li>Spotify API: <a href="https://developer.spotify.com/documentation/web-api" class="text-lightblue">https://developer.spotify.com/documentation/web-api</a> for <a href="https://developer.spotify.com/policy" class="text-lightblue">Privacy Policy</a></li>    
-    <li>YouTube API: <a href="https://developers.google.com/youtube/v3" class="text-lightblue">https://developers.google.com/youtube/v3</a> for <a href="https://developers.google.com/youtube/terms/developer-policies" class="text-lightblue">Privacy Policy</a></li>    
-    <li>LastFM API: <a href="https://www.last.fm/api" class="text-lightblue">https://www.last.fm/api</a> for <a href="https://www.last.fm/api/tos" class="text-lightblue">Privacy Policy</a></li>    
-    <li>Pintrest API: <a href="https://developers.pinterest.com/" class="text-lightblue">https://developers.pinterest.com/</a> for <a href="https://developers.pinterest.com/terms/" class="text-lightblue">Privacy Policy</a></li>    
-    <li>Soundcloud API: <a href="https://developers.soundcloud.com/docs/api/guide" class="text-lightblue">https://developers.soundcloud.com/docs/api/guide</a> for <a href="https://developers.soundcloud.com/docs/api/privacy" class="text-lightblue">Privacy Policy</a></li>    
-    <li>Musixmatch Lyrics API: <a href="https://developer.musixmatch.com/" class="text-lightblue">https://developer.musixmatch.com/</a> for <a href="https://about.musixmatch.com/privacy-policy" class="text-lightblue">Privacy Policy</a></li>    
-    <li>Radio API: <a href="https://api.radio-browser.info/" class="text-lightblue">https://api.radio-browser.info/</a> for <a href="https://www.radio-browser.info/" class="text-lightblue">Privacy Policy</a></li>    
+    <li>Spotify API: <a href="https://developer.spotify.com/documentation/web-api" class="text-lightblue">https://developer.spotify.com/documentation/web-api</a> for <a href="https://developer.spotify.com/policy" class="text-lightblue">Privacy Policy</a></li>
+    <li>YouTube API: <a href="https://developers.google.com/youtube/v3" class="text-lightblue">https://developers.google.com/youtube/v3</a> for <a href="https://developers.google.com/youtube/terms/developer-policies" class="text-lightblue">Privacy Policy</a></li>
+    <li>LastFM API: <a href="https://www.last.fm/api" class="text-lightblue">https://www.last.fm/api</a> for <a href="https://www.last.fm/api/tos" class="text-lightblue">Privacy Policy</a></li>
+    <li>Pintrest API: <a href="https://developers.pinterest.com/" class="text-lightblue">https://developers.pinterest.com/</a> for <a href="https://developers.pinterest.com/terms/" class="text-lightblue">Privacy Policy</a></li>
+    <li>Soundcloud API: <a href="https://developers.soundcloud.com/docs/api/guide" class="text-lightblue">https://developers.soundcloud.com/docs/api/guide</a> for <a href="https://developers.soundcloud.com/docs/api/privacy" class="text-lightblue">Privacy Policy</a></li>
+    <li>Musixmatch Lyrics API: <a href="https://developer.musixmatch.com/" class="text-lightblue">https://developer.musixmatch.com/</a> for <a href="https://about.musixmatch.com/privacy-policy" class="text-lightblue">Privacy Policy</a></li>
+    <li>Radio API: <a href="https://api.radio-browser.info/" class="text-lightblue">https://api.radio-browser.info/</a> for <a href="https://www.radio-browser.info/" class="text-lightblue">Privacy Policy</a></li>
   </ul>
-
-  
 
   <h2 class="font-extrabold mt-24 mb-5 text-2xl">Any Questions?</h2>
   <p>If you have any questions about this Policy, please contact us by email at <a class="text-lightblue" href={`mailto:${support_mail_server}`}>{support_mail_server}</a>.</p>
 </div>
+
+<Footer />
 
 <Footer />
 
@@ -70,5 +69,3 @@
     color: white;
   }
 </style>
-
-<Footer />
