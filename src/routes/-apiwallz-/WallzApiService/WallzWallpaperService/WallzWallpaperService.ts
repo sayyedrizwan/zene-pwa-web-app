@@ -3,7 +3,6 @@ import { parse } from "node-html-parser";
 import { findLargestResolution, PEAKPX_MAIN_API, SEARCH_WALLPAPERS_CO_API, WALLPAPERCAVE_API, WALLPAPERCAVE_MAIN_API, WALLPAPERCOM_MAIN_API, WALLPAPERCOM_SEARCH_API, WALLPAPERFLARE_API, WALLPAPERFLARE_MAIN_API } from "../../utils/Utils";
 import { WallpaperData } from "../MySQLService/model/WallpaperData";
 import type { WallzWallpaperComSearch } from "./model/WallzWallpaperComSearch";
-import { substringAfter, substringAfterLast } from "../../../-api-/utils/extension/String";
 
 export class WallzWallpaperService {
   static instance = new WallzWallpaperService();
@@ -12,7 +11,7 @@ export class WallzWallpaperService {
     const response = await axios.get(url.toString());
     const data = await response.data;
     const root = parse(data);
-    const img = root.querySelector('meta[property="og:image"]').getAttribute("content")
+    const img = root.querySelector('meta[property="og:image"]')?.getAttribute("content") ?? ""
     return img.replaceAll("/high/", "/hd/");
   }
 
@@ -55,6 +54,7 @@ export class WallzWallpaperService {
       return [];
     }
   }
+
   async WallpaperflareSearch(q: String): Promise<WallpaperData[]> {
     let lists: WallpaperData[] = [];
 
