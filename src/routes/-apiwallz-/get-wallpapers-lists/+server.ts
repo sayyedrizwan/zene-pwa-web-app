@@ -13,20 +13,11 @@ export async function GET({ request, url }) {
 
   const lists : WallpaperData[] = []
 
-  await Promise.all(
-    Array.from({ length: 3 }, (_, index) => index).map(async (n) => {
-      if(n == 0) {
-        const list = await WallzWallpaperService.instance.WallpaperflareSearch(name)
-        list.map((w) => (!lists.some((item) => item.thumbnail == w.thumbnail)) ? lists.push(w) : null);
-      } else if(n == 1) {
-        const list = await WallzWallpaperService.instance.WallpapercaveSearch(name)
-        list.map((w) => (!lists.some((item) => item.thumbnail == w.thumbnail)) ? lists.push(w) : null);
-      } else if(n == 2) {
-        const list = await WallzWallpaperService.instance.WallpaperComSearch(name)
-        list.map((w) => (!lists.some((item) => item.thumbnail == w.thumbnail)) ? lists.push(w) : null);
-      }
-    })
-  )
+  const wallpaperCave = await WallzWallpaperService.instance.wallpaperCaveSearch(name)
+  wallpaperCave.map((w) => (!lists.some((wholeLists) => wholeLists.thumbnail == w.thumbnail)) ? lists.push(w) : null);
+
+  const list = await WallzWallpaperService.instance.searchPeakpx(name)
+  list.map((w) => (!lists.some((item) => item.thumbnail == w.thumbnail)) ? lists.push(w) : null);
 
   const shuffleOne = shuffle(lists)
   const shuffleTwo = shuffle(shuffleOne)
