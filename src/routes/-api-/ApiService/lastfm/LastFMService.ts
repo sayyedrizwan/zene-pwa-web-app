@@ -18,14 +18,7 @@ export class LastFMService {
 
   async searchArtists(name: String): Promise<String> {
     try {
-    //   const jar = new CookieJar();
-    //   const client = wrapper(axios.create({ jar, withCredentials: true }));
-
       const response = await axios.get(lastFMLSearchArtists, { params: { q: name }, withCredentials: true, headers : { Host : 'www.last.fm'} })
-    //   //console.log((sss).data)
-
-    //   return "";
-    //   const response = await axios.get(lastFMLSearchArtists, { params: { q: name } });
       const data = await response.data;
       const root = parse(data);
 

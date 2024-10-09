@@ -8,64 +8,72 @@ export class NewsAPIService {
   static instance = new NewsAPIService();
 
   private async searchNewsMostRecent(name: String): Promise<MusicData[]> {
-    const response = await axios.get(bingNewsMostRecent(name));
-    const data = await response.data;
-    const root = parse(data);
+    try {
+      const response = await axios.get(bingNewsMostRecent(name));
+      const data = await response.data;
+      const root = parse(data);
 
-    let musicData: MusicData[] = [];
+      let musicData: MusicData[] = [];
 
-    root
-      .querySelector("#algocore")
-      ?.querySelectorAll(".news-card.newsitem.cardcommon")
-      .forEach((n) => {
-        const name = n.querySelector("a.title")?.text;
-        const link = n.querySelector("a.title")?.getAttribute("href");
-        const desc = n.querySelector(".snippet")?.text;
-        let hour = "";
-        const img = n.querySelector("img.rms_img")?.getAttribute("src") ?? "";
-        const imgAfter = substringAfter(img, "?id=");
-        const fullImgLink = imgAfter == "" ? "" : `https://th.bing.com/th?id=${substringBefore(imgAfter, "&")}`;
+      root
+        .querySelector("#algocore")
+        ?.querySelectorAll(".news-card.newsitem.cardcommon")
+        .forEach((n) => {
+          const name = n.querySelector("a.title")?.text;
+          const link = n.querySelector("a.title")?.getAttribute("href");
+          const desc = n.querySelector(".snippet")?.text;
+          let hour = "";
+          const img = n.querySelector("img.rms_img")?.getAttribute("src") ?? "";
+          const imgAfter = substringAfter(img, "?id=");
+          const fullImgLink = imgAfter == "" ? "" : `https://th.bing.com/th?id=${substringBefore(imgAfter, "&")}`;
 
-        n.querySelector(".source.set_top")
-          ?.querySelectorAll("span")
-          .forEach((q) => {
-            if (q.outerHTML.toString().includes('ago"')) hour = q.text;
-          });
+          n.querySelector(".source.set_top")
+            ?.querySelectorAll("span")
+            .forEach((q) => {
+              if (q.outerHTML.toString().includes('ago"')) hour = q.text;
+            });
 
-        if (name != undefined && link != undefined) musicData.push(new MusicData(name, desc ?? "", link, fullImgLink, MUSICTYPE.NEWS, hour));
-      });
+          if (name != undefined && link != undefined) musicData.push(new MusicData(name, desc ?? "", link, fullImgLink, MUSICTYPE.NEWS, hour));
+        });
 
-    return musicData;
+      return musicData;
+    } catch (error) {
+      return [];
+    }
   }
 
   private async searchNewsBestMatch(name: String): Promise<MusicData[]> {
-    const response = await axios.get(bingNewsBest(name));
-    const data = await response.data;
-    const root = parse(data);
+    try {
+      const response = await axios.get(bingNewsBest(name));
+      const data = await response.data;
+      const root = parse(data);
 
-    let musicData: MusicData[] = [];
+      let musicData: MusicData[] = [];
 
-    root
-      .querySelector("#algocore")
-      ?.querySelectorAll(".news-card.newsitem.cardcommon")
-      .forEach((n) => {
-        const name = n.querySelector("a.title")?.text;
-        const link = n.querySelector("a.title")?.getAttribute("href");
-        const desc = n.querySelector(".snippet")?.text;
-        let hour = "";
-        const img = n.querySelector("img.rms_img")?.getAttribute("src") ?? "";
-        const imgAfter = substringAfter(img, "?id=");
-        const fullImgLink = imgAfter == "" ? "" : `https://th.bing.com/th?id=${substringBefore(imgAfter, "&")}`;
+      root
+        .querySelector("#algocore")
+        ?.querySelectorAll(".news-card.newsitem.cardcommon")
+        .forEach((n) => {
+          const name = n.querySelector("a.title")?.text;
+          const link = n.querySelector("a.title")?.getAttribute("href");
+          const desc = n.querySelector(".snippet")?.text;
+          let hour = "";
+          const img = n.querySelector("img.rms_img")?.getAttribute("src") ?? "";
+          const imgAfter = substringAfter(img, "?id=");
+          const fullImgLink = imgAfter == "" ? "" : `https://th.bing.com/th?id=${substringBefore(imgAfter, "&")}`;
 
-        n.querySelector(".source.set_top")
-          ?.querySelectorAll("span")
-          .forEach((q) => {
-            if (q.outerHTML.toString().includes('ago"')) hour = q.text;
-          });
+          n.querySelector(".source.set_top")
+            ?.querySelectorAll("span")
+            .forEach((q) => {
+              if (q.outerHTML.toString().includes('ago"')) hour = q.text;
+            });
 
-        if (name != undefined && link != undefined) musicData.push(new MusicData(name, desc ?? "", link, fullImgLink, MUSICTYPE.NEWS, hour));
-      });
-    return musicData;
+          if (name != undefined && link != undefined) musicData.push(new MusicData(name, desc ?? "", link, fullImgLink, MUSICTYPE.NEWS, hour));
+        });
+      return musicData;
+    } catch (error) {
+      return [];
+    }
   }
 
   async searchNews(name: String): Promise<MusicData[]> {
