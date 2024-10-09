@@ -46,6 +46,31 @@ export class WallzWallpaperService {
     return lists;
   }
 
+  async featuredWallpaperCave(): Promise<WallpaperData[]> {
+    let lists: WallpaperData[] = [];
+
+    await Promise.all(
+      Array.from({ length: 6 }, (_, index) => index).map(async (page) => {
+        try {
+          const response = await axios.get(`${WALLPAPERCAVE_MAIN_API}/featured-wallpapers${page == 0 ? `` : `/${page}`}`, { headers: { Host: "wallpapercave.com", "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36" } });
+          const data = await response.data;
+          const root = parse(data);
+
+          const imgList = root
+            .querySelector(".collectionc")
+            ?.querySelectorAll("a")
+            .map((f) => (f.querySelector("img")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${f.getAttribute("href")}`, f.getAttribute("title"), `${WALLPAPERCAVE_MAIN_API}${f.querySelector("img")?.getAttribute("data-cfsrc")}`, f.getAttribute("title")) : null));
+          imgList?.filter((s) => s != undefined).map((item) => lists.push(item));
+        } catch (error) {
+          console.log("error");
+          // console.log(error);
+        }
+      })
+    );
+
+    return lists;
+  }
+
   async wallpaperCaveSearch(q: String): Promise<WallpaperData[]> {
     let lists: WallpaperData[] = [];
     try {
