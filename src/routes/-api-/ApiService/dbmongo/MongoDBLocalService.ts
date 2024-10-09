@@ -213,21 +213,20 @@ export class MongoDBLocalService {
       }
 
       const data = await this.collectionSongHistory.aggregate([
-         // Get the latest songs sorted by timestamp
         { $match: { email: email } },
         { $sort: { timestamp: -1 } },
         { $limit: 10 },
-        // Union with the top songs sorted by timesItsPlayed
-        {
-          $unionWith: {
-            coll: this.userSongHistoryDB,
-            pipeline: [
-              { $match: { email: email } },
-              { $sort: { timesItsPlayed: -1 } },
-              { $limit: 5 }
-            ]
-          }
-        }
+        
+        // {
+        //   $unionWith: {
+        //     coll: this.userSongHistoryDB,
+        //     pipeline: [
+        //       { $match: { email: email } },
+        //       { $sort: { timesItsPlayed: -1 } },
+        //       { $limit: 5 }
+        //     ]
+        //   }
+        // }
       ]).toArray();
       
       const list = data.map((e: any) => e.id) 
@@ -249,16 +248,16 @@ export class MongoDBLocalService {
         { $match: { email: email } },
         { $sort: { timestamp: -1 } },
         { $limit: 10 },
-        {
-          $unionWith: {
-            coll: this.userSongHistoryDB,
-            pipeline: [
-              { $match: { email: email } },
-              { $sort: { timesItsPlayed: -1 } },
-              { $limit: 5 }
-            ]
-          }
-        }
+        // {
+        //   $unionWith: {
+        //     coll: this.userSongHistoryDB,
+        //     pipeline: [
+        //       { $match: { email: email } },
+        //       { $sort: { timesItsPlayed: -1 } },
+        //       { $limit: 5 }
+        //     ]
+        //   }
+        // }
       ]).toArray();
       
 
