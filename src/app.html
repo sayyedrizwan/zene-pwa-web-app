@@ -3,6 +3,9 @@
   <head>
     %sveltekit.head%
     <meta charset="utf-8" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
     <link rel="icon" href="%sveltekit.assets%/icon.svg" type="image/svg+xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="alternate icon" href="%sveltekit.assets%/favicon.ico" />
@@ -34,10 +37,10 @@
     <meta name="color-scheme" content="light" />
     <meta name="referrer" content="no-referrer" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="6a97888e-site-verification" content="0dd2473d73ee4b523a4d6fccdd89d41f">
+    <meta name="6a97888e-site-verification" content="0dd2473d73ee4b523a4d6fccdd89d41f" />
     <meta name="google-site-verification" content="xZ2bX_3B-hm1669IO56G4LdVTuaN6C-5C105A0tVgl8" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script src="https://browser.sentry-cdn.com/7.93.0/bundle.tracing.min.js" integrity="sha384-SPq2en7EMouQY/MGYLYA/shBLhoyYScgNTU8crQBLY4Aa8evvIXgmB6gSnUIAd/n" crossorigin="anonymous"></script>
@@ -53,8 +56,8 @@
         function () {
           (window.cronitor.q = window.cronitor.q || []).push(arguments);
         };
-      cronitor("config", { clientKey: "3ae847a4942e4e017353f277a5f8c362" })
-      
+      cronitor("config", { clientKey: "3ae847a4942e4e017353f277a5f8c362" });
+
       Sentry.init({
         dsn: "https://6b3c410d08029fcab04fa63a4b9fadd6@o1173362.ingest.sentry.io/4506592297680896",
         release: "zene@0.0.1",
