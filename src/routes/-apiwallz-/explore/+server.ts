@@ -4,8 +4,9 @@ import { WallzWallpaperService } from "../WallzApiService/WallzWallpaperService/
 import type { WallpaperData } from "../WallzApiService/MySQLService/model/WallpaperData";
 import { shuffle } from "../utils/Utils";
 
-export async function GET({ request }) {
+export async function GET({ request, url }) {
   if (!verifyHeader(request)) return json([]);
+  const email = url.searchParams.get("email") ?? "";
 
   const wholeLists: WallpaperData[] = [];
 

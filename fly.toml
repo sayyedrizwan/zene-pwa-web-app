@@ -4,6 +4,7 @@
 #
 
 app = 'zene-org-late-bird-2326'
+primary_region = "bom"
 
 [build]
 
