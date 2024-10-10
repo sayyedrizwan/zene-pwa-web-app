@@ -1,10 +1,9 @@
-# fly.toml app configuration file generated for zene-org on 2024-10-10T12:57:58+05:30
+# fly.toml app configuration file generated for zene-org-late-bird-2326 on 2024-10-10T18:47:19+05:30
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'zene-org'
-primary_region = 'bom'
+app = 'zene-org-late-bird-2326'
 
 [build]
 
