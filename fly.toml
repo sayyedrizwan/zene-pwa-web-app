@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for zene-pwa-web-app on 2024-09-29T16:54:43+05:30
+# fly.toml app configuration file generated for zene-org on 2024-10-10T12:57:58+05:30
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'zene-pwa-web-app'
-primary_region = 'syd'
+app = 'zene-org'
+primary_region = 'bom'
 
 [build]
 
@@ -18,4 +18,6 @@ primary_region = 'syd'
 
 [[vm]]
   size = 'shared-cpu-1x'
-  memory = "512MB"
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1
