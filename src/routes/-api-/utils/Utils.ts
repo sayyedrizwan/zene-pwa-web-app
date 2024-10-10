@@ -27,7 +27,7 @@ export const mysqlpool: any = mysql.createPool({
   keepAliveInitialDelay: 0,
 });
 
-export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`);
+export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`, { maxPoolSize : 5 });
 async function startMongoDB() {
   try {
     await mongoDBClient.connect();
