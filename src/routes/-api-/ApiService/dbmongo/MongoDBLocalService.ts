@@ -203,7 +203,7 @@ export class MongoDBLocalService {
     try {
       const start = Date.now();
 
-      if (this.topSongsOfUsers.size > 1000) this.topSongsOfUsers.clear();
+      if (this.topSongsOfUsers.size > 2000) this.topSongsOfUsers.clear();
 
       if (this.topSongsOfUsers.has(email)) {
         const end = Date.now();
