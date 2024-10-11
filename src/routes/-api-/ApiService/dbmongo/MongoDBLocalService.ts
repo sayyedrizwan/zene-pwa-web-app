@@ -212,7 +212,7 @@ export class MongoDBLocalService {
         return this.topSongsOfUsers.get(email);
       }
 
-      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(MongoDBLocalService.limitPagination).toArray();
+      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
       
     // const data = await this.collectionSongHistory.aggregate([
     //     { $match: { email: email } },
@@ -246,7 +246,7 @@ export class MongoDBLocalService {
 
   async topFifteenArtistsOfUsers(email: String): Promise<String[]> {
     try {
-      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(MongoDBLocalService.limitPagination).toArray();
+      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
       const list: String[] = [];
       data.forEach((e: any) => {
         const id = (e as DBMusicHistory).artists;
