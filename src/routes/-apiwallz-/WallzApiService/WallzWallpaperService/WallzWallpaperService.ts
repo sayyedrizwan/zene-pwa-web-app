@@ -9,16 +9,16 @@ export class WallzWallpaperService {
 
   async wallpaperCaveInfo(url: String): Promise<String> {
     try {
-      console.log(url)
+      console.log(url);
       const response = await axios.get(url.toString(), { headers: { Host: "wallpapercave.com", "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36" } });
       const data = await response.data;
       const root = parse(data);
-      const urlPath = root.querySelector("img.wpimg")?.getAttribute("data-cfsrc")
-      return urlPath ?? ""; 
+      const urlPath = root.querySelector("img.wpimg")?.getAttribute("data-cfsrc");
+      return urlPath ?? "";
     } catch (error) {
-      console.log("error")
+      console.log("error wallpaper cave");
     }
-    return ""
+    return "";
   }
 
   async latestWallpaperCave(): Promise<WallpaperData[]> {
@@ -37,7 +37,7 @@ export class WallzWallpaperService {
             .map((f) => (f.querySelector("img")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${f.getAttribute("href")}`, f.getAttribute("title"), `${WALLPAPERCAVE_MAIN_API}${f.querySelector("img")?.getAttribute("data-cfsrc")}`, f.getAttribute("title")) : null));
           imgList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
-          console.log("error");
+          console.log("error latest wallpaper cave");
           // console.log(error);
         }
       })
@@ -62,7 +62,7 @@ export class WallzWallpaperService {
             .map((f) => (f.querySelector("img")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${f.getAttribute("href")}`, f.getAttribute("title"), `${WALLPAPERCAVE_MAIN_API}${f.querySelector("img")?.getAttribute("data-cfsrc")}`, f.getAttribute("title")) : null));
           imgList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
-          console.log("error");
+          console.log("error featured wallpaper cave");
           // console.log(error);
         }
       })
@@ -89,17 +89,21 @@ export class WallzWallpaperService {
         })
       );
     } catch (error) {
-      console.log(error);
+      console.log("error search wallpaper cave");
     }
     return lists;
   }
 
   async peakpxInfo(url: String): Promise<String> {
-    const response = await axios.get(url.toString());
-    const data = await response.data;
-    const root = parse(data);
-    const img = root.querySelector('meta[property="og:image"]')?.getAttribute("content") ?? "";
-    return img.replaceAll("/high/", "/hd/");
+    try {
+      const response = await axios.get(url.toString());
+      const data = await response.data;
+      const root = parse(data);
+      const img = root.querySelector('meta[property="og:image"]')?.getAttribute("content") ?? "";
+      return img.replaceAll("/high/", "/hd/");
+    } catch (error) {
+      return "";
+    }
   }
 
   async latestPeakpx(): Promise<WallpaperData[]> {
@@ -116,7 +120,7 @@ export class WallzWallpaperService {
           const picturesList = links.map((p) => (p.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("a")?.getAttribute("href"), p.querySelector("img")?.getAttribute("alt"), p.querySelector("img")?.getAttribute("data-src"), p.querySelector("img")?.getAttribute("title")) : null));
           picturesList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
-          console.log(error);
+          console.log("error latest peakpx");
         }
       })
     );
@@ -138,7 +142,7 @@ export class WallzWallpaperService {
           const picturesList = links.map((p) => (p.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("a")?.getAttribute("href"), p.querySelector("img")?.getAttribute("alt"), p.querySelector("img")?.getAttribute("data-src"), p.querySelector("img")?.getAttribute("title")) : null));
           picturesList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
-          console.log(error);
+          console.log("error search peakpx");
         }
       })
     );
