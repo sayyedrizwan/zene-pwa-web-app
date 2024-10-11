@@ -18,6 +18,6 @@ export async function GET({ request, url }) {
 
   if (path.includes("peakpx.com")) wallpaper = await WallzWallpaperService.instance.peakpxInfo(path);
   else if (path.includes("wallpapercave.com")) wallpaper = await WallzWallpaperService.instance.wallpaperCaveInfo(path);
-
+  
   return json(wallpaper == undefined ? {} : new WallpaperData("", "", wallpaper, "", 0, WALLPAPERTYPE.IMAGE_WALLPAPER, isSaved));
 }

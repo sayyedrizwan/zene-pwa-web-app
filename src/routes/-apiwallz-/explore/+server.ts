@@ -26,3 +26,16 @@ export async function GET({ request, url }) {
   const shuffleThree = shuffle(shuffleTwo);
   return json(shuffleThree);
 }
+
+export async function POST({ request }) {
+  if (!verifyHeader(request)) return json({ status: "error" });
+  const body = await request.json();
+  const email = body.email as string;
+  const name = body.name as string;
+  const desc = body.name as string;
+  const img = body.name as string;
+
+
+  
+  return json({ status: "success" });
+}

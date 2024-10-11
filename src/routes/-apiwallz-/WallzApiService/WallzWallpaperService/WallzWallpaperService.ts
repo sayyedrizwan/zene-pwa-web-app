@@ -99,8 +99,8 @@ export class WallzWallpaperService {
       const response = await axios.get(url.toString());
       const data = await response.data;
       const root = parse(data);
-      const img = root.querySelector('meta[property="og:image"]')?.getAttribute("content") ?? "";
-      return img.replaceAll("/high/", "/hd/");
+      const img = root.querySelector("#fig")?.querySelector('img')?.getAttribute("src") ?? "";
+      return img;
     } catch (error) {
       return "";
     }

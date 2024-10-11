@@ -8,8 +8,8 @@ export class MongoDBLocalService {
   static instance = new MongoDBLocalService();
 
   static limitPagination = 26;
-  static lastIndexed = 1709141282000;
 
+  isEverIndexed = false;
   mainDBName = isDevDB ? "zenemusic" : "zenemusicnosql_zooofficer";
   userSongHistoryDB = "song_history";
   userPlaylistsDB = "playlists";
@@ -20,11 +20,11 @@ export class MongoDBLocalService {
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
 
   async indexing() {
-    if (timeDifferenceInSeconds(MongoDBLocalService.lastIndexed) < 600) return;
+    if (this.isEverIndexed) return;
     await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
     await this.collectionPlaylists.createIndex({ email: 1, timestamp: -1 });
     await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
-    MongoDBLocalService.lastIndexed = Date.now();
+    this.isEverIndexed = true;
     console.log("deleted null");
     await this.collectionSongHistory.deleteMany({ id: null });
   }
