@@ -212,22 +212,24 @@ export class MongoDBLocalService {
         return this.topSongsOfUsers.get(email);
       }
 
-      const data = await this.collectionSongHistory.aggregate([
-        { $match: { email: email } },
-        { $sort: { timestamp: -1 } },
-        { $limit: 10 },
+      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(MongoDBLocalService.limitPagination).toArray();
+      
+    // const data = await this.collectionSongHistory.aggregate([
+    //     { $match: { email: email } },
+    //     { $sort: { timestamp: -1 } },
+    //     { $limit: 10 },
         
-        // {
-        //   $unionWith: {
-        //     coll: this.userSongHistoryDB,
-        //     pipeline: [
-        //       { $match: { email: email } },
-        //       { $sort: { timesItsPlayed: -1 } },
-        //       { $limit: 5 }
-        //     ]
-        //   }
-        // }
-      ]).toArray();
+    //     // {
+    //     //   $unionWith: {
+    //     //     coll: this.userSongHistoryDB,
+    //     //     pipeline: [
+    //     //       { $match: { email: email } },
+    //     //       { $sort: { timesItsPlayed: -1 } },
+    //     //       { $limit: 5 }
+    //     //     ]
+    //     //   }
+    //     // }
+    //   ]).toArray();
       
       const list = data.map((e: any) => e.id) 
 
@@ -244,23 +246,7 @@ export class MongoDBLocalService {
 
   async topFifteenArtistsOfUsers(email: String): Promise<String[]> {
     try {
-      const data = await this.collectionSongHistory.aggregate([
-        { $match: { email: email } },
-        { $sort: { timestamp: -1 } },
-        { $limit: 10 },
-        // {
-        //   $unionWith: {
-        //     coll: this.userSongHistoryDB,
-        //     pipeline: [
-        //       { $match: { email: email } },
-        //       { $sort: { timesItsPlayed: -1 } },
-        //       { $limit: 5 }
-        //     ]
-        //   }
-        // }
-      ]).toArray();
-      
-
+      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(MongoDBLocalService.limitPagination).toArray();
       const list: String[] = [];
       data.forEach((e: any) => {
         const id = (e as DBMusicHistory).artists;
