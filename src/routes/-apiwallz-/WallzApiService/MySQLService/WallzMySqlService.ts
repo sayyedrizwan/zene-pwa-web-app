@@ -27,7 +27,7 @@ export class WallzMySqlService {
   async getSavedWallpapers(email: String, page: number): Promise<WallpaperData[]> {
     try {
       const skip = page * MongoDBLocalService.limitPagination;
-      const [results] = await mysqlpoolWallz.query(`SELECT * FROM ${this.savedWallpapersDB} ORDER BY name`);
+      const [results] = await mysqlpoolWallz.query(`SELECT * FROM ${this.savedWallpapersDB} WHERE email = ? ORDER BY saved_date DESC LIMIT ${skip}, ${MongoDBLocalService.limitPagination}`, [email]);
       return results;
     } catch (error) {
       return [];
@@ -45,7 +45,7 @@ export class WallzMySqlService {
 
   async saveWallpapers(email: String, name: String, id: String, thumbnail: String, desc: String) {
     try {
-      await mysqlpoolWallz.query(`INSERT INTO ${this.savedWallpapersDB} (recordid, ${"`desc`"}, thumbnail, name, id, email) VALUES (NULL, ?, ?, ?, ?, ?)`, [desc, thumbnail, name, id, email]);
+      await mysqlpoolWallz.query(`INSERT INTO ${this.savedWallpapersDB} (recordid, ${"`desc`"}, thumbnail, name, id, email, saved_date) VALUES (NULL, ?, ?, ?, ?, ?, ?)`, [desc, thumbnail, name, id, email, Date.now()]);
     } catch (error) {
       console.log(error);
     }

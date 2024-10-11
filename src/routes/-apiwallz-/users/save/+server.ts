@@ -3,6 +3,15 @@ import { verifyHeader } from "../../../-api-/utils/Utils";
 import { mysqlpoolWallz } from "../../utils/Utils";
 import { WallzMySqlService } from "../../WallzApiService/MySQLService/WallzMySqlService";
 
+export async function GET({ request, url }) {
+  if (!verifyHeader(request)) return json({ status: "error" });
+
+  const page = url.searchParams.get("page") ?? 0;
+  const email = url.searchParams.get("email") ?? "";
+
+  const list = await WallzMySqlService.instance.getSavedWallpapers(email, page as number);
+  return json(list);
+}
 export async function POST({ request }) {
   if (!verifyHeader(request)) return json({ status: "error" });
 
@@ -13,11 +22,11 @@ export async function POST({ request }) {
   const thumbnail = body.thumbnail as string;
   const desc = body.desc as string;
   const doSave = body.doSave as Boolean;
-  
+
   if (!email.includes("@") && email.length < 3) json({ status: "error" });
 
-  if(doSave) await WallzMySqlService.instance.saveWallpapers(email, name, id, thumbnail, desc)
-  else await WallzMySqlService.instance.removeWallpapers(email, id)
+  if (doSave) await WallzMySqlService.instance.saveWallpapers(email, name, id, thumbnail, desc);
+  else await WallzMySqlService.instance.removeWallpapers(email, id);
 
   return json({ status: "success" });
 }
