@@ -212,7 +212,7 @@ export class MongoDBLocalService {
         return this.topSongsOfUsers.get(email);
       }
 
-      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
+      const data = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
       
     // const data = await this.collectionSongHistory.aggregate([
     //     { $match: { email: email } },
