@@ -208,7 +208,7 @@ export class MongoDBLocalService {
       if (cacheSet.length > 0) {
         const end = Date.now();
         const timeTaken = (end - start) / 1000;
-        console.log(`Execution time: data cache ${timeTaken.toFixed(4)} seconds ${email}`);
+        if(!isDevDB) console.log(`Execution time: data from cache ${timeTaken.toFixed(4)} seconds ${email}`);
         return cacheSet;
       }
 
@@ -232,7 +232,7 @@ export class MongoDBLocalService {
 
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-       console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+      if(!isDevDB) console.log(`Execution time: data from db ${timeTaken.toFixed(4)} seconds ${email}`);
       const lists = shuffleString(list);
       setTopSongsArrayCache(email.toString(), list);
       return lists;
