@@ -3,6 +3,7 @@ import { isDevDB, mongoDBClient, shuffleString, timeDifferenceInHours, timeDiffe
 import { DBMusicHistory } from "./model/DBMusicHistory";
 import { DBPlaylists } from "./model/DBPlaylistInfo";
 import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo";
+import { clearIfBigSet, getTopSongsArrayCacheSet, setTopSongsArrayCache } from "./TopSingSetCache";
 
 export class MongoDBLocalService {
   static instance = new MongoDBLocalService();
@@ -196,48 +197,44 @@ export class MongoDBLocalService {
     }
   }
 
-  topSongsOfUsers = new Map();
-
   async topFifteenSongsOfUsers(email: String): Promise<String[]> {
     await this.indexing();
+    await clearIfBigSet();
     try {
       const start = Date.now();
 
-      if (this.topSongsOfUsers.size > 2000) this.topSongsOfUsers.clear();
+      const cacheSet = await getTopSongsArrayCacheSet(email.toString());
 
-      if (this.topSongsOfUsers.has(email)) {
+      if (cacheSet.length > 0) {
         const end = Date.now();
         const timeTaken = (end - start) / 1000;
-        if (!isDevDB) console.log(`Execution time: data cache ${timeTaken.toFixed(4)} seconds ${email}`);
-        return this.topSongsOfUsers.get(email);
+        console.log(`Execution time: data cache ${timeTaken.toFixed(4)} seconds ${email}`);
+        return cacheSet;
       }
 
-      const data = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
-      
-    // const data = await this.collectionSongHistory.aggregate([
-    //     { $match: { email: email } },
-    //     { $sort: { timestamp: -1 } },
-    //     { $limit: 10 },
-        
-    //     // {
-    //     //   $unionWith: {
-    //     //     coll: this.userSongHistoryDB,
-    //     //     pipeline: [
-    //     //       { $match: { email: email } },
-    //     //       { $sort: { timesItsPlayed: -1 } },
-    //     //       { $limit: 5 }
-    //     //     ]
-    //     //   }
-    //     // }
-    //   ]).toArray();
-      
-      const list = data.map((e: any) => e.id) 
+      // const data = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
+
+      const data = await this.collectionSongHistory
+        .aggregate([
+          { $match: { email: email } },
+          { $sort: { timestamp: -1 } },
+          { $limit: 10 },
+          {
+            $unionWith: {
+              coll: this.userSongHistoryDB,
+              pipeline: [{ $match: { email: email } }, { $sort: { timesItsPlayed: -1 } }, { $limit: 5 }],
+            },
+          },
+        ])
+        .toArray();
+
+      const list = data.map((e: any) => e.id);
 
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-      if (!isDevDB) console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
+       console.log(`Execution time: dataTop ${timeTaken.toFixed(4)} seconds ${email}`);
       const lists = shuffleString(list);
-      this.topSongsOfUsers.set(email, lists);
+      setTopSongsArrayCache(email.toString(), list);
       return lists;
     } catch (error) {
       return [];
@@ -246,7 +243,23 @@ export class MongoDBLocalService {
 
   async topFifteenArtistsOfUsers(email: String): Promise<String[]> {
     try {
-      const data = await this.collectionSongHistory .find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
+      const cacheSet = await getTopSongsArrayCacheSet(email.toString());
+      if (cacheSet.length > 0) return cacheSet;
+
+      const data = await this.collectionSongHistory
+        .aggregate([
+          { $match: { email: email } },
+          { $sort: { timestamp: -1 } },
+          { $limit: 10 },
+          {
+            $unionWith: {
+              coll: this.userSongHistoryDB,
+              pipeline: [{ $match: { email: email } }, { $sort: { timesItsPlayed: -1 } }, { $limit: 5 }],
+            },
+          },
+        ])
+        .toArray();
+
       const list: String[] = [];
       data.forEach((e: any) => {
         const id = (e as DBMusicHistory).artists;
