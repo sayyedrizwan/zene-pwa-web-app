@@ -9,7 +9,6 @@ export class WallzWallpaperService {
 
   async wallpaperCaveInfo(url: String): Promise<String> {
     try {
-      console.log(url);
       const response = await axios.get(url.toString(), { headers: { Host: "wallpapercave.com", "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36" } });
       const data = await response.data;
       const root = parse(data);

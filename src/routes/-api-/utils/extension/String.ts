@@ -1,3 +1,47 @@
+export const blacklist = [
+    "Download",
+    "Wallpapers",
+    "Backgrounds",
+    "Images",
+    "Photos",
+    "Pictures",
+    "HD",
+    "4K",
+    "Free",
+    "Gallery",
+    "Desktop",
+    "Mobile",
+    "Phone",
+    "Resolution",
+    "Ultra",
+    "Full",
+    "Quality",
+    "-",
+    "Collection",
+    "Cool",
+    "For",
+    "Best",
+    "Get",
+    "High",
+    "Screen",
+    "Device",
+    "Tablet",
+    "Laptop",
+    "Picture",
+    "Graphic",
+    "Snap",
+    "Digital",
+    "..."
+];
+
+export function containsBlacklistWord(text: string): boolean {
+    return blacklist.some(word => text.toLowerCase().includes(word.toLowerCase()));
+}
+
+export function doArrayContactSameWords(text: string, array: String[]): boolean {
+    return array.some(word => text.toLowerCase().includes(word.toLowerCase()));
+}
+
 export function substringBeforeLast(text: String, char: string): string {
     const lastIndex = text.lastIndexOf(char)
     if (lastIndex === -1) return text.toString()

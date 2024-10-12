@@ -5,7 +5,7 @@ import type { WallpaperData } from "./model/WallpaperData";
 export class WallzMySqlService {
   static instance = new WallzMySqlService();
   wallpapersCategoriesDB = "`wallpapers_categories`";
-  wallpapersUserDB = "`wallpapers_categories`";
+  wallpapersUserDB = "`users`";
   savedWallpapersDB = "`saved_wallpapers`";
 
   async searchUser(email: String): Promise<any> {
@@ -13,6 +13,23 @@ export class WallzMySqlService {
     let info: any = {};
     if (results.length > 0) info = results[0];
     return info;
+  }
+
+  async getUserInterests(email: String): Promise<String[]> {
+    try {
+      const [results] = await mysqlpoolWallz.query(`SELECT * FROM ${this.wallpapersUserDB} WHERE email = ? LIMIT 1`, [email]);
+      return JSON.parse(results[0].interests);
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async updateExploreData(email: String, list: String[]) {
+    try {
+      await mysqlpoolWallz.query(`UPDATE ${this.wallpapersUserDB} SET interests = ? WHERE email = ?`, [JSON.stringify(list), email]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getCategories(): Promise<WallpaperData[]> {
