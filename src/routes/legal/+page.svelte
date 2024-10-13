@@ -53,7 +53,7 @@
     <li>Pintrest API: <a href="https://developers.pinterest.com/" class="text-lightblue">https://developers.pinterest.com/</a> for <a href="https://developers.pinterest.com/terms/" class="text-lightblue">Privacy Policy</a></li>
     <li>Soundcloud API: <a href="https://developers.soundcloud.com/docs/api/guide" class="text-lightblue">https://developers.soundcloud.com/docs/api/guide</a> for <a href="https://developers.soundcloud.com/docs/api/privacy" class="text-lightblue">Privacy Policy</a></li>
     <li>Musixmatch Lyrics API: <a href="https://developer.musixmatch.com/" class="text-lightblue">https://developer.musixmatch.com/</a> for <a href="https://about.musixmatch.com/privacy-policy" class="text-lightblue">Privacy Policy</a></li>
-    <li>Radio API: <a href="https://api.radio-browser.info/" class="text-lightblue">https://api.radio-browser.info/</a> for <a href="https://www.radio-browser.info/" class="text-lightblue">Privacy Policy</a></li>
+    <li>Radio.co API : <a href="https://radio.co/api" class="text-lightblue">https://radio.co/api</a> for <a href="https://radio.co/faqs" class="text-lightblue">Privacy Policy</a></li>
   </ul>
 
   <h2 class="font-extrabold mt-24 mb-5 text-2xl">Any Questions?</h2>
