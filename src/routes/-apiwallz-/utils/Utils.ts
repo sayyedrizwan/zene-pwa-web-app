@@ -16,6 +16,7 @@ export const mysqlpoolWallz: any = mysql.createPool({
   keepAliveInitialDelay: 0,
 });
 
+export const AI_MAGIC_STUDIO_API = "https://ai-api.magicstudio.com/api/ai-art-generator";
 export const PINTEREST_GET_API = "https://pinterest.com/resource/BaseSearchResource/get/";
 export const BING_SEARCH_API = "https://www.bing.com/AS/Suggestions";
 export const NIGHTY_CAFE_API = "https://api.nightcafe.studio/v2/creations";
