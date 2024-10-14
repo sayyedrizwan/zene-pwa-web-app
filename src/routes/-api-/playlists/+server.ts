@@ -14,6 +14,7 @@ export async function GET({ url, request }) {
     if (id == "") return json([])
     if (!email.includes("@") && email.length < 3) return json([])
         
+        
     const playlists = await YoutubeMusicService.instance.playlistsData(id)
     let songs: MusicData[] = []
 
@@ -23,7 +24,6 @@ export async function GET({ url, request }) {
                 songs.push(e)
                 return
             }
-
             const song = await YoutubeMusicService.instance.searchSongs(`${filterArtistsName(e.artists)} - ${e.name}`)
 
             if (song[0] == undefined) {
@@ -39,7 +39,7 @@ export async function GET({ url, request }) {
             //console.log(error)
         }
     }))
-
+ 
     const isPresent = await MongoDBLocalService.instance.isPlaylistPresent(email, id)
     return json({ info: playlists[0], songs: songs, isAdded: isPresent })
 }

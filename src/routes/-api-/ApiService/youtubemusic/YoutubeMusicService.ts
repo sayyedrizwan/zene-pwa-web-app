@@ -449,8 +449,10 @@ export class YoutubeMusicService {
           const highestThumbnail = `${filterThumbnailURL(thumbnail[0].url ?? "")}`;
 
           const name = c.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
-          const artists = c.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
-
+          let artists = c.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
+          if(artists == undefined) {
+            artists = substringAfter(c.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPlayData?.accessibilityData?.label ?? "", "-")
+          }
           const id = c.musicResponsiveListItemRenderer?.playlistItemData?.videoId;
 
           if (id != undefined) playlistMusic.push(new MusicData(name ?? "", artists ?? "", id, highestThumbnail, MUSICTYPE.SONGS));
@@ -460,12 +462,14 @@ export class YoutubeMusicService {
       data.contents?.twoColumnBrowseResultsRenderer?.secondaryContents?.sectionListRenderer?.contents?.forEach((e) => {
         e.musicShelfRenderer?.contents?.forEach((c) => {
           const name = c.musicResponsiveListItemRenderer?.flexColumns?.[0].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
-          const artists = c.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
+          let artists = c.musicResponsiveListItemRenderer?.flexColumns?.[1].musicResponsiveListItemFlexColumnRenderer?.text?.runs?.[0].text;
+          if(artists == undefined) {
+            artists = substringAfter(c.musicResponsiveListItemRenderer?.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicPlayButtonRenderer?.accessibilityPlayData?.accessibilityData?.label ?? "", "-")
+          }
           const id = c.musicResponsiveListItemRenderer?.playlistItemData?.videoId;
           if (id != undefined) playlistMusic.push(new MusicData(name ?? "", artists ?? "", id, "", MUSICTYPE.SONGS));
         });
       });
-
       return [playlistData, playlistMusic];
     } catch (error) {
       return [undefined, undefined];
