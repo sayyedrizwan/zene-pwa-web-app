@@ -27,7 +27,8 @@ export async function GET({ request }) {
     l[0].map((v) => (!lists.some((item) => item.id === v.id) ? lists.push(v) : null));
   }
 
-  const listsTemp = shuffle(lists);
+  const listsTemp = lists.length > 15 ? lists.slice(0, 15) : lists
+  //  shuffle(lists);
   saveAIWallaperListWithTimestamp(listsTemp);
   return json(listsTemp);
 }
