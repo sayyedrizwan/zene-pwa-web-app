@@ -1,7 +1,6 @@
 import { json } from "@sveltejs/kit";
 import { verifyHeader } from "../../-api-/utils/Utils";
 import type { WallpaperData } from "../WallzApiService/MySQLService/model/WallpaperData";
-import { shuffle } from "../utils/Utils";
 import { WallzAiService } from "../WallzApiService/WallzAiAdobe/WallzAiService";
 import { getAIWallpaperSaved, saveAIWallaperListWithTimestamp } from "../utils/TempData";
 
@@ -30,5 +29,7 @@ export async function GET({ request }) {
   const listsTemp = lists.length > 15 ? lists.slice(0, 15) : lists
   //  shuffle(lists);
   saveAIWallaperListWithTimestamp(listsTemp);
-  return json(listsTemp);
+  return json({});
 }
+
+//https://gencraft.com/explore
