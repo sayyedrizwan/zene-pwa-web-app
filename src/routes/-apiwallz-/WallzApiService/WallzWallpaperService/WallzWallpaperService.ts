@@ -33,7 +33,7 @@ export class WallzWallpaperService {
           const imgList = root
             .querySelector(".collectionc")
             ?.querySelectorAll("a")
-            .map((f) => (f.querySelector("img")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${f.getAttribute("href")}`, f.getAttribute("title"), `${WALLPAPERCAVE_MAIN_API}${f.querySelector("img")?.getAttribute("data-cfsrc")}`, f.getAttribute("title")) : null));
+            .map((f) => (f.querySelector("img")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${f.getAttribute("href")}`, f.getAttribute("title"), `${WALLPAPERCAVE_MAIN_API}${f.querySelector("img")?.getAttribute("data-cfsrc")}`, f.getAttribute("title"), page) : null));
           imgList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
           console.log("error latest wallpaper cave");
@@ -58,11 +58,10 @@ export class WallzWallpaperService {
           const imgList = root
             .querySelector(".collectionc")
             ?.querySelectorAll("a")
-            .map((f) => (f.querySelector("img")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${f.getAttribute("href")}`, f.getAttribute("title"), `${WALLPAPERCAVE_MAIN_API}${f.querySelector("img")?.getAttribute("data-cfsrc")}`, f.getAttribute("title")) : null));
+            .map((f) => (f.querySelector("img")?.getAttribute("data-cfsrc") != undefined ? new WallpaperData(`${WALLPAPERCAVE_MAIN_API}${f.getAttribute("href")}`, f.getAttribute("title"), `${WALLPAPERCAVE_MAIN_API}${f.querySelector("img")?.getAttribute("data-cfsrc")}`, f.getAttribute("title"), page) : null));
           imgList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
           console.log("error featured wallpaper cave");
-          // console.log(error);
         }
       })
     );
@@ -112,11 +111,11 @@ export class WallzWallpaperService {
       Array.from({ length: 11 }, (_, index) => index).map(async (page) => {
         if (page == 0) return;
         try {
-          const response = await axios.get(PEAKPX_MAIN_API, { params: { page: 1 } });
+          const response = await axios.get(PEAKPX_MAIN_API, { params: { page: page } });
           const data = await response.data;
           const root = parse(data);
           const links = root.querySelectorAll("#list_ul .grid");
-          const picturesList = links.map((p) => (p.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("a")?.getAttribute("href"), p.querySelector("img")?.getAttribute("alt"), p.querySelector("img")?.getAttribute("data-src"), p.querySelector("img")?.getAttribute("title")) : null));
+          const picturesList = links.map((p) => (p.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("a")?.getAttribute("href"), p.querySelector("img")?.getAttribute("alt"), p.querySelector("img")?.getAttribute("data-src"), p.querySelector("img")?.getAttribute("title"), page) : null));
           picturesList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
           console.log("error latest peakpx");
@@ -138,7 +137,7 @@ export class WallzWallpaperService {
           const root = parse(data);
           const links = root.querySelectorAll("#list_ul .grid");
 
-          const picturesList = links.map((p) => (p.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("a")?.getAttribute("href"), p.querySelector("img")?.getAttribute("alt"), p.querySelector("img")?.getAttribute("data-src"), p.querySelector("img")?.getAttribute("title")) : null));
+          const picturesList = links.map((p) => (p.querySelector("img")?.getAttribute("data-src") != undefined ? new WallpaperData(p.querySelector("a")?.getAttribute("href"), p.querySelector("img")?.getAttribute("alt"), p.querySelector("img")?.getAttribute("data-src"), p.querySelector("img")?.getAttribute("title"), page) : null));
           picturesList?.filter((s) => s != undefined).map((item) => lists.push(item));
         } catch (error) {
           console.log("error search peakpx");
