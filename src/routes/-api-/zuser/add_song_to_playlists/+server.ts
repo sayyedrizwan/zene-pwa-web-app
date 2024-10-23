@@ -8,9 +8,12 @@ export async function GET({ request, url }) {
 
 	const playlistID = url.searchParams.get('playlistId') ?? ""
 	const songID = url.searchParams.get('songId') ?? ""
+	const email = url.searchParams.get('email') ?? ""
 	const doAdd = url.searchParams.get('doAdd') ?? false
 
-	await MongoDBLocalService.instance.updatePlaylistSongs(playlistID, songID, String(doAdd))
+	const pID = playlistID == MongoDBLocalService.instance.likedSongsOnZenePlaylists ? `${email}_${MongoDBLocalService.instance.likedSongsOnZenePlaylists}` : playlistID
+	console.log(pID)
+	await MongoDBLocalService.instance.updatePlaylistSongs(pID, songID, String(doAdd))
 
 	return json({ status: "success" })
 }

@@ -16,6 +16,8 @@ export class MongoDBLocalService {
   userPlaylistsDB = "playlists";
   playlistsSongsDB = "playlists_songs";
 
+  likedSongsOnZenePlaylists = "liked_songs_on_zene";
+
   collectionSongHistory = mongoDBClient.db(this.mainDBName).collection(this.userSongHistoryDB);
   collectionPlaylists = mongoDBClient.db(this.mainDBName).collection(this.userPlaylistsDB);
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
@@ -39,6 +41,16 @@ export class MongoDBLocalService {
       await this.collectionPlaylists.insertOne(data);
     } catch (error) {
       //console.log(error);
+    }
+  }
+
+  async isLikedSong(id: String, email: String) : Promise<Boolean> {
+    try {
+      const pID = `${email}_${MongoDBLocalService.instance.likedSongsOnZenePlaylists}`
+      const count = await this.collectionPlaylistsSongs.countDocuments({ songId: id, playlistId: pID });
+      return count > 0
+    } catch (error) {
+      return false
     }
   }
 
