@@ -33,6 +33,10 @@ export async function POST({ request }) {
 	const body = await request.json()
 	const pID = body.playlistId as string
 
+	if(pID.includes(MongoDBLocalService.instance.likedSongsOnZenePlaylists)) {
+		return json(new MusicData("Liked Songs", "", pID, "https://www.zenemusic.co/liked_thumbnail.jpg", MUSICTYPE.PLAYLIST, "A playlist of songs you've liked."))
+	}
+
 	const data = await MongoDBLocalService.instance.getUserPlaylistDetails(pID)
 	if (data?.name == undefined) return json({})
 
