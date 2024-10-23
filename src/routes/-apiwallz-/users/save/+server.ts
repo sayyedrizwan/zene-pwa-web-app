@@ -11,6 +11,7 @@ export async function GET({ request, url }) {
   const list = await WallzMySqlService.instance.getSavedWallpapers(email, page as number);
   return json(list);
 }
+
 export async function POST({ request }) {
   if (!verifyHeader(request)) return json({ status: "error" });
 
