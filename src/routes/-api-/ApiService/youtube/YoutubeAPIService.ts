@@ -96,7 +96,7 @@ export class YoutubeAPIService {
         const finalName = name.includes(artists) ? substringAfter(name, " -").trim() : name
         const thumbnail = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 
-        if (id != undefined) lists.push(new MusicData(finalName, artists, id, thumbnail, MUSICTYPE.VIDEO))
+        if (id != undefined) lists.push(new MusicData(finalName, artists, id, thumbnail, MUSICTYPE.VIDEO, id))
       });
 
       return lists
