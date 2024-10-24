@@ -1,5 +1,5 @@
 import axios from "axios";
-import { YT_COMMUNITY_PARAMS, YT_SHORTS_PARAMS, YT_SONG_AS_PLAYLISTS_PARAMS, YT_STORE_PARAMS, ytBrowse, ytBrowseQuery, ytBrowseQueryParams, ytHeader, ytQueryParams, ytSearch } from "../../utils/Utils";
+import { YT_COMMUNITY_PARAMS, YT_SHORTS_PARAMS, YT_SONG_AS_PLAYLISTS_PARAMS, YT_STORE_PARAMS, ytBrowse, ytBrowseQuery, ytBrowseQueryParams, ytHeader, ytNext, ytNextQuery, ytQueryParams, ytSearch } from "../../utils/Utils";
 import type { YTSearchData } from "./model/YTSearchData";
 import { MusicData, MUSICTYPE } from "../model/MusicData";
 import type { YTStoreData } from "./model/YTStoreData";
@@ -82,7 +82,29 @@ export class YoutubeAPIService {
     }
   }
 
-  async merchandises(q: String) {
+  async relatedVideo(vID: string) : Promise<MusicData[]> {
+    try {
+      const lists : MusicData[] = []
+      let config = { method: "post", url: ytNext, headers: ytHeader, data: ytNextQuery(vID) };
+      const response = await axios.request(config);
+      const data = (await response.data) as YTNextRelatedData;
+
+      data.contents?.twoColumnWatchNextResults?.secondaryResults?.secondaryResults?.results?.forEach(e => {
+        const id = e.compactVideoRenderer?.videoId
+        const name = e.compactVideoRenderer?.title?.simpleText ?? ""
+        const artists = e.compactVideoRenderer?.longBylineText?.runs?.[0].text ?? ""
+        const finalName = name.includes(artists) ? substringAfter(name, " -").trim() : name
+        const thumbnail = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+
+        if (id != undefined) lists.push(new MusicData(finalName, artists, id, thumbnail, MUSICTYPE.VIDEO))
+      });
+
+      return lists
+    } catch (error) {
+      return []
+    }
+  }
+  async merchandises(q: String): Promise<MusicData[]> {
     try {
       let config = { method: "post", url: ytSearch, headers: ytHeader, data: ytBrowseQuery(q.toString()) };
       const response = await axios.request(config);

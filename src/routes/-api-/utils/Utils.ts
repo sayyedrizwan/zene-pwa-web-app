@@ -134,6 +134,7 @@ export const rentAnAdviser = "https://www.rentanadviser.com/subtitles/";
 
 export const ytSearch = "https://www.youtube.com/youtubei/v1/search?prettyPrint=false";
 export const ytBrowse = "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false";
+export const ytNext = "https://www.youtube.com/youtubei/v1/next?prettyPrint=falsee";
 
 const clientNameYTName = "WEB";
 const clientNameYTVersion = "2.20240911.01.00";
@@ -149,6 +150,18 @@ export const ytHeader = {
   origin: "https://www.youtube.com",
   "x-origin": "https://www.youtube.com",
 };
+
+export function ytNextQuery(id: string): string {
+  return JSON.stringify({
+    context: {
+      client: {
+        clientName: clientNameYTName,
+        clientVersion: clientNameYTVersion,
+      },
+    },
+    videoId: id,
+  });
+}
 
 export function ytBrowseQuery(q: string): string {
   return JSON.stringify({
