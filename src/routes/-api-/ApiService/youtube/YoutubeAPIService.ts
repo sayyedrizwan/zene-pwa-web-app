@@ -43,7 +43,7 @@ export class YoutubeAPIService {
             const vID = v.videoRenderer?.videoId;
             const name = v.videoRenderer.title?.runs?.[0].text;
             const artists = v.videoRenderer.longBylineText?.runs?.[0].text;
-            const thumbnail = `https://i.ytimg.com/vi/${vID}/maxresdefault.jpg`;
+            const thumbnail = `https://i.ytimg.com/vi/${vID}/sddefault.jpg`;
 
             if (vID != undefined && name != undefined) list.push(new MusicData(name, artists ?? "", vID, thumbnail, MUSICTYPE.VIDEO, vID));
           }
@@ -70,7 +70,7 @@ export class YoutubeAPIService {
             const vID = v.videoRenderer?.videoId;
             const name = v.videoRenderer.title?.runs?.[0].text;
             const artists = v.videoRenderer.longBylineText?.runs?.[0].text;
-            const thumbnail = `https://i.ytimg.com/vi/${vID}/maxresdefault.jpg`;
+            const thumbnail = `https://i.ytimg.com/vi/${vID}/sddefault.jpg`;
 
             if (vID != undefined && name != undefined) list.push(new MusicData(name, artists ?? "", vID, thumbnail, MUSICTYPE.VIDEO, vID));
           }
@@ -94,7 +94,7 @@ export class YoutubeAPIService {
         const name = e.compactVideoRenderer?.title?.simpleText ?? ""
         const artists = e.compactVideoRenderer?.longBylineText?.runs?.[0].text ?? ""
         const finalName = name.includes(artists) ? substringAfter(name, " -").trim() : name
-        const thumbnail = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+        const thumbnail = `https://i.ytimg.com/vi/${id}/sddefault.jpg`;
 
         if (id != undefined) lists.push(new MusicData(finalName, artists, id, thumbnail, MUSICTYPE.VIDEO, id))
       });
