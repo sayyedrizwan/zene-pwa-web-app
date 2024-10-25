@@ -12,7 +12,6 @@ export async function GET({ request, url }) {
 	const doAdd = url.searchParams.get('doAdd') ?? false
 
 	const pID = playlistID == MongoDBLocalService.instance.likedSongsOnZenePlaylists ? `${email}_${MongoDBLocalService.instance.likedSongsOnZenePlaylists}` : playlistID
-	console.log(pID)
 	await MongoDBLocalService.instance.updatePlaylistSongs(pID, songID, String(doAdd))
 
 	return json({ status: "success" })
