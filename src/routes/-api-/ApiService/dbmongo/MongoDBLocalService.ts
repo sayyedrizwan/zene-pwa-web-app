@@ -226,8 +226,8 @@ export class MongoDBLocalService {
 
       // const data = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
       const recentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(10).toArray();
-      const frequentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
-      const list = [...recentHistory, ...frequentHistory].map((e: any) => e.id);
+      // const frequentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
+      const list = [...recentHistory].map((e: any) => e.id);
 
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
