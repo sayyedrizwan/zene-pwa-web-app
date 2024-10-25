@@ -44,13 +44,13 @@ export class MongoDBLocalService {
     }
   }
 
-  async isLikedSong(id: String, email: String) : Promise<Boolean> {
+  async isLikedSong(id: String, email: String): Promise<Boolean> {
     try {
-      const pID = `${email}_${MongoDBLocalService.instance.likedSongsOnZenePlaylists}`
+      const pID = `${email}_${MongoDBLocalService.instance.likedSongsOnZenePlaylists}`;
       const count = await this.collectionPlaylistsSongs.countDocuments({ songId: id, playlistId: pID });
-      return count > 0
+      return count > 0;
     } catch (error) {
-      return false
+      return false;
     }
   }
 
@@ -220,31 +220,18 @@ export class MongoDBLocalService {
       if (cacheSet.length > 0) {
         const end = Date.now();
         const timeTaken = (end - start) / 1000;
-        if(!isDevDB) console.log(`Execution time: data from cache ${timeTaken.toFixed(4)} seconds ${email}`);
+        if (!isDevDB) console.log(`Execution time: data from cache ${timeTaken.toFixed(4)} seconds ${email}`);
         return cacheSet;
       }
 
       // const data = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
-
-      const data = await this.collectionSongHistory
-        .aggregate([
-          { $match: { email: email } },
-          { $sort: { timestamp: -1 } },
-          { $limit: 10 },
-          {
-            $unionWith: {
-              coll: "song_history",
-              pipeline: [{ $match: { email: email } }, { $sort: { timesItsPlayed: -1 } }, { $limit: 5 }],
-            },
-          },
-        ])
-        .toArray();
-
-      const list = data.map((e: any) => e.id);
+      const recentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(10).toArray();
+      const frequentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
+      const list = [...recentHistory, ...frequentHistory].map((e: any) => e.id);
 
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
-      if(!isDevDB) console.log(`Execution time: data from db ${timeTaken.toFixed(4)} seconds ${email}`);
+      if (!isDevDB) console.log(`Execution time: data from db ${timeTaken.toFixed(4)} seconds ${email}`);
       const lists = shuffleString(list);
       setTopSongsArrayCache(email.toString(), list);
       return lists;
@@ -265,7 +252,7 @@ export class MongoDBLocalService {
           { $limit: 10 },
           {
             $unionWith: {
-              coll: "song_history",
+              coll: this.userSongHistoryDB,
               pipeline: [{ $match: { email: email } }, { $sort: { timesItsPlayed: -1 } }, { $limit: 5 }],
             },
           },
