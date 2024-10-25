@@ -233,7 +233,7 @@ export class MongoDBLocalService {
           { $limit: 10 },
           {
             $unionWith: {
-              coll: this.userSongHistoryDB,
+              coll: "song_history",
               pipeline: [{ $match: { email: email } }, { $sort: { timesItsPlayed: -1 } }, { $limit: 5 }],
             },
           },
@@ -265,7 +265,7 @@ export class MongoDBLocalService {
           { $limit: 10 },
           {
             $unionWith: {
-              coll: this.userSongHistoryDB,
+              coll: "song_history",
               pipeline: [{ $match: { email: email } }, { $sort: { timesItsPlayed: -1 } }, { $limit: 5 }],
             },
           },
