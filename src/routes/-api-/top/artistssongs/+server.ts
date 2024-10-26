@@ -9,7 +9,7 @@ import { filterArtistsName } from '../../utils/extension/String.js'
 export async function POST({ request }) {
     heartbeatAPI("top-artists-songs");
 
-    // return json([])
+    return json([])
 
     if (!verifyHeader(request)) return json([])
 
