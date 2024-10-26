@@ -6,7 +6,7 @@ export async function GET() {
       appVersion : "2.06.506"
     },
     android: {
-      appVersion : "3.02.762"
+      appVersion : "3.02.768"
     }
   };
 
