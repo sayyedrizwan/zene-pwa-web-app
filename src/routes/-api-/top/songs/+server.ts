@@ -29,11 +29,12 @@ export async function POST({ request }) {
     recentHistory.push(doc);
   }
 
-  const songsID = [...recentHistory].map((e: any) => e.id);
-
   const end = Date.now();
   const timeTaken = (end - start) / 1000;
   console.log(`Execution time: data from db ${timeTaken.toFixed(4)} seconds ${email}`);
+
+  
+  const songsID = [...recentHistory].map((e: any) => e.id);
 
   let list: MusicData[] = [];
 
