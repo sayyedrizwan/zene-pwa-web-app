@@ -224,7 +224,8 @@ export class MongoDBLocalService {
         if (!isDevDB) console.log(`Execution time: data from cache ${timeTaken.toFixed(4)} seconds ${email}`);
         return cacheSet;
       }
-
+      const explainResult = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).explain("executionStats");
+      console.log(explainResult);
       const recentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).toArray();
       // const frequentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
       const list = [...recentHistory].map((e: any) => e.id);
