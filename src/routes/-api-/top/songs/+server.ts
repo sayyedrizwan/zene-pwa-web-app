@@ -17,23 +17,23 @@ export async function POST({ request }) {
   const email = body.email;
   const start = Date.now();
   const collectionSongHistory = mongoDBClient.db("zenemusicnosql_zooofficer").collection("song_history");
-  const cursor = collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).project({ id: 1 });
+  const cursor = collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).project({ id: 1 }).batchSize(12);;
 
   const end1 = Date.now();
   const timeTaken1 = (end1 - start) / 1000;
   console.log(`Execution time: data from db before ${timeTaken1.toFixed(4)} seconds ${email}`);
 
   // const recentHistory = await cursor.toArray();
-  const recentHistory = [];
-  for await (const doc of cursor) {
-    recentHistory.push(doc);
-  }
+  // const recentHistory = [];
+  // for await (const doc of cursor) {
+  //   recentHistory.push(doc);
+  // }
 
   const end = Date.now();
   const timeTaken = (end - start) / 1000;
   console.log(`Execution time: data from db ${timeTaken.toFixed(4)} seconds ${email}`);
 
-  
+  const recentHistory = await cursor.toArray();
   const songsID = [...recentHistory].map((e: any) => e.id);
 
   let list: MusicData[] = [];
