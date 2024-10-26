@@ -224,13 +224,15 @@ export class MongoDBLocalService {
         if (!isDevDB) console.log(`Execution time: data from cache ${timeTaken.toFixed(4)} seconds ${email}`);
         return cacheSet;
       }
-      const recentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).project({ id: 1 }).toArray();
+      const cursor = this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12);
+      // const recentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).project({ id: 1 }).toArray();
       // const frequentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
      
       const end1 = Date.now();
       const timeTaken1 = (end1 - start) / 1000;
       if (!isDevDB) console.log(`Execution time: data from db before ${timeTaken1.toFixed(4)} seconds ${email}`);
 
+      const recentHistory = await cursor.toArray();
       const list = [...recentHistory].map((e: any) => e.id);
 
       const end = Date.now();
