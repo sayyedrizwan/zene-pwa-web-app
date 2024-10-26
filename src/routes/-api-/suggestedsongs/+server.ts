@@ -6,6 +6,8 @@ import { MongoDBLocalService } from "../ApiService/dbmongo/MongoDBLocalService.j
 
 export async function POST({ request }) {
   heartbeatAPI("suggested-songs");
+  return json([]);
+  
   if (!verifyHeader(request)) return json([]);
 
   const body = await request.json();
