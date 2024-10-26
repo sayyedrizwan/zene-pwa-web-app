@@ -10,7 +10,9 @@ export async function POST({ request }) {
 
   const body = await request.json();
   if (!String(body.email).includes("@") && body.email.length < 3) return json([]);
-  let songsID = await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email);
+
+  const localList = body.list ? (JSON.parse(body.list) as String[]) : [];
+  const songsID = localList.length > 3 ? localList : await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email);
 
   let list: MusicData[] = [];
   await Promise.all(

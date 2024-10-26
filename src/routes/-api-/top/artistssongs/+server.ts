@@ -9,14 +9,18 @@ import { filterArtistsName } from '../../utils/extension/String.js'
 export async function POST({ request }) {
     heartbeatAPI("top-artists-songs");
 
-    return json([])
+    // return json([])
 
     if (!verifyHeader(request)) return json([])
 
     const body = await request.json()
 
     if (!String(body.email).includes("@") && body.email.length < 3) return json([])
-    let artists = await MongoDBLocalService.instance.topFifteenArtistsOfUsers(body.email)
+
+
+    const localList = body.list ? (JSON.parse(body.list) as String[]) : [];
+    const artists = localList.length > 3 ? localList : await MongoDBLocalService.instance.topFifteenArtistsOfUsers(body.email);
+
     let list: MusicDataWithArtists[] = []
 
     await Promise.all(artists.map(async (n: String) => {
