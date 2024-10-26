@@ -25,10 +25,10 @@ export async function POST({ request }) {
 
   // const recentHistory = await cursor.toArray();
   const recentHistory = [];
-  let doc;
-  while ((doc = await cursor.next())) {
+  for await (const doc of cursor) {
     recentHistory.push(doc);
   }
+
   const songsID = [...recentHistory].map((e: any) => e.id);
 
   const end = Date.now();
