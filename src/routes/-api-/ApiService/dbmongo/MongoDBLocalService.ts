@@ -5,7 +5,7 @@ import { DBPlaylists } from "./model/DBPlaylistInfo";
 import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo";
 import { clearIfBigSet, getTopSongsArrayCacheSet, setTopSongsArrayCache } from "./TopSingSetCache";
 
-let lastConnectionTime = 1698294440000;
+let isEveryDone = false;
 
 export class MongoDBLocalService {
   static instance = new MongoDBLocalService();
@@ -24,18 +24,15 @@ export class MongoDBLocalService {
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
 
   async indexing() {
-    const now = Date.now();
-    if (lastConnectionTime && now - lastConnectionTime > 150000) {
-      lastConnectionTime = Date.now();
-      await startMongoDB();
+    if (isEveryDone) return;
+    await startMongoDB();
 
-      await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
-      await this.collectionPlaylists.createIndex({ email: 1, timestamp: -1 });
-      await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
-      console.log("deleted null");
-      await this.collectionSongHistory.deleteMany({ id: null });
-     
-    }
+    await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
+    await this.collectionPlaylists.createIndex({ email: 1, timestamp: -1 });
+    await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
+    console.log("deleted null");
+    await this.collectionSongHistory.deleteMany({ id: null });
+    isEveryDone = true;
   }
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
