@@ -229,6 +229,7 @@ export class MongoDBLocalService {
     
       const cursor = this.collectionSongHistory.find({
         email: { '$in': [email] }
+    
       }).sort({ timestamp: -1 }).limit(12).project({ id: 1 });
       
       const end1 = Date.now();
