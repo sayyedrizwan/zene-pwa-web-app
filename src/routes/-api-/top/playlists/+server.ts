@@ -1,5 +1,5 @@
 import { json } from "@sveltejs/kit";
-import { heartbeatAPI, shuffle, verifyHeader } from "../../utils/Utils.js";
+import { heartbeatAPI, isJson, shuffle, verifyHeader } from "../../utils/Utils.js";
 import { YoutubeMusicService } from "../../ApiService/youtubemusic/YoutubeMusicService.js";
 import type { MusicData } from "../../ApiService/model/MusicData.js";
 import { MongoDBLocalService } from "../../ApiService/dbmongo/MongoDBLocalService.js";
@@ -11,7 +11,7 @@ export async function POST({ request }) {
   const body = await request.json();
   if (!String(body.email).includes("@") && body.email.length < 3) return json([]);
 
-  const localList = body.list ? (JSON.parse(body.list) as String[]) : [];
+  const localList = isJson(body.list) ? (JSON.parse(body.list) as String[]) : [];
   const songsID = localList.length > 3 ? localList : await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email);
 
   let list: MusicData[] = [];

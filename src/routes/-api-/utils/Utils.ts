@@ -381,3 +381,13 @@ export function heartbeatAPI(value: String) {
 export function delay(ms: number = 700): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+
+export function isJson(list: any) {
+  try {
+    (JSON.parse(list.list) as String[])
+    return true
+  } catch (error) {
+    return false
+  }
+}
