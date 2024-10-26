@@ -239,7 +239,7 @@ export class MongoDBLocalService {
         index++;
       }
 
-      const list = [...recentHistory].map((e: any) => e.id);
+      const list = [...recentHistory].map((e: any) => e);
 
       const end = Date.now();
       const timeTaken = (end - start) / 1000;
