@@ -8,6 +8,7 @@ export async function POST({ request }) {
   heartbeatAPI("top-playlists");
   if (!verifyHeader(request)) return json([]);
 
+  return json([])
   const body = await request.json();
   if (!String(body.email).includes("@") && body.email.length < 3) return json([]);
 
