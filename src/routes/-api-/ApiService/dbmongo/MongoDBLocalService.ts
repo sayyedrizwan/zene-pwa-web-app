@@ -1,16 +1,17 @@
 import type { MusicData } from "../model/MusicData";
-import { isDevDB, mongoDBClient, shuffleString, timeDifferenceInHours, timeDifferenceInSeconds } from "../../utils/Utils";
+import { isDevDB, mongoDBClient, shuffleString, startMongoDB, timeDifferenceInHours, timeDifferenceInSeconds } from "../../utils/Utils";
 import { DBMusicHistory } from "./model/DBMusicHistory";
 import { DBPlaylists } from "./model/DBPlaylistInfo";
 import { DBPlaylistsSong } from "./model/DBPlaylistSongInfo";
 import { clearIfBigSet, getTopSongsArrayCacheSet, setTopSongsArrayCache } from "./TopSingSetCache";
+
+let lastConnectionTime = 1698294440000;
 
 export class MongoDBLocalService {
   static instance = new MongoDBLocalService();
 
   static limitPagination = 26;
 
-  isEverIndexed = false;
   mainDBName = isDevDB ? "zenemusic" : "zenemusicnosql_zooofficer";
   userSongHistoryDB = "song_history";
   userPlaylistsDB = "playlists";
@@ -23,13 +24,17 @@ export class MongoDBLocalService {
   collectionPlaylistsSongs = mongoDBClient.db(this.mainDBName).collection(this.playlistsSongsDB);
 
   async indexing() {
-    if (this.isEverIndexed) return;
-    await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
-    await this.collectionPlaylists.createIndex({ email: 1, timestamp: -1 });
-    await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
-    this.isEverIndexed = true;
-    console.log("deleted null");
-    await this.collectionSongHistory.deleteMany({ id: null });
+    const now = Date.now();
+    if (lastConnectionTime && now - lastConnectionTime > 240000) {
+      await startMongoDB();
+
+      await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
+      await this.collectionPlaylists.createIndex({ email: 1, timestamp: -1 });
+      await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
+      console.log("deleted null");
+      await this.collectionSongHistory.deleteMany({ id: null });
+      lastConnectionTime = Date.now();
+    }
   }
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {

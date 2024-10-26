@@ -27,16 +27,22 @@ export const mysqlpool: any = mysql.createPool({
   keepAliveInitialDelay: 0,
 });
 
-export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`, { maxPoolSize : 5 });
-async function startMongoDB() {
+export const mongoDBClient = new MongoClient(isDevDB ? `mongodb+srv://sayyedrizwanahmed:zenemusicpass@zene.4zu1ie4.mongodb.net/` : `mongodb://zenemusicnosql_zooofficer:a47a65a008a70ec7ee6c16135f1420dcaf6f71cf@4z2.h.filess.io:27018/zenemusicnosql_zooofficer`, { maxPoolSize: 5 });
+export async function startMongoDB() {
+  try {
+    await mongoDBClient.close();
+  } catch (error) {
+    console.log(error);
+  }
+
   try {
     await mongoDBClient.connect();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
-startMongoDB()
+startMongoDB();
 
 export const shuffle = (array: MusicData[]) => {
   for (let i = array.length - 1; i > 0; i--) {
