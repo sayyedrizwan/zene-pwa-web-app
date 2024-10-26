@@ -224,6 +224,10 @@ export class MongoDBLocalService {
         if (!isDevDB) console.log(`Execution time: data from cache ${timeTaken.toFixed(4)} seconds ${email}`);
         return cacheSet;
       }
+      // const cursor = await this.collectionSongHistory.find({
+      //   email: { '$in': email }
+      // }).sort({ timestamp: -1 }).limit(12).project({ id: 1 });
+
       const cursor = this.collectionSongHistory.find({ email: email }).sort({ timestamp: -1 }).limit(12).project({ id: 1 });
       // const frequentHistory = await this.collectionSongHistory.find({ email: email }).sort({ timesItsPlayed: -1 }).limit(5).toArray();
     
@@ -231,7 +235,13 @@ export class MongoDBLocalService {
       const timeTaken1 = (end1 - start) / 1000;
       if (!isDevDB) console.log(`Execution time: data from db before ${timeTaken1.toFixed(4)} seconds ${email}`);
 
-      const recentHistory = await cursor.toArray();
+      // const recentHistory = await cursor.toArray();
+      const recentHistory = [];
+      let doc;
+      while ((doc = await cursor.next())) {
+        recentHistory.push(doc);
+      }
+      console.log(recentHistory)
       const list = [...recentHistory].map((e: any) => e.id);
 
       const end = Date.now();
