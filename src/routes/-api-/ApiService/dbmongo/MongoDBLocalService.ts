@@ -25,7 +25,8 @@ export class MongoDBLocalService {
 
   async indexing() {
     const now = Date.now();
-    if (lastConnectionTime && now - lastConnectionTime > 240000) {
+    if (lastConnectionTime && now - lastConnectionTime > 150000) {
+      lastConnectionTime = Date.now();
       await startMongoDB();
 
       await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
@@ -33,7 +34,7 @@ export class MongoDBLocalService {
       await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
       console.log("deleted null");
       await this.collectionSongHistory.deleteMany({ id: null });
-      lastConnectionTime = Date.now();
+     
     }
   }
 
