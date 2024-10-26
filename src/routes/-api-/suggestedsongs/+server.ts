@@ -7,7 +7,7 @@ import { MongoDBLocalService } from "../ApiService/dbmongo/MongoDBLocalService.j
 export async function POST({ request }) {
   heartbeatAPI("suggested-songs");
   return json([]);
-  
+
   if (!verifyHeader(request)) return json([]);
 
   const body = await request.json();
@@ -15,7 +15,7 @@ export async function POST({ request }) {
   if (!String(body.email).includes("@") && body.email.length < 3) return json([]);
 
   const localList = isJson(body.list) ? (JSON.parse(body.list) as String[]) : [];
-  const songsID = localList.length > 3 ? localList : await new MongoDBLocalService().topFifteenSongsOfUsers(body.email);
+  const songsID = localList.length > 3 ? localList : await MongoDBLocalService.instance.topFifteenSongsOfUsers(body.email);
 
   let list: MusicData[] = [];
 
