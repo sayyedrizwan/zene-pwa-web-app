@@ -24,17 +24,17 @@ export async function POST({ request }) {
   console.log(`Execution time: data from db before ${timeTaken1.toFixed(4)} seconds ${email}`);
 
   // const recentHistory = await cursor.toArray();
-  // const recentHistory = [];
-  // for await (const doc of cursor) {
-  //   recentHistory.push(doc);
-  // }
+  const recentHistory = [];
+  for await (const doc of cursor) {
+    recentHistory.push(doc.id);
+  }
 
   const end = Date.now();
   const timeTaken = (end - start) / 1000;
+  // const recentHistory = await cursor.toArray();
   console.log(`Execution time: data from db ${timeTaken.toFixed(4)} seconds ${email}`);
 
-  const recentHistory = await cursor.toArray();
-  const songsID = [...recentHistory].map((e: any) => e.id);
+  const songsID = [...recentHistory].map((e: any) => e);
 
   let list: MusicData[] = [];
 
