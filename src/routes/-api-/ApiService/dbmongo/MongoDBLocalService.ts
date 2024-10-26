@@ -25,6 +25,7 @@ export class MongoDBLocalService {
 
   async indexing() {
     if (isEveryDone) return;
+    isEveryDone = true;
     await startMongoDB();
 
     await this.collectionSongHistory.createIndex({ email: 1, id: 1, type: 1, timesItsPlayed: -1, timestamp: -1 });
@@ -32,7 +33,6 @@ export class MongoDBLocalService {
     await this.collectionPlaylistsSongs.createIndex({ playlistId: 1, timestamp: -1 });
     console.log("deleted null");
     await this.collectionSongHistory.deleteMany({ id: null });
-    isEveryDone = true;
   }
 
   async insertPlaylistHistory(name: String, img: String, email: String, id: String, isSaved: Boolean) {
