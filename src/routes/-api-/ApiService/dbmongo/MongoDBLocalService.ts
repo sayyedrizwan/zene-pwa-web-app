@@ -211,8 +211,8 @@ export class MongoDBLocalService {
   }
 
   async topFifteenSongsOfUsers(email: String): Promise<String[]> {
-    await this.indexing();
-    await clearIfBigSet();
+    // await this.indexing();
+    // await clearIfBigSet();
     try {
       const start = Date.now();
 
